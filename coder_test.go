@@ -9,10 +9,13 @@ import (
 	"testing"
 
 	v25 "github.com/kardianos/hl7/v25"
+	v251 "github.com/kardianos/hl7/v251"
 	"github.com/sanity-io/litter"
 )
 
 var overwrite = flag.Bool("overwrite", false, "overwrite testing values with got values")
+var dumpSegmentList = flag.Bool("dump-seg", false, "show the segment list dump")
+var dumpSegmentGroup = flag.Bool("dump-group", false, "show the segment group dump")
 
 func TestEncode(t *testing.T) {
 	msg := v25.MSH{
@@ -39,7 +42,7 @@ NTE|2||more comments here|||
 OBR|1|ABC||||||||||||||1234^Acron^Smith~5678^Beta^Zeta|||||||||||||||||||||||||||||||||||||||||||
 OBR|2|XYZ||||||||||||||903^Blacky|||||||||||||||||||||||||||||||||||||||||||`)
 
-	v, err := Unmarshal(raw, v25.SegmentRegistry)
+	v, err := Unmarshal(raw, v25.Registry)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -55,11 +58,11 @@ func TestGroup(t *testing.T) {
 MSA|AA|161||||
 `)
 
-	v, err := Unmarshal(raw, v25.SegmentRegistry)
+	v, err := Unmarshal(raw, v25.Registry)
 	if err != nil {
 		t.Fatal(err)
 	}
-	root, err := Group(v, v25.TriggerRegistry)
+	root, err := Group(v, v25.Registry)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -108,14 +111,20 @@ func TestRoundTrip(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			v, err := Unmarshal(bb, v25.SegmentRegistry)
+			v, err := Unmarshal(bb, v251.Registry)
 			if err != nil {
 				t.Fatal("unmarshal", err)
 			}
+			if *dumpSegmentList {
+				c.Dump(v)
+			}
 
-			root, err := Group(v, v25.TriggerRegistry)
+			root, err := Group(v, v251.Registry)
 			if err != nil {
 				t.Fatal("group", err)
+			}
+			if *dumpSegmentGroup {
+				c.Dump(root)
 			}
 
 			rt, err := Marshal(root)

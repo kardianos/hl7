@@ -43,6 +43,14 @@ type ACC struct {
 	AccidentIdentifier          []EI    `hl7:"13,display=Accident Identifier"`
 }
 
+// Addendum
+//
+// The ADD segment is used to define the continuation of the prior segment in a continuation message. See Section 2.10.2, "Continuation messages and segments," for details.
+type ADD struct {
+	HL7                         HL7Name `hl7:",name=ADD,type=s"`
+	AddendumContinuationPointer ST      `hl7:"1,display=Addendum Continuation Pointer"`
+}
+
 // Adjustment
 //
 // This segment describes Provider and/or Payer adjustments to a Product/Service Line Item or Response Summary.  These include surcharges such as tax, dispensing fees and mark ups.
@@ -281,6 +289,27 @@ type AUT struct {
 	ActionCode                        ID      `hl7:"29,table=0206,display=Action Code"`
 }
 
+// Batch Header
+//
+// The BHS segment defines the start of a batch.
+type BHS struct {
+	HL7                          HL7Name `hl7:",name=BHS,type=s"`
+	BatchFieldSeparator          ST      `hl7:"1,required,len=1,display=Batch Field Separator"`
+	BatchEncodingCharacters      ST      `hl7:"2,required,len=5,display=Batch Encoding Characters"`
+	BatchSendingApplication      *HD     `hl7:"3,display=Batch Sending Application"`
+	BatchSendingFacility         *HD     `hl7:"4,display=Batch Sending Facility"`
+	BatchReceivingApplication    *HD     `hl7:"5,display=Batch Receiving Application"`
+	BatchReceivingFacility       *HD     `hl7:"6,display=Batch Receiving Facility"`
+	BatchCreationDateTime        DTM     `hl7:"7,format=YMDHM,display=Batch Creation Date/Time"`
+	BatchSecurity                ST      `hl7:"8,display=Batch Security"`
+	BatchNameIDType              ST      `hl7:"9,display=Batch Name/Id/Type"`
+	BatchComment                 ST      `hl7:"10,display=Batch Comment"`
+	BatchControlID               ST      `hl7:"11,display=Batch Control Id"`
+	ReferenceBatchControlID      ST      `hl7:"12,display=Reference Batch Control Id"`
+	BatchSendingNetworkAddress   *HD     `hl7:"13,display=Batch Sending Network Address"`
+	BatchReceivingNetworkAddress *HD     `hl7:"14,display=Batch Receiving Network Address"`
+}
+
 // Blood Code
 //
 // The BLC segment contains data necessary to communicate patient abstract blood information used for billing and reimbursement purposes. This segment is repeating to report blood product codes and the associated blood units.
@@ -354,6 +383,16 @@ type BPX struct {
 	BpActualDispensedToAddress  *XAD    `hl7:"19,display=Bp Actual Dispensed To Address"`
 	BpDispensedToReceiver       *XCN    `hl7:"20,display=Bp Dispensed To Receiver"`
 	BpDispensingIndividual      *XCN    `hl7:"21,display=Bp Dispensing Individual"`
+}
+
+// Batch Trailer
+//
+// The BTS segment defines the end of a batch.
+type BTS struct {
+	HL7               HL7Name `hl7:",name=BTS,type=s"`
+	BatchMessageCount ST      `hl7:"1,display=Batch Message Count"`
+	BatchComment      ST      `hl7:"2,display=Batch Comment"`
+	BatchTotals       []NM    `hl7:"3,display=Batch Totals"`
 }
 
 // Blood Product Transfusion/disposition
@@ -910,6 +949,27 @@ type EVN struct {
 	EventFacility        *HD     `hl7:"7,display=Event Facility"`
 }
 
+// File Header
+//
+// The FHS segment is used to head a file (group of batches) as defined in Section 2.10.3, "HL7 batch protocol".
+type FHS struct {
+	HL7                         HL7Name `hl7:",name=FHS,type=s"`
+	FileFieldSeparator          ST      `hl7:"1,required,len=1,display=File Field Separator"`
+	FileEncodingCharacters      ST      `hl7:"2,required,len=5,display=File Encoding Characters"`
+	FileSendingApplication      *HD     `hl7:"3,display=File Sending Application"`
+	FileSendingFacility         *HD     `hl7:"4,display=File Sending Facility"`
+	FileReceivingApplication    *HD     `hl7:"5,display=File Receiving Application"`
+	FileReceivingFacility       *HD     `hl7:"6,display=File Receiving Facility"`
+	FileCreationDateTime        DTM     `hl7:"7,format=YMDHM,display=File Creation Date/Time"`
+	FileSecurity                ST      `hl7:"8,display=File Security"`
+	FileNameID                  ST      `hl7:"9,display=File Name/Id"`
+	FileHeaderComment           ST      `hl7:"10,display=File Header Comment"`
+	FileControlID               ST      `hl7:"11,display=File Control Id"`
+	ReferenceFileControlID      ST      `hl7:"12,display=Reference File Control Id"`
+	FileSendingNetworkAddress   *HD     `hl7:"13,display=File Sending Network Address"`
+	FileReceivingNetworkAddress *HD     `hl7:"14,display=File Receiving Network Address"`
+}
+
 // Financial Transaction
 //
 // The FT1 segment contains the detail data necessary to post charges, payments, adjustments, etc., to patient accounting records.
@@ -958,6 +1018,15 @@ type FT1 struct {
 	RevenueCode                                *CWE    `hl7:"41,table=0456,display=Revenue Code"`
 	PrescriptionNumber                         ST      `hl7:"42,display=Prescription Number"`
 	NdcQtyAndUom                               *CQ     `hl7:"43,display=Ndc Qty And Uom"`
+}
+
+// File Trailer
+//
+// The FTS segment defines the end of a file.
+type FTS struct {
+	HL7                HL7Name `hl7:",name=FTS,type=s"`
+	FileBatchCount     NM      `hl7:"1,display=File Batch Count"`
+	FileTrailerComment ST      `hl7:"2,display=File Trailer Comment"`
 }
 
 // Goal Detail
@@ -2266,6 +2335,26 @@ type ORG struct {
 	BoardApprovalIndicator                     ID      `hl7:"11,len=1,table=0136,display=Board Approval Indicator"`
 	PrimaryCarePhysicianIndicator              ID      `hl7:"12,len=1,table=0136,display=Primary Care Physician Indicator"`
 	CostCenterCode                             []CWE   `hl7:"13,table=0539,display=Cost Center Code"`
+}
+
+// Override Segment
+//
+// This segment allows a sender to override specific receiving application's business rules to allow for processing of a message that would normally be rejected or ignored.
+//
+// In many instances, business rules will be set as guidelines relative to patient care. In some instances it is in the patient's better interest to circumvent these guidelines. In other cases, business rules may exist to support normal process flow, but which may be bypassed or ignored under certain special circumstances. This segment is linked to the proposed ERR segment changes in that the first attempt to process a transaction that violates a business rule may result in an error that must be overridden. The ERR provides a mechanism to identify errors that may be overridden, as well as the allowed override codes.
+//
+// Use case #1: A patient has received a prescription with a duration of 30 days and receives the full amount at their pharmacy. While at home the patient accidentally spills the container and spoils a significant proportion of the prescription. The patient returns to their pharmacy and explains the situation to the pharmacy technician. The technician consults with their supervising pharmacist. Knowing the patient, thepharmacist decides to override the business rule stating that the dispensed amount for a prescription may not exceed the prescribed amount. In recording the decision, the pharmacy technician specifies that the Override Type is a "Compassionate Refill" and that the Override Code, or reason for the override, is "Spoilage". The technician also provides Override Comments to provide an explanation of the situation for future reference. While recording the decision, the technician's user ID is automatically stored in an Override Recorded By field. The pharmacist's ID is stored in the Override Responsible Provider field.
+//
+// Use case #2:A hospital wishes to submit an invoice to an insurer who is providing secondary coverage. The invoice is being submitted over a week after the service was performed, which is outside the insurer's normal accept time window. The insurer would normally reject the invoice. However, the submitter includes an Override Type of "late submission" as well as an Override Code indicating that the invoice is late due to delays with the primary payor. The secondary insurer examines the override reason and accepts the invoice.
+//
+// Usage Note: The override segment should be included in messages adjacent to the segment(s) containing the information that would trigger the business rule(s) that needs to be overridden. The segment should be optional (you shouldn't always need to override business rules), and should be allowed to repeat in circumstances where there may be more than one business rule overridden at the same time. Committees may wish to provide suggested values for override types or codes for use with the OVR segment in different messages.
+type OVR struct {
+	HL7                      HL7Name `hl7:",name=OVR,type=s"`
+	BusinessRuleOverrideType *CWE    `hl7:"1,table=0518,display=Business Rule Override Type"`
+	BusinessRuleOverrideCode *CWE    `hl7:"2,table=0521,display=Business Rule Override Code"`
+	OverrideComments         TX      `hl7:"3,display=Override Comments"`
+	OverrideEnteredBy        *XCN    `hl7:"4,display=Override Entered By"`
+	OverrideAuthorizedBy     *XCN    `hl7:"5,display=Override Authorized By"`
 }
 
 // Shipment Package

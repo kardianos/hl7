@@ -1,0 +1,1 @@
+{"id":"ADD","segmentId":"ADD","longName":"Addendum","description":"","sample":"","chapters":[],"fields":[{"id":"ADD.1","type":"Field","position":"ADD.1","length":60,"dataType":"ST","dataTypeName":"String Data","usage":"O","rpt":"1","tableId":null,"tableName":null,"name":"Addendum Continuation Pointer","description":null}]}

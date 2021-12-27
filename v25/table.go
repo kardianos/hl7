@@ -4404,6 +4404,7 @@ var TableLookup = map[string]Table{
 		{ID: `EXTN`, Description: `Extension Override`, Comment: `Identifies an override where a service is being performed for longe r than the ordered period of time.`},
 		{ID: `INLV`, Description: `Interval Override`, Comment: `Identifies an override where a repetition of service is being performed sooner than the ordered frequency.`}}},
 	`0519`: {ID: `0519`, Name: `Override reason`, Row: []Row{}},
+	`0521`: {ID: `0521`, Name: `Override code`, Row: []Row{}},
 	`0523`: {ID: `0523`, Name: `Computation type`, Row: []Row{
 		{ID: `%`, Description: `Indicates a percent change`},
 		{ID: `a`, Description: `Absolute Change`}}},
@@ -15532,6 +15533,7 @@ var TableValueLookup = map[string]map[string]bool{
 		`EXTN`: true,
 		`INLV`: true},
 	`0519`: {},
+	`0521`: {},
 	`0523`: {
 		`%`: true,
 		`a`: true},

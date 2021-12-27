@@ -4561,6 +4561,7 @@ var TableLookup = map[string]Table{
 		{ID: `H`, Description: `High`},
 		{ID: `L`, Description: `Low`},
 		{ID: `M`, Description: `Medium`}}},
+	`0521`: {ID: `0521`, Name: `Override Code`, Row: []Row{}},
 	`0523`: {ID: `0523`, Name: `Computation Type`, Row: []Row{
 		{ID: `%`, Description: `Indicates a percent change`},
 		{ID: `a`, Description: `Absolute Change`}}},
@@ -15880,6 +15881,7 @@ var TableValueLookup = map[string]map[string]bool{
 		`H`: true,
 		`L`: true,
 		`M`: true},
+	`0521`: {},
 	`0523`: {
 		`%`: true,
 		`a`: true},

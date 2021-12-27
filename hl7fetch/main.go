@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"embed"
+	"errors"
 	"flag"
 	"fmt"
 	"go/format"
@@ -114,7 +115,7 @@ func run(ctx context.Context) error {
 		return fmt.Errorf("unknown version %q, all known versions are:\n%s", *version, list.String())
 	}
 
-	r := &Runner{
+	r := &runner{
 		version:      apiVersion,
 		rootDir:      *rootDir,
 		allowNetwork: *allowNetwork,
@@ -137,30 +138,63 @@ func run(ctx context.Context) error {
 		},
 	}
 
-	var triggerFilter = map[string]bool{
-		"ACK":     true,
-		"ORU_R01": true,
-		"ORU_R30": true,
-		"OUL_R21": true,
-		"OUL_R22": true,
-		"OUL_R23": true,
-		"OML_O21": true,
-		"OML_O33": true,
+	// HL7 2-8.
+	controlSegments := []string{
+		"BHS",
+		"BTS",
+		"FHS",
+		"FTS",
+		"DSC",
+		"OVR",
+		"ADD",
+		"SFT",
+		"SGT",
+		"ARV",
+		"UAC",
 	}
-
-	const processAll = true
 
 	// Go through all items to pull them into the cache.
 	tlist, err := r.getTriggerList()
 	if err != nil {
 		return err
 	}
+	visitSement := func(name string) error {
+		if len(name) == 0 {
+			return nil
+		}
+		seg, err := r.getSegment(name)
+		if err != nil {
+			return err
+		}
+
+		for _, f := range seg.Fields {
+			seen := make(map[string]bool, 10)
+			err = visitAllDataType(r, seen, f.DataType, func(dt DataType) error {
+				for _, f := range dt.Fields {
+					if len(f.TableID) > 0 {
+						_, err := r.getTable(f.TableID)
+						if err != nil {
+							return err
+						}
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+			if len(f.TableID) > 0 {
+				_, err := r.getTable(f.TableID)
+				if err != nil {
+					return err
+				}
+			}
+		}
+		return err
+	}
 	for _, item := range tlist {
 		if ctx.Err() != nil {
 			return ctx.Err()
-		}
-		if !processAll && !triggerFilter[item.ID] {
-			continue
 		}
 		trigger, err := r.getTrigger(item.ID)
 		if err != nil {
@@ -175,39 +209,26 @@ func run(ctx context.Context) error {
 		}
 
 		err = visitAllSegment("", nil, trigger.Segments, func(_ string, _, s *TriggerSegment) error {
-			if len(s.ID) == 0 {
+			err := visitSement(s.ID)
+			if err != nil && errors.Is(err, errIgnore) {
 				return nil
-			}
-			seg, err := r.getSegment(s.ID)
-
-			for _, f := range seg.Fields {
-				seen := make(map[string]bool, 10)
-				err = visitAllDataType(r, seen, f.DataType, func(dt DataType) error {
-					for _, f := range dt.Fields {
-						if len(f.TableID) > 0 {
-							_, err := r.getTable(f.TableID)
-							if err != nil {
-								return err
-							}
-						}
-					}
-					return nil
-				})
-				if err != nil {
-					return err
-				}
-				if len(f.TableID) > 0 {
-					_, err := r.getTable(f.TableID)
-					if err != nil {
-						return err
-					}
-				}
 			}
 			return err
 		})
 		if err != nil {
 			return err
 		}
+	}
+	printCtl := []string{}
+	for _, name := range controlSegments {
+		err = visitSement(name)
+		if errors.Is(err, errIgnore) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		printCtl = append(printCtl, name)
 	}
 
 	if len(r.pkgDir) == 0 {
@@ -228,12 +249,16 @@ func run(ctx context.Context) error {
 		Segment     []SegmentType
 		DataType    []DataType
 		Table       []TableType
+
+		ControlSegment []string
 	}
 
 	to := To{
 		Command:     "hl7fetch " + strings.Join(os.Args[1:], " "),
 		PackageName: pkgName,
 		HL7Version:  *version,
+
+		ControlSegment: printCtl,
 	}
 	for _, v := range r.cache {
 		switch v := v.(type) {
@@ -526,7 +551,8 @@ func run(ctx context.Context) error {
 			case "O", "C":
 				return "*"
 			}
-			return ""
+			// This enabled the unmarshal to work correctly on deep groups currently.
+			return "*"
 		},
 		"segtag": func(f TriggerSegment) string {
 			buf := &strings.Builder{}
@@ -652,7 +678,7 @@ func run(ctx context.Context) error {
 	return nil
 }
 
-func visitAllDataType(r *Runner, seen map[string]bool, dtName string, visit func(dt DataType) error) error {
+func visitAllDataType(r *runner, seen map[string]bool, dtName string, visit func(dt DataType) error) error {
 	if len(dtName) == 0 {
 		return nil
 	}

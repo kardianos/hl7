@@ -11,7 +11,9 @@ import (
 	"path/filepath"
 )
 
-type Runner struct {
+var errIgnore = fmt.Errorf("ignore")
+
+type runner struct {
 	version      string
 	rootDir      string
 	allowNetwork bool
@@ -27,7 +29,7 @@ type cacheKey struct {
 	Name     string
 }
 
-func (r *Runner) urlPath(res resource, name string) string {
+func (r *runner) urlPath(res resource, name string) string {
 	switch {
 	default:
 		return rootURL + r.version + "/" + string(res) + "/" + name
@@ -36,7 +38,7 @@ func (r *Runner) urlPath(res resource, name string) string {
 	}
 }
 
-func (r *Runner) filePath(res resource, name string) string {
+func (r *runner) filePath(res resource, name string) string {
 	switch {
 	default:
 		return filepath.Join(r.rootDir, r.version, string(res), name+".json")
@@ -45,20 +47,33 @@ func (r *Runner) filePath(res resource, name string) string {
 	}
 }
 
-func (r *Runner) getJSON(res resource, name string) ([]byte, error) {
+func (r *runner) getJSON(res resource, name string) ([]byte, error) {
 	fn := r.filePath(res, name)
 	bb, err := os.ReadFile(fn)
 	if os.IsNotExist(err) {
+		const ignoreSuffix = ".ignore"
+		if _, err := os.Stat(fn + ignoreSuffix); err == nil {
+			return nil, errIgnore
+		}
 		if !r.allowNetwork {
 			return nil, fmt.Errorf("missing %s, network not allowed", fn)
 		}
-		u := r.urlPath(res, name)
-		bb, err = r.fetch(u)
+
+		dir, _ := filepath.Split(fn)
+		err = os.MkdirAll(dir, 0700)
 		if err != nil {
 			return nil, err
 		}
-		dir, _ := filepath.Split(fn)
-		err = os.MkdirAll(dir, 0700)
+		u := r.urlPath(res, name)
+
+		bb, err = r.fetch(u)
+		if err == errIgnore {
+			err = os.WriteFile(fn+ignoreSuffix, []byte("# Ignore. Not present in version."), 0600)
+			if err != nil {
+				return nil, err
+			}
+			return nil, errIgnore
+		}
 		if err != nil {
 			return nil, err
 		}
@@ -74,11 +89,11 @@ func (r *Runner) getJSON(res resource, name string) ([]byte, error) {
 	return bb, nil
 }
 
-func (r *Runner) log(v ...any) {
+func (r *runner) log(v ...any) {
 	log.Print(v...)
 }
 
-func (r *Runner) fetch(u string) ([]byte, error) {
+func (r *runner) fetch(u string) ([]byte, error) {
 	r.log("fetch", u)
 	resp, err := r.client.Get(u)
 	if err != nil {
@@ -92,12 +107,14 @@ func (r *Runner) fetch(u string) ([]byte, error) {
 	switch resp.StatusCode {
 	default:
 		return nil, fmt.Errorf("status %s:\n%s", resp.Status, buf.String())
+	case 404:
+		return nil, errIgnore
 	case 200:
 		return buf.Bytes(), nil
 	}
 }
 
-func get[T any](r *Runner, res resource, name string) (T, error) {
+func get[T any](r *runner, res resource, name string) (T, error) {
 	ck := cacheKey{
 		Version:  r.version,
 		Resource: res,
@@ -121,25 +138,25 @@ func get[T any](r *Runner, res resource, name string) (T, error) {
 	return *v, nil
 }
 
-func (r *Runner) getChapterList() ([]Chapter, error) {
+func (r *runner) getChapterList() ([]Chapter, error) {
 	return get[[]Chapter](r, ResourceChapters, "")
 }
 
-func (r *Runner) getChapter(name string) (Chapter, error) {
+func (r *runner) getChapter(name string) (Chapter, error) {
 	return get[Chapter](r, ResourceChapters, name)
 }
-func (r *Runner) getTriggerList() ([]TriggerEvents, error) {
+func (r *runner) getTriggerList() ([]TriggerEvents, error) {
 	return get[[]TriggerEvents](r, ResourceTriggerEvents, "")
 }
-func (r *Runner) getTrigger(name string) (TriggerType, error) {
+func (r *runner) getTrigger(name string) (TriggerType, error) {
 	return get[TriggerType](r, ResourceTriggerEvents, name)
 }
-func (r *Runner) getSegment(name string) (SegmentType, error) {
+func (r *runner) getSegment(name string) (SegmentType, error) {
 	return get[SegmentType](r, ResourceSegments, name)
 }
-func (r *Runner) getDataType(name string) (DataType, error) {
+func (r *runner) getDataType(name string) (DataType, error) {
 	return get[DataType](r, ResourceDataTypes, name)
 }
-func (r *Runner) getTable(name string) (TableType, error) {
+func (r *runner) getTable(name string) (TableType, error) {
 	return get[TableType](r, ResourceTables, name)
 }

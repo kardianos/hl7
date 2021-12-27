@@ -41,6 +41,14 @@ type ACC struct {
 	AccidentAddress             *XAD    `hl7:"11,len=250,display=Accident Address"`
 }
 
+// Addendum
+//
+// The ADD segment is used to define the continuation of the prior segment in a continuation message.
+type ADD struct {
+	HL7                         HL7Name `hl7:",name=ADD,type=s"`
+	AddendumContinuationPointer ST      `hl7:"1,len=65536,display=Addendum Continuation Pointer"`
+}
+
 // Professional Affiliation
 //
 // The AFF segment adds detailed information regarding professional affiliations with which the staff member identified by the STF segment is/was associated.
@@ -205,6 +213,25 @@ type AUT struct {
 	ProcessDate                  TS      `hl7:"10,len=26,format=YMDHMS,display=Process Date"`
 }
 
+// Batch Header Segment
+//
+// The BHS segment defines the start of a batch.
+type BHS struct {
+	HL7                       HL7Name `hl7:",name=BHS,type=s"`
+	BatchFieldSeparator       ST      `hl7:"1,required,len=1,display=Batch Field Separator"`
+	BatchEncodingCharacters   ST      `hl7:"2,required,len=3,display=Batch Encoding Characters"`
+	BatchSendingApplication   *HD     `hl7:"3,len=227,display=Batch Sending Application"`
+	BatchSendingFacility      *HD     `hl7:"4,len=227,display=Batch Sending Facility"`
+	BatchReceivingApplication *HD     `hl7:"5,len=227,display=Batch Receiving Application"`
+	BatchReceivingFacility    *HD     `hl7:"6,len=227,display=Batch Receiving Facility "`
+	BatchCreationDateTime     TS      `hl7:"7,len=26,format=YMDHMS,display=Batch Creation Date/Time"`
+	BatchSecurity             ST      `hl7:"8,len=40,display=Batch Security"`
+	BatchNameIDType           ST      `hl7:"9,len=20,display=Batch Name/ID/Type"`
+	BatchComment              ST      `hl7:"10,len=80,display=Batch Comment"`
+	BatchControlID            ST      `hl7:"11,len=20,display=Batch Control ID"`
+	ReferenceBatchControlID   ST      `hl7:"12,len=20,display=Reference Batch Control ID"`
+}
+
 // Blood Code
 //
 // The BLC segment contains data necessary to communicate patient abstract blood information used for billing and reimbursement purposes. This segment is repeating to report blood product codes and the associated blood units.
@@ -272,6 +299,16 @@ type BPX struct {
 	BPActualDispensedToAddress  *XAD    `hl7:"19,len=250,display=BP Actual Dispensed To Address"`
 	BPDispensedToReceiver       *XCN    `hl7:"20,len=250,display=BP Dispensed to Receiver"`
 	BPDispensingIndividual      *XCN    `hl7:"21,len=250,display=BP Dispensing Individual"`
+}
+
+// Batch Trailer Segment
+//
+// The BTS segment defines the end of a batch.
+type BTS struct {
+	HL7               HL7Name `hl7:",name=BTS,type=s"`
+	BatchMessageCount ST      `hl7:"1,len=10,display=Batch Message Count"`
+	BatchComment      ST      `hl7:"2,len=80,display=Batch Comment"`
+	BatchTotals       []NM    `hl7:"3,len=100,display=Batch Totals"`
 }
 
 // Blood Product Transfusion/Disposition
@@ -695,6 +732,25 @@ type FAC struct {
 	SignatureAuthorityTelecommunication *XTN    `hl7:"12,len=250,display=Signature Authority Telecommunication"`
 }
 
+// File Header Segment
+//
+// The FHS segment is used to head a file (group of batches).
+type FHS struct {
+	HL7                      HL7Name `hl7:",name=FHS,type=s"`
+	FileFieldSeparator       ST      `hl7:"1,required,len=1,display=File Field Separator"`
+	FileEncodingCharacters   ST      `hl7:"2,required,len=4,display=File Encoding Characters"`
+	FileSendingApplication   *HD     `hl7:"3,len=227,display=File Sending Application"`
+	FileSendingFacility      *HD     `hl7:"4,len=227,display=File Sending Facility"`
+	FileReceivingApplication *HD     `hl7:"5,len=227,display=File Receiving Application"`
+	FileReceivingFacility    *HD     `hl7:"6,len=227,display=File Receiving Facility"`
+	FileCreationDateTime     TS      `hl7:"7,len=26,format=YMDHMS,display=File Creation Date/Time"`
+	FileSecurity             ST      `hl7:"8,len=40,display=File Security"`
+	FileNameID               ST      `hl7:"9,len=20,display=File Name/ID"`
+	FileHeaderComment        ST      `hl7:"10,len=80,display=File Header Comment"`
+	FileControlID            ST      `hl7:"11,len=20,display=File Control ID"`
+	ReferenceFileControlID   ST      `hl7:"12,len=20,display=Reference File Control ID"`
+}
+
 // Financial Transaction
 //
 // The FT1 segment contains the detail data necessary to post charges, payments, adjustments, etc. to patient accounting records.
@@ -731,6 +787,15 @@ type FT1 struct {
 	NDCCode                                    *CNE    `hl7:"29,len=250,table=0549,display=NDC Code"`
 	PaymentReferenceID                         *CX     `hl7:"30,len=250,display=Payment Reference ID"`
 	TransactionReferenceKey                    []SI    `hl7:"31,len=4,display=Transaction Reference Key"`
+}
+
+// File Trailer Segment
+//
+// The FTS segment defines the end of a file.
+type FTS struct {
+	HL7                HL7Name `hl7:",name=FTS,type=s"`
+	FileBatchCount     NM      `hl7:"1,len=10,display=File Batch Count"`
+	FileTrailerComment ST      `hl7:"2,len=80,display=File Trailer Comment"`
 }
 
 // Goal Detail
@@ -1766,6 +1831,20 @@ type ORG struct {
 	EmploymentStatusCode                       *CE     `hl7:"10,len=250,table=0066,display=Employment Status Code"`
 	BoardApprovalIndicator                     ID      `hl7:"11,len=1,table=0136,display=Board Approval Indicator"`
 	PrimaryCarePhysicianIndicator              ID      `hl7:"12,len=1,table=0136,display=Primary Care Physician Indicator"`
+}
+
+// Override Segment
+//
+// Definition: This segment allows a sender to override specific receiving applications business rules to allow for processing of a message that would normally be rejected or ignored.
+//
+// The following is an example of how the OVR segment might be used in a dispense message (RDS_O13): MSH PID PV1 {ORC RXE {RXR} RXD {RXR} <RXC> <NTE> <FT1> <OVR>}
+type OVR struct {
+	HL7                      HL7Name `hl7:",name=OVR,type=s"`
+	BusinessRuleOverrideType *CWE    `hl7:"1,len=705,table=0518,display=Business Rule Override Type"`
+	BusinessRuleOverrideCode *CWE    `hl7:"2,len=705,table=0521,display=Business Rule Override Code"`
+	OverrideComments         TX      `hl7:"3,len=200,display=Override Comments"`
+	OverrideEnteredBy        *XCN    `hl7:"4,len=250,display=Override Entered By"`
+	OverrideAuthorizedBy     *XCN    `hl7:"5,len=250,display=Override Authorized By"`
 }
 
 // Possible Causal Relationship

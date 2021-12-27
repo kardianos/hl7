@@ -1,22 +1,22 @@
 MSH|^~\&|Some Genetic Stuff|Some Genetic Stuff|External|External|20140324101316||ORU^R01|20150922091808|P|2.3|||||||||
 PID|1||PID1992299||John^Smith||19561102000000|M||Caucasian||||||||||||Caucasian|||||||||||||||||
 PV1|1|O|||||9959599999^PETER SNICKLE^^^MD|||||||||||||||||||||||||||||||||||||||||||||
-ORC|||PID1992299|||||||||PETER SNICKLE|||||||||Your Medical Center|99988 S Tampa Ave^Suite 604^Miami^FL^32999|999-999-9999|||||||
-OBR|1||PID1992299|ADR-4|||20131008000000|||||||20131122104059|Mouth Wash||||||||||||||||||||||||||||||||||
-OBX|1|ED|PNG^^^400.2|1|PNG^Base64^iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEX///+nxBvIAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==||||||||||||||
-OBR|2||PID1992299|55208-3^DNA analysis discrete sequence variation panel|||20131008000000|||||||20131122104059|||||||||||||||||||||||||||||||||||
-OBX|1|CWE|53034-5^Allelic state||^*1/*17||||||||||||||
-OBX|2|CWE|48018-6^Gene Identifier||^CYP2C19||||||||||||||
-OBX|3|CWE|53040-2^Drug metabolism sequence variation interpretation||^^Rapid Metabolizer||||||||||||||
-OBR|3||PID1992299|55208-3^DNA analysis discrete sequence variation panel|||20131008000000|||||||20131122104059|||||||||||||||||||||||||||||||||||
-OBX|1|CWE|53034-5^Allelic state||^*1/*1||||||||||||||
-OBX|2|CWE|48018-6^Gene Identifier||^CYP2C9||||||||||||||
-OBX|3|CWE|53040-2^Drug metabolism sequence variation interpretation||^^Normal Metabolizer||||||||||||||
-OBR|4||PID1992299|55208-3^DNA analysis discrete sequence variation panel|||20131008000000|||||||20131122104059|||||||||||||||||||||||||||||||||||
-OBX|1|CWE|53034-5^Allelic state||^*2/*3||||||||||||||
-OBX|2|CWE|48018-6^Gene Identifier||^CYP2D6||||||||||||||
-OBX|3|CWE|53040-2^Drug metabolism sequence variation interpretation||^^Normal Metabolizer||||||||||||||
-OBR|5||PID1992299|55208-3^DNA analysis discrete sequence variation panel|||20131008000000|||||||20131122104059|||||||||||||||||||||||||||||||||||
-OBX|1|CWE|53034-5^Allelic state||^-1639G>A G/A||||||||||||||
-OBX|2|CWE|48018-6^Gene Identifier||^VKORC1||||||||||||||
-OBX|3|CWE|53040-2^Drug metabolism sequence variation interpretation||^^Intermediate Warfarin Sensitivity||||||||||||||
+ORC|||PID1992299|||||||||PETER SNICKLE|||||||||Your Medical Center|99988 S Tampa Ave^Suite 604^Miami^FL^32999|999-999-9999||||||||
+OBR|1||PID1992299|ADR-4|||20131008000000|||||||20131122104059|Mouth Wash|||||||||||||||||||||||||||||||||||
+OBX|1|ED|PNG^^^400.2|1|PNG^Base64^iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEX///+nxBvIAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==||||||||||||||||||||
+OBR|2||PID1992299|55208-3^DNA analysis discrete sequence variation panel|||20131008000000|||||||20131122104059||||||||||||||||||||||||||||||||||||
+OBX|1|CWE|53034-5^Allelic state||^*1/*17||||||||||||||||||||
+OBX|2|CWE|48018-6^Gene Identifier||^CYP2C19||||||||||||||||||||
+OBX|3|CWE|53040-2^Drug metabolism sequence variation interpretation||^^Rapid Metabolizer||||||||||||||||||||
+OBR|3||PID1992299|55208-3^DNA analysis discrete sequence variation panel|||20131008000000|||||||20131122104059||||||||||||||||||||||||||||||||||||
+OBX|1|CWE|53034-5^Allelic state||^*1/*1||||||||||||||||||||
+OBX|2|CWE|48018-6^Gene Identifier||^CYP2C9||||||||||||||||||||
+OBX|3|CWE|53040-2^Drug metabolism sequence variation interpretation||^^Normal Metabolizer||||||||||||||||||||
+OBR|4||PID1992299|55208-3^DNA analysis discrete sequence variation panel|||20131008000000|||||||20131122104059||||||||||||||||||||||||||||||||||||
+OBX|1|CWE|53034-5^Allelic state||^*2/*3||||||||||||||||||||
+OBX|2|CWE|48018-6^Gene Identifier||^CYP2D6||||||||||||||||||||
+OBX|3|CWE|53040-2^Drug metabolism sequence variation interpretation||^^Normal Metabolizer||||||||||||||||||||
+OBR|5||PID1992299|55208-3^DNA analysis discrete sequence variation panel|||20131008000000|||||||20131122104059||||||||||||||||||||||||||||||||||||
+OBX|1|CWE|53034-5^Allelic state||^-1639G>A G/A||||||||||||||||||||
+OBX|2|CWE|48018-6^Gene Identifier||^VKORC1||||||||||||||||||||
+OBX|3|CWE|53040-2^Drug metabolism sequence variation interpretation||^^Intermediate Warfarin Sensitivity||||||||||||||||||||

@@ -53,7 +53,7 @@ func Unmarshal(data []byte, registry Registry) ([]any, error) {
 	ret := []any{}
 
 	d := &decoder{}
-
+	segmentRegistry := registry.Segment()
 	for index, line := range lines {
 		lineNumber := index + 1
 		if len(line) == 0 {
@@ -66,7 +66,7 @@ func Unmarshal(data []byte, registry Registry) ([]any, error) {
 			return nil, fmt.Errorf("line %d: missing segment type", lineNumber)
 		}
 
-		seg, ok := registry[segTypeName]
+		seg, ok := segmentRegistry[segTypeName]
 		if !ok {
 			return nil, fmt.Errorf("line %d: unknown segment type %q", lineNumber, segTypeName)
 		}

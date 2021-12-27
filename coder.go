@@ -7,7 +7,14 @@ import (
 	"strings"
 )
 
-type Registry map[string]any
+type RegistryLookup = map[string]any
+
+type Registry interface {
+	Version() string
+	ControlSegment() RegistryLookup
+	Segment() RegistryLookup
+	Trigger() RegistryLookup
+}
 
 const tagName = "hl7"
 

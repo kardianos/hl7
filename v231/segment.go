@@ -15,6 +15,14 @@ type ACC struct {
 	AccidentDeathIndicator      ID      `hl7:"6,len=12,table=0136,display=Accident Death Indicator"`
 }
 
+// Addendum segment
+//
+// The ADD segment is used to define the continuation of the prior segment in a continuation message. See Section 2.23.2, Continuation messages and segments, for details.
+type ADD struct {
+	HL7                         HL7Name `hl7:",name=ADD,type=s"`
+	AddendumContinuationPointer ST      `hl7:"1,len=65536,display=Addendum Continuation Pointer"`
+}
+
 // Appointment information - general resource segment
 //
 // The AIG segment contains information about various kinds of resources (other than those with specifically defined segments in this chapter) that can be scheduled. Resources included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Resources not controlled by a schedule are not identified on a schedule request using this segment. Resources described by this segment are general kinds of resources, such as equipment, that are identified with a simple identification code.
@@ -163,6 +171,25 @@ type AUT struct {
 	ProcessDate                  TS      `hl7:"10,len=26,format=YMDHMS,display=Process Date"`
 }
 
+// Batch Header Segment
+//
+// The BHS segment defines the start of a batch.
+type BHS struct {
+	HL7                       HL7Name `hl7:",name=BHS,type=s"`
+	BatchFieldSeparator       ST      `hl7:"1,required,len=1,display=Batch Field Separator"`
+	BatchEncodingCharacters   ST      `hl7:"2,required,len=3,display=Batch Encoding Characters"`
+	BatchSendingApplication   ST      `hl7:"3,len=15,display=Batch Sending Application"`
+	BatchSendingFacility      ST      `hl7:"4,len=20,display=Batch Sending Facility"`
+	BatchReceivingApplication ST      `hl7:"5,len=15,display=Batch Receiving Application"`
+	BatchReceivingFacility    ST      `hl7:"6,len=20,display=Batch Receiving Facility"`
+	BatchCreationDateTime     TS      `hl7:"7,len=26,format=YMDHMS,display=Batch Creation Date/Time"`
+	BatchSecurity             ST      `hl7:"8,len=40,display=Batch Security"`
+	BatchNameIDType           ST      `hl7:"9,len=20,display=Batch Name/ID/Type"`
+	BatchComment              ST      `hl7:"10,len=80,display=Batch Comment"`
+	BatchControlID            ST      `hl7:"11,len=20,display=Batch Control ID"`
+	ReferenceBatchControlID   ST      `hl7:"12,len=20,display=Reference Batch Control ID"`
+}
+
 // Billing segment
 //
 // The BLG segment is used to provide billing information, on the ordered service, to the filling application.
@@ -171,6 +198,16 @@ type BLG struct {
 	WhenToCharge *CCD    `hl7:"1,len=40,display=When to Charge"`
 	ChargeType   ID      `hl7:"2,len=50,table=0122,display=Charge Type"`
 	AccountID    *CX     `hl7:"3,len=100,display=Account ID"`
+}
+
+// Batch Trailer Segment
+//
+// The BTS segment defines the end of a batch.
+type BTS struct {
+	HL7               HL7Name `hl7:",name=BTS,type=s"`
+	BatchMessageCount ST      `hl7:"1,len=10,display=Batch Message Count"`
+	BatchComment      ST      `hl7:"2,len=80,display=Batch Comment"`
+	BatchTotals       []NM    `hl7:"3,len=100,display=Batch Totals"`
 }
 
 // Charge description master segment
@@ -440,6 +477,25 @@ type FAC struct {
 	SignatureAuthorityTelecommunication *XTN    `hl7:"12,len=44,display=Signature Authority Telecommunication"`
 }
 
+// File Header Segment
+//
+// The FHS segment is used to head a file (group of batches) as defined in Section 2.23.3, “HL7 batch protocol.”
+type FHS struct {
+	HL7                      HL7Name `hl7:",name=FHS,type=s"`
+	FileFieldSeparator       ST      `hl7:"1,required,len=1,display=File Field Separator"`
+	FileEncodingCharacters   ST      `hl7:"2,required,len=4,display=File Encoding Characters"`
+	FileSendingApplication   ST      `hl7:"3,len=15,display=File Sending Application"`
+	FileSendingFacility      ST      `hl7:"4,len=20,display=File Sending Facility"`
+	FileReceivingApplication ST      `hl7:"5,len=15,display=File Receiving Application"`
+	FileReceivingFacility    ST      `hl7:"6,len=20,display=File Receiving Facility"`
+	FileCreationDateTime     TS      `hl7:"7,len=26,format=YMDHMS,display=File Creation Date/Time"`
+	FileSecurity             ST      `hl7:"8,len=40,display=File Security"`
+	FileNameID               ST      `hl7:"9,len=20,display=File Name/ID"`
+	FileHeaderComment        ST      `hl7:"10,len=80,display=File Header Comment"`
+	FileControlID            ST      `hl7:"11,len=20,display=File Control ID"`
+	ReferenceFileControlID   ST      `hl7:"12,len=20,display=Reference File Control ID"`
+}
+
 // Financial transaction segment
 //
 // The FT1 segment contains the detail data necessary to post charges, payments, adjustments, etc. to patient accounting records.
@@ -471,6 +527,15 @@ type FT1 struct {
 	EnteredByCode             []XCN   `hl7:"24,len=120,display=Entered By Code"`
 	ProcedureCode             *CE     `hl7:"25,len=80,table=0088,display=Procedure Code"`
 	ProcedureCodeModifier     []CE    `hl7:"26,len=80,table=0340,display=Procedure Code Modifier"`
+}
+
+// File Trailer Segment
+//
+// The FTS segment defines the end of a file.
+type FTS struct {
+	HL7                HL7Name `hl7:",name=FTS,type=s"`
+	FileBatchCount     NM      `hl7:"1,len=10,display=File Batch Count"`
+	FileTrailerComment ST      `hl7:"2,len=80,display=File Trailer Comment"`
 }
 
 // Goal Detail

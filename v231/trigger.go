@@ -7,8 +7,8 @@ package v231
 // The simple general acknowledgment (ACK) can be used where the application does not define a special application level acknowledgment message or where there has been an error that precludes application processing.  It is also used for accept level acknowledgments.  The details are described in Section 2.12.1, “Original and enhanced processing rules.”
 type ACK struct {
 	HL7 HL7Name `hl7:",name=ACK,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
 }
 
@@ -16,10 +16,10 @@ type ACK struct {
 type ADR_A19_QueryResponse struct {
 	HL7       HL7Name             `hl7:",name=ADR_A19_QueryResponse,type=tg"`
 	EVN       *EVN                `hl7:"7,display=Event type segment"`
-	PID       PID                 `hl7:"8,required,display=Patient identification segment"`
+	PID       *PID                `hl7:"8,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"9,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"10,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"11,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"11,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"12,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"13,display=Disability segment"`
 	OBX       []OBX               `hl7:"14,display=Observation/result segment"`
@@ -37,14 +37,14 @@ type ADR_A19_QueryResponse struct {
 // Procedure
 type ADR_A19_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADR_A19_Procedure,type=tg"`
-	PR1 PR1     `hl7:"18,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"18,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"19,display=Role"`
 }
 
 // Insurance
 type ADR_A19_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADR_A19_Insurance,type=tg"`
-	IN1 IN1     `hl7:"21,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"21,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"22,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"23,display=Insurance additional information- certification segment"`
 }
@@ -54,11 +54,11 @@ type ADR_A19_Insurance struct {
 // The following trigger event is served by QRY (a query from another system) and ADR (a response from an Patient Administration system.)
 type ADR_A19 struct {
 	HL7           HL7Name                 `hl7:",name=ADR_A19,type=t"`
-	MSH           MSH                     `hl7:"1,required,display=Message header segment"`
-	MSA           MSA                     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH           *MSH                    `hl7:"1,required,display=Message header segment"`
+	MSA           *MSA                    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR           *ERR                    `hl7:"3,display=Error segment"`
 	QAK           *QAK                    `hl7:"4,display=Query Acknowledgement"`
-	QRD           QRD                     `hl7:"5,required,display=Original-style query definition segment"`
+	QRD           *QRD                    `hl7:"5,required,display=Original-style query definition segment"`
 	QRF           *QRF                    `hl7:"6,display=Original style query filter segment"`
 	QueryResponse []ADR_A19_QueryResponse `hl7:",required,display=Query Response"`
 	DSC           *DSC                    `hl7:"27,display=Continuation pointer segment"`
@@ -67,14 +67,14 @@ type ADR_A19 struct {
 // Procedure
 type ADT_A01_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A01_Procedure,type=tg"`
-	PR1 PR1     `hl7:"13,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"13,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"14,display=Role"`
 }
 
 // Insurance
 type ADT_A01_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -84,12 +84,12 @@ type ADT_A01_Insurance struct {
 // An A01 event is intended to be used for “Admitted” patients only.  An A01 event is sent as a result of a patient undergoing the admission process which assigns the patient to a bed.  It signals the beginning of a patient’s stay in a healthcare facility.  Normally, this information is entered in the primary Patient Administration system and broadcast to the nursing units and ancillary systems.  It includes short stay and John Doe admissions.  For example, an A01 event can be used to notify: the pharmacy system that a patient has been admitted and may be legitimately prescribed drugs; the nursing system that the patient has been admitted and needs a care plan prepared; the finance system of the start of the billing period; the dietary system that a new patient has been installed and requires dietary services; the laboratory, pathology, and radiology systems that a patient has been admitted and is entitled to receive services; the clinical repository that an admission has taken place for the EMR (electronic medical record).
 type ADT_A01 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A01,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"5,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"6,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"6,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"7,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"8,display=Disability segment"`
 	OBX       []OBX               `hl7:"9,display=Observation/result segment"`
@@ -109,11 +109,11 @@ type ADT_A01 struct {
 // An A02 event is issued as a result of the patient changing his or her assigned physical location.
 type ADT_A02 struct {
 	HL7 HL7Name `hl7:",name=ADT_A02,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -122,7 +122,7 @@ type ADT_A02 struct {
 // Procedure
 type ADT_A03_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A03_Procedure,type=tg"`
-	PR1 PR1     `hl7:"10,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"10,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"11,display=Role"`
 }
 
@@ -131,11 +131,11 @@ type ADT_A03_Procedure struct {
 // An A03 event signals the end of a patient’s stay in a healthcare facility.  It signals that the patient’s status has changed to “discharged” and that a discharge date has been recorded.  The patient is no longer in the facility.  The patient’s location prior to discharge should be entered in PV1-3-assigned patient location.
 type ADT_A03 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A03,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
-	PV1       PV1                 `hl7:"5,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"5,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"6,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"7,display=Disability segment"`
 	DG1       []DG1               `hl7:"8,display=Diagnosis segment"`
@@ -147,14 +147,14 @@ type ADT_A03 struct {
 // Procedure
 type ADT_A04_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A04_Procedure,type=tg"`
-	PR1 PR1     `hl7:"13,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"13,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"14,display=Role"`
 }
 
 // Insurance
 type ADT_A04_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A04_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -164,12 +164,12 @@ type ADT_A04_Insurance struct {
 // An A04 event signals that the patient has arrived or checked in as a one-time, or recurring outpatient, and is not assigned to a bed.  One example might be its use to signal the beginning of a visit to the Emergency Room.  Note that some systems refer to these events as outpatient registrations or emergency admissions. PV1-44-admit date/time is used for the visit start date/time.
 type ADT_A04 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A04,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"5,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"6,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"6,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"7,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"8,display=Disability segment"`
 	OBX       []OBX               `hl7:"9,display=Observation/result segment"`
@@ -187,14 +187,14 @@ type ADT_A04 struct {
 // Procedure
 type ADT_A05_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A05_Procedure,type=tg"`
-	PR1 PR1     `hl7:"13,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"13,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"14,display=Role"`
 }
 
 // Insurance
 type ADT_A05_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A05_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -204,12 +204,12 @@ type ADT_A05_Insurance struct {
 // An A05 event is sent when a patient undergoes the pre-admission process.  During this process, episoderelated data is collected in preparation for a patient’s visit or stay in a healthcare facility.  For example, a pre-admit may be performed prior to inpatient or outpatient surgery so that lab tests can be performed prior to the surgery.  This event can also be used to pre-register a non-admitted patient.
 type ADT_A05 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A05,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"5,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"6,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"6,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"7,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"8,display=Disability segment"`
 	OBX       []OBX               `hl7:"9,display=Observation/result segment"`
@@ -227,14 +227,14 @@ type ADT_A05 struct {
 // Procedure
 type ADT_A06_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A06_Procedure,type=tg"`
-	PR1 PR1     `hl7:"14,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"14,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"15,display=Role"`
 }
 
 // Insurance
 type ADT_A06_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A06_Insurance,type=tg"`
-	IN1 IN1     `hl7:"17,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"17,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"18,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"19,display=Insurance additional information- certification segment"`
 }
@@ -244,13 +244,13 @@ type ADT_A06_Insurance struct {
 // An A06 event is sent when a patient who was present for a non-admitted visit is being admitted after an evaluation of the seriousness of the patient’s condition.  This event changes a patient’s status from nonadmitted to admitted.  The new patient location should appear in PV1-3-assigned patient location, while the old patient location (if different) should appear in PV1-6-prior patient location.  The new patient class should appear in PV1-2-patient class.
 type ADT_A06 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A06,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	MRG       *MRG                `hl7:"5,display=Merge patient information segment-"`
 	NK1       []NK1               `hl7:"6,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"7,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"7,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"8,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"9,display=Disability segment"`
 	OBX       []OBX               `hl7:"10,display=Observation/result segment"`
@@ -268,14 +268,14 @@ type ADT_A06 struct {
 // Procedure
 type ADT_A07_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A07_Procedure,type=tg"`
-	PR1 PR1     `hl7:"14,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"14,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"15,display=Role"`
 }
 
 // Insurance
 type ADT_A07_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A07_Insurance,type=tg"`
-	IN1 IN1     `hl7:"17,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"17,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"18,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"19,display=Insurance additional information- certification segment"`
 }
@@ -285,13 +285,13 @@ type ADT_A07_Insurance struct {
 // An A07 event is sent when a patient who was admitted changes his/her status to “no longer admitted” but is still being seen for this episode of care.  This event changes a patient from an “admitted” to a “nonadmitted” status.  The new patient location should appear in PV1-3-assigned patient location, while the old patient location (if different) should appear in PV1-6-prior patient location.
 type ADT_A07 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A07,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	MRG       *MRG                `hl7:"5,display=Merge patient information segment-"`
 	NK1       []NK1               `hl7:"6,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"7,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"7,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"8,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"9,display=Disability segment"`
 	OBX       []OBX               `hl7:"10,display=Observation/result segment"`
@@ -309,14 +309,14 @@ type ADT_A07 struct {
 // Procedure
 type ADT_A08_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A08_Procedure,type=tg"`
-	PR1 PR1     `hl7:"13,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"13,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"14,display=Role"`
 }
 
 // Insurance
 type ADT_A08_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A08_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -326,12 +326,12 @@ type ADT_A08_Insurance struct {
 // This trigger event is used when any patient information has changed but when no other trigger event has occurred.  For example, an A08 event can be used to notify the receiving systems of a change of address or a name change.  We recommend that the A08 transaction be used to update fields that are not related to any of the other trigger events.  The A08 event can include information specific to an episode of care, but it can also be used for demographic information only.
 type ADT_A08 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A08,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"5,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"6,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"6,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"7,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"8,display=Disability segment"`
 	OBX       []OBX               `hl7:"9,display=Observation/result segment"`
@@ -353,11 +353,11 @@ type ADT_A08 struct {
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A09 struct {
 	HL7 HL7Name `hl7:",name=ADT_A09,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -371,11 +371,11 @@ type ADT_A09 struct {
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A10 struct {
 	HL7 HL7Name `hl7:",name=ADT_A10,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -390,11 +390,11 @@ type ADT_A10 struct {
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A11 struct {
 	HL7 HL7Name `hl7:",name=ADT_A11,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -408,28 +408,28 @@ type ADT_A11 struct {
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A12 struct {
 	HL7 HL7Name `hl7:",name=ADT_A12,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
-	DG1 DG1     `hl7:"9,display=Diagnosis segment"`
+	DG1 *DG1    `hl7:"9,display=Diagnosis segment"`
 }
 
 // Procedure
 type ADT_A13_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A13_Procedure,type=tg"`
-	PR1 PR1     `hl7:"13,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"13,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"14,display=Role"`
 }
 
 // Insurance
 type ADT_A13_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A13_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -439,12 +439,12 @@ type ADT_A13_Insurance struct {
 // The A13 event is sent when an A03 (discharge/end visit) event is canceled, either because of erroneous entry of the A03 event or because of a decision not to discharge or end the visit of the patient after all.  PV13-assigned patient location should reflect the location of the patient after the cancellation has been processed.  Note that this location may be different from the patient’s location prior to the erroneous discharge. Prior Location could be used to show the location of the patient prior to the erroneous discharge.
 type ADT_A13 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A13,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"5,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"6,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"6,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"7,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"8,display=Disability segment"`
 	OBX       []OBX               `hl7:"9,display=Observation/result segment"`
@@ -462,14 +462,14 @@ type ADT_A13 struct {
 // Procedure
 type ADT_A14_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A14_Procedure,type=tg"`
-	PR1 PR1     `hl7:"13,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"13,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"14,display=Role"`
 }
 
 // Insurance
 type ADT_A14_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A14_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -479,12 +479,12 @@ type ADT_A14_Insurance struct {
 // An A14 event notifies other systems of a planned admission, when there is a reservation or when patient admission is to occur imminently.  The A14 event is similar to a pre-admit, but without the implication that an account should be opened for the purposes of tests prior to admission.  It is used when advanced notification of an admit is required in order to prepare for the patient’s arrival.
 type ADT_A14 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A14,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"5,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"6,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"6,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"7,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"8,display=Disability segment"`
 	OBX       []OBX               `hl7:"9,display=Observation/result segment"`
@@ -506,11 +506,11 @@ type ADT_A14 struct {
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A15 struct {
 	HL7 HL7Name `hl7:",name=ADT_A15,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -522,11 +522,11 @@ type ADT_A15 struct {
 // An A16 event notifies other systems of a plan to discharge a patient when the patient has not yet left the healthcare facility.  It is used when advanced notification of a discharge is required in order to prepare for the patient’s change in location.  For example, it is used to notify the pharmacy of the possible need for discharge drugs or to notify psychotherapy of the possible need for post-discharge appointments.
 type ADT_A16 struct {
 	HL7 HL7Name `hl7:",name=ADT_A16,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -539,17 +539,17 @@ type ADT_A16 struct {
 // The A17 is used when it is decided that two patients will exchange beds.  The patient ID and visit data are repeated for the two patients changing places.  See Section 3.5.1, “Swapping a patient,” for a discussion of issues related to implementing this trigger event. When other important fields change, it is recommended that the A08 (update patient information) event be used in addition.
 type ADT_A17 struct {
 	HL7  HL7Name `hl7:",name=ADT_A17,type=t"`
-	MSH  MSH     `hl7:"1,required,display=Message header segment"`
-	EVN  EVN     `hl7:"2,required,display=Event type segment"`
-	PID  PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH  *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN  *EVN    `hl7:"2,required,display=Event type segment"`
+	PID  *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1  *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1  PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1  *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2  *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1  []DB1   `hl7:"7,display=Disability segment"`
 	OBX  []OBX   `hl7:"8,display=Observation/result segment"`
-	PID2 PID     `hl7:"9,required,display=Patient identification segment"`
+	PID2 *PID    `hl7:"9,required,display=Patient identification segment"`
 	PD12 *PD1    `hl7:"10,display=Patient Additional Demographic"`
-	PV12 PV1     `hl7:"11,required,display=Patient visit segment"`
+	PV12 *PV1    `hl7:"11,required,display=Patient visit segment"`
 	PV22 *PV2    `hl7:"12,display=Patient visit - additional information segment"`
 	DB12 []DB1   `hl7:"13,display=Disability segment"`
 	OBX2 []OBX   `hl7:"14,display=Observation/result segment"`
@@ -560,12 +560,12 @@ type ADT_A17 struct {
 // Event A18 is being retained for backward compatibility.  The A18 event is used to merge current and previous patient identification numbers: PID-3-patient identifier list, PID-2-patient ID, PID-4-alternate patient ID-PID, and PID-18-patient account number.  This procedure is required, for example, when a previous patient is registered under a new patient identification number because of an error, or because there was insufficient time to determine the actual patient identification number.  The merge event occurs when a decision is made to combine the information under either the new or the old identifier(s).  We recommend that events A34 (merge patient information-patient ID only), A35 (merge patient information-account number only), A36 (merge patient information-patient ID & account number), A39 (merge person-patient ID), A40 (merge patient-patient identifier list), A41 (merge account-patient account number), and A42 (merge visitvisit number) be utilized in place of the A18 event whenever possible.
 type ADT_A18 struct {
 	HL7 HL7Name `hl7:",name=ADT_A18,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
 	MRG *MRG    `hl7:"5,display=Merge patient information segment-"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 }
 
 // Bed status update
@@ -573,9 +573,9 @@ type ADT_A18 struct {
 // Certain nursing/census applications need to be able to update the Patient Administration system’s bed status.
 type ADT_A20 struct {
 	HL7 HL7Name `hl7:",name=ADT_A20,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	NPU NPU     `hl7:"3,required,display=Bed status update segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	NPU *NPU    `hl7:"3,required,display=Bed status update segment"`
 }
 
 // Patient goes on a "leave of absence"
@@ -583,11 +583,11 @@ type ADT_A20 struct {
 // An A21 event is sent to notify systems that an admitted patient has left the healthcare institution temporarily.  It is used for systems in which a bed is still assigned to the patient, and it puts the current admitted patient activities on hold.  For example, it is used to notify dietary services and laboratory systems when the patient goes home for the weekend.
 type ADT_A21 struct {
 	HL7 HL7Name `hl7:",name=ADT_A21,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -598,11 +598,11 @@ type ADT_A21 struct {
 // An A22 event is sent to notify systems that an admitted patient has returned to the healthcare institution after a temporary “leave of absence.”  It is used for systems in which a bed is still assigned to the patient, and it takes their current admitted patient activities off of “hold” status.  For example, it is used to notify dietary services and laboratory systems when the patient returns from a weekend trip to his/her home.
 type ADT_A22 struct {
 	HL7 HL7Name `hl7:",name=ADT_A22,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -613,11 +613,11 @@ type ADT_A22 struct {
 // The A23 event is used to delete visit or episode-specific information from the patient record.  For example, it is used to remove old data from a database that cannot hold all historical patient visit data.  When an event was entered erroneously, use one of the cancel transactions.  This event can be used to purge accountlevel data while retaining the person in the database.
 type ADT_A23 struct {
 	HL7 HL7Name `hl7:",name=ADT_A23,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -628,13 +628,13 @@ type ADT_A23 struct {
 // The A24 event is used when the first PID segment needs to be linked to the second PID segment and when both patient identifiers identify the same patient.  Linking two or more patients does not require the actual merging of patient information; following a link event, the affected patient data records should remain distinct.  For example, this event could be used in a hospital network environment in which there are multiple campuses and in which records need to be linked.  For example, hospital A, hospital B, and hospital C would each keep their own records on a patient, but an A24 link event would be sent to a corporate-wide MPI to enable the coupling of ID information with the corporate ID number.  It is used for corporate data repositories, etc.  This event is not meant to link mothers and babies since a field exists (PID-21-mother’s identifier) for that purpose.  See Section 3.5.3, “Patient record links,” for a discussion of issues related to implementing patient link messages and MPI issues.
 type ADT_A24 struct {
 	HL7  HL7Name `hl7:",name=ADT_A24,type=t"`
-	MSH  MSH     `hl7:"1,required,display=Message header segment"`
-	EVN  EVN     `hl7:"2,required,display=Event type segment"`
-	PID  PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH  *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN  *EVN    `hl7:"2,required,display=Event type segment"`
+	PID  *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1  *PD1    `hl7:"4,display=Patient Additional Demographic"`
 	PV1  *PV1    `hl7:"5,display=Patient visit segment"`
 	DB1  []DB1   `hl7:"6,display=Disability segment"`
-	PID2 PID     `hl7:"7,required,display=Patient identification segment"`
+	PID2 *PID    `hl7:"7,required,display=Patient identification segment"`
 	PD12 *PD1    `hl7:"8,display=Patient Additional Demographic"`
 	PV12 *PV1    `hl7:"9,display=Patient visit segment"`
 	DB12 []DB1   `hl7:"10,display=Disability segment"`
@@ -645,11 +645,11 @@ type ADT_A24 struct {
 // The A25 event is sent when an A16 (pending discharge) event is canceled, either because of erroneous entry of the A16 event or because of a decision not to discharge the patient after all.
 type ADT_A25 struct {
 	HL7 HL7Name `hl7:",name=ADT_A25,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -660,11 +660,11 @@ type ADT_A25 struct {
 // The A26 event is sent when an A15 (pending transfer) event is canceled, either because of erroneous entry of the A15 event or because of a decision not to transfer the patient after all.
 type ADT_A26 struct {
 	HL7 HL7Name `hl7:",name=ADT_A26,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -675,11 +675,11 @@ type ADT_A26 struct {
 // The A27 event is sent when an A14 (pending admit) event is canceled, either because of erroneous entry of the A14 event or because of a decision not to admit the patient after all.
 type ADT_A27 struct {
 	HL7 HL7Name `hl7:",name=ADT_A27,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -688,14 +688,14 @@ type ADT_A27 struct {
 // Procedure
 type ADT_A28_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A28_Procedure,type=tg"`
-	PR1 PR1     `hl7:"13,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"13,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"14,display=Role"`
 }
 
 // Insurance
 type ADT_A28_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A28_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -705,12 +705,12 @@ type ADT_A28_Insurance struct {
 // The A28 event can be used to send everything that is known about a person.  For example, it can be sent to an ICU unit (in addition to the A02 (transfer a patient) event) when a patient is transferred to the ICU unit in order to backload all demographic information for the patient into the ICU system.  An A28 (add person information) or A31 (update person information) can also be used for backloading MPI information for the person, or for backloading person and historical information.
 type ADT_A28 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A28,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"5,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"6,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"6,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"7,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"8,display=Disability segment"`
 	OBX       []OBX               `hl7:"9,display=Observation/result segment"`
@@ -730,11 +730,11 @@ type ADT_A28 struct {
 // An A29 event can be used to delete all demographic information related to a given person.  This event “undoes” an A28 (add person information) event.  The information from the A28 event is deleted.  This event is used, for example, when adding the information was performed in error, or when another record already exists for the person, or when one wants to purge the person from the database.  When this event occurs, all visit and account level data for this person is also purged.
 type ADT_A29 struct {
 	HL7 HL7Name `hl7:",name=ADT_A29,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -747,24 +747,24 @@ type ADT_A29 struct {
 // An A30 (merge person information) is intended for merging person records without merging patient identifiers.
 type ADT_A30 struct {
 	HL7 HL7Name `hl7:",name=ADT_A30,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Procedure
 type ADT_A31_Procedure struct {
 	HL7 HL7Name `hl7:",name=ADT_A31_Procedure,type=tg"`
-	PR1 PR1     `hl7:"13,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"13,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"14,display=Role"`
 }
 
 // Insurance
 type ADT_A31_Insurance struct {
 	HL7 HL7Name `hl7:",name=ADT_A31_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -774,12 +774,12 @@ type ADT_A31_Insurance struct {
 // An A31 event can be used to update person information on an MPI.  It is similar to an A08 (update patient information) event, but an A08 (update patient information) event should be used to update patient information for a current episode.   An A28 (add person information) or A31 can also be used for backloading MPI information for the person, or for backloading person and historical information.
 type ADT_A31 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A31,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"5,display=Next of kin / associated parties segment"`
-	PV1       PV1                 `hl7:"6,required,display=Patient visit segment"`
+	PV1       *PV1                `hl7:"6,required,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"7,display=Patient visit - additional information segment"`
 	DB1       []DB1               `hl7:"8,display=Disability segment"`
 	OBX       []OBX               `hl7:"9,display=Observation/result segment"`
@@ -799,11 +799,11 @@ type ADT_A31 struct {
 // The A32 event is sent when an A10 (patient arriving-tracking) event is canceled, either because of erroneous entry of the A10 event or because of a decision not to receive the patient after all.
 type ADT_A32 struct {
 	HL7 HL7Name `hl7:",name=ADT_A32,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -814,11 +814,11 @@ type ADT_A32 struct {
 // The A33 event is sent when an A09 (patient departing-tracking) event is canceled, either because of erroneous entry of the A09 event or because of a decision not to send the patient after all.
 type ADT_A33 struct {
 	HL7 HL7Name `hl7:",name=ADT_A33,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -831,11 +831,11 @@ type ADT_A33 struct {
 // An A34 (merge patient information-patient ID only) event is intended for merging or changing patient identifiers.  It would be used to change patient identifiers on all of this patient’s existing accounts.
 type ADT_A34 struct {
 	HL7 HL7Name `hl7:",name=ADT_A34,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Merge patient information - account number only
@@ -845,11 +845,11 @@ type ADT_A34 struct {
 // An A35 (merge patient information-account number only) event is intended for merging or changing an account number only.
 type ADT_A35 struct {
 	HL7 HL7Name `hl7:",name=ADT_A35,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Merge patient information - patient id and account number
@@ -857,11 +857,11 @@ type ADT_A35 struct {
 // Event A36 is being retained for backward compatibility.  Both the patient identification-internal and the patient account number have changed as a result of the merge.  See Section 3.5.2, “Merging patient/person information,” for a discussion of issues related to the implementation of merge messages.
 type ADT_A36 struct {
 	HL7 HL7Name `hl7:",name=ADT_A36,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Unlink patient information
@@ -869,13 +869,13 @@ type ADT_A36 struct {
 // The A37 event unlinks two PID segments previously linked with an A24 (link patient information) event.
 type ADT_A37 struct {
 	HL7  HL7Name `hl7:",name=ADT_A37,type=t"`
-	MSH  MSH     `hl7:"1,required,display=Message header segment"`
-	EVN  EVN     `hl7:"2,required,display=Event type segment"`
-	PID  PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH  *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN  *EVN    `hl7:"2,required,display=Event type segment"`
+	PID  *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1  *PD1    `hl7:"4,display=Patient Additional Demographic"`
 	PV1  *PV1    `hl7:"5,display=Patient visit segment"`
 	DB1  []DB1   `hl7:"6,display=Disability segment"`
-	PID2 PID     `hl7:"7,required,display=Patient identification segment"`
+	PID2 *PID    `hl7:"7,required,display=Patient identification segment"`
 	PD12 *PD1    `hl7:"8,display=Patient Additional Demographic"`
 	PV12 *PV1    `hl7:"9,display=Patient visit segment"`
 	DB12 []DB1   `hl7:"10,display=Disability segment"`
@@ -886,11 +886,11 @@ type ADT_A37 struct {
 // The A38 event is sent when an A05 (pre-admit a patient) event is canceled, either because of erroneous entry of the A05 event or because of a decision not to pre-admit the patient after all.
 type ADT_A38 struct {
 	HL7 HL7Name `hl7:",name=ADT_A38,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 	DB1 []DB1   `hl7:"7,display=Disability segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -901,9 +901,9 @@ type ADT_A38 struct {
 // Patient
 type ADT_A39_Patient struct {
 	HL7 HL7Name `hl7:",name=ADT_A39_Patient,type=tg"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 }
 
@@ -914,17 +914,17 @@ type ADT_A39_Patient struct {
 // An A39 event is used to signal a merge of records for a person that was incorrectly filed under two different PID-2-patient IDs.  The “incorrect source patient ID” identified in the MRG segment (MRG-4-prior patient ID) is to be merged with the required “correct target patient ID” identified in the PID segment (PID-2patient ID).  The “incorrect source patient ID” would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
 type ADT_A39 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A39,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	EVN     EVN               `hl7:"2,required,display=Event type segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	EVN     *EVN              `hl7:"2,required,display=Event type segment"`
 	Patient []ADT_A39_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type ADT_A40_Patient struct {
 	HL7 HL7Name `hl7:",name=ADT_A40_Patient,type=tg"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 }
 
@@ -935,17 +935,17 @@ type ADT_A40_Patient struct {
 // An A40 event is used to signal a merge of records for a patient that was incorrectly filed under two different identifiers.  The “incorrect source identifier” identified in the MRG segment (MRG-1-prior patient identifier list) is to be merged with the required “correct target identifier” of the same ”identifier type code” component identified in the PID segment (PID-3-patient identifier list). The “incorrect source identifier” would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
 type ADT_A40 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A40,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	EVN     EVN               `hl7:"2,required,display=Event type segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	EVN     *EVN              `hl7:"2,required,display=Event type segment"`
 	Patient []ADT_A40_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type ADT_A41_Patient struct {
 	HL7 HL7Name `hl7:",name=ADT_A41_Patient,type=tg"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 }
 
@@ -956,17 +956,17 @@ type ADT_A41_Patient struct {
 // An A41 event is used to signal a merge of records for an account that was incorrectly filed under two different account numbers.  The “incorrect source patient account number” identified in the MRG segment (MRG-3-prior patient account number) is to be merged with the “correct target patient account number” identified in the PID segment (PID-18-patient account number). The “incorrect source patient account number” would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
 type ADT_A41 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A41,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	EVN     EVN               `hl7:"2,required,display=Event type segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	EVN     *EVN              `hl7:"2,required,display=Event type segment"`
 	Patient []ADT_A41_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type ADT_A42_Patient struct {
 	HL7 HL7Name `hl7:",name=ADT_A42_Patient,type=tg"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 }
 
@@ -977,17 +977,17 @@ type ADT_A42_Patient struct {
 // An A42 event is used to signal a merge of records for a visit that was incorrectly filed under two different visit numbers.  The “incorrect source visit number” identified in the MRG segment (MRG-5-prior visit number) is to be merged with the required “correct target visit number” identified in the PV1 segment (PV1-19-visit number). The “incorrect source visit number” would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
 type ADT_A42 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A42,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	EVN     EVN               `hl7:"2,required,display=Event type segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	EVN     *EVN              `hl7:"2,required,display=Event type segment"`
 	Patient []ADT_A42_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type ADT_A43_Patient struct {
 	HL7 HL7Name `hl7:",name=ADT_A43_Patient,type=tg"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Move patient information - patient identifier list
@@ -997,17 +997,17 @@ type ADT_A43_Patient struct {
 // An A43 event is used to signal a move of records identified by the MRG-1-prior patient identifier list from the “incorrect source external identifier” identified in the MRG segment (MRG-4-prior patient ID) to the “correct target external identifier” identified in the PID segment (PID-2-patient ID).
 type ADT_A43 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A43,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	EVN     EVN               `hl7:"2,required,display=Event type segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	EVN     *EVN              `hl7:"2,required,display=Event type segment"`
 	Patient []ADT_A43_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type ADT_A44_Patient struct {
 	HL7 HL7Name `hl7:",name=ADT_A44_Patient,type=tg"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Move account information - patient account number
@@ -1017,16 +1017,16 @@ type ADT_A44_Patient struct {
 // An A44 event is used to signal a move of records identified by the MRG-3-prior patient account number from the “incorrect source internal identifier” identified in the MRG segment (MRG-1-prior patient identifier list) to the “correct target internal identifier” identified in the PID segment (PID-3-patient identifier list).
 type ADT_A44 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A44,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	EVN     EVN               `hl7:"2,required,display=Event type segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	EVN     *EVN              `hl7:"2,required,display=Event type segment"`
 	Patient []ADT_A44_Patient `hl7:",required,display=Patient"`
 }
 
 // MergeInfo
 type ADT_A45_MergeInfo struct {
 	HL7 HL7Name `hl7:",name=ADT_A45_MergeInfo,type=tg"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 }
 
 // Move visit information - visit number
@@ -1036,9 +1036,9 @@ type ADT_A45_MergeInfo struct {
 // An A45 event is used to signal a move of records identified by the MRG-5-prior visit number or the MRG6-prior alternate visit ID from the “incorrect source account identifier” identified in the MRG segment (MRG-3-prior patient account number) to the “correct target account identifier” identified in the PID segment (PID-18-patient account number).
 type ADT_A45 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A45,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	MergeInfo []ADT_A45_MergeInfo `hl7:",required,display=Merge Info"`
 }
@@ -1050,11 +1050,11 @@ type ADT_A45 struct {
 // An A46 event is used to signal a change of an incorrectly assigned PID-2-patient ID value.  The “incorrect source patient ID” value is stored in the MRG segment (MRG-4-prior patient ID) and is to be changed to the “correct target patient ID” value stored in the PID segment (PID-2-patient ID).
 type ADT_A46 struct {
 	HL7 HL7Name `hl7:",name=ADT_A46,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Change patient identifier list
@@ -1064,11 +1064,11 @@ type ADT_A46 struct {
 // An A47 event is used to signal a change of an incorrectly assigned PID-3-patient identifier list value.  The “incorrect source identifier” value is stored in the MRG segment (MRG-1-prior patient identifier list) and is to be changed to the “correct target patient ID” value stored in the PID segment (PID-3-patient identifier list).
 type ADT_A47 struct {
 	HL7 HL7Name `hl7:",name=ADT_A47,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Change alternate patient id
@@ -1078,11 +1078,11 @@ type ADT_A47 struct {
 // An A48 event is used to signal a change of an incorrectly assigned alternate patient identifier value.  The “incorrect source alternate patient ID” value is stored in the MRG segment (MRG-2-prior alternate patient ID) and is to be changed to the “correct target alternate patient ID” value stored in the PID segment (PID-4alternate patient ID-PID).
 type ADT_A48 struct {
 	HL7 HL7Name `hl7:",name=ADT_A48,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Change patient account number
@@ -1092,11 +1092,11 @@ type ADT_A48 struct {
 // An A49 event is used to signal a change of an incorrectly assigned account number value.  The “incorrect source account number” value is stored in the MRG segment (MRG-3-prior patient account number) and is to be changed to the “correct target account number” value stored in the PID segment (PID-18-patient account number).
 type ADT_A49 struct {
 	HL7 HL7Name `hl7:",name=ADT_A49,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
 }
 
 // Change visit number
@@ -1106,12 +1106,12 @@ type ADT_A49 struct {
 // An A50 event is used to signal a change of an incorrectly assigned visit number value.  The “incorrect source visit number” value is stored in the MRG segment (MRG-5-prior visit number) and is to be changed to the “correct target visit number” value stored in the PV1 segment (PV1-19-visit number).
 type ADT_A50 struct {
 	HL7 HL7Name `hl7:",name=ADT_A50,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 }
 
 // Change alternate visit id
@@ -1121,12 +1121,12 @@ type ADT_A50 struct {
 // An A51 event is used to signal a change of an incorrectly assigned alternate visit ID value.  The “incorrect source alternate visit ID” value is stored in the MRG segment (MRG-6-prior alternate visit ID) and is to be changed to the “correct target alternate visit ID” value stored in the PV1 segment (PV1-50-alternate visit ID).
 type ADT_A51 struct {
 	HL7 HL7Name `hl7:",name=ADT_A51,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
-	MRG MRG     `hl7:"5,required,display=Merge patient information segment-"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	MRG *MRG    `hl7:"5,required,display=Merge patient information segment-"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 }
 
 // Visit
@@ -1151,14 +1151,14 @@ type BAR_P01_Visit struct {
 // Procedure
 type BAR_P01_Procedure struct {
 	HL7 HL7Name `hl7:",name=BAR_P01_Procedure,type=tg"`
-	PR1 PR1     `hl7:"12,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"12,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"13,display=Role"`
 }
 
 // Insurance
 type BAR_P01_Insurance struct {
 	HL7 HL7Name `hl7:",name=BAR_P01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -1168,9 +1168,9 @@ type BAR_P01_Insurance struct {
 // From Standard Version 2.3 onward, the P01 event should only be used to add a new account that did not exist before, not to update an existing account.  The new P05 (update account) event should be used to update an existing account.  The new P06 (end account) event should be used to close an account.  With the P01 event, EVN-2-recorded date/time should contain the account start date.
 type BAR_P01 struct {
 	HL7   HL7Name         `hl7:",name=BAR_P01,type=t"`
-	MSH   MSH             `hl7:"1,required,display=Message header segment"`
-	EVN   EVN             `hl7:"2,required,display=Event type segment"`
-	PID   PID             `hl7:"3,required,display=Patient identification segment"`
+	MSH   *MSH            `hl7:"1,required,display=Message header segment"`
+	EVN   *EVN            `hl7:"2,required,display=Event type segment"`
+	PID   *PID            `hl7:"3,required,display=Patient identification segment"`
 	PD1   *PD1            `hl7:"4,display=Patient Additional Demographic"`
 	Visit []BAR_P01_Visit `hl7:",required,display=Visit"`
 }
@@ -1178,7 +1178,7 @@ type BAR_P01 struct {
 // Patient
 type BAR_P02_Patient struct {
 	HL7 HL7Name `hl7:",name=BAR_P02_Patient,type=tg"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"4,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"5,display=Patient visit segment"`
 	DB1 []DB1   `hl7:"6,display=Disability segment"`
@@ -1189,8 +1189,8 @@ type BAR_P02_Patient struct {
 // Generally, the elimination of all billing/accounts receivable records will be an internal function controlled, for example, by the patient accounting or financial system.  However, on occasion, there will be a need to correct an account, or a series of accounts, that may require that a notice of account deletion be sent from another sub-system and processed, for example, by the patient accounting or financial system. Although a series of accounts may be purged within this one event, we recommend that only one PID segment be sent per event.
 type BAR_P02 struct {
 	HL7     HL7Name           `hl7:",name=BAR_P02,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	EVN     EVN               `hl7:"2,required,display=Event type segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	EVN     *EVN              `hl7:"2,required,display=Event type segment"`
 	Patient []BAR_P02_Patient `hl7:",required,display=Patient"`
 }
 
@@ -1216,14 +1216,14 @@ type BAR_P05_Visit struct {
 // Procedure
 type BAR_P05_Procedure struct {
 	HL7 HL7Name `hl7:",name=BAR_P05_Procedure,type=tg"`
-	PR1 PR1     `hl7:"12,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"12,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"13,display=Role"`
 }
 
 // Insurance
 type BAR_P05_Insurance struct {
 	HL7 HL7Name `hl7:",name=BAR_P05_Insurance,type=tg"`
-	IN1 IN1     `hl7:"16,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"16,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"17,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"18,display=Insurance additional information- certification segment"`
 }
@@ -1233,9 +1233,9 @@ type BAR_P05_Insurance struct {
 // The P05 event is sent when an existing account is being updated.  From Standard Version 2.3 onward, the P01 (add account) event should no longer be used for updating an existing account, but only for creating a new account.
 type BAR_P05 struct {
 	HL7   HL7Name         `hl7:",name=BAR_P05,type=t"`
-	MSH   MSH             `hl7:"1,required,display=Message header segment"`
-	EVN   EVN             `hl7:"2,required,display=Event type segment"`
-	PID   PID             `hl7:"3,required,display=Patient identification segment"`
+	MSH   *MSH            `hl7:"1,required,display=Message header segment"`
+	EVN   *EVN            `hl7:"2,required,display=Event type segment"`
+	PID   *PID            `hl7:"3,required,display=Patient identification segment"`
 	PD1   *PD1            `hl7:"4,display=Patient Additional Demographic"`
 	Visit []BAR_P05_Visit `hl7:",required,display=Visit"`
 }
@@ -1243,7 +1243,7 @@ type BAR_P05 struct {
 // Patient
 type BAR_P06_Patient struct {
 	HL7 HL7Name `hl7:",name=BAR_P06_Patient,type=tg"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"4,display=Patient visit segment"`
 }
 
@@ -1252,17 +1252,17 @@ type BAR_P06_Patient struct {
 // The P06 event is a notification that the account is no longer open, that is, no new charges can accrue to this account.  This notification is not related to whether or not the account is paid in full.  EVN-2-recorded date/time must contain the account end date.
 type BAR_P06 struct {
 	HL7     HL7Name           `hl7:",name=BAR_P06,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	EVN     EVN               `hl7:"2,required,display=Event type segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	EVN     *EVN              `hl7:"2,required,display=Event type segment"`
 	Patient []BAR_P06_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CRM_C01_Patient struct {
 	HL7 HL7Name `hl7:",name=CRM_C01_Patient,type=tg"`
-	PID PID     `hl7:"2,required,display=Patient identification segment"`
+	PID *PID    `hl7:"2,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"3,display=Patient visit segment"`
-	CSR CSR     `hl7:"4,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"4,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"5,display=Clinical study phase segment"`
 }
 
@@ -1271,16 +1271,16 @@ type CRM_C01_Patient struct {
 // The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
 type CRM_C01 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C01,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CRM_C01_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CRM_C02_Patient struct {
 	HL7 HL7Name `hl7:",name=CRM_C02_Patient,type=tg"`
-	PID PID     `hl7:"2,required,display=Patient identification segment"`
+	PID *PID    `hl7:"2,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"3,display=Patient visit segment"`
-	CSR CSR     `hl7:"4,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"4,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"5,display=Clinical study phase segment"`
 }
 
@@ -1289,16 +1289,16 @@ type CRM_C02_Patient struct {
 // The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
 type CRM_C02 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C02,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CRM_C02_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CRM_C03_Patient struct {
 	HL7 HL7Name `hl7:",name=CRM_C03_Patient,type=tg"`
-	PID PID     `hl7:"2,required,display=Patient identification segment"`
+	PID *PID    `hl7:"2,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"3,display=Patient visit segment"`
-	CSR CSR     `hl7:"4,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"4,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"5,display=Clinical study phase segment"`
 }
 
@@ -1307,16 +1307,16 @@ type CRM_C03_Patient struct {
 // The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
 type CRM_C03 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C03,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CRM_C03_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CRM_C04_Patient struct {
 	HL7 HL7Name `hl7:",name=CRM_C04_Patient,type=tg"`
-	PID PID     `hl7:"2,required,display=Patient identification segment"`
+	PID *PID    `hl7:"2,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"3,display=Patient visit segment"`
-	CSR CSR     `hl7:"4,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"4,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"5,display=Clinical study phase segment"`
 }
 
@@ -1325,16 +1325,16 @@ type CRM_C04_Patient struct {
 // The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
 type CRM_C04 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C04,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CRM_C04_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CRM_C05_Patient struct {
 	HL7 HL7Name `hl7:",name=CRM_C05_Patient,type=tg"`
-	PID PID     `hl7:"2,required,display=Patient identification segment"`
+	PID *PID    `hl7:"2,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"3,display=Patient visit segment"`
-	CSR CSR     `hl7:"4,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"4,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"5,display=Clinical study phase segment"`
 }
 
@@ -1343,16 +1343,16 @@ type CRM_C05_Patient struct {
 // The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
 type CRM_C05 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C05,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CRM_C05_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CRM_C06_Patient struct {
 	HL7 HL7Name `hl7:",name=CRM_C06_Patient,type=tg"`
-	PID PID     `hl7:"2,required,display=Patient identification segment"`
+	PID *PID    `hl7:"2,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"3,display=Patient visit segment"`
-	CSR CSR     `hl7:"4,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"4,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"5,display=Clinical study phase segment"`
 }
 
@@ -1361,16 +1361,16 @@ type CRM_C06_Patient struct {
 // The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
 type CRM_C06 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C06,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CRM_C06_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CRM_C07_Patient struct {
 	HL7 HL7Name `hl7:",name=CRM_C07_Patient,type=tg"`
-	PID PID     `hl7:"2,required,display=Patient identification segment"`
+	PID *PID    `hl7:"2,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"3,display=Patient visit segment"`
-	CSR CSR     `hl7:"4,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"4,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"5,display=Clinical study phase segment"`
 }
 
@@ -1379,16 +1379,16 @@ type CRM_C07_Patient struct {
 // The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
 type CRM_C07 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C07,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CRM_C07_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CRM_C08_Patient struct {
 	HL7 HL7Name `hl7:",name=CRM_C08_Patient,type=tg"`
-	PID PID     `hl7:"2,required,display=Patient identification segment"`
+	PID *PID    `hl7:"2,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"3,display=Patient visit segment"`
-	CSR CSR     `hl7:"4,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"4,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"5,display=Clinical study phase segment"`
 }
 
@@ -1397,25 +1397,25 @@ type CRM_C08_Patient struct {
 // The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
 type CRM_C08 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C08,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CRM_C08_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CSU_C09_Patient struct {
 	HL7        HL7Name              `hl7:",name=CSU_C09_Patient,type=tg"`
-	PID        PID                  `hl7:"2,required,display=Patient identification segment"`
+	PID        *PID                 `hl7:"2,required,display=Patient identification segment"`
 	PD1        *PD1                 `hl7:"3,display=Patient Additional Demographic"`
 	NTE        []NTE                `hl7:"4,display=Notes and comments segment"`
 	Visit      *CSU_C09_Visit       `hl7:",display=Visit"`
-	CSR        CSR                  `hl7:"7,required,display=Clinical study registration segment"`
+	CSR        *CSR                 `hl7:"7,required,display=Clinical study registration segment"`
 	StudyPhase []CSU_C09_StudyPhase `hl7:",required,display=Study Phase"`
 }
 
 // Visit
 type CSU_C09_Visit struct {
 	HL7 HL7Name `hl7:",name=CSU_C09_Visit,type=tg"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 }
 
@@ -1438,7 +1438,7 @@ type CSU_C09_StudySchedule struct {
 type CSU_C09_StudyObservation struct {
 	HL7 HL7Name `hl7:",name=CSU_C09_StudyObservation,type=tg"`
 	ORC *ORC    `hl7:"10,display=Common order segment"`
-	OBR OBR     `hl7:"11,required,display=Observation request segment"`
+	OBR *OBR    `hl7:"11,required,display=Observation request segment"`
 	OBX []OBX   `hl7:"12,required,display=Observation/result segment"`
 }
 
@@ -1452,8 +1452,8 @@ type CSU_C09_StudyPharm struct {
 // RxAdmin
 type CSU_C09_RxAdmin struct {
 	HL7 HL7Name `hl7:",name=CSU_C09_RxAdmin,type=tg"`
-	RXA RXA     `hl7:"14,required,display=Pharmacy/treatment administration segment"`
-	RXR RXR     `hl7:"15,required,display=Pharmacy/treatment route segment"`
+	RXA *RXA    `hl7:"14,required,display=Pharmacy/treatment administration segment"`
+	RXR *RXR    `hl7:"15,required,display=Pharmacy/treatment route segment"`
 }
 
 // Automated time intervals for reporting, like monthly
@@ -1461,25 +1461,25 @@ type CSU_C09_RxAdmin struct {
 // Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative studies.
 type CSU_C09 struct {
 	HL7     HL7Name           `hl7:",name=CSU_C09,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CSU_C09_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CSU_C10_Patient struct {
 	HL7        HL7Name              `hl7:",name=CSU_C10_Patient,type=tg"`
-	PID        PID                  `hl7:"2,required,display=Patient identification segment"`
+	PID        *PID                 `hl7:"2,required,display=Patient identification segment"`
 	PD1        *PD1                 `hl7:"3,display=Patient Additional Demographic"`
 	NTE        []NTE                `hl7:"4,display=Notes and comments segment"`
 	Visit      *CSU_C10_Visit       `hl7:",display=Visit"`
-	CSR        CSR                  `hl7:"7,required,display=Clinical study registration segment"`
+	CSR        *CSR                 `hl7:"7,required,display=Clinical study registration segment"`
 	StudyPhase []CSU_C10_StudyPhase `hl7:",required,display=Study Phase"`
 }
 
 // Visit
 type CSU_C10_Visit struct {
 	HL7 HL7Name `hl7:",name=CSU_C10_Visit,type=tg"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 }
 
@@ -1502,7 +1502,7 @@ type CSU_C10_StudySchedule struct {
 type CSU_C10_StudyObservation struct {
 	HL7 HL7Name `hl7:",name=CSU_C10_StudyObservation,type=tg"`
 	ORC *ORC    `hl7:"10,display=Common order segment"`
-	OBR OBR     `hl7:"11,required,display=Observation request segment"`
+	OBR *OBR    `hl7:"11,required,display=Observation request segment"`
 	OBX []OBX   `hl7:"12,required,display=Observation/result segment"`
 }
 
@@ -1516,8 +1516,8 @@ type CSU_C10_StudyPharm struct {
 // RxAdmin
 type CSU_C10_RxAdmin struct {
 	HL7 HL7Name `hl7:",name=CSU_C10_RxAdmin,type=tg"`
-	RXA RXA     `hl7:"14,required,display=Pharmacy/treatment administration segment"`
-	RXR RXR     `hl7:"15,required,display=Pharmacy/treatment route segment"`
+	RXA *RXA    `hl7:"14,required,display=Pharmacy/treatment administration segment"`
+	RXR *RXR    `hl7:"15,required,display=Pharmacy/treatment route segment"`
 }
 
 // Patient completes the clinical trial
@@ -1525,25 +1525,25 @@ type CSU_C10_RxAdmin struct {
 // Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative studies.
 type CSU_C10 struct {
 	HL7     HL7Name           `hl7:",name=CSU_C10,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CSU_C10_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CSU_C11_Patient struct {
 	HL7        HL7Name              `hl7:",name=CSU_C11_Patient,type=tg"`
-	PID        PID                  `hl7:"2,required,display=Patient identification segment"`
+	PID        *PID                 `hl7:"2,required,display=Patient identification segment"`
 	PD1        *PD1                 `hl7:"3,display=Patient Additional Demographic"`
 	NTE        []NTE                `hl7:"4,display=Notes and comments segment"`
 	Visit      *CSU_C11_Visit       `hl7:",display=Visit"`
-	CSR        CSR                  `hl7:"7,required,display=Clinical study registration segment"`
+	CSR        *CSR                 `hl7:"7,required,display=Clinical study registration segment"`
 	StudyPhase []CSU_C11_StudyPhase `hl7:",required,display=Study Phase"`
 }
 
 // Visit
 type CSU_C11_Visit struct {
 	HL7 HL7Name `hl7:",name=CSU_C11_Visit,type=tg"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 }
 
@@ -1566,7 +1566,7 @@ type CSU_C11_StudySchedule struct {
 type CSU_C11_StudyObservation struct {
 	HL7 HL7Name `hl7:",name=CSU_C11_StudyObservation,type=tg"`
 	ORC *ORC    `hl7:"10,display=Common order segment"`
-	OBR OBR     `hl7:"11,required,display=Observation request segment"`
+	OBR *OBR    `hl7:"11,required,display=Observation request segment"`
 	OBX []OBX   `hl7:"12,required,display=Observation/result segment"`
 }
 
@@ -1580,8 +1580,8 @@ type CSU_C11_StudyPharm struct {
 // RxAdmin
 type CSU_C11_RxAdmin struct {
 	HL7 HL7Name `hl7:",name=CSU_C11_RxAdmin,type=tg"`
-	RXA RXA     `hl7:"14,required,display=Pharmacy/treatment administration segment"`
-	RXR RXR     `hl7:"15,required,display=Pharmacy/treatment route segment"`
+	RXA *RXA    `hl7:"14,required,display=Pharmacy/treatment administration segment"`
+	RXR *RXR    `hl7:"15,required,display=Pharmacy/treatment route segment"`
 }
 
 // Patient completes a phase of the clinical trial
@@ -1589,25 +1589,25 @@ type CSU_C11_RxAdmin struct {
 // Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative studies.
 type CSU_C11 struct {
 	HL7     HL7Name           `hl7:",name=CSU_C11,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CSU_C11_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type CSU_C12_Patient struct {
 	HL7        HL7Name              `hl7:",name=CSU_C12_Patient,type=tg"`
-	PID        PID                  `hl7:"2,required,display=Patient identification segment"`
+	PID        *PID                 `hl7:"2,required,display=Patient identification segment"`
 	PD1        *PD1                 `hl7:"3,display=Patient Additional Demographic"`
 	NTE        []NTE                `hl7:"4,display=Notes and comments segment"`
 	Visit      *CSU_C12_Visit       `hl7:",display=Visit"`
-	CSR        CSR                  `hl7:"7,required,display=Clinical study registration segment"`
+	CSR        *CSR                 `hl7:"7,required,display=Clinical study registration segment"`
 	StudyPhase []CSU_C12_StudyPhase `hl7:",required,display=Study Phase"`
 }
 
 // Visit
 type CSU_C12_Visit struct {
 	HL7 HL7Name `hl7:",name=CSU_C12_Visit,type=tg"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 }
 
@@ -1630,7 +1630,7 @@ type CSU_C12_StudySchedule struct {
 type CSU_C12_StudyObservation struct {
 	HL7 HL7Name `hl7:",name=CSU_C12_StudyObservation,type=tg"`
 	ORC *ORC    `hl7:"10,display=Common order segment"`
-	OBR OBR     `hl7:"11,required,display=Observation request segment"`
+	OBR *OBR    `hl7:"11,required,display=Observation request segment"`
 	OBX []OBX   `hl7:"12,required,display=Observation/result segment"`
 }
 
@@ -1644,8 +1644,8 @@ type CSU_C12_StudyPharm struct {
 // RxAdmin
 type CSU_C12_RxAdmin struct {
 	HL7 HL7Name `hl7:",name=CSU_C12_RxAdmin,type=tg"`
-	RXA RXA     `hl7:"14,required,display=Pharmacy/treatment administration segment"`
-	RXR RXR     `hl7:"15,required,display=Pharmacy/treatment route segment"`
+	RXA *RXA    `hl7:"14,required,display=Pharmacy/treatment administration segment"`
+	RXR *RXR    `hl7:"15,required,display=Pharmacy/treatment route segment"`
 }
 
 // Update/correction of patient order/result information
@@ -1653,28 +1653,28 @@ type CSU_C12_RxAdmin struct {
 // Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative studies.
 type CSU_C12 struct {
 	HL7     HL7Name           `hl7:",name=CSU_C12,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
 	Patient []CSU_C12_Patient `hl7:",required,display=Patient"`
 }
 
 // Financial
 type DFT_P03_Financial struct {
 	HL7                HL7Name                      `hl7:",name=DFT_P03_Financial,type=tg"`
-	FT1                FT1                          `hl7:"9,required,display=Financial transaction segment"`
+	FT1                *FT1                         `hl7:"9,required,display=Financial transaction segment"`
 	FinancialProcedure []DFT_P03_FinancialProcedure `hl7:",display=Financial Procedure"`
 }
 
 // FinancialProcedure
 type DFT_P03_FinancialProcedure struct {
 	HL7 HL7Name `hl7:",name=DFT_P03_FinancialProcedure,type=tg"`
-	PR1 PR1     `hl7:"10,required,display=Procedures segment"`
+	PR1 *PR1    `hl7:"10,required,display=Procedures segment"`
 	ROL []ROL   `hl7:"11,display=Role"`
 }
 
 // Insurance
 type DFT_P03_Insurance struct {
 	HL7 HL7Name `hl7:",name=DFT_P03_Insurance,type=tg"`
-	IN1 IN1     `hl7:"15,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"15,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"16,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"17,display=Insurance additional information- certification segment"`
 }
@@ -1684,9 +1684,9 @@ type DFT_P03_Insurance struct {
 // The Detail Financial Transaction (DFT) message is used to describe a financial transaction transmitted between systems, that is, to the billing system for ancillary charges, ADT to billing system for patient deposits, etc.
 type DFT_P03 struct {
 	HL7       HL7Name             `hl7:",name=DFT_P03,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	EVN       EVN                 `hl7:"2,required,display=Event type segment"`
-	PID       PID                 `hl7:"3,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	EVN       *EVN                `hl7:"2,required,display=Event type segment"`
+	PID       *PID                `hl7:"3,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"4,display=Patient Additional Demographic"`
 	PV1       *PV1                `hl7:"5,display=Patient visit segment"`
 	PV2       *PV2                `hl7:"6,display=Patient visit - additional information segment"`
@@ -1704,20 +1704,20 @@ type DFT_P03 struct {
 type DOC_T12_Result struct {
 	HL7 HL7Name `hl7:",name=DOC_T12_Result,type=tg"`
 	EVN *EVN    `hl7:"6,display=Event type segment"`
-	PID PID     `hl7:"7,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"8,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"9,required,display=Document notification segment"`
+	PID *PID    `hl7:"7,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"8,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"9,required,display=Document notification segment"`
 	OBX []OBX   `hl7:"10,display=Observation/result segment"`
 }
 
 // Document response
 type DOC_T12 struct {
 	HL7    HL7Name          `hl7:",name=DOC_T12,type=t"`
-	MSH    MSH              `hl7:"1,required,display=Message header segment"`
-	MSA    MSA              `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH    *MSH             `hl7:"1,required,display=Message header segment"`
+	MSA    *MSA             `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR    *ERR             `hl7:"3,display=Error segment"`
 	QAK    *QAK             `hl7:"4,display=Query Acknowledgement"`
-	QRD    QRD              `hl7:"5,required,display=Original-style query definition segment"`
+	QRD    *QRD             `hl7:"5,required,display=Original-style query definition segment"`
 	Result []DOC_T12_Result `hl7:",required,display=Result"`
 	DSC    *DSC             `hl7:"11,display=Continuation pointer segment"`
 }
@@ -1727,11 +1727,11 @@ type DOC_T12 struct {
 // For patient accounting systems that support demand billing, the QRY/DSR transaction, as defined in Chapter 2, will provide the mechanism with which to request a copy of the bill for printing or viewing by the requesting system.
 type DSR_P04 struct {
 	HL7 HL7Name `hl7:",name=DSR_P04,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
 	QAK *QAK    `hl7:"4,display=Query Acknowledgement"`
-	QRD QRD     `hl7:"5,required,display=Original-style query definition segment"`
+	QRD *QRD    `hl7:"5,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"6,display=Original style query filter segment"`
 	DSP []DSP   `hl7:"7,required,display=Display data segment"`
 	DSC *DSC    `hl7:"8,display=Continuation pointer segment"`
@@ -1740,11 +1740,11 @@ type DSR_P04 struct {
 // Display response message
 type DSR_Q01 struct {
 	HL7 HL7Name `hl7:",name=DSR_Q01,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
 	QAK *QAK    `hl7:"4,display=Query Acknowledgement"`
-	QRD QRD     `hl7:"5,required,display=Original-style query definition segment"`
+	QRD *QRD    `hl7:"5,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"6,display=Original style query filter segment"`
 	DSP []DSP   `hl7:"7,required,display=Display data segment"`
 	DSC *DSC    `hl7:"8,display=Continuation pointer segment"`
@@ -1755,11 +1755,11 @@ type DSR_Q01 struct {
 // For clarity, A is the system initiating the query and B is the system sending the responses.  Multiple queries and responses are permitted within single messages.  The responses to a given query may be broken into several separate DSR messages.  A single DSR message may contain responses to more than one QRY.
 type DSR_Q03 struct {
 	HL7 HL7Name `hl7:",name=DSR_Q03,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
 	MSA *MSA    `hl7:"2,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
 	QAK *QAK    `hl7:"4,display=Query Acknowledgement"`
-	QRD QRD     `hl7:"5,required,display=Original-style query definition segment"`
+	QRD *QRD    `hl7:"5,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"6,display=Original style query filter segment"`
 	DSP []DSP   `hl7:"7,required,display=Display data segment"`
 	DSC *DSC    `hl7:"8,display=Continuation pointer segment"`
@@ -1770,10 +1770,10 @@ type DSR_Q03 struct {
 // Enhanced mode record-oriented response messages note: The RDF segment from the EQQ, VQQ and SPQ messages, and the ERQ segment from the EQQ message, are echoed back in their respective responses. The DSC segment contains the continuation pointer, if it is not null (DSC-1-continuation pointer).
 type EDR_R07 struct {
 	HL7 HL7Name `hl7:",name=EDR_R07,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
-	QAK QAK     `hl7:"4,required,display=Query Acknowledgement"`
+	QAK *QAK    `hl7:"4,required,display=Query Acknowledgement"`
 	DSP []DSP   `hl7:"5,required,display=Display data segment"`
 	DSC *DSC    `hl7:"6,display=Continuation pointer segment"`
 }
@@ -1781,8 +1781,8 @@ type EDR_R07 struct {
 // Embedded query language query
 type EQQ_Q04 struct {
 	HL7 HL7Name `hl7:",name=EQQ_Q04,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EQL EQL     `hl7:"2,required,display=Embedded query language segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EQL *EQL    `hl7:"2,required,display=Embedded query language segment"`
 	DSC *DSC    `hl7:"3,display=Continuation pointer segment"`
 }
 
@@ -1794,11 +1794,11 @@ type EQQ_Q04 struct {
 // When this message is continued, the continuation messages should include the MSH, MSA, [ERR], QAK, ERQ, and [DSC] segments, as well as the segments indicated by the ellipsis (...) in the response definition and the DSC should be used only at the end of the group corresponding to the record-oriented unsolicited update message.
 type ERP_R09 struct {
 	HL7 HL7Name `hl7:",name=ERP_R09,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
-	QAK QAK     `hl7:"4,required,display=Query Acknowledgement"`
-	ERQ ERQ     `hl7:"5,required,display=Event replay query segment"`
+	QAK *QAK    `hl7:"4,required,display=Query Acknowledgement"`
+	ERQ *ERQ    `hl7:"5,required,display=Event replay query segment"`
 	DSC *DSC    `hl7:"6,display=Continuation pointer segment"`
 }
 
@@ -1813,11 +1813,11 @@ type ERP_R09 struct {
 // Scenario C: A provider orders a series of three X-rays.  The radiologist dictates a single document which covers all three orders.  Multiple placer numbers are used to identify each of these orders.
 type MDM_T01 struct {
 	HL7 HL7Name `hl7:",name=MDM_T01,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 }
 
 // Original document notification and content
@@ -1829,11 +1829,11 @@ type MDM_T01 struct {
 // Scenario B: A provider orders a series of three X-rays.  The radiologist’s dictation is transcribed in a single document, which covers all three orders.  Multiple placer numbers are used to identify each of the orders within the single document message.  The notification and document content are transmitted.
 type MDM_T02 struct {
 	HL7 HL7Name `hl7:",name=MDM_T02,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 	OBX []OBX   `hl7:"6,required,display=Observation/result segment"`
 }
 
@@ -1844,11 +1844,11 @@ type MDM_T02 struct {
 // Scenario: A document is authenticated.  Notification is sent to the chart tracking system and is used to update the document status from pre-authenticated to authenticated or legally authenticated.
 type MDM_T03 struct {
 	HL7 HL7Name `hl7:",name=MDM_T03,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 }
 
 // Document status change notification and content
@@ -1858,11 +1858,11 @@ type MDM_T03 struct {
 // Scenario: A document is authenticated.  Notification is sent to the chart tracking system and is used to update the document status from pre-authenticated to authenticated or legally authenticated.  The document content is also transmitted.
 type MDM_T04 struct {
 	HL7 HL7Name `hl7:",name=MDM_T04,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 	OBX []OBX   `hl7:"6,required,display=Observation/result segment"`
 }
 
@@ -1873,11 +1873,11 @@ type MDM_T04 struct {
 // Scenario:  Author dictates additional information as an addendum to a previously transcribed document.  A new document is transcribed.  This addendum has its own new unique document ID that is linked to the original document via the parent ID.  Addendum document notification is transmitted.  This creates a composite document.
 type MDM_T05 struct {
 	HL7 HL7Name `hl7:",name=MDM_T05,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 }
 
 // Document addendum notification and content
@@ -1887,11 +1887,11 @@ type MDM_T05 struct {
 // Scenario:  Author dictates additional information as an addendum to a previously transcribed document.  A new document is transcribed.  This addendum has its own new unique document ID that is linked to the original document via the parent ID.  Addendum document notification is transmitted, along with the document content.  This creates a composite document.
 type MDM_T06 struct {
 	HL7 HL7Name `hl7:",name=MDM_T06,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 	OBX []OBX   `hl7:"6,required,display=Observation/result segment"`
 }
 
@@ -1904,11 +1904,11 @@ type MDM_T06 struct {
 // Scenario:  Errors, which need to be corrected, are discovered in a document.  The original document is edited, and an edit notification is sent.
 type MDM_T07 struct {
 	HL7 HL7Name `hl7:",name=MDM_T07,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 }
 
 // Document edit notification and content
@@ -1920,11 +1920,11 @@ type MDM_T07 struct {
 // Scenario:   Errors, which need to be corrected, are discovered in a document.  The original document is edited, and an edit notification and document content are sent.
 type MDM_T08 struct {
 	HL7 HL7Name `hl7:",name=MDM_T08,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 	OBX []OBX   `hl7:"6,required,display=Observation/result segment"`
 }
 
@@ -1937,11 +1937,11 @@ type MDM_T08 struct {
 // Scenario:  Errors discovered in a document are corrected.  The original document is replaced with the revised document.  The replacement document has its own new unique document ID that is linked to the original document via the parent ID.  The availability status of the original document is changed to “Obsolete” but the original document should be retained in the system for historical reference.  Document replacement notification is sent.
 type MDM_T09 struct {
 	HL7 HL7Name `hl7:",name=MDM_T09,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 }
 
 // Document replacement notification and content
@@ -1949,11 +1949,11 @@ type MDM_T09 struct {
 // Scenario:   Errors discovered in a document are corrected.  The original document is replaced with the revised document.  The replacement document has its own new unique document ID that is linked to the original document via the parent ID.  The availability status of the original document is changed to “Obsolete” but the original document should be retained in the system for historical reference.  Document replacement notification and document content are sent.
 type MDM_T10 struct {
 	HL7 HL7Name `hl7:",name=MDM_T10,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 	OBX []OBX   `hl7:"6,required,display=Observation/result segment"`
 }
 
@@ -1964,11 +1964,11 @@ type MDM_T10 struct {
 // Scenario:  When the author dictated a document, the wrong patient identification was given, and the document was transcribed and sent to the wrong patient’s record.  When the error is discovered, a cancellation notice is sent to remove the document from general access in the wrong patient’s record. In these cases, a reason should be supplied in the cancellation message.  To protect patient privacy, the correct patient’s identifying information should not be placed on the erroneous document that is retained in the wrong patient’s record for historical reference.  A new document notification and content will be created using a T02 (original document notification and content) event and sent for association with the correct patient’s record.
 type MDM_T11 struct {
 	HL7 HL7Name `hl7:",name=MDM_T11,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	EVN EVN     `hl7:"2,required,display=Event type segment"`
-	PID PID     `hl7:"3,required,display=Patient identification segment"`
-	PV1 PV1     `hl7:"4,required,display=Patient visit segment"`
-	TXA TXA     `hl7:"5,required,display=Document notification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	EVN *EVN    `hl7:"2,required,display=Event type segment"`
+	PID *PID    `hl7:"3,required,display=Patient identification segment"`
+	PV1 *PV1    `hl7:"4,required,display=Patient visit segment"`
+	TXA *TXA    `hl7:"5,required,display=Document notification segment"`
 }
 
 // Master file delayed application acknowledgment
@@ -1976,8 +1976,8 @@ type MDM_T11 struct {
 // The MFD transaction is the delayed application acknowledgment.  It can be used to return  “deferred” application-level acknowledgment statuses at the MFE level, without reference to the original MFN message
 type MFD_MFA struct {
 	HL7 HL7Name `hl7:",name=MFD_MFA,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MFI MFI     `hl7:"2,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MFI *MFI    `hl7:"2,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"3,display=Master file acknowledgment segment"`
 }
 
@@ -1990,32 +1990,32 @@ type MFK_M01_Mf struct {
 // Master file not otherwise specified acknowledgment
 type MFK_M01 struct {
 	HL7  HL7Name      `hl7:",name=MFK_M01,type=t"`
-	MSH  MSH          `hl7:"1,required,display=Message header segment"`
-	MSA  MSA          `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI  MFI          `hl7:"3,required,display=Master file identification segment"`
+	MSH  *MSH         `hl7:"1,required,display=Message header segment"`
+	MSA  *MSA         `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI  *MFI         `hl7:"3,required,display=Master file identification segment"`
 	ERR  *ERR         `hl7:"4,display=Error segment"`
 	MFA  []MFA        `hl7:"5,display=Master file acknowledgment segment"`
-	MFI2 MFI          `hl7:"6,required,display=Master file identification segment"`
+	MFI2 *MFI         `hl7:"6,required,display=Master file identification segment"`
 	Mf   []MFK_M01_Mf `hl7:",required,display=Mf"`
 }
 
 // Master file - staff practitioner acknowledgment
 type MFK_M02 struct {
 	HL7 HL7Name `hl7:",name=MFK_M02,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
-	MFI MFI     `hl7:"4,required,display=Master file identification segment"`
+	MFI *MFI    `hl7:"4,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"5,display=Master file acknowledgment segment"`
 }
 
 // Master file - Test/Observation acknowledgment
 type MFK_M03 struct {
 	HL7 HL7Name `hl7:",name=MFK_M03,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
-	MFI MFI     `hl7:"4,required,display=Master file identification segment"`
+	MFI *MFI    `hl7:"4,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"5,display=Master file acknowledgment segment"`
 }
 
@@ -2024,9 +2024,9 @@ type MFK_M03 struct {
 // The charge description (CDM) master file segment should be used in conjunction with the general master file segments in Section 8.4, “general master file SEGMENTs.”  Interfacing systems often need not only to communicate data about a patient’s detailed charges, but also to communicate the charge identification entries by which an application knows how to handle a particular charge code.  The charge description master is a master file.  The CDM segment below is a specially designed master file segment for interfacing charge description masters.  In the following message, the MFI-master file identifier should equal “CDM.”
 type MFK_M04 struct {
 	HL7 HL7Name `hl7:",name=MFK_M04,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI MFI     `hl7:"3,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI *MFI    `hl7:"3,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"4,display=Master file acknowledgment segment"`
 }
 
@@ -2035,70 +2035,70 @@ type MFK_M04 struct {
 // This section is specifically concerned with describing a master file message that should be used to transmit information which identifies the inventory of healthcare patient locations, such as nursing units, rooms, beds, clinics, exam rooms, etc.  In a network environment, this segment can be used to define patient locations to other applications.  The segment also includes the readiness states and support locations for the patient locations
 type MFK_M05 struct {
 	HL7 HL7Name `hl7:",name=MFK_M05,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI MFI     `hl7:"3,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI *MFI    `hl7:"3,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"4,display=Master file acknowledgment segment"`
 }
 
 // Clinical study with phases and schedules master file acknowledgment
 type MFK_M06 struct {
 	HL7 HL7Name `hl7:",name=MFK_M06,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI MFI     `hl7:"3,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI *MFI    `hl7:"3,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"4,display=Master file acknowledgment segment"`
 }
 
 // Clinical study without phases but with schedules master file acknowledgment
 type MFK_M07 struct {
 	HL7 HL7Name `hl7:",name=MFK_M07,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI MFI     `hl7:"3,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI *MFI    `hl7:"3,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"4,display=Master file acknowledgment segment"`
 }
 
 // Test/observation (numeric) master file acknowledgment
 type MFK_M08 struct {
 	HL7 HL7Name `hl7:",name=MFK_M08,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI MFI     `hl7:"3,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI *MFI    `hl7:"3,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"4,display=Master file acknowledgment segment"`
 }
 
 // Test/observation (categorical) master file acknowledgment
 type MFK_M09 struct {
 	HL7 HL7Name `hl7:",name=MFK_M09,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI MFI     `hl7:"3,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI *MFI    `hl7:"3,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"4,display=Master file acknowledgment segment"`
 }
 
 // Test/observation batteries master file acknowledgment
 type MFK_M10 struct {
 	HL7 HL7Name `hl7:",name=MFK_M10,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI MFI     `hl7:"3,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI *MFI    `hl7:"3,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"4,display=Master file acknowledgment segment"`
 }
 
 // Test/calculated observations master file acknowledgment
 type MFK_M11 struct {
 	HL7 HL7Name `hl7:",name=MFK_M11,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
-	MFI MFI     `hl7:"3,required,display=Master file identification segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
+	MFI *MFI    `hl7:"3,required,display=Master file identification segment"`
 	MFA []MFA   `hl7:"4,display=Master file acknowledgment segment"`
 }
 
 // Mf
 type MFN_M01_Mf struct {
 	HL7 HL7Name `hl7:",name=MFN_M01_Mf,type=tg"`
-	MFE MFE     `hl7:"3,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"3,required,display=Master file entry segment"`
 }
 
 // Master file not otherwise specified
@@ -2106,16 +2106,16 @@ type MFN_M01_Mf struct {
 // (for backward compatibility only)
 type MFN_M01 struct {
 	HL7 HL7Name      `hl7:",name=MFN_M01,type=t"`
-	MSH MSH          `hl7:"1,required,display=Message header segment"`
-	MFI MFI          `hl7:"2,required,display=Master file identification segment"`
+	MSH *MSH         `hl7:"1,required,display=Message header segment"`
+	MFI *MFI         `hl7:"2,required,display=Master file identification segment"`
 	Mf  []MFN_M01_Mf `hl7:",required,display=Mf"`
 }
 
 // MfStaff
 type MFN_M02_MfStaff struct {
 	HL7 HL7Name `hl7:",name=MFN_M02_MfStaff,type=tg"`
-	MFE MFE     `hl7:"3,required,display=Master file entry segment"`
-	STF STF     `hl7:"4,required,display=Staff identification segment"`
+	MFE *MFE    `hl7:"3,required,display=Master file entry segment"`
+	STF *STF    `hl7:"4,required,display=Staff identification segment"`
 	PRA *PRA    `hl7:"5,display=Practitioner detail segment"`
 }
 
@@ -2124,8 +2124,8 @@ type MFN_M02_MfStaff struct {
 // The staff (STF) and practitioner (PRA) segments can be used to transmit master files information between systems. The STF segment provides general information about personnel; the PRA segment provides detailed information for a staff member who is also a health practitioner. Other segments may be defined to follow the STF segment to provide additional detail information for a particular type of staff member: the PRA segment is the first such segment.
 type MFN_M02 struct {
 	HL7     HL7Name           `hl7:",name=MFN_M02,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MFI     MFI               `hl7:"2,required,display=Master file identification segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MFI     *MFI              `hl7:"2,required,display=Master file identification segment"`
 	MfStaff []MFN_M02_MfStaff `hl7:",required,display=Mf Staff"`
 }
 
@@ -2140,16 +2140,16 @@ type MFN_M03_Mftest struct {
 // (for backward compatibility only)
 type MFN_M03 struct {
 	HL7    HL7Name          `hl7:",name=MFN_M03,type=t"`
-	MSH    MSH              `hl7:"1,required,display=Message header segment"`
-	MFI    MFI              `hl7:"2,required,display=Master file identification segment"`
+	MSH    *MSH             `hl7:"1,required,display=Message header segment"`
+	MFI    *MFI             `hl7:"2,required,display=Master file identification segment"`
 	Mftest []MFN_M03_Mftest `hl7:",required,display=Mf_test"`
 }
 
 // MfCdm
 type MFN_M04_MfCdm struct {
 	HL7 HL7Name `hl7:",name=MFN_M04_MfCdm,type=tg"`
-	MFE MFE     `hl7:"3,required,display=Master file entry segment"`
-	CDM CDM     `hl7:"4,required,display=Charge description master segment"`
+	MFE *MFE    `hl7:"3,required,display=Master file entry segment"`
+	CDM *CDM    `hl7:"4,required,display=Charge description master segment"`
 	PRC []PRC   `hl7:"5,display=Pricing segment"`
 }
 
@@ -2158,16 +2158,16 @@ type MFN_M04_MfCdm struct {
 // The charge description (CDM) master file segment should be used in conjunction with the general master file segments in Section 8.4, “general master file SEGMENTs.”  Interfacing systems often need not only to communicate data about a patient’s detailed charges, but also to communicate the charge identification entries by which an application knows how to handle a particular charge code.  The charge description master is a master file.  The CDM segment below is a specially designed master file segment for interfacing charge description masters.  In the following message, the MFI-master file identifier should equal “CDM.”
 type MFN_M04 struct {
 	HL7   HL7Name         `hl7:",name=MFN_M04,type=t"`
-	MSH   MSH             `hl7:"1,required,display=Message header segment"`
-	MFI   MFI             `hl7:"2,required,display=Master file identification segment"`
+	MSH   *MSH            `hl7:"1,required,display=Message header segment"`
+	MFI   *MFI            `hl7:"2,required,display=Master file identification segment"`
 	MfCdm []MFN_M04_MfCdm `hl7:",required,display=Mf Cdm"`
 }
 
 // MfLocation
 type MFN_M05_MfLocation struct {
 	HL7       HL7Name             `hl7:",name=MFN_M05_MfLocation,type=tg"`
-	MFE       MFE                 `hl7:"3,required,display=Master file entry segment"`
-	LOC       LOC                 `hl7:"4,required,display=Location identification segment"`
+	MFE       *MFE                `hl7:"3,required,display=Master file entry segment"`
+	LOC       *LOC                `hl7:"4,required,display=Location identification segment"`
 	LCH       []LCH               `hl7:"5,display=Location characteristic segment"`
 	LRL       []LRL               `hl7:"6,display=Location relationship segment"`
 	MfLocDept []MFN_M05_MfLocDept `hl7:",required,display=Mf Loc Dept"`
@@ -2176,7 +2176,7 @@ type MFN_M05_MfLocation struct {
 // MfLocDept
 type MFN_M05_MfLocDept struct {
 	HL7 HL7Name `hl7:",name=MFN_M05_MfLocDept,type=tg"`
-	LDP LDP     `hl7:"7,required,display=Location department segment"`
+	LDP *LDP    `hl7:"7,required,display=Location department segment"`
 	LCH []LCH   `hl7:"8,display=Location characteristic segment"`
 	LCC []LCC   `hl7:"9,display=Location charge code segment"`
 }
@@ -2184,23 +2184,23 @@ type MFN_M05_MfLocDept struct {
 // Patient location master file
 type MFN_M05 struct {
 	HL7        HL7Name              `hl7:",name=MFN_M05,type=t"`
-	MSH        MSH                  `hl7:"1,required,display=Message header segment"`
-	MFI        MFI                  `hl7:"2,required,display=Master file identification segment"`
+	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
+	MFI        *MFI                 `hl7:"2,required,display=Master file identification segment"`
 	MfLocation []MFN_M05_MfLocation `hl7:",required,display=Mf Location"`
 }
 
 // MfClinStudy
 type MFN_M06_MfClinStudy struct {
 	HL7                HL7Name                      `hl7:",name=MFN_M06_MfClinStudy,type=tg"`
-	MFE                MFE                          `hl7:"3,required,display=Master file entry segment"`
-	CM0                CM0                          `hl7:"4,required,display=Clinical study master segment"`
+	MFE                *MFE                         `hl7:"3,required,display=Master file entry segment"`
+	CM0                *CM0                         `hl7:"4,required,display=Clinical study master segment"`
 	MfPhaseSchedDetail []MFN_M06_MfPhaseSchedDetail `hl7:",display=Mf Phase Sched Detail"`
 }
 
 // MfPhaseSchedDetail
 type MFN_M06_MfPhaseSchedDetail struct {
 	HL7 HL7Name `hl7:",name=MFN_M06_MfPhaseSchedDetail,type=tg"`
-	CM1 CM1     `hl7:"5,required,display=Clinical study phase master segment"`
+	CM1 *CM1    `hl7:"5,required,display=Clinical study phase master segment"`
 	CM2 []CM2   `hl7:"6,display=Clinical study schedule master segment"`
 }
 
@@ -2209,39 +2209,39 @@ type MFN_M06_MfPhaseSchedDetail struct {
 // The CM0 (Clinical Study Master), CM1 (Clinical Study Phase), and CM2 (Clinical Study Schedule) segments can be used to transmit master files information between systems. The CM0 segment contains the information about the study itself; the CM1 contains the information about one phase of the study identified in the preceding CM0; and the CM2 contains the information about the scheduled time points for the preceding study or phase-related treatment or evaluation events.
 type MFN_M06 struct {
 	HL7         HL7Name               `hl7:",name=MFN_M06,type=t"`
-	MSH         MSH                   `hl7:"1,required,display=Message header segment"`
-	MFI         MFI                   `hl7:"2,required,display=Master file identification segment"`
+	MSH         *MSH                  `hl7:"1,required,display=Message header segment"`
+	MFI         *MFI                  `hl7:"2,required,display=Master file identification segment"`
 	MfClinStudy []MFN_M06_MfClinStudy `hl7:",required,display=Mf Clin Study"`
 }
 
 // MfClinStudy
 type MFN_M07_MfClinStudy struct {
 	HL7                HL7Name                      `hl7:",name=MFN_M07_MfClinStudy,type=tg"`
-	MFE                MFE                          `hl7:"3,required,display=Master file entry segment"`
-	CM0                CM0                          `hl7:"4,required,display=Clinical study master segment"`
+	MFE                *MFE                         `hl7:"3,required,display=Master file entry segment"`
+	CM0                *CM0                         `hl7:"4,required,display=Clinical study master segment"`
 	MfPhaseSchedDetail []MFN_M07_MfPhaseSchedDetail `hl7:",display=Mf Phase Sched Detail"`
 }
 
 // MfPhaseSchedDetail
 type MFN_M07_MfPhaseSchedDetail struct {
 	HL7 HL7Name `hl7:",name=MFN_M07_MfPhaseSchedDetail,type=tg"`
-	CM1 CM1     `hl7:"5,required,display=Clinical study phase master segment"`
+	CM1 *CM1    `hl7:"5,required,display=Clinical study phase master segment"`
 	CM2 []CM2   `hl7:"6,display=Clinical study schedule master segment"`
 }
 
 // Clinical study without phases but with schedules master file
 type MFN_M07 struct {
 	HL7         HL7Name               `hl7:",name=MFN_M07,type=t"`
-	MSH         MSH                   `hl7:"1,required,display=Message header segment"`
-	MFI         MFI                   `hl7:"2,required,display=Master file identification segment"`
+	MSH         *MSH                  `hl7:"1,required,display=Message header segment"`
+	MFI         *MFI                  `hl7:"2,required,display=Master file identification segment"`
 	MfClinStudy []MFN_M07_MfClinStudy `hl7:",required,display=Mf Clin Study"`
 }
 
 // MfTestNumeric
 type MFN_M08_MfTestNumeric struct {
 	HL7                  HL7Name                       `hl7:",name=MFN_M08_MfTestNumeric,type=tg"`
-	MFE                  MFE                           `hl7:"3,required,display=Master file entry segment"`
-	OM1                  OM1                           `hl7:"4,required,display=General segment"`
+	MFE                  *MFE                          `hl7:"3,required,display=Master file entry segment"`
+	OM1                  *OM1                          `hl7:"4,required,display=General segment"`
 	MfNumericObservation *MFN_M08_MfNumericObservation `hl7:",display=Mf Numeric Observation"`
 }
 
@@ -2256,77 +2256,77 @@ type MFN_M08_MfNumericObservation struct {
 // Test/observation (numeric) master file
 type MFN_M08 struct {
 	HL7           HL7Name                 `hl7:",name=MFN_M08,type=t"`
-	MSH           MSH                     `hl7:"1,required,display=Message header segment"`
-	MFI           MFI                     `hl7:"2,required,display=Master file identification segment"`
+	MSH           *MSH                    `hl7:"1,required,display=Message header segment"`
+	MFI           *MFI                    `hl7:"2,required,display=Master file identification segment"`
 	MfTestNumeric []MFN_M08_MfTestNumeric `hl7:",required,display=Mf Test Numeric"`
 }
 
 // MfTestCategorical
 type MFN_M09_MfTestCategorical struct {
 	HL7             HL7Name                  `hl7:",name=MFN_M09_MfTestCategorical,type=tg"`
-	MFE             MFE                      `hl7:"3,required,display=Master file entry segment"`
-	OM1             OM1                      `hl7:"4,required,display=General segment"`
+	MFE             *MFE                     `hl7:"3,required,display=Master file entry segment"`
+	OM1             *OM1                     `hl7:"4,required,display=General segment"`
 	MfTestCatDetail *MFN_M09_MfTestCatDetail `hl7:",display=Mf Test Cat Detail"`
 }
 
 // MfTestCatDetail
 type MFN_M09_MfTestCatDetail struct {
 	HL7 HL7Name `hl7:",name=MFN_M09_MfTestCatDetail,type=tg"`
-	OM3 OM3     `hl7:"5,required,display=Categorical test/observation segment"`
+	OM3 *OM3    `hl7:"5,required,display=Categorical test/observation segment"`
 	OM4 []OM4   `hl7:"6,display=Observations that require specimens segment"`
 }
 
 // Test/observation (categorical) master file
 type MFN_M09 struct {
 	HL7               HL7Name                     `hl7:",name=MFN_M09,type=t"`
-	MSH               MSH                         `hl7:"1,required,display=Message header segment"`
-	MFI               MFI                         `hl7:"2,required,display=Master file identification segment"`
+	MSH               *MSH                        `hl7:"1,required,display=Message header segment"`
+	MFI               *MFI                        `hl7:"2,required,display=Master file identification segment"`
 	MfTestCategorical []MFN_M09_MfTestCategorical `hl7:",required,display=Mf Test Categorical"`
 }
 
 // MfTestBatteries
 type MFN_M10_MfTestBatteries struct {
 	HL7              HL7Name                   `hl7:",name=MFN_M10_MfTestBatteries,type=tg"`
-	MFE              MFE                       `hl7:"3,required,display=Master file entry segment"`
-	OM1              OM1                       `hl7:"4,required,display=General segment"`
+	MFE              *MFE                      `hl7:"3,required,display=Master file entry segment"`
+	OM1              *OM1                      `hl7:"4,required,display=General segment"`
 	MfTestBattDetail *MFN_M10_MfTestBattDetail `hl7:",display=Mf Test Batt Detail"`
 }
 
 // MfTestBattDetail
 type MFN_M10_MfTestBattDetail struct {
 	HL7 HL7Name `hl7:",name=MFN_M10_MfTestBattDetail,type=tg"`
-	OM5 OM5     `hl7:"5,required,display=Observation batteries (sets)"`
+	OM5 *OM5    `hl7:"5,required,display=Observation batteries (sets)"`
 	OM4 []OM4   `hl7:"6,display=Observations that require specimens segment"`
 }
 
 // Test/observation batteries master file
 type MFN_M10 struct {
 	HL7             HL7Name                   `hl7:",name=MFN_M10,type=t"`
-	MSH             MSH                       `hl7:"1,required,display=Message header segment"`
-	MFI             MFI                       `hl7:"2,required,display=Master file identification segment"`
+	MSH             *MSH                      `hl7:"1,required,display=Message header segment"`
+	MFI             *MFI                      `hl7:"2,required,display=Master file identification segment"`
 	MfTestBatteries []MFN_M10_MfTestBatteries `hl7:",required,display=Mf Test Batteries"`
 }
 
 // MfTestCalculated
 type MFN_M11_MfTestCalculated struct {
 	HL7              HL7Name                   `hl7:",name=MFN_M11_MfTestCalculated,type=tg"`
-	MFE              MFE                       `hl7:"3,required,display=Master file entry segment"`
-	OM1              OM1                       `hl7:"4,required,display=General segment"`
+	MFE              *MFE                      `hl7:"3,required,display=Master file entry segment"`
+	OM1              *OM1                      `hl7:"4,required,display=General segment"`
 	MfTestCalcDetail *MFN_M11_MfTestCalcDetail `hl7:",display=Mf Test Calc Detail"`
 }
 
 // MfTestCalcDetail
 type MFN_M11_MfTestCalcDetail struct {
 	HL7 HL7Name `hl7:",name=MFN_M11_MfTestCalcDetail,type=tg"`
-	OM6 OM6     `hl7:"5,required,display=Observations that are calculated from other observations segment"`
-	OM2 OM2     `hl7:"6,required,display=Numeric observation segment"`
+	OM6 *OM6    `hl7:"5,required,display=Observations that are calculated from other observations segment"`
+	OM2 *OM2    `hl7:"6,required,display=Numeric observation segment"`
 }
 
 // Test/calculated observations master file
 type MFN_M11 struct {
 	HL7              HL7Name                    `hl7:",name=MFN_M11,type=t"`
-	MSH              MSH                        `hl7:"1,required,display=Message header segment"`
-	MFI              MFI                        `hl7:"2,required,display=Master file identification segment"`
+	MSH              *MSH                       `hl7:"1,required,display=Message header segment"`
+	MFI              *MFI                       `hl7:"2,required,display=Master file identification segment"`
 	MfTestCalculated []MFN_M11_MfTestCalculated `hl7:",required,display=Mf Test Calculated"`
 }
 
@@ -2337,8 +2337,8 @@ type MFN_M11 struct {
 // (for backward compatibility only)
 type MFQ_M01 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M01,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2348,8 +2348,8 @@ type MFQ_M01 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M02 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M02,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2361,8 +2361,8 @@ type MFQ_M02 struct {
 // (for backward compatibility only)
 type MFQ_M03 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M03,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2372,8 +2372,8 @@ type MFQ_M03 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M04 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M04,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2383,8 +2383,8 @@ type MFQ_M04 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M05 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M05,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2394,8 +2394,8 @@ type MFQ_M05 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M06 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M06,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2405,8 +2405,8 @@ type MFQ_M06 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M07 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M07,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2416,8 +2416,8 @@ type MFQ_M07 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M08 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M08,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2427,8 +2427,8 @@ type MFQ_M08 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M09 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M09,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2438,8 +2438,8 @@ type MFQ_M09 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M10 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M10,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2449,8 +2449,8 @@ type MFQ_M10 struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFQ_M11 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M11,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -2458,7 +2458,7 @@ type MFQ_M11 struct {
 // MfQuery
 type MFR_M01_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M01_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Not otherwise specified
@@ -2468,12 +2468,12 @@ type MFR_M01_MfQuery struct {
 // (for backward compatibility only)
 type MFR_M01 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M01,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M01_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2481,7 +2481,7 @@ type MFR_M01 struct {
 // MfQuery
 type MFR_M02_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M02_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Staff Practitioner
@@ -2489,12 +2489,12 @@ type MFR_M02_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M02 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M02,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M02_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2502,7 +2502,7 @@ type MFR_M02 struct {
 // MfQuery
 type MFR_M03_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M03_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Test/Observation
@@ -2512,12 +2512,12 @@ type MFR_M03_MfQuery struct {
 // (for backward compatibility only)
 type MFR_M03 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M03,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M03_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2525,7 +2525,7 @@ type MFR_M03 struct {
 // MfQuery
 type MFR_M04_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M04_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Charge description
@@ -2533,12 +2533,12 @@ type MFR_M04_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M04 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M04,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M04_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2546,7 +2546,7 @@ type MFR_M04 struct {
 // MfQuery
 type MFR_M05_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M05_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Patient location
@@ -2554,12 +2554,12 @@ type MFR_M05_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M05 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M05,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M05_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2567,7 +2567,7 @@ type MFR_M05 struct {
 // MfQuery
 type MFR_M06_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M06_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Clinical study with phases and schedules
@@ -2575,12 +2575,12 @@ type MFR_M06_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M06 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M06,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M06_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2588,7 +2588,7 @@ type MFR_M06 struct {
 // MfQuery
 type MFR_M07_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M07_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Clinical study without phases but with schedules
@@ -2596,12 +2596,12 @@ type MFR_M07_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M07 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M07,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M07_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2609,7 +2609,7 @@ type MFR_M07 struct {
 // MfQuery
 type MFR_M08_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M08_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Test/observation (Numeric)
@@ -2617,12 +2617,12 @@ type MFR_M08_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M08 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M08,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M08_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2630,7 +2630,7 @@ type MFR_M08 struct {
 // MfQuery
 type MFR_M09_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M09_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Test/Observation
@@ -2638,12 +2638,12 @@ type MFR_M09_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M09 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M09,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M09_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2651,7 +2651,7 @@ type MFR_M09 struct {
 // MfQuery
 type MFR_M10_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M10_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Test /observation batteries
@@ -2659,12 +2659,12 @@ type MFR_M10_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M10 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M10,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M10_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2672,7 +2672,7 @@ type MFR_M10 struct {
 // MfQuery
 type MFR_M11_MfQuery struct {
 	HL7 HL7Name `hl7:",name=MFR_M11_MfQuery,type=tg"`
-	MFE MFE     `hl7:"7,required,display=Master file entry segment"`
+	MFE *MFE    `hl7:"7,required,display=Master file entry segment"`
 }
 
 // Master Files Response - Test/calculated observations
@@ -2680,12 +2680,12 @@ type MFR_M11_MfQuery struct {
 // The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
 type MFR_M11 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M11,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
-	QRD     QRD               `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"5,display=Original style query filter segment"`
-	MFI     MFI               `hl7:"6,required,display=Master file identification segment"`
+	MFI     *MFI              `hl7:"6,required,display=Master file identification segment"`
 	MfQuery []MFR_M11_MfQuery `hl7:",required,display=Mf Query"`
 	DSC     *DSC              `hl7:"8,display=Continuation pointer segment"`
 }
@@ -2701,21 +2701,21 @@ type NMD_N02_ClockAndStatsWithNotes struct {
 // Clock
 type NMD_N02_Clock struct {
 	HL7 HL7Name `hl7:",name=NMD_N02_Clock,type=tg"`
-	NCK NCK     `hl7:"2,required,display=System Clock"`
+	NCK *NCK    `hl7:"2,required,display=System Clock"`
 	NTE []NTE   `hl7:"3,display=Notes and comments segment"`
 }
 
 // AppStats
 type NMD_N02_AppStats struct {
 	HL7 HL7Name `hl7:",name=NMD_N02_AppStats,type=tg"`
-	NST NST     `hl7:"4,required,display=Statistics"`
+	NST *NST    `hl7:"4,required,display=Statistics"`
 	NTE []NTE   `hl7:"5,display=Notes and comments segment"`
 }
 
 // AppStatus
 type NMD_N02_AppStatus struct {
 	HL7 HL7Name `hl7:",name=NMD_N02_AppStatus,type=tg"`
-	NSC NSC     `hl7:"6,required,display=Status change"`
+	NSC *NSC    `hl7:"6,required,display=Status change"`
 	NTE []NTE   `hl7:"7,display=Notes and comments segment"`
 }
 
@@ -2724,14 +2724,14 @@ type NMD_N02_AppStatus struct {
 // One system creates an unsolicited update (UU) Network Management Data message (NMD) to transmit network management information to another system.  In this case, the initiating system sends an NMD message as an unsolicited update (UU) containing network management information to a receiving system, which responds with a generic acknowledgement message (ACK).
 type NMD_N02 struct {
 	HL7                    HL7Name                          `hl7:",name=NMD_N02,type=t"`
-	MSH                    MSH                              `hl7:"1,required,display=Message header segment"`
+	MSH                    *MSH                             `hl7:"1,required,display=Message header segment"`
 	ClockAndStatsWithNotes []NMD_N02_ClockAndStatsWithNotes `hl7:",required,display=Clock And Stats With Notes"`
 }
 
 // QryWithDetail
 type NMQ_N01_QryWithDetail struct {
 	HL7 HL7Name `hl7:",name=NMQ_N01_QryWithDetail,type=tg"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 }
 
@@ -2748,7 +2748,7 @@ type NMQ_N01_ClockAndStatistics struct {
 // The NMQ (Network Management Query) message is used by one system to make system-level requests for information or action to another system.  It has three segments, the NCK segment (network clock), the NST segment (network statistics), and the NSC segment (network status change). An example of the last type, NSC (network status change) would be an application or system startup/shut down request. At least one of these three segments must be present in the NMQ message. If a segment is present in the NMQ message, the corresponding segment needs to be present in the NMR message to return the requested data or status
 type NMQ_N01 struct {
 	HL7                HL7Name                      `hl7:",name=NMQ_N01,type=t"`
-	MSH                MSH                          `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                         `hl7:"1,required,display=Message header segment"`
 	QryWithDetail      *NMQ_N01_QryWithDetail       `hl7:",display=Qry With Detail"`
 	ClockAndStatistics []NMQ_N01_ClockAndStatistics `hl7:",required,display=Clock And Statistics"`
 }
@@ -2769,8 +2769,8 @@ type NMR_N01_ClockAndStatsWithNotesAlt struct {
 // The NMQ (Network Management Query) message is used by one system to make system-level requests for information or action to another system.  It has three segments, the NCK segment (network clock), the NST segment (network statistics), and the NSC segment (network status change). An example of the last type, NSC (network status change) would be an application or system startup/shut down request. At least one of these three segments must be present in the NMQ message. If a segment is present in the NMQ message, the corresponding segment needs to be present in the NMR message to return the requested data or status
 type NMR_N01 struct {
 	HL7                       HL7Name                             `hl7:",name=NMR_N01,type=t"`
-	MSH                       MSH                                 `hl7:"1,required,display=Message header segment"`
-	MSA                       MSA                                 `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH                       *MSH                                `hl7:"1,required,display=Message header segment"`
+	MSA                       *MSA                                `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR                       []ERR                               `hl7:"3,display=Error segment"`
 	QRD                       *QRD                                `hl7:"4,display=Original-style query definition segment"`
 	ClockAndStatsWithNotesAlt []NMR_N01_ClockAndStatsWithNotesAlt `hl7:",required,display=Clock And Stats With Notes Alt"`
@@ -2779,7 +2779,7 @@ type NMR_N01 struct {
 // Patient
 type OMD_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=OMD_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"4,display=Patient Additional Demographic"`
 	NTE          []NTE                 `hl7:"5,display=Notes and comments segment"`
 	PatientVisit *OMD_O01_PatientVisit `hl7:",display=Patient Visit"`
@@ -2791,14 +2791,14 @@ type OMD_O01_Patient struct {
 // PatientVisit
 type OMD_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=OMD_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Insurance
 type OMD_O01_Insurance struct {
 	HL7 HL7Name `hl7:",name=OMD_O01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"8,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"8,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"9,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"10,display=Insurance additional information- certification segment"`
 }
@@ -2806,7 +2806,7 @@ type OMD_O01_Insurance struct {
 // OrderDiet
 type OMD_O01_OrderDiet struct {
 	HL7  HL7Name       `hl7:",name=OMD_O01_OrderDiet,type=tg"`
-	ORC  ORC           `hl7:"13,required,display=Common order segment"`
+	ORC  *ORC          `hl7:"13,required,display=Common order segment"`
 	Diet *OMD_O01_Diet `hl7:",display=Diet"`
 }
 
@@ -2821,14 +2821,14 @@ type OMD_O01_Diet struct {
 // Observation
 type OMD_O01_Observation struct {
 	HL7 HL7Name `hl7:",name=OMD_O01_Observation,type=tg"`
-	OBX OBX     `hl7:"16,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"16,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"17,display=Notes and comments segment"`
 }
 
 // OrderTray
 type OMD_O01_OrderTray struct {
 	HL7 HL7Name `hl7:",name=OMD_O01_OrderTray,type=tg"`
-	ORC ORC     `hl7:"18,required,display=Common order segment"`
+	ORC *ORC    `hl7:"18,required,display=Common order segment"`
 	ODT []ODT   `hl7:"19,required,display=Diet tray instructions segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
@@ -2838,7 +2838,7 @@ type OMD_O01_OrderTray struct {
 // A diet office needs to receive specific information, the most important being the diet order itself.  Diet restrictions (often called diet codes) are the basic building blocks of a diet order.
 type OMD_O01 struct {
 	HL7       HL7Name             `hl7:",name=OMD_O01,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
 	NTE       []NTE               `hl7:"2,display=Notes and comments segment"`
 	Patient   *OMD_O01_Patient    `hl7:",display=Patient"`
 	OrderDiet []OMD_O01_OrderDiet `hl7:",required,display=Order Diet"`
@@ -2848,7 +2848,7 @@ type OMD_O01 struct {
 // Patient
 type OMN_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=OMN_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"4,display=Patient Additional Demographic"`
 	NTE          []NTE                 `hl7:"5,display=Notes and comments segment"`
 	PatientVisit *OMN_O01_PatientVisit `hl7:",display=Patient Visit"`
@@ -2860,14 +2860,14 @@ type OMN_O01_Patient struct {
 // PatientVisit
 type OMN_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=OMN_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Insurance
 type OMN_O01_Insurance struct {
 	HL7 HL7Name `hl7:",name=OMN_O01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"8,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"8,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"9,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"10,display=Insurance additional information- certification segment"`
 }
@@ -2875,7 +2875,7 @@ type OMN_O01_Insurance struct {
 // Order
 type OMN_O01_Order struct {
 	HL7         HL7Name              `hl7:",name=OMN_O01_Order,type=tg"`
-	ORC         ORC                  `hl7:"13,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"13,required,display=Common order segment"`
 	OrderDetail *OMN_O01_OrderDetail `hl7:",display=Order Detail"`
 	BLG         *BLG                 `hl7:"19,display=Billing segment"`
 }
@@ -2883,7 +2883,7 @@ type OMN_O01_Order struct {
 // OrderDetail
 type OMN_O01_OrderDetail struct {
 	HL7         HL7Name               `hl7:",name=OMN_O01_OrderDetail,type=tg"`
-	RQD         RQD                   `hl7:"14,required,display=Requisition detail segment"`
+	RQD         *RQD                  `hl7:"14,required,display=Requisition detail segment"`
 	RQ1         *RQ1                  `hl7:"15,display=Requisition detail-1 segment"`
 	NTE         []NTE                 `hl7:"16,display=Notes and comments segment"`
 	Observation []OMN_O01_Observation `hl7:",display=Observation"`
@@ -2892,14 +2892,14 @@ type OMN_O01_OrderDetail struct {
 // Observation
 type OMN_O01_Observation struct {
 	HL7 HL7Name `hl7:",name=OMN_O01_Observation,type=tg"`
-	OBX OBX     `hl7:"17,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"17,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
 // Non-stock requisition order message
 type OMN_O01 struct {
 	HL7     HL7Name          `hl7:",name=OMN_O01,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
 	NTE     []NTE            `hl7:"2,display=Notes and comments segment"`
 	Patient *OMN_O01_Patient `hl7:",display=Patient"`
 	Order   []OMN_O01_Order  `hl7:",required,display=Order"`
@@ -2908,7 +2908,7 @@ type OMN_O01 struct {
 // Patient
 type OMS_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=OMS_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"4,display=Patient Additional Demographic"`
 	NTE          []NTE                 `hl7:"5,display=Notes and comments segment"`
 	PatientVisit *OMS_O01_PatientVisit `hl7:",display=Patient Visit"`
@@ -2920,14 +2920,14 @@ type OMS_O01_Patient struct {
 // PatientVisit
 type OMS_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=OMS_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Insurance
 type OMS_O01_Insurance struct {
 	HL7 HL7Name `hl7:",name=OMS_O01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"8,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"8,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"9,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"10,display=Insurance additional information- certification segment"`
 }
@@ -2935,7 +2935,7 @@ type OMS_O01_Insurance struct {
 // Order
 type OMS_O01_Order struct {
 	HL7         HL7Name              `hl7:",name=OMS_O01_Order,type=tg"`
-	ORC         ORC                  `hl7:"13,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"13,required,display=Common order segment"`
 	OrderDetail *OMS_O01_OrderDetail `hl7:",display=Order Detail"`
 	BLG         *BLG                 `hl7:"18,display=Billing segment"`
 }
@@ -2943,7 +2943,7 @@ type OMS_O01_Order struct {
 // OrderDetail
 type OMS_O01_OrderDetail struct {
 	HL7         HL7Name               `hl7:",name=OMS_O01_OrderDetail,type=tg"`
-	RQD         RQD                   `hl7:"14,required,display=Requisition detail segment"`
+	RQD         *RQD                  `hl7:"14,required,display=Requisition detail segment"`
 	NTE         []NTE                 `hl7:"15,display=Notes and comments segment"`
 	Observation []OMS_O01_Observation `hl7:",display=Observation"`
 }
@@ -2951,14 +2951,14 @@ type OMS_O01_OrderDetail struct {
 // Observation
 type OMS_O01_Observation struct {
 	HL7 HL7Name `hl7:",name=OMS_O01_Observation,type=tg"`
-	OBX OBX     `hl7:"16,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"16,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"17,display=Notes and comments segment"`
 }
 
 // Stock requisition order message
 type OMS_O01 struct {
 	HL7     HL7Name          `hl7:",name=OMS_O01,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
 	NTE     []NTE            `hl7:"2,display=Notes and comments segment"`
 	Patient *OMS_O01_Patient `hl7:",display=Patient"`
 	Order   []OMS_O01_Order  `hl7:",required,display=Order"`
@@ -2975,14 +2975,14 @@ type ORD_O02_Response struct {
 // Patient
 type ORD_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=ORD_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // OrderDiet
 type ORD_O02_OrderDiet struct {
 	HL7 HL7Name `hl7:",name=ORD_O02_OrderDiet,type=tg"`
-	ORC ORC     `hl7:"7,required,display=Common order segment"`
+	ORC *ORC    `hl7:"7,required,display=Common order segment"`
 	ODS []ODS   `hl7:"8,display=Dietary orders- supplements- and preferences segment"`
 	NTE []NTE   `hl7:"9,display=Notes and comments segment"`
 }
@@ -2990,7 +2990,7 @@ type ORD_O02_OrderDiet struct {
 // OrderTray
 type ORD_O02_OrderTray struct {
 	HL7 HL7Name `hl7:",name=ORD_O02_OrderTray,type=tg"`
-	ORC ORC     `hl7:"10,required,display=Common order segment"`
+	ORC *ORC    `hl7:"10,required,display=Common order segment"`
 	ODT []ODT   `hl7:"11,display=Diet tray instructions segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
@@ -3000,8 +3000,8 @@ type ORD_O02_OrderTray struct {
 // A diet office needs to receive specific information, the most important being the diet order itself.  Diet restrictions (often called diet codes) are the basic building blocks of a diet order.
 type ORD_O02 struct {
 	HL7      HL7Name           `hl7:",name=ORD_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *ORD_O02_Response `hl7:",display=Response"`
@@ -3017,7 +3017,7 @@ type ORF_R04_QueryResponse struct {
 // Patient
 type ORF_R04_Patient struct {
 	HL7 HL7Name `hl7:",name=ORF_R04_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
@@ -3025,7 +3025,7 @@ type ORF_R04_Patient struct {
 type ORF_R04_Order struct {
 	HL7         HL7Name               `hl7:",name=ORF_R04_Order,type=tg"`
 	ORC         *ORC                  `hl7:"7,display=Common order segment"`
-	OBR         OBR                   `hl7:"8,required,display=Observation request segment"`
+	OBR         *OBR                  `hl7:"8,required,display=Observation request segment"`
 	NTE         []NTE                 `hl7:"9,display=Notes and comments segment"`
 	Observation []ORF_R04_Observation `hl7:",required,display=Observation"`
 	CTI         []CTI                 `hl7:"12,display=Clinical trial identification segment"`
@@ -3041,9 +3041,9 @@ type ORF_R04_Observation struct {
 // Response to query; transmission of requested observation
 type ORF_R04 struct {
 	HL7           HL7Name                 `hl7:",name=ORF_R04,type=t"`
-	MSH           MSH                     `hl7:"1,required,display=Message header segment"`
-	MSA           MSA                     `hl7:"2,required,display=Message acknowledgment segment"`
-	QRD           QRD                     `hl7:"3,required,display=Original-style query definition segment"`
+	MSH           *MSH                    `hl7:"1,required,display=Message header segment"`
+	MSA           *MSA                    `hl7:"2,required,display=Message acknowledgment segment"`
+	QRD           *QRD                    `hl7:"3,required,display=Original-style query definition segment"`
 	QRF           *QRF                    `hl7:"4,display=Original style query filter segment"`
 	QueryResponse []ORF_R04_QueryResponse `hl7:",required,display=Query Response"`
 	ERR           *ERR                    `hl7:"13,display=Error segment"`
@@ -3061,7 +3061,7 @@ type ORF_W02_QueryResponse struct {
 // Patient
 type ORF_W02_Patient struct {
 	HL7 HL7Name `hl7:",name=ORF_W02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
@@ -3069,7 +3069,7 @@ type ORF_W02_Patient struct {
 type ORF_W02_Order struct {
 	HL7         HL7Name               `hl7:",name=ORF_W02_Order,type=tg"`
 	ORC         *ORC                  `hl7:"7,display=Common order segment"`
-	OBR         OBR                   `hl7:"8,required,display=Observation request segment"`
+	OBR         *OBR                  `hl7:"8,required,display=Observation request segment"`
 	NTE         []NTE                 `hl7:"9,display=Notes and comments segment"`
 	Observation []ORF_W02_Observation `hl7:",required,display=Observation"`
 	CTI         []CTI                 `hl7:"12,display=Clinical trial identification segment"`
@@ -3087,9 +3087,9 @@ type ORF_W02_Observation struct {
 // The W02 trigger event identifies ORF messages which are a response to a QRY message specifying an immediate mode query for waveform results/observations with record-oriented format.
 type ORF_W02 struct {
 	HL7           HL7Name                 `hl7:",name=ORF_W02,type=t"`
-	MSH           MSH                     `hl7:"1,required,display=Message header segment"`
-	MSA           MSA                     `hl7:"2,required,display=Message acknowledgment segment"`
-	QRD           QRD                     `hl7:"3,required,display=Original-style query definition segment"`
+	MSH           *MSH                    `hl7:"1,required,display=Message header segment"`
+	MSA           *MSA                    `hl7:"2,required,display=Message acknowledgment segment"`
+	QRD           *QRD                    `hl7:"3,required,display=Original-style query definition segment"`
 	QRF           *QRF                    `hl7:"4,display=Original style query filter segment"`
 	QueryResponse []ORF_W02_QueryResponse `hl7:",required,display=Query Response"`
 	ERR           *ERR                    `hl7:"13,display=Error segment"`
@@ -3100,7 +3100,7 @@ type ORF_W02 struct {
 // Patient
 type ORM_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=ORM_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"4,display=Patient Additional Demographic"`
 	NTE          []NTE                 `hl7:"5,display=Notes and comments segment"`
 	PatientVisit *ORM_O01_PatientVisit `hl7:",display=Patient Visit"`
@@ -3112,14 +3112,14 @@ type ORM_O01_Patient struct {
 // PatientVisit
 type ORM_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=ORM_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Insurance
 type ORM_O01_Insurance struct {
 	HL7 HL7Name `hl7:",name=ORM_O01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"8,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"8,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"9,display=Insurance additional information segment"`
 	IN3 []IN3   `hl7:"10,display=Insurance additional information- certification segment"`
 }
@@ -3127,7 +3127,7 @@ type ORM_O01_Insurance struct {
 // Order
 type ORM_O01_Order struct {
 	HL7         HL7Name              `hl7:",name=ORM_O01_Order,type=tg"`
-	ORC         ORC                  `hl7:"13,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"13,required,display=Common order segment"`
 	OrderDetail *ORM_O01_OrderDetail `hl7:",display=Order Detail"`
 	CTI         []CTI                `hl7:"24,display=Clinical trial identification segment"`
 	BLG         *BLG                 `hl7:"25,display=Billing segment"`
@@ -3135,11 +3135,11 @@ type ORM_O01_Order struct {
 
 // OrderDetail
 type ORM_O01_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=ORM_O01_OrderDetail,type=tg"`
-	OrderDetailSegment ORM_O01_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"20,display=Notes and comments segment"`
-	DG1                []DG1                      `hl7:"21,display=Diagnosis segment"`
-	Observation        []ORM_O01_Observation      `hl7:",display=Observation"`
+	HL7                HL7Name                     `hl7:",name=ORM_O01_OrderDetail,type=tg"`
+	OrderDetailSegment *ORM_O01_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"20,display=Notes and comments segment"`
+	DG1                []DG1                       `hl7:"21,display=Diagnosis segment"`
+	Observation        []ORM_O01_Observation       `hl7:",display=Observation"`
 }
 
 // OrderDetailSegment
@@ -3156,7 +3156,7 @@ type ORM_O01_OrderDetailSegment struct {
 // Observation
 type ORM_O01_Observation struct {
 	HL7 HL7Name `hl7:",name=ORM_O01_Observation,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
@@ -3165,7 +3165,7 @@ type ORM_O01_Observation struct {
 // The function of this message is to initiate the transmission of information about an order.  This includes placing new orders, cancellation of existing orders, discontinuation, holding, etc.  ORM messages can originate also with a placer, filler, or an interested third party.
 type ORM_O01 struct {
 	HL7     HL7Name          `hl7:",name=ORM_O01,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
 	NTE     []NTE            `hl7:"2,display=Notes and comments segment"`
 	Patient *ORM_O01_Patient `hl7:",display=Patient"`
 	Order   []ORM_O01_Order  `hl7:",required,display=Order"`
@@ -3181,15 +3181,15 @@ type ORN_O02_Response struct {
 // Patient
 type ORN_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=ORN_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // Order
 type ORN_O02_Order struct {
 	HL7 HL7Name `hl7:",name=ORN_O02_Order,type=tg"`
-	ORC ORC     `hl7:"7,required,display=Common order segment"`
-	RQD RQD     `hl7:"8,required,display=Requisition detail segment"`
+	ORC *ORC    `hl7:"7,required,display=Common order segment"`
+	RQD *RQD    `hl7:"8,required,display=Requisition detail segment"`
 	RQ1 *RQ1    `hl7:"9,display=Requisition detail-1 segment"`
 	NTE []NTE   `hl7:"10,display=Notes and comments segment"`
 }
@@ -3197,8 +3197,8 @@ type ORN_O02_Order struct {
 // Non-stock requisition - general order acknowledgment message
 type ORN_O02 struct {
 	HL7      HL7Name           `hl7:",name=ORN_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *ORN_O02_Response `hl7:",display=Response"`
@@ -3214,14 +3214,14 @@ type ORR_O02_Response struct {
 // Patient
 type ORR_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=ORR_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // Order
 type ORR_O02_Order struct {
 	HL7                HL7Name                     `hl7:",name=ORR_O02_Order,type=tg"`
-	ORC                ORC                         `hl7:"7,required,display=Common order segment"`
+	ORC                *ORC                        `hl7:"7,required,display=Common order segment"`
 	OrderDetailSegment *ORR_O02_OrderDetailSegment `hl7:",display=Order Detail Segment"`
 	NTE                []NTE                       `hl7:"14,display=Notes and comments segment"`
 	CTI                []CTI                       `hl7:"15,display=Clinical trial identification segment"`
@@ -3243,8 +3243,8 @@ type ORR_O02_OrderDetailSegment struct {
 // The function of this message is to respond to an ORM message.  An ORR message is the application acknowledgment to an ORM message.
 type ORR_O02 struct {
 	HL7      HL7Name           `hl7:",name=ORR_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *ORR_O02_Response `hl7:",display=Response"`
@@ -3260,23 +3260,23 @@ type ORS_O02_Response struct {
 // Patient
 type ORS_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=ORS_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // Order
 type ORS_O02_Order struct {
 	HL7 HL7Name `hl7:",name=ORS_O02_Order,type=tg"`
-	ORC ORC     `hl7:"7,required,display=Common order segment"`
-	RQD RQD     `hl7:"8,required,display=Requisition detail segment"`
+	ORC *ORC    `hl7:"7,required,display=Common order segment"`
+	RQD *RQD    `hl7:"8,required,display=Requisition detail segment"`
 	NTE []NTE   `hl7:"9,display=Notes and comments segment"`
 }
 
 // Stock requisition - order acknowledgment message
 type ORS_O02 struct {
 	HL7      HL7Name           `hl7:",name=ORS_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *ORS_O02_Response `hl7:",display=Response"`
@@ -3292,7 +3292,7 @@ type ORU_R01_PatientResult struct {
 // Patient
 type ORU_R01_Patient struct {
 	HL7   HL7Name        `hl7:",name=ORU_R01_Patient,type=tg"`
-	PID   PID            `hl7:"2,required,display=Patient identification segment"`
+	PID   *PID           `hl7:"2,required,display=Patient identification segment"`
 	PD1   *PD1           `hl7:"3,display=Patient Additional Demographic"`
 	NK1   []NK1          `hl7:"4,display=Next of kin / associated parties segment"`
 	NTE   []NTE          `hl7:"5,display=Notes and comments segment"`
@@ -3302,7 +3302,7 @@ type ORU_R01_Patient struct {
 // Visit
 type ORU_R01_Visit struct {
 	HL7 HL7Name `hl7:",name=ORU_R01_Visit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
@@ -3310,7 +3310,7 @@ type ORU_R01_Visit struct {
 type ORU_R01_OrderObservation struct {
 	HL7         HL7Name               `hl7:",name=ORU_R01_OrderObservation,type=tg"`
 	ORC         *ORC                  `hl7:"8,display=Common order segment"`
-	OBR         OBR                   `hl7:"9,required,display=Observation request segment"`
+	OBR         *OBR                  `hl7:"9,required,display=Observation request segment"`
 	NTE         []NTE                 `hl7:"10,display=Notes and comments segment"`
 	Observation []ORU_R01_Observation `hl7:",required,display=Observation"`
 	CTI         []CTI                 `hl7:"13,display=Clinical trial identification segment"`
@@ -3328,7 +3328,7 @@ type ORU_R01_Observation struct {
 // With the type (OBX) defined in this chapter, and the OBR defined in Chapter 4, one can construct almost any clinical report as a three-level hierarchy, with the PID segment defined in Chapter 3 at the upper level, an order record (OBR) at the next level and one or more observation records (OBX) at the bottom.
 type ORU_R01 struct {
 	HL7           HL7Name                 `hl7:",name=ORU_R01,type=t"`
-	MSH           MSH                     `hl7:"1,required,display=Message header segment"`
+	MSH           *MSH                    `hl7:"1,required,display=Message header segment"`
 	PatientResult []ORU_R01_PatientResult `hl7:",required,display=Patient Result"`
 	DSC           *DSC                    `hl7:"14,display=Continuation pointer segment"`
 }
@@ -3343,7 +3343,7 @@ type ORU_W01_Response struct {
 // Patient
 type ORU_W01_Patient struct {
 	HL7   HL7Name        `hl7:",name=ORU_W01_Patient,type=tg"`
-	PID   PID            `hl7:"2,required,display=Patient identification segment"`
+	PID   *PID           `hl7:"2,required,display=Patient identification segment"`
 	PD1   *PD1           `hl7:"3,display=Patient Additional Demographic"`
 	NTE   []NTE          `hl7:"4,display=Notes and comments segment"`
 	Visit *ORU_W01_Visit `hl7:",display=Visit"`
@@ -3352,7 +3352,7 @@ type ORU_W01_Patient struct {
 // Visit
 type ORU_W01_Visit struct {
 	HL7 HL7Name `hl7:",name=ORU_W01_Visit,type=tg"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 }
 
@@ -3360,7 +3360,7 @@ type ORU_W01_Visit struct {
 type ORU_W01_OrderObservation struct {
 	HL7         HL7Name               `hl7:",name=ORU_W01_OrderObservation,type=tg"`
 	ORC         *ORC                  `hl7:"7,display=Common order segment"`
-	OBR         OBR                   `hl7:"8,required,display=Observation request segment"`
+	OBR         *OBR                  `hl7:"8,required,display=Observation request segment"`
 	NTE         []NTE                 `hl7:"9,display=Notes and comments segment"`
 	Observation []ORU_W01_Observation `hl7:",required,display=Observation"`
 	CTI         []CTI                 `hl7:"12,display=Clinical trial identification segment"`
@@ -3378,7 +3378,7 @@ type ORU_W01_Observation struct {
 // The waveform response unsolicited trigger event identifies ORU messages used to transmit waveform data which are results of an ordered test or series of observations. The W01 trigger event may also be used to identify ORU messages sent as the eventual response to a QRY message specifying a deferred mode query for waveform results/observations with record-oriented format (similar to the deferred response display mode DSR message type described in Chapter 2).  One or more ORU messages with the W01 trigger event  may result from this type of QRY message.
 type ORU_W01 struct {
 	HL7      HL7Name            `hl7:",name=ORU_W01,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
 	Response []ORU_W01_Response `hl7:",required,display=Response"`
 	DSC      *DSC               `hl7:"13,display=Continuation pointer segment"`
 }
@@ -3388,8 +3388,8 @@ type ORU_W01 struct {
 // The OSQ message is a record-oriented query that has the structure as the regular QRY message
 type OSQ_Q06 struct {
 	HL7 HL7Name `hl7:",name=OSQ_Q06,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -3404,14 +3404,14 @@ type OSR_Q06_Response struct {
 // Patient
 type OSR_Q06_Patient struct {
 	HL7 HL7Name `hl7:",name=OSR_Q06_Patient,type=tg"`
-	PID PID     `hl7:"7,required,display=Patient identification segment"`
+	PID *PID    `hl7:"7,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"8,display=Notes and comments segment"`
 }
 
 // Order
 type OSR_Q06_Order struct {
 	HL7                HL7Name                     `hl7:",name=OSR_Q06_Order,type=tg"`
-	ORC                ORC                         `hl7:"9,required,display=Common order segment"`
+	ORC                *ORC                        `hl7:"9,required,display=Common order segment"`
 	OrderDetailSegment *OSR_Q06_OrderDetailSegment `hl7:",display=Order Detail Segment"`
 	NTE                []NTE                       `hl7:"16,display=Notes and comments segment"`
 	CTI                []CTI                       `hl7:"17,display=Clinical trial identification segment"`
@@ -3431,11 +3431,11 @@ type OSR_Q06_OrderDetailSegment struct {
 // Query response for order status
 type OSR_Q06 struct {
 	HL7      HL7Name           `hl7:",name=OSR_Q06,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
-	QRD      QRD               `hl7:"5,required,display=Original-style query definition segment"`
+	QRD      *QRD              `hl7:"5,required,display=Original-style query definition segment"`
 	QRF      *QRF              `hl7:"6,display=Original style query filter segment"`
 	Response *OSR_Q06_Response `hl7:",display=Response"`
 	DSC      *DSC              `hl7:"18,display=Continuation pointer segment"`
@@ -3444,28 +3444,28 @@ type OSR_Q06 struct {
 // Visit
 type PEX_P07_Visit struct {
 	HL7 HL7Name `hl7:",name=PEX_P07_Visit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Experience
 type PEX_P07_Experience struct {
 	HL7            HL7Name                  `hl7:",name=PEX_P07_Experience,type=tg"`
-	PES            PES                      `hl7:"8,required,display=Product experience sender segment"`
+	PES            *PES                     `hl7:"8,required,display=Product experience sender segment"`
 	PexObservation []PEX_P07_PexObservation `hl7:",required,display=Pex Observation"`
 }
 
 // PexObservation
 type PEX_P07_PexObservation struct {
 	HL7      HL7Name            `hl7:",name=PEX_P07_PexObservation,type=tg"`
-	PEO      PEO                `hl7:"9,required,display=Product experience observation segment"`
+	PEO      *PEO               `hl7:"9,required,display=Product experience observation segment"`
 	PexCause []PEX_P07_PexCause `hl7:",required,display=Pex Cause"`
 }
 
 // PexCause
 type PEX_P07_PexCause struct {
 	HL7              HL7Name                    `hl7:",name=PEX_P07_PexCause,type=tg"`
-	PCR              PCR                        `hl7:"10,required,display=Possible causal relationship segment"`
+	PCR              *PCR                       `hl7:"10,required,display=Possible causal relationship segment"`
 	RxOrder          *PEX_P07_RxOrder           `hl7:",display=Rx Order"`
 	RxAdministration []PEX_P07_RxAdministration `hl7:",display=Rx Administration"`
 	PRB              []PRB                      `hl7:"15,display=Problem Detail"`
@@ -3478,21 +3478,21 @@ type PEX_P07_PexCause struct {
 // RxOrder
 type PEX_P07_RxOrder struct {
 	HL7 HL7Name `hl7:",name=PEX_P07_RxOrder,type=tg"`
-	RXE RXE     `hl7:"11,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"11,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"12,display=Pharmacy/treatment route segment"`
 }
 
 // RxAdministration
 type PEX_P07_RxAdministration struct {
 	HL7 HL7Name `hl7:",name=PEX_P07_RxAdministration,type=tg"`
-	RXA RXA     `hl7:"13,required,display=Pharmacy/treatment administration segment"`
+	RXA *RXA    `hl7:"13,required,display=Pharmacy/treatment administration segment"`
 	RXR *RXR    `hl7:"14,display=Pharmacy/treatment route segment"`
 }
 
 // AssociatedPerson
 type PEX_P07_AssociatedPerson struct {
 	HL7               HL7Name                     `hl7:",name=PEX_P07_AssociatedPerson,type=tg"`
-	NK1               NK1                         `hl7:"18,required,display=Next of kin / associated parties segment"`
+	NK1               *NK1                        `hl7:"18,required,display=Next of kin / associated parties segment"`
 	AssociatedRxOrder *PEX_P07_AssociatedRxOrder  `hl7:",display=Associated Rx Order"`
 	AssociatedRxAdmin []PEX_P07_AssociatedRxAdmin `hl7:",display=Associated Rx Admin"`
 	PRB               []PRB                       `hl7:"23,display=Problem Detail"`
@@ -3502,21 +3502,21 @@ type PEX_P07_AssociatedPerson struct {
 // AssociatedRxOrder
 type PEX_P07_AssociatedRxOrder struct {
 	HL7 HL7Name `hl7:",name=PEX_P07_AssociatedRxOrder,type=tg"`
-	RXE RXE     `hl7:"19,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"19,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"20,display=Pharmacy/treatment route segment"`
 }
 
 // AssociatedRxAdmin
 type PEX_P07_AssociatedRxAdmin struct {
 	HL7 HL7Name `hl7:",name=PEX_P07_AssociatedRxAdmin,type=tg"`
-	RXA RXA     `hl7:"21,required,display=Pharmacy/treatment administration segment"`
+	RXA *RXA    `hl7:"21,required,display=Pharmacy/treatment administration segment"`
 	RXR *RXR    `hl7:"22,display=Pharmacy/treatment route segment"`
 }
 
 // Study
 type PEX_P07_Study struct {
 	HL7 HL7Name `hl7:",name=PEX_P07_Study,type=tg"`
-	CSR CSR     `hl7:"25,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"25,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"26,display=Clinical study phase segment"`
 }
 
@@ -3525,9 +3525,9 @@ type PEX_P07_Study struct {
 // The primary application of this message is to transfer information related to an adverse event occurring while a patient was exposed to a product
 type PEX_P07 struct {
 	HL7        HL7Name              `hl7:",name=PEX_P07,type=t"`
-	MSH        MSH                  `hl7:"1,required,display=Message header segment"`
-	EVN        EVN                  `hl7:"2,required,display=Event type segment"`
-	PID        PID                  `hl7:"3,required,display=Patient identification segment"`
+	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
+	EVN        *EVN                 `hl7:"2,required,display=Event type segment"`
+	PID        *PID                 `hl7:"3,required,display=Patient identification segment"`
 	PD1        *PD1                 `hl7:"4,display=Patient Additional Demographic"`
 	NTE        []NTE                `hl7:"5,display=Notes and comments segment"`
 	Visit      *PEX_P07_Visit       `hl7:",display=Visit"`
@@ -3537,28 +3537,28 @@ type PEX_P07 struct {
 // Visit
 type PEX_P08_Visit struct {
 	HL7 HL7Name `hl7:",name=PEX_P08_Visit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Experience
 type PEX_P08_Experience struct {
 	HL7            HL7Name                  `hl7:",name=PEX_P08_Experience,type=tg"`
-	PES            PES                      `hl7:"8,required,display=Product experience sender segment"`
+	PES            *PES                     `hl7:"8,required,display=Product experience sender segment"`
 	PexObservation []PEX_P08_PexObservation `hl7:",required,display=Pex Observation"`
 }
 
 // PexObservation
 type PEX_P08_PexObservation struct {
 	HL7      HL7Name            `hl7:",name=PEX_P08_PexObservation,type=tg"`
-	PEO      PEO                `hl7:"9,required,display=Product experience observation segment"`
+	PEO      *PEO               `hl7:"9,required,display=Product experience observation segment"`
 	PexCause []PEX_P08_PexCause `hl7:",required,display=Pex Cause"`
 }
 
 // PexCause
 type PEX_P08_PexCause struct {
 	HL7              HL7Name                    `hl7:",name=PEX_P08_PexCause,type=tg"`
-	PCR              PCR                        `hl7:"10,required,display=Possible causal relationship segment"`
+	PCR              *PCR                       `hl7:"10,required,display=Possible causal relationship segment"`
 	RxOrder          *PEX_P08_RxOrder           `hl7:",display=Rx Order"`
 	RxAdministration []PEX_P08_RxAdministration `hl7:",display=Rx Administration"`
 	PRB              []PRB                      `hl7:"15,display=Problem Detail"`
@@ -3571,21 +3571,21 @@ type PEX_P08_PexCause struct {
 // RxOrder
 type PEX_P08_RxOrder struct {
 	HL7 HL7Name `hl7:",name=PEX_P08_RxOrder,type=tg"`
-	RXE RXE     `hl7:"11,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"11,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"12,display=Pharmacy/treatment route segment"`
 }
 
 // RxAdministration
 type PEX_P08_RxAdministration struct {
 	HL7 HL7Name `hl7:",name=PEX_P08_RxAdministration,type=tg"`
-	RXA RXA     `hl7:"13,required,display=Pharmacy/treatment administration segment"`
+	RXA *RXA    `hl7:"13,required,display=Pharmacy/treatment administration segment"`
 	RXR *RXR    `hl7:"14,display=Pharmacy/treatment route segment"`
 }
 
 // AssociatedPerson
 type PEX_P08_AssociatedPerson struct {
 	HL7               HL7Name                     `hl7:",name=PEX_P08_AssociatedPerson,type=tg"`
-	NK1               NK1                         `hl7:"18,required,display=Next of kin / associated parties segment"`
+	NK1               *NK1                        `hl7:"18,required,display=Next of kin / associated parties segment"`
 	AssociatedRxOrder *PEX_P08_AssociatedRxOrder  `hl7:",display=Associated Rx Order"`
 	AssociatedRxAdmin []PEX_P08_AssociatedRxAdmin `hl7:",display=Associated Rx Admin"`
 	PRB               []PRB                       `hl7:"23,display=Problem Detail"`
@@ -3595,21 +3595,21 @@ type PEX_P08_AssociatedPerson struct {
 // AssociatedRxOrder
 type PEX_P08_AssociatedRxOrder struct {
 	HL7 HL7Name `hl7:",name=PEX_P08_AssociatedRxOrder,type=tg"`
-	RXE RXE     `hl7:"19,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"19,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"20,display=Pharmacy/treatment route segment"`
 }
 
 // AssociatedRxAdmin
 type PEX_P08_AssociatedRxAdmin struct {
 	HL7 HL7Name `hl7:",name=PEX_P08_AssociatedRxAdmin,type=tg"`
-	RXA RXA     `hl7:"21,required,display=Pharmacy/treatment administration segment"`
+	RXA *RXA    `hl7:"21,required,display=Pharmacy/treatment administration segment"`
 	RXR *RXR    `hl7:"22,display=Pharmacy/treatment route segment"`
 }
 
 // Study
 type PEX_P08_Study struct {
 	HL7 HL7Name `hl7:",name=PEX_P08_Study,type=tg"`
-	CSR CSR     `hl7:"25,required,display=Clinical study registration segment"`
+	CSR *CSR    `hl7:"25,required,display=Clinical study registration segment"`
 	CSP []CSP   `hl7:"26,display=Clinical study phase segment"`
 }
 
@@ -3618,9 +3618,9 @@ type PEX_P08_Study struct {
 // The primary application of this message is to transfer information related to an adverse event occurring while a patient was exposed to a product
 type PEX_P08 struct {
 	HL7        HL7Name              `hl7:",name=PEX_P08,type=t"`
-	MSH        MSH                  `hl7:"1,required,display=Message header segment"`
-	EVN        EVN                  `hl7:"2,required,display=Event type segment"`
-	PID        PID                  `hl7:"3,required,display=Patient identification segment"`
+	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
+	EVN        *EVN                 `hl7:"2,required,display=Event type segment"`
+	PID        *PID                 `hl7:"3,required,display=Patient identification segment"`
 	PD1        *PD1                 `hl7:"4,display=Patient Additional Demographic"`
 	NTE        []NTE                `hl7:"5,display=Notes and comments segment"`
 	Visit      *PEX_P08_Visit       `hl7:",display=Visit"`
@@ -3630,14 +3630,14 @@ type PEX_P08 struct {
 // PatientVisit
 type PGL_PC6_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PGL_PC6_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Goal
 type PGL_PC6_Goal struct {
 	HL7         HL7Name               `hl7:",name=PGL_PC6_Goal,type=tg"`
-	GOL         GOL                   `hl7:"5,required,display=Goal Detail"`
+	GOL         *GOL                  `hl7:"5,required,display=Goal Detail"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	GoalRole    []PGL_PC6_GoalRole    `hl7:",display=Goal Role"`
@@ -3650,28 +3650,28 @@ type PGL_PC6_Goal struct {
 // GoalRole
 type PGL_PC6_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PGL_PC6_GoalRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Pathway
 type PGL_PC6_Pathway struct {
 	HL7 HL7Name `hl7:",name=PGL_PC6_Pathway,type=tg"`
-	PTH PTH     `hl7:"10,required,display=Pathway"`
+	PTH *PTH    `hl7:"10,required,display=Pathway"`
 	VAR []VAR   `hl7:"11,display=Variance"`
 }
 
 // Observation
 type PGL_PC6_Observation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC6_Observation,type=tg"`
-	OBX OBX     `hl7:"12,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"12,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
 
 // Problem
 type PGL_PC6_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PGL_PC6_Problem,type=tg"`
-	PRB                PRB                          `hl7:"14,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"14,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"15,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"16,display=Variance"`
 	ProblemRole        []PGL_PC6_ProblemRole        `hl7:",display=Problem Role"`
@@ -3681,31 +3681,31 @@ type PGL_PC6_Problem struct {
 // ProblemRole
 type PGL_PC6_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PGL_PC6_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"17,required,display=Role"`
+	ROL *ROL    `hl7:"17,required,display=Role"`
 	VAR []VAR   `hl7:"18,display=Variance"`
 }
 
 // ProblemObservation
 type PGL_PC6_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC6_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Order
 type PGL_PC6_Order struct {
 	HL7         HL7Name              `hl7:",name=PGL_PC6_Order,type=tg"`
-	ORC         ORC                  `hl7:"21,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"21,required,display=Common order segment"`
 	OrderDetail *PGL_PC6_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PGL_PC6_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PGL_PC6_OrderDetail,type=tg"`
-	OrderDetailSegment PGL_PC6_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"28,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"29,display=Variance"`
-	OrderObservation   []PGL_PC6_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PGL_PC6_OrderDetail,type=tg"`
+	OrderDetailSegment *PGL_PC6_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"28,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"29,display=Variance"`
+	OrderObservation   []PGL_PC6_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -3722,7 +3722,7 @@ type PGL_PC6_OrderDetailSegment struct {
 // OrderObservation
 type PGL_PC6_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC6_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"30,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"30,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"31,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"32,display=Variance"`
 }
@@ -3732,8 +3732,8 @@ type PGL_PC6_OrderObservation struct {
 // This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
 type PGL_PC6 struct {
 	HL7          HL7Name               `hl7:",name=PGL_PC6,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PGL_PC6_PatientVisit `hl7:",display=Patient Visit"`
 	Goal         []PGL_PC6_Goal        `hl7:",required,display=Goal"`
 }
@@ -3741,14 +3741,14 @@ type PGL_PC6 struct {
 // PatientVisit
 type PGL_PC7_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PGL_PC7_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Goal
 type PGL_PC7_Goal struct {
 	HL7         HL7Name               `hl7:",name=PGL_PC7_Goal,type=tg"`
-	GOL         GOL                   `hl7:"5,required,display=Goal Detail"`
+	GOL         *GOL                  `hl7:"5,required,display=Goal Detail"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	GoalRole    []PGL_PC7_GoalRole    `hl7:",display=Goal Role"`
@@ -3761,28 +3761,28 @@ type PGL_PC7_Goal struct {
 // GoalRole
 type PGL_PC7_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PGL_PC7_GoalRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Pathway
 type PGL_PC7_Pathway struct {
 	HL7 HL7Name `hl7:",name=PGL_PC7_Pathway,type=tg"`
-	PTH PTH     `hl7:"10,required,display=Pathway"`
+	PTH *PTH    `hl7:"10,required,display=Pathway"`
 	VAR []VAR   `hl7:"11,display=Variance"`
 }
 
 // Observation
 type PGL_PC7_Observation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC7_Observation,type=tg"`
-	OBX OBX     `hl7:"12,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"12,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
 
 // Problem
 type PGL_PC7_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PGL_PC7_Problem,type=tg"`
-	PRB                PRB                          `hl7:"14,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"14,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"15,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"16,display=Variance"`
 	ProblemRole        []PGL_PC7_ProblemRole        `hl7:",display=Problem Role"`
@@ -3792,31 +3792,31 @@ type PGL_PC7_Problem struct {
 // ProblemRole
 type PGL_PC7_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PGL_PC7_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"17,required,display=Role"`
+	ROL *ROL    `hl7:"17,required,display=Role"`
 	VAR []VAR   `hl7:"18,display=Variance"`
 }
 
 // ProblemObservation
 type PGL_PC7_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC7_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Order
 type PGL_PC7_Order struct {
 	HL7         HL7Name              `hl7:",name=PGL_PC7_Order,type=tg"`
-	ORC         ORC                  `hl7:"21,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"21,required,display=Common order segment"`
 	OrderDetail *PGL_PC7_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PGL_PC7_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PGL_PC7_OrderDetail,type=tg"`
-	OrderDetailSegment PGL_PC7_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"28,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"29,display=Variance"`
-	OrderObservation   []PGL_PC7_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PGL_PC7_OrderDetail,type=tg"`
+	OrderDetailSegment *PGL_PC7_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"28,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"29,display=Variance"`
+	OrderObservation   []PGL_PC7_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -3833,7 +3833,7 @@ type PGL_PC7_OrderDetailSegment struct {
 // OrderObservation
 type PGL_PC7_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC7_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"30,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"30,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"31,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"32,display=Variance"`
 }
@@ -3843,8 +3843,8 @@ type PGL_PC7_OrderObservation struct {
 // This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
 type PGL_PC7 struct {
 	HL7          HL7Name               `hl7:",name=PGL_PC7,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PGL_PC7_PatientVisit `hl7:",display=Patient Visit"`
 	Goal         []PGL_PC7_Goal        `hl7:",required,display=Goal"`
 }
@@ -3852,14 +3852,14 @@ type PGL_PC7 struct {
 // PatientVisit
 type PGL_PC8_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PGL_PC8_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Goal
 type PGL_PC8_Goal struct {
 	HL7         HL7Name               `hl7:",name=PGL_PC8_Goal,type=tg"`
-	GOL         GOL                   `hl7:"5,required,display=Goal Detail"`
+	GOL         *GOL                  `hl7:"5,required,display=Goal Detail"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	GoalRole    []PGL_PC8_GoalRole    `hl7:",display=Goal Role"`
@@ -3872,28 +3872,28 @@ type PGL_PC8_Goal struct {
 // GoalRole
 type PGL_PC8_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PGL_PC8_GoalRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Pathway
 type PGL_PC8_Pathway struct {
 	HL7 HL7Name `hl7:",name=PGL_PC8_Pathway,type=tg"`
-	PTH PTH     `hl7:"10,required,display=Pathway"`
+	PTH *PTH    `hl7:"10,required,display=Pathway"`
 	VAR []VAR   `hl7:"11,display=Variance"`
 }
 
 // Observation
 type PGL_PC8_Observation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC8_Observation,type=tg"`
-	OBX OBX     `hl7:"12,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"12,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
 
 // Problem
 type PGL_PC8_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PGL_PC8_Problem,type=tg"`
-	PRB                PRB                          `hl7:"14,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"14,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"15,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"16,display=Variance"`
 	ProblemRole        []PGL_PC8_ProblemRole        `hl7:",display=Problem Role"`
@@ -3903,31 +3903,31 @@ type PGL_PC8_Problem struct {
 // ProblemRole
 type PGL_PC8_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PGL_PC8_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"17,required,display=Role"`
+	ROL *ROL    `hl7:"17,required,display=Role"`
 	VAR []VAR   `hl7:"18,display=Variance"`
 }
 
 // ProblemObservation
 type PGL_PC8_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC8_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Order
 type PGL_PC8_Order struct {
 	HL7         HL7Name              `hl7:",name=PGL_PC8_Order,type=tg"`
-	ORC         ORC                  `hl7:"21,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"21,required,display=Common order segment"`
 	OrderDetail *PGL_PC8_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PGL_PC8_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PGL_PC8_OrderDetail,type=tg"`
-	OrderDetailSegment PGL_PC8_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"28,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"29,display=Variance"`
-	OrderObservation   []PGL_PC8_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PGL_PC8_OrderDetail,type=tg"`
+	OrderDetailSegment *PGL_PC8_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"28,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"29,display=Variance"`
+	OrderObservation   []PGL_PC8_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -3944,7 +3944,7 @@ type PGL_PC8_OrderDetailSegment struct {
 // OrderObservation
 type PGL_PC8_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PGL_PC8_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"30,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"30,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"31,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"32,display=Variance"`
 }
@@ -3954,8 +3954,8 @@ type PGL_PC8_OrderObservation struct {
 // This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
 type PGL_PC8 struct {
 	HL7          HL7Name               `hl7:",name=PGL_PC8,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PGL_PC8_PatientVisit `hl7:",display=Patient Visit"`
 	Goal         []PGL_PC8_Goal        `hl7:",required,display=Goal"`
 }
@@ -3963,7 +3963,7 @@ type PGL_PC8 struct {
 // Provider
 type PIN_I07_Provider struct {
 	HL7 HL7Name `hl7:",name=PIN_I07_Provider,type=tg"`
-	PRD PRD     `hl7:"2,required,display=Provider Data"`
+	PRD *PRD    `hl7:"2,required,display=Provider Data"`
 	CTD []CTD   `hl7:"3,display=Contact Data"`
 }
 
@@ -3977,7 +3977,7 @@ type PIN_I07_GuarantorInsurance struct {
 // Insurance
 type PIN_I07_Insurance struct {
 	HL7 HL7Name `hl7:",name=PIN_I07_Insurance,type=tg"`
-	IN1 IN1     `hl7:"7,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"7,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"8,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"9,display=Insurance additional information- certification segment"`
 }
@@ -3987,9 +3987,9 @@ type PIN_I07_Insurance struct {
 // This trigger event is used by an entity or organization to transmit to a healthcare provider the insurance information on a specific patient.  Typically, the healthcare provider will be a primary care provider.
 type PIN_I07 struct {
 	HL7                HL7Name                     `hl7:",name=PIN_I07,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
 	Provider           []PIN_I07_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"4,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"4,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"5,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *PIN_I07_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	NTE                []NTE                       `hl7:"10,display=Notes and comments segment"`
@@ -3998,14 +3998,14 @@ type PIN_I07 struct {
 // PatientVisit
 type PPG_PCG_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPG_PCG_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Pathway
 type PPG_PCG_Pathway struct {
 	HL7         HL7Name               `hl7:",name=PPG_PCG_Pathway,type=tg"`
-	PTH         PTH                   `hl7:"5,required,display=Pathway"`
+	PTH         *PTH                  `hl7:"5,required,display=Pathway"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	PathwayRole []PPG_PCG_PathwayRole `hl7:",display=Pathway Role"`
@@ -4015,14 +4015,14 @@ type PPG_PCG_Pathway struct {
 // PathwayRole
 type PPG_PCG_PathwayRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCG_PathwayRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Goal
 type PPG_PCG_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPG_PCG_Goal,type=tg"`
-	GOL             GOL                       `hl7:"10,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"10,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"11,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"12,display=Variance"`
 	GoalRole        []PPG_PCG_GoalRole        `hl7:",display=Goal Role"`
@@ -4034,21 +4034,21 @@ type PPG_PCG_Goal struct {
 // GoalRole
 type PPG_PCG_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCG_GoalRole,type=tg"`
-	ROL ROL     `hl7:"13,required,display=Role"`
+	ROL *ROL    `hl7:"13,required,display=Role"`
 	VAR []VAR   `hl7:"14,display=Variance"`
 }
 
 // GoalObservation
 type PPG_PCG_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCG_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"15,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"15,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // Problem
 type PPG_PCG_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPG_PCG_Problem,type=tg"`
-	PRB                PRB                          `hl7:"17,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"17,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"18,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"19,display=Variance"`
 	ProblemRole        []PPG_PCG_ProblemRole        `hl7:",display=Problem Role"`
@@ -4058,31 +4058,31 @@ type PPG_PCG_Problem struct {
 // ProblemRole
 type PPG_PCG_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCG_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"20,required,display=Role"`
+	ROL *ROL    `hl7:"20,required,display=Role"`
 	VAR []VAR   `hl7:"21,display=Variance"`
 }
 
 // ProblemObservation
 type PPG_PCG_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCG_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Order
 type PPG_PCG_Order struct {
 	HL7         HL7Name              `hl7:",name=PPG_PCG_Order,type=tg"`
-	ORC         ORC                  `hl7:"24,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"24,required,display=Common order segment"`
 	OrderDetail *PPG_PCG_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPG_PCG_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPG_PCG_OrderDetail,type=tg"`
-	OrderDetailSegment PPG_PCG_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"31,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"32,display=Variance"`
-	OrderObservation   []PPG_PCG_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPG_PCG_OrderDetail,type=tg"`
+	OrderDetailSegment *PPG_PCG_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"31,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"32,display=Variance"`
+	OrderObservation   []PPG_PCG_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -4099,7 +4099,7 @@ type PPG_PCG_OrderDetailSegment struct {
 // OrderObservation
 type PPG_PCG_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCG_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"33,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"33,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"34,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"35,display=Variance"`
 }
@@ -4107,8 +4107,8 @@ type PPG_PCG_OrderObservation struct {
 // Pathway (goal-oriented) add
 type PPG_PCG struct {
 	HL7          HL7Name               `hl7:",name=PPG_PCG,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPG_PCG_PatientVisit `hl7:",display=Patient Visit"`
 	Pathway      []PPG_PCG_Pathway     `hl7:",required,display=Pathway"`
 }
@@ -4116,14 +4116,14 @@ type PPG_PCG struct {
 // PatientVisit
 type PPG_PCH_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPG_PCH_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Pathway
 type PPG_PCH_Pathway struct {
 	HL7         HL7Name               `hl7:",name=PPG_PCH_Pathway,type=tg"`
-	PTH         PTH                   `hl7:"5,required,display=Pathway"`
+	PTH         *PTH                  `hl7:"5,required,display=Pathway"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	PathwayRole []PPG_PCH_PathwayRole `hl7:",display=Pathway Role"`
@@ -4133,14 +4133,14 @@ type PPG_PCH_Pathway struct {
 // PathwayRole
 type PPG_PCH_PathwayRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCH_PathwayRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Goal
 type PPG_PCH_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPG_PCH_Goal,type=tg"`
-	GOL             GOL                       `hl7:"10,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"10,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"11,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"12,display=Variance"`
 	GoalRole        []PPG_PCH_GoalRole        `hl7:",display=Goal Role"`
@@ -4152,21 +4152,21 @@ type PPG_PCH_Goal struct {
 // GoalRole
 type PPG_PCH_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCH_GoalRole,type=tg"`
-	ROL ROL     `hl7:"13,required,display=Role"`
+	ROL *ROL    `hl7:"13,required,display=Role"`
 	VAR []VAR   `hl7:"14,display=Variance"`
 }
 
 // GoalObservation
 type PPG_PCH_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCH_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"15,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"15,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // Problem
 type PPG_PCH_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPG_PCH_Problem,type=tg"`
-	PRB                PRB                          `hl7:"17,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"17,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"18,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"19,display=Variance"`
 	ProblemRole        []PPG_PCH_ProblemRole        `hl7:",display=Problem Role"`
@@ -4176,31 +4176,31 @@ type PPG_PCH_Problem struct {
 // ProblemRole
 type PPG_PCH_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCH_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"20,required,display=Role"`
+	ROL *ROL    `hl7:"20,required,display=Role"`
 	VAR []VAR   `hl7:"21,display=Variance"`
 }
 
 // ProblemObservation
 type PPG_PCH_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCH_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Order
 type PPG_PCH_Order struct {
 	HL7         HL7Name              `hl7:",name=PPG_PCH_Order,type=tg"`
-	ORC         ORC                  `hl7:"24,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"24,required,display=Common order segment"`
 	OrderDetail *PPG_PCH_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPG_PCH_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPG_PCH_OrderDetail,type=tg"`
-	OrderDetailSegment PPG_PCH_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"31,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"32,display=Variance"`
-	OrderObservation   []PPG_PCH_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPG_PCH_OrderDetail,type=tg"`
+	OrderDetailSegment *PPG_PCH_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"31,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"32,display=Variance"`
+	OrderObservation   []PPG_PCH_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -4217,7 +4217,7 @@ type PPG_PCH_OrderDetailSegment struct {
 // OrderObservation
 type PPG_PCH_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCH_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"33,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"33,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"34,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"35,display=Variance"`
 }
@@ -4225,8 +4225,8 @@ type PPG_PCH_OrderObservation struct {
 // Pathway (goal-oriented) update
 type PPG_PCH struct {
 	HL7          HL7Name               `hl7:",name=PPG_PCH,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPG_PCH_PatientVisit `hl7:",display=Patient Visit"`
 	Pathway      []PPG_PCH_Pathway     `hl7:",required,display=Pathway"`
 }
@@ -4234,14 +4234,14 @@ type PPG_PCH struct {
 // PatientVisit
 type PPG_PCJ_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPG_PCJ_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Pathway
 type PPG_PCJ_Pathway struct {
 	HL7         HL7Name               `hl7:",name=PPG_PCJ_Pathway,type=tg"`
-	PTH         PTH                   `hl7:"5,required,display=Pathway"`
+	PTH         *PTH                  `hl7:"5,required,display=Pathway"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	PathwayRole []PPG_PCJ_PathwayRole `hl7:",display=Pathway Role"`
@@ -4251,14 +4251,14 @@ type PPG_PCJ_Pathway struct {
 // PathwayRole
 type PPG_PCJ_PathwayRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCJ_PathwayRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Goal
 type PPG_PCJ_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPG_PCJ_Goal,type=tg"`
-	GOL             GOL                       `hl7:"10,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"10,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"11,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"12,display=Variance"`
 	GoalRole        []PPG_PCJ_GoalRole        `hl7:",display=Goal Role"`
@@ -4270,21 +4270,21 @@ type PPG_PCJ_Goal struct {
 // GoalRole
 type PPG_PCJ_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCJ_GoalRole,type=tg"`
-	ROL ROL     `hl7:"13,required,display=Role"`
+	ROL *ROL    `hl7:"13,required,display=Role"`
 	VAR []VAR   `hl7:"14,display=Variance"`
 }
 
 // GoalObservation
 type PPG_PCJ_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCJ_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"15,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"15,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // Problem
 type PPG_PCJ_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPG_PCJ_Problem,type=tg"`
-	PRB                PRB                          `hl7:"17,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"17,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"18,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"19,display=Variance"`
 	ProblemRole        []PPG_PCJ_ProblemRole        `hl7:",display=Problem Role"`
@@ -4294,31 +4294,31 @@ type PPG_PCJ_Problem struct {
 // ProblemRole
 type PPG_PCJ_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPG_PCJ_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"20,required,display=Role"`
+	ROL *ROL    `hl7:"20,required,display=Role"`
 	VAR []VAR   `hl7:"21,display=Variance"`
 }
 
 // ProblemObservation
 type PPG_PCJ_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCJ_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Order
 type PPG_PCJ_Order struct {
 	HL7         HL7Name              `hl7:",name=PPG_PCJ_Order,type=tg"`
-	ORC         ORC                  `hl7:"24,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"24,required,display=Common order segment"`
 	OrderDetail *PPG_PCJ_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPG_PCJ_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPG_PCJ_OrderDetail,type=tg"`
-	OrderDetailSegment PPG_PCJ_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"31,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"32,display=Variance"`
-	OrderObservation   []PPG_PCJ_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPG_PCJ_OrderDetail,type=tg"`
+	OrderDetailSegment *PPG_PCJ_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"31,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"32,display=Variance"`
+	OrderObservation   []PPG_PCJ_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -4335,7 +4335,7 @@ type PPG_PCJ_OrderDetailSegment struct {
 // OrderObservation
 type PPG_PCJ_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPG_PCJ_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"33,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"33,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"34,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"35,display=Variance"`
 }
@@ -4343,8 +4343,8 @@ type PPG_PCJ_OrderObservation struct {
 // Pathway (goal-oriented) delete
 type PPG_PCJ struct {
 	HL7          HL7Name               `hl7:",name=PPG_PCJ,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPG_PCJ_PatientVisit `hl7:",display=Patient Visit"`
 	Pathway      []PPG_PCJ_Pathway     `hl7:",required,display=Pathway"`
 }
@@ -4352,14 +4352,14 @@ type PPG_PCJ struct {
 // PatientVisit
 type PPP_PCB_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPP_PCB_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Pathway
 type PPP_PCB_Pathway struct {
 	HL7         HL7Name               `hl7:",name=PPP_PCB_Pathway,type=tg"`
-	PTH         PTH                   `hl7:"5,required,display=Pathway"`
+	PTH         *PTH                  `hl7:"5,required,display=Pathway"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	PathwayRole []PPP_PCB_PathwayRole `hl7:",display=Pathway Role"`
@@ -4369,14 +4369,14 @@ type PPP_PCB_Pathway struct {
 // PathwayRole
 type PPP_PCB_PathwayRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCB_PathwayRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Problem
 type PPP_PCB_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPP_PCB_Problem,type=tg"`
-	PRB                PRB                          `hl7:"10,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"10,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"11,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"12,display=Variance"`
 	ProblemRole        []PPP_PCB_ProblemRole        `hl7:",display=Problem Role"`
@@ -4388,21 +4388,21 @@ type PPP_PCB_Problem struct {
 // ProblemRole
 type PPP_PCB_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCB_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"13,required,display=Role"`
+	ROL *ROL    `hl7:"13,required,display=Role"`
 	VAR []VAR   `hl7:"14,display=Variance"`
 }
 
 // ProblemObservation
 type PPP_PCB_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCB_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"15,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"15,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // Goal
 type PPP_PCB_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPP_PCB_Goal,type=tg"`
-	GOL             GOL                       `hl7:"17,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"17,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"18,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"19,display=Variance"`
 	GoalRole        []PPP_PCB_GoalRole        `hl7:",display=Goal Role"`
@@ -4412,31 +4412,31 @@ type PPP_PCB_Goal struct {
 // GoalRole
 type PPP_PCB_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCB_GoalRole,type=tg"`
-	ROL ROL     `hl7:"20,required,display=Role"`
+	ROL *ROL    `hl7:"20,required,display=Role"`
 	VAR []VAR   `hl7:"21,display=Variance"`
 }
 
 // GoalObservation
 type PPP_PCB_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCB_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Order
 type PPP_PCB_Order struct {
 	HL7         HL7Name              `hl7:",name=PPP_PCB_Order,type=tg"`
-	ORC         ORC                  `hl7:"24,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"24,required,display=Common order segment"`
 	OrderDetail *PPP_PCB_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPP_PCB_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPP_PCB_OrderDetail,type=tg"`
-	OrderDetailSegment PPP_PCB_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"31,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"32,display=Variance"`
-	OrderObservation   []PPP_PCB_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPP_PCB_OrderDetail,type=tg"`
+	OrderDetailSegment *PPP_PCB_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"31,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"32,display=Variance"`
+	OrderObservation   []PPP_PCB_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -4453,7 +4453,7 @@ type PPP_PCB_OrderDetailSegment struct {
 // OrderObservation
 type PPP_PCB_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCB_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"33,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"33,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"34,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"35,display=Variance"`
 }
@@ -4461,8 +4461,8 @@ type PPP_PCB_OrderObservation struct {
 // Pathway (problem-oriented) add
 type PPP_PCB struct {
 	HL7          HL7Name               `hl7:",name=PPP_PCB,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPP_PCB_PatientVisit `hl7:",display=Patient Visit"`
 	Pathway      []PPP_PCB_Pathway     `hl7:",required,display=Pathway"`
 }
@@ -4470,14 +4470,14 @@ type PPP_PCB struct {
 // PatientVisit
 type PPP_PCC_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPP_PCC_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Pathway
 type PPP_PCC_Pathway struct {
 	HL7         HL7Name               `hl7:",name=PPP_PCC_Pathway,type=tg"`
-	PTH         PTH                   `hl7:"5,required,display=Pathway"`
+	PTH         *PTH                  `hl7:"5,required,display=Pathway"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	PathwayRole []PPP_PCC_PathwayRole `hl7:",display=Pathway Role"`
@@ -4487,14 +4487,14 @@ type PPP_PCC_Pathway struct {
 // PathwayRole
 type PPP_PCC_PathwayRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCC_PathwayRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Problem
 type PPP_PCC_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPP_PCC_Problem,type=tg"`
-	PRB                PRB                          `hl7:"10,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"10,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"11,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"12,display=Variance"`
 	ProblemRole        []PPP_PCC_ProblemRole        `hl7:",display=Problem Role"`
@@ -4506,21 +4506,21 @@ type PPP_PCC_Problem struct {
 // ProblemRole
 type PPP_PCC_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCC_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"13,required,display=Role"`
+	ROL *ROL    `hl7:"13,required,display=Role"`
 	VAR []VAR   `hl7:"14,display=Variance"`
 }
 
 // ProblemObservation
 type PPP_PCC_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCC_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"15,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"15,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // Goal
 type PPP_PCC_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPP_PCC_Goal,type=tg"`
-	GOL             GOL                       `hl7:"17,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"17,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"18,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"19,display=Variance"`
 	GoalRole        []PPP_PCC_GoalRole        `hl7:",display=Goal Role"`
@@ -4530,31 +4530,31 @@ type PPP_PCC_Goal struct {
 // GoalRole
 type PPP_PCC_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCC_GoalRole,type=tg"`
-	ROL ROL     `hl7:"20,required,display=Role"`
+	ROL *ROL    `hl7:"20,required,display=Role"`
 	VAR []VAR   `hl7:"21,display=Variance"`
 }
 
 // GoalObservation
 type PPP_PCC_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCC_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Order
 type PPP_PCC_Order struct {
 	HL7         HL7Name              `hl7:",name=PPP_PCC_Order,type=tg"`
-	ORC         ORC                  `hl7:"24,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"24,required,display=Common order segment"`
 	OrderDetail *PPP_PCC_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPP_PCC_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPP_PCC_OrderDetail,type=tg"`
-	OrderDetailSegment PPP_PCC_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"31,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"32,display=Variance"`
-	OrderObservation   []PPP_PCC_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPP_PCC_OrderDetail,type=tg"`
+	OrderDetailSegment *PPP_PCC_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"31,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"32,display=Variance"`
+	OrderObservation   []PPP_PCC_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -4571,7 +4571,7 @@ type PPP_PCC_OrderDetailSegment struct {
 // OrderObservation
 type PPP_PCC_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCC_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"33,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"33,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"34,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"35,display=Variance"`
 }
@@ -4579,8 +4579,8 @@ type PPP_PCC_OrderObservation struct {
 // Pathway (problem-oriented) add
 type PPP_PCC struct {
 	HL7          HL7Name               `hl7:",name=PPP_PCC,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPP_PCC_PatientVisit `hl7:",display=Patient Visit"`
 	Pathway      []PPP_PCC_Pathway     `hl7:",required,display=Pathway"`
 }
@@ -4588,14 +4588,14 @@ type PPP_PCC struct {
 // PatientVisit
 type PPP_PCD_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPP_PCD_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Pathway
 type PPP_PCD_Pathway struct {
 	HL7         HL7Name               `hl7:",name=PPP_PCD_Pathway,type=tg"`
-	PTH         PTH                   `hl7:"5,required,display=Pathway"`
+	PTH         *PTH                  `hl7:"5,required,display=Pathway"`
 	NTE         []NTE                 `hl7:"6,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"7,display=Variance"`
 	PathwayRole []PPP_PCD_PathwayRole `hl7:",display=Pathway Role"`
@@ -4605,14 +4605,14 @@ type PPP_PCD_Pathway struct {
 // PathwayRole
 type PPP_PCD_PathwayRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCD_PathwayRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Problem
 type PPP_PCD_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPP_PCD_Problem,type=tg"`
-	PRB                PRB                          `hl7:"10,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"10,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"11,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"12,display=Variance"`
 	ProblemRole        []PPP_PCD_ProblemRole        `hl7:",display=Problem Role"`
@@ -4624,21 +4624,21 @@ type PPP_PCD_Problem struct {
 // ProblemRole
 type PPP_PCD_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCD_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"13,required,display=Role"`
+	ROL *ROL    `hl7:"13,required,display=Role"`
 	VAR []VAR   `hl7:"14,display=Variance"`
 }
 
 // ProblemObservation
 type PPP_PCD_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCD_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"15,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"15,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // Goal
 type PPP_PCD_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPP_PCD_Goal,type=tg"`
-	GOL             GOL                       `hl7:"17,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"17,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"18,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"19,display=Variance"`
 	GoalRole        []PPP_PCD_GoalRole        `hl7:",display=Goal Role"`
@@ -4648,31 +4648,31 @@ type PPP_PCD_Goal struct {
 // GoalRole
 type PPP_PCD_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPP_PCD_GoalRole,type=tg"`
-	ROL ROL     `hl7:"20,required,display=Role"`
+	ROL *ROL    `hl7:"20,required,display=Role"`
 	VAR []VAR   `hl7:"21,display=Variance"`
 }
 
 // GoalObservation
 type PPP_PCD_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCD_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Order
 type PPP_PCD_Order struct {
 	HL7         HL7Name              `hl7:",name=PPP_PCD_Order,type=tg"`
-	ORC         ORC                  `hl7:"24,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"24,required,display=Common order segment"`
 	OrderDetail *PPP_PCD_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPP_PCD_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPP_PCD_OrderDetail,type=tg"`
-	OrderDetailSegment PPP_PCD_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"31,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"32,display=Variance"`
-	OrderObservation   []PPP_PCD_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPP_PCD_OrderDetail,type=tg"`
+	OrderDetailSegment *PPP_PCD_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"31,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"32,display=Variance"`
+	OrderObservation   []PPP_PCD_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -4689,7 +4689,7 @@ type PPP_PCD_OrderDetailSegment struct {
 // OrderObservation
 type PPP_PCD_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPP_PCD_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"33,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"33,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"34,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"35,display=Variance"`
 }
@@ -4697,8 +4697,8 @@ type PPP_PCD_OrderObservation struct {
 // Pathway (problem-oriented) add
 type PPP_PCD struct {
 	HL7          HL7Name               `hl7:",name=PPP_PCD,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPP_PCD_PatientVisit `hl7:",display=Patient Visit"`
 	Pathway      []PPP_PCD_Pathway     `hl7:",required,display=Pathway"`
 }
@@ -4706,14 +4706,14 @@ type PPP_PCD struct {
 // PatientVisit
 type PPR_PC1_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPR_PC1_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Problem
 type PPR_PC1_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPR_PC1_Problem,type=tg"`
-	PRB                PRB                          `hl7:"5,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"5,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"6,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"7,display=Variance"`
 	ProblemRole        []PPR_PC1_ProblemRole        `hl7:",display=Problem Role"`
@@ -4726,28 +4726,28 @@ type PPR_PC1_Problem struct {
 // ProblemRole
 type PPR_PC1_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPR_PC1_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Pathway
 type PPR_PC1_Pathway struct {
 	HL7 HL7Name `hl7:",name=PPR_PC1_Pathway,type=tg"`
-	PTH PTH     `hl7:"10,required,display=Pathway"`
+	PTH *PTH    `hl7:"10,required,display=Pathway"`
 	VAR []VAR   `hl7:"11,display=Variance"`
 }
 
 // ProblemObservation
 type PPR_PC1_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC1_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"12,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"12,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
 
 // Goal
 type PPR_PC1_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPR_PC1_Goal,type=tg"`
-	GOL             GOL                       `hl7:"14,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"14,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"15,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"16,display=Variance"`
 	GoalRole        []PPR_PC1_GoalRole        `hl7:",display=Goal Role"`
@@ -4757,31 +4757,31 @@ type PPR_PC1_Goal struct {
 // GoalRole
 type PPR_PC1_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPR_PC1_GoalRole,type=tg"`
-	ROL ROL     `hl7:"17,required,display=Role"`
+	ROL *ROL    `hl7:"17,required,display=Role"`
 	VAR []VAR   `hl7:"18,display=Variance"`
 }
 
 // GoalObservation
 type PPR_PC1_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC1_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Order
 type PPR_PC1_Order struct {
 	HL7         HL7Name              `hl7:",name=PPR_PC1_Order,type=tg"`
-	ORC         ORC                  `hl7:"21,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"21,required,display=Common order segment"`
 	OrderDetail *PPR_PC1_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPR_PC1_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPR_PC1_OrderDetail,type=tg"`
-	OrderDetailSegment PPR_PC1_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"28,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"29,display=Variance"`
-	OrderObservation   []PPR_PC1_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPR_PC1_OrderDetail,type=tg"`
+	OrderDetailSegment *PPR_PC1_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"28,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"29,display=Variance"`
+	OrderObservation   []PPR_PC1_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -4798,7 +4798,7 @@ type PPR_PC1_OrderDetailSegment struct {
 // OrderObservation
 type PPR_PC1_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC1_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"30,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"30,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"31,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"32,display=Variance"`
 }
@@ -4808,8 +4808,8 @@ type PPR_PC1_OrderObservation struct {
 // The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
 type PPR_PC1 struct {
 	HL7          HL7Name               `hl7:",name=PPR_PC1,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPR_PC1_PatientVisit `hl7:",display=Patient Visit"`
 	Problem      []PPR_PC1_Problem     `hl7:",required,display=Problem"`
 }
@@ -4817,14 +4817,14 @@ type PPR_PC1 struct {
 // PatientVisit
 type PPR_PC2_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPR_PC2_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Problem
 type PPR_PC2_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPR_PC2_Problem,type=tg"`
-	PRB                PRB                          `hl7:"5,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"5,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"6,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"7,display=Variance"`
 	ProblemRole        []PPR_PC2_ProblemRole        `hl7:",display=Problem Role"`
@@ -4837,28 +4837,28 @@ type PPR_PC2_Problem struct {
 // ProblemRole
 type PPR_PC2_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPR_PC2_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Pathway
 type PPR_PC2_Pathway struct {
 	HL7 HL7Name `hl7:",name=PPR_PC2_Pathway,type=tg"`
-	PTH PTH     `hl7:"10,required,display=Pathway"`
+	PTH *PTH    `hl7:"10,required,display=Pathway"`
 	VAR []VAR   `hl7:"11,display=Variance"`
 }
 
 // ProblemObservation
 type PPR_PC2_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC2_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"12,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"12,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
 
 // Goal
 type PPR_PC2_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPR_PC2_Goal,type=tg"`
-	GOL             GOL                       `hl7:"14,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"14,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"15,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"16,display=Variance"`
 	GoalRole        []PPR_PC2_GoalRole        `hl7:",display=Goal Role"`
@@ -4868,31 +4868,31 @@ type PPR_PC2_Goal struct {
 // GoalRole
 type PPR_PC2_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPR_PC2_GoalRole,type=tg"`
-	ROL ROL     `hl7:"17,required,display=Role"`
+	ROL *ROL    `hl7:"17,required,display=Role"`
 	VAR []VAR   `hl7:"18,display=Variance"`
 }
 
 // GoalObservation
 type PPR_PC2_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC2_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Order
 type PPR_PC2_Order struct {
 	HL7         HL7Name              `hl7:",name=PPR_PC2_Order,type=tg"`
-	ORC         ORC                  `hl7:"21,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"21,required,display=Common order segment"`
 	OrderDetail *PPR_PC2_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPR_PC2_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPR_PC2_OrderDetail,type=tg"`
-	OrderDetailSegment PPR_PC2_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"28,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"29,display=Variance"`
-	OrderObservation   []PPR_PC2_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPR_PC2_OrderDetail,type=tg"`
+	OrderDetailSegment *PPR_PC2_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"28,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"29,display=Variance"`
+	OrderObservation   []PPR_PC2_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -4909,7 +4909,7 @@ type PPR_PC2_OrderDetailSegment struct {
 // OrderObservation
 type PPR_PC2_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC2_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"30,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"30,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"31,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"32,display=Variance"`
 }
@@ -4919,8 +4919,8 @@ type PPR_PC2_OrderObservation struct {
 // The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
 type PPR_PC2 struct {
 	HL7          HL7Name               `hl7:",name=PPR_PC2,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPR_PC2_PatientVisit `hl7:",display=Patient Visit"`
 	Problem      []PPR_PC2_Problem     `hl7:",required,display=Problem"`
 }
@@ -4928,14 +4928,14 @@ type PPR_PC2 struct {
 // PatientVisit
 type PPR_PC3_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPR_PC3_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"3,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"3,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"4,display=Patient visit - additional information segment"`
 }
 
 // Problem
 type PPR_PC3_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPR_PC3_Problem,type=tg"`
-	PRB                PRB                          `hl7:"5,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"5,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"6,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"7,display=Variance"`
 	ProblemRole        []PPR_PC3_ProblemRole        `hl7:",display=Problem Role"`
@@ -4948,28 +4948,28 @@ type PPR_PC3_Problem struct {
 // ProblemRole
 type PPR_PC3_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPR_PC3_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"8,required,display=Role"`
+	ROL *ROL    `hl7:"8,required,display=Role"`
 	VAR []VAR   `hl7:"9,display=Variance"`
 }
 
 // Pathway
 type PPR_PC3_Pathway struct {
 	HL7 HL7Name `hl7:",name=PPR_PC3_Pathway,type=tg"`
-	PTH PTH     `hl7:"10,required,display=Pathway"`
+	PTH *PTH    `hl7:"10,required,display=Pathway"`
 	VAR []VAR   `hl7:"11,display=Variance"`
 }
 
 // ProblemObservation
 type PPR_PC3_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC3_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"12,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"12,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
 
 // Goal
 type PPR_PC3_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPR_PC3_Goal,type=tg"`
-	GOL             GOL                       `hl7:"14,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"14,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"15,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"16,display=Variance"`
 	GoalRole        []PPR_PC3_GoalRole        `hl7:",display=Goal Role"`
@@ -4979,31 +4979,31 @@ type PPR_PC3_Goal struct {
 // GoalRole
 type PPR_PC3_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPR_PC3_GoalRole,type=tg"`
-	ROL ROL     `hl7:"17,required,display=Role"`
+	ROL *ROL    `hl7:"17,required,display=Role"`
 	VAR []VAR   `hl7:"18,display=Variance"`
 }
 
 // GoalObservation
 type PPR_PC3_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC3_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Order
 type PPR_PC3_Order struct {
 	HL7         HL7Name              `hl7:",name=PPR_PC3_Order,type=tg"`
-	ORC         ORC                  `hl7:"21,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"21,required,display=Common order segment"`
 	OrderDetail *PPR_PC3_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPR_PC3_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPR_PC3_OrderDetail,type=tg"`
-	OrderDetailSegment PPR_PC3_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"28,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"29,display=Variance"`
-	OrderObservation   []PPR_PC3_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPR_PC3_OrderDetail,type=tg"`
+	OrderDetailSegment *PPR_PC3_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"28,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"29,display=Variance"`
+	OrderObservation   []PPR_PC3_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -5020,7 +5020,7 @@ type PPR_PC3_OrderDetailSegment struct {
 // OrderObservation
 type PPR_PC3_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPR_PC3_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"30,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"30,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"31,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"32,display=Variance"`
 }
@@ -5030,8 +5030,8 @@ type PPR_PC3_OrderObservation struct {
 // The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
 type PPR_PC3 struct {
 	HL7          HL7Name               `hl7:",name=PPR_PC3,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	PID          PID                   `hl7:"2,required,display=Patient identification segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	PID          *PID                  `hl7:"2,required,display=Patient identification segment"`
 	PatientVisit *PPR_PC3_PatientVisit `hl7:",display=Patient Visit"`
 	Problem      []PPR_PC3_Problem     `hl7:",required,display=Problem"`
 }
@@ -5039,7 +5039,7 @@ type PPR_PC3 struct {
 // Patient
 type PPT_PCL_Patient struct {
 	HL7          HL7Name               `hl7:",name=PPT_PCL_Patient,type=tg"`
-	PID          PID                   `hl7:"6,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"6,required,display=Patient identification segment"`
 	PatientVisit *PPT_PCL_PatientVisit `hl7:",display=Patient Visit"`
 	Pathway      []PPT_PCL_Pathway     `hl7:",required,display=Pathway"`
 }
@@ -5047,14 +5047,14 @@ type PPT_PCL_Patient struct {
 // PatientVisit
 type PPT_PCL_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPT_PCL_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"7,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"7,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 }
 
 // Pathway
 type PPT_PCL_Pathway struct {
 	HL7         HL7Name               `hl7:",name=PPT_PCL_Pathway,type=tg"`
-	PTH         PTH                   `hl7:"9,required,display=Pathway"`
+	PTH         *PTH                  `hl7:"9,required,display=Pathway"`
 	NTE         []NTE                 `hl7:"10,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"11,display=Variance"`
 	PathwayRole []PPT_PCL_PathwayRole `hl7:",display=Pathway Role"`
@@ -5064,14 +5064,14 @@ type PPT_PCL_Pathway struct {
 // PathwayRole
 type PPT_PCL_PathwayRole struct {
 	HL7 HL7Name `hl7:",name=PPT_PCL_PathwayRole,type=tg"`
-	ROL ROL     `hl7:"12,required,display=Role"`
+	ROL *ROL    `hl7:"12,required,display=Role"`
 	VAR []VAR   `hl7:"13,display=Variance"`
 }
 
 // Goal
 type PPT_PCL_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPT_PCL_Goal,type=tg"`
-	GOL             GOL                       `hl7:"14,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"14,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"15,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"16,display=Variance"`
 	GoalRole        []PPT_PCL_GoalRole        `hl7:",display=Goal Role"`
@@ -5083,21 +5083,21 @@ type PPT_PCL_Goal struct {
 // GoalRole
 type PPT_PCL_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPT_PCL_GoalRole,type=tg"`
-	ROL ROL     `hl7:"17,required,display=Role"`
+	ROL *ROL    `hl7:"17,required,display=Role"`
 	VAR []VAR   `hl7:"18,display=Variance"`
 }
 
 // GoalObservation
 type PPT_PCL_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPT_PCL_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Problem
 type PPT_PCL_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPT_PCL_Problem,type=tg"`
-	PRB                PRB                          `hl7:"21,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"21,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"22,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"23,display=Variance"`
 	ProblemRole        []PPT_PCL_ProblemRole        `hl7:",display=Problem Role"`
@@ -5107,31 +5107,31 @@ type PPT_PCL_Problem struct {
 // ProblemRole
 type PPT_PCL_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPT_PCL_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"24,required,display=Role"`
+	ROL *ROL    `hl7:"24,required,display=Role"`
 	VAR []VAR   `hl7:"25,display=Variance"`
 }
 
 // ProblemObservation
 type PPT_PCL_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPT_PCL_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"26,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"26,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"27,display=Notes and comments segment"`
 }
 
 // Order
 type PPT_PCL_Order struct {
 	HL7         HL7Name              `hl7:",name=PPT_PCL_Order,type=tg"`
-	ORC         ORC                  `hl7:"28,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"28,required,display=Common order segment"`
 	OrderDetail *PPT_PCL_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPT_PCL_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPT_PCL_OrderDetail,type=tg"`
-	OrderDetailSegment PPT_PCL_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"35,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"36,display=Variance"`
-	OrderObservation   []PPT_PCL_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPT_PCL_OrderDetail,type=tg"`
+	OrderDetailSegment *PPT_PCL_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"35,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"36,display=Variance"`
+	OrderObservation   []PPT_PCL_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -5148,7 +5148,7 @@ type PPT_PCL_OrderDetailSegment struct {
 // OrderObservation
 type PPT_PCL_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPT_PCL_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"37,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"37,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"38,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"39,display=Variance"`
 }
@@ -5158,18 +5158,18 @@ type PPT_PCL_OrderObservation struct {
 // The following trigger/message event is served by PPT (a response from the system responsible for maintaining the goal-oriented pathway information).
 type PPT_PCL struct {
 	HL7     HL7Name           `hl7:",name=PPT_PCL,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
 	QAK     *QAK              `hl7:"4,display=Query Acknowledgement"`
-	QRD     QRD               `hl7:"5,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"5,required,display=Original-style query definition segment"`
 	Patient []PPT_PCL_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type PPV_PCA_Patient struct {
 	HL7          HL7Name               `hl7:",name=PPV_PCA_Patient,type=tg"`
-	PID          PID                   `hl7:"6,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"6,required,display=Patient identification segment"`
 	PatientVisit *PPV_PCA_PatientVisit `hl7:",display=Patient Visit"`
 	Goal         []PPV_PCA_Goal        `hl7:",required,display=Goal"`
 }
@@ -5177,14 +5177,14 @@ type PPV_PCA_Patient struct {
 // PatientVisit
 type PPV_PCA_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PPV_PCA_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"7,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"7,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 }
 
 // Goal
 type PPV_PCA_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PPV_PCA_Goal,type=tg"`
-	GOL             GOL                       `hl7:"9,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"9,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"10,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"11,display=Variance"`
 	GoalRole        []PPV_PCA_GoalRole        `hl7:",display=Goal Role"`
@@ -5197,28 +5197,28 @@ type PPV_PCA_Goal struct {
 // GoalRole
 type PPV_PCA_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PPV_PCA_GoalRole,type=tg"`
-	ROL ROL     `hl7:"12,required,display=Role"`
+	ROL *ROL    `hl7:"12,required,display=Role"`
 	VAR []VAR   `hl7:"13,display=Variance"`
 }
 
 // GoalPathway
 type PPV_PCA_GoalPathway struct {
 	HL7 HL7Name `hl7:",name=PPV_PCA_GoalPathway,type=tg"`
-	PTH PTH     `hl7:"14,required,display=Pathway"`
+	PTH *PTH    `hl7:"14,required,display=Pathway"`
 	VAR []VAR   `hl7:"15,display=Variance"`
 }
 
 // GoalObservation
 type PPV_PCA_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PPV_PCA_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"16,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"16,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"17,display=Notes and comments segment"`
 }
 
 // Problem
 type PPV_PCA_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PPV_PCA_Problem,type=tg"`
-	PRB                PRB                          `hl7:"18,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"18,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"19,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"20,display=Variance"`
 	ProblemRole        []PPV_PCA_ProblemRole        `hl7:",display=Problem Role"`
@@ -5228,31 +5228,31 @@ type PPV_PCA_Problem struct {
 // ProblemRole
 type PPV_PCA_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PPV_PCA_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"21,required,display=Role"`
+	ROL *ROL    `hl7:"21,required,display=Role"`
 	VAR []VAR   `hl7:"22,display=Variance"`
 }
 
 // ProblemObservation
 type PPV_PCA_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PPV_PCA_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"23,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"23,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"24,display=Notes and comments segment"`
 }
 
 // Order
 type PPV_PCA_Order struct {
 	HL7         HL7Name              `hl7:",name=PPV_PCA_Order,type=tg"`
-	ORC         ORC                  `hl7:"25,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"25,required,display=Common order segment"`
 	OrderDetail *PPV_PCA_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PPV_PCA_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PPV_PCA_OrderDetail,type=tg"`
-	OrderDetailSegment PPV_PCA_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"32,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"33,display=Variance"`
-	OrderObservation   []PPV_PCA_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PPV_PCA_OrderDetail,type=tg"`
+	OrderDetailSegment *PPV_PCA_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"32,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"33,display=Variance"`
+	OrderObservation   []PPV_PCA_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -5269,7 +5269,7 @@ type PPV_PCA_OrderDetailSegment struct {
 // OrderObservation
 type PPV_PCA_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PPV_PCA_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"34,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"34,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"35,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"36,display=Variance"`
 }
@@ -5279,18 +5279,18 @@ type PPV_PCA_OrderObservation struct {
 // The following trigger/message event is served by PPV (a response from the system responsible for maintaining the goal information).
 type PPV_PCA struct {
 	HL7     HL7Name           `hl7:",name=PPV_PCA,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
 	QAK     *QAK              `hl7:"4,display=Query Acknowledgement"`
-	QRD     QRD               `hl7:"5,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"5,required,display=Original-style query definition segment"`
 	Patient []PPV_PCA_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type PRR_PC5_Patient struct {
 	HL7          HL7Name               `hl7:",name=PRR_PC5_Patient,type=tg"`
-	PID          PID                   `hl7:"6,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"6,required,display=Patient identification segment"`
 	PatientVisit *PRR_PC5_PatientVisit `hl7:",display=Patient Visit"`
 	Problem      []PRR_PC5_Problem     `hl7:",required,display=Problem"`
 }
@@ -5298,14 +5298,14 @@ type PRR_PC5_Patient struct {
 // PatientVisit
 type PRR_PC5_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PRR_PC5_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"7,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"7,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 }
 
 // Problem
 type PRR_PC5_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PRR_PC5_Problem,type=tg"`
-	PRB                PRB                          `hl7:"9,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"9,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"10,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"11,display=Variance"`
 	ProblemRole        []PRR_PC5_ProblemRole        `hl7:",display=Problem Role"`
@@ -5318,28 +5318,28 @@ type PRR_PC5_Problem struct {
 // ProblemRole
 type PRR_PC5_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PRR_PC5_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"12,required,display=Role"`
+	ROL *ROL    `hl7:"12,required,display=Role"`
 	VAR []VAR   `hl7:"13,display=Variance"`
 }
 
 // ProblemPathway
 type PRR_PC5_ProblemPathway struct {
 	HL7 HL7Name `hl7:",name=PRR_PC5_ProblemPathway,type=tg"`
-	PTH PTH     `hl7:"14,required,display=Pathway"`
+	PTH *PTH    `hl7:"14,required,display=Pathway"`
 	VAR []VAR   `hl7:"15,display=Variance"`
 }
 
 // ProblemObservation
 type PRR_PC5_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PRR_PC5_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"16,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"16,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"17,display=Notes and comments segment"`
 }
 
 // Goal
 type PRR_PC5_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PRR_PC5_Goal,type=tg"`
-	GOL             GOL                       `hl7:"18,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"18,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"19,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"20,display=Variance"`
 	GoalRole        []PRR_PC5_GoalRole        `hl7:",display=Goal Role"`
@@ -5349,31 +5349,31 @@ type PRR_PC5_Goal struct {
 // GoalRole
 type PRR_PC5_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PRR_PC5_GoalRole,type=tg"`
-	ROL ROL     `hl7:"21,required,display=Role"`
+	ROL *ROL    `hl7:"21,required,display=Role"`
 	VAR []VAR   `hl7:"22,display=Variance"`
 }
 
 // GoalObservation
 type PRR_PC5_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PRR_PC5_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"23,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"23,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"24,display=Notes and comments segment"`
 }
 
 // Order
 type PRR_PC5_Order struct {
 	HL7         HL7Name              `hl7:",name=PRR_PC5_Order,type=tg"`
-	ORC         ORC                  `hl7:"25,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"25,required,display=Common order segment"`
 	OrderDetail *PRR_PC5_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PRR_PC5_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PRR_PC5_OrderDetail,type=tg"`
-	OrderDetailSegment PRR_PC5_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"32,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"33,display=Variance"`
-	OrderObservation   []PRR_PC5_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PRR_PC5_OrderDetail,type=tg"`
+	OrderDetailSegment *PRR_PC5_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"32,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"33,display=Variance"`
+	OrderObservation   []PRR_PC5_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -5390,7 +5390,7 @@ type PRR_PC5_OrderDetailSegment struct {
 // OrderObservation
 type PRR_PC5_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PRR_PC5_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"34,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"34,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"35,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"36,display=Variance"`
 }
@@ -5400,18 +5400,18 @@ type PRR_PC5_OrderObservation struct {
 // The following trigger/message event is served by PRR (a response from the system responsible for maintaining the problem information).
 type PRR_PC5 struct {
 	HL7     HL7Name           `hl7:",name=PRR_PC5,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
 	QAK     *QAK              `hl7:"4,display=Query Acknowledgement"`
-	QRD     QRD               `hl7:"5,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"5,required,display=Original-style query definition segment"`
 	Patient []PRR_PC5_Patient `hl7:",required,display=Patient"`
 }
 
 // Patient
 type PTR_PCF_Patient struct {
 	HL7          HL7Name               `hl7:",name=PTR_PCF_Patient,type=tg"`
-	PID          PID                   `hl7:"6,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"6,required,display=Patient identification segment"`
 	PatientVisit *PTR_PCF_PatientVisit `hl7:",display=Patient Visit"`
 	Pathway      []PTR_PCF_Pathway     `hl7:",required,display=Pathway"`
 }
@@ -5419,14 +5419,14 @@ type PTR_PCF_Patient struct {
 // PatientVisit
 type PTR_PCF_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=PTR_PCF_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"7,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"7,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 }
 
 // Pathway
 type PTR_PCF_Pathway struct {
 	HL7         HL7Name               `hl7:",name=PTR_PCF_Pathway,type=tg"`
-	PTH         PTH                   `hl7:"9,required,display=Pathway"`
+	PTH         *PTH                  `hl7:"9,required,display=Pathway"`
 	NTE         []NTE                 `hl7:"10,display=Notes and comments segment"`
 	VAR         []VAR                 `hl7:"11,display=Variance"`
 	PathwayRole []PTR_PCF_PathwayRole `hl7:",display=Pathway Role"`
@@ -5436,14 +5436,14 @@ type PTR_PCF_Pathway struct {
 // PathwayRole
 type PTR_PCF_PathwayRole struct {
 	HL7 HL7Name `hl7:",name=PTR_PCF_PathwayRole,type=tg"`
-	ROL ROL     `hl7:"12,required,display=Role"`
+	ROL *ROL    `hl7:"12,required,display=Role"`
 	VAR []VAR   `hl7:"13,display=Variance"`
 }
 
 // Problem
 type PTR_PCF_Problem struct {
 	HL7                HL7Name                      `hl7:",name=PTR_PCF_Problem,type=tg"`
-	PRB                PRB                          `hl7:"14,required,display=Problem Detail"`
+	PRB                *PRB                         `hl7:"14,required,display=Problem Detail"`
 	NTE                []NTE                        `hl7:"15,display=Notes and comments segment"`
 	VAR                []VAR                        `hl7:"16,display=Variance"`
 	ProblemRole        []PTR_PCF_ProblemRole        `hl7:",display=Problem Role"`
@@ -5455,21 +5455,21 @@ type PTR_PCF_Problem struct {
 // ProblemRole
 type PTR_PCF_ProblemRole struct {
 	HL7 HL7Name `hl7:",name=PTR_PCF_ProblemRole,type=tg"`
-	ROL ROL     `hl7:"17,required,display=Role"`
+	ROL *ROL    `hl7:"17,required,display=Role"`
 	VAR []VAR   `hl7:"18,display=Variance"`
 }
 
 // ProblemObservation
 type PTR_PCF_ProblemObservation struct {
 	HL7 HL7Name `hl7:",name=PTR_PCF_ProblemObservation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Goal
 type PTR_PCF_Goal struct {
 	HL7             HL7Name                   `hl7:",name=PTR_PCF_Goal,type=tg"`
-	GOL             GOL                       `hl7:"21,required,display=Goal Detail"`
+	GOL             *GOL                      `hl7:"21,required,display=Goal Detail"`
 	NTE             []NTE                     `hl7:"22,display=Notes and comments segment"`
 	VAR             []VAR                     `hl7:"23,display=Variance"`
 	GoalRole        []PTR_PCF_GoalRole        `hl7:",display=Goal Role"`
@@ -5479,31 +5479,31 @@ type PTR_PCF_Goal struct {
 // GoalRole
 type PTR_PCF_GoalRole struct {
 	HL7 HL7Name `hl7:",name=PTR_PCF_GoalRole,type=tg"`
-	ROL ROL     `hl7:"24,required,display=Role"`
+	ROL *ROL    `hl7:"24,required,display=Role"`
 	VAR []VAR   `hl7:"25,display=Variance"`
 }
 
 // GoalObservation
 type PTR_PCF_GoalObservation struct {
 	HL7 HL7Name `hl7:",name=PTR_PCF_GoalObservation,type=tg"`
-	OBX OBX     `hl7:"26,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"26,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"27,display=Notes and comments segment"`
 }
 
 // Order
 type PTR_PCF_Order struct {
 	HL7         HL7Name              `hl7:",name=PTR_PCF_Order,type=tg"`
-	ORC         ORC                  `hl7:"28,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"28,required,display=Common order segment"`
 	OrderDetail *PTR_PCF_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type PTR_PCF_OrderDetail struct {
-	HL7                HL7Name                    `hl7:",name=PTR_PCF_OrderDetail,type=tg"`
-	OrderDetailSegment PTR_PCF_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
-	NTE                []NTE                      `hl7:"35,display=Notes and comments segment"`
-	VAR                []VAR                      `hl7:"36,display=Variance"`
-	OrderObservation   []PTR_PCF_OrderObservation `hl7:",display=Order Observation"`
+	HL7                HL7Name                     `hl7:",name=PTR_PCF_OrderDetail,type=tg"`
+	OrderDetailSegment *PTR_PCF_OrderDetailSegment `hl7:",required,display=Order Detail Segment"`
+	NTE                []NTE                       `hl7:"35,display=Notes and comments segment"`
+	VAR                []VAR                       `hl7:"36,display=Variance"`
+	OrderObservation   []PTR_PCF_OrderObservation  `hl7:",display=Order Observation"`
 }
 
 // OrderDetailSegment
@@ -5520,7 +5520,7 @@ type PTR_PCF_OrderDetailSegment struct {
 // OrderObservation
 type PTR_PCF_OrderObservation struct {
 	HL7 HL7Name `hl7:",name=PTR_PCF_OrderObservation,type=tg"`
-	OBX OBX     `hl7:"37,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"37,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"38,display=Notes and comments segment"`
 	VAR []VAR   `hl7:"39,display=Variance"`
 }
@@ -5530,19 +5530,19 @@ type PTR_PCF_OrderObservation struct {
 // The following trigger/message event is served by PTR (a response from the system responsible for maintaining the problem-oriented pathway information).
 type PTR_PCF struct {
 	HL7     HL7Name           `hl7:",name=PTR_PCF,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR     *ERR              `hl7:"3,display=Error segment"`
 	QAK     *QAK              `hl7:"4,display=Query Acknowledgement"`
-	QRD     QRD               `hl7:"5,required,display=Original-style query definition segment"`
+	QRD     *QRD              `hl7:"5,required,display=Original-style query definition segment"`
 	Patient []PTR_PCF_Patient `hl7:",required,display=Patient"`
 }
 
 // Deferred query
 type QCK_Q02 struct {
 	HL7 HL7Name `hl7:",name=QCK_Q02,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
 	QAK *QAK    `hl7:"4,display=Query Acknowledgement"`
 }
@@ -5550,8 +5550,8 @@ type QCK_Q02 struct {
 // Patient query
 type QRY_A19 struct {
 	HL7 HL7Name `hl7:",name=QRY_A19,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 }
 
@@ -5562,8 +5562,8 @@ type QRY_A19 struct {
 // Note: This is a display-oriented response.  That is why the associated messages are defined in Chapter 2.
 type QRY_P04 struct {
 	HL7 HL7Name `hl7:",name=QRY_P04,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -5573,8 +5573,8 @@ type QRY_P04 struct {
 // The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should be returned becomes an implementation issue.
 type QRY_PC4 struct {
 	HL7 HL7Name `hl7:",name=QRY_PC4,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 }
 
@@ -5583,8 +5583,8 @@ type QRY_PC4 struct {
 // The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should be returned becomes an implementation issue
 type QRY_PC9 struct {
 	HL7 HL7Name `hl7:",name=QRY_PC9,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 }
 
@@ -5593,8 +5593,8 @@ type QRY_PC9 struct {
 // The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should be returned becomes an implementation issue.
 type QRY_PCE struct {
 	HL7 HL7Name `hl7:",name=QRY_PCE,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 }
 
@@ -5603,16 +5603,16 @@ type QRY_PCE struct {
 // The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should be returned becomes an implementation issue.
 type QRY_PCK struct {
 	HL7 HL7Name `hl7:",name=QRY_PCK,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 }
 
 // Query sent for immediate response
 type QRY_Q01 struct {
 	HL7 HL7Name `hl7:",name=QRY_Q01,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -5622,8 +5622,8 @@ type QRY_Q01 struct {
 // For clarity, A is the system initiating the query and B is the system sending the responses.  Multiple queries and responses are permitted within single messages.  The responses to a given query may be broken into several separate DSR messages.  A single DSR message may contain responses to more than one QRY.
 type QRY_Q02 struct {
 	HL7 HL7Name `hl7:",name=QRY_Q02,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -5633,8 +5633,8 @@ type QRY_Q02 struct {
 // Query (QRY_Q26) / Response (ROR_ROR)
 type QRY_Q26 struct {
 	HL7 HL7Name `hl7:",name=QRY_Q26,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -5644,8 +5644,8 @@ type QRY_Q26 struct {
 // Query (QRY_Q27) / Response (RAR_RAR)
 type QRY_Q27 struct {
 	HL7 HL7Name `hl7:",name=QRY_Q27,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -5655,8 +5655,8 @@ type QRY_Q27 struct {
 // Query (QRY_Q28) / Response (RDR_RDR)
 type QRY_Q28 struct {
 	HL7 HL7Name `hl7:",name=QRY_Q28,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -5666,8 +5666,8 @@ type QRY_Q28 struct {
 // Query (QRY_Q29) / Response (RER_RER)
 type QRY_Q29 struct {
 	HL7 HL7Name `hl7:",name=QRY_Q29,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -5677,8 +5677,8 @@ type QRY_Q29 struct {
 // Query (QRY_Q30) / Response (RGR_RGR)
 type QRY_Q30 struct {
 	HL7 HL7Name `hl7:",name=QRY_Q30,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -5686,23 +5686,23 @@ type QRY_Q30 struct {
 // Query for results of observation
 type QRY_R02 struct {
 	HL7 HL7Name `hl7:",name=QRY_R02,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
-	QRF QRF     `hl7:"3,required,display=Original style query filter segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
+	QRF *QRF    `hl7:"3,required,display=Original style query filter segment"`
 }
 
 // Document query
 type QRY_T12 struct {
 	HL7 HL7Name `hl7:",name=QRY_T12,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 }
 
 // Definition
 type RAR_RAR_Definition struct {
 	HL7     HL7Name          `hl7:",name=RAR_RAR_Definition,type=tg"`
-	QRD     QRD              `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD             `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF             `hl7:"5,display=Original style query filter segment"`
 	Patient *RAR_RAR_Patient `hl7:",display=Patient"`
 	Order   []RAR_RAR_Order  `hl7:",required,display=Order"`
@@ -5711,23 +5711,23 @@ type RAR_RAR_Definition struct {
 // Patient
 type RAR_RAR_Patient struct {
 	HL7 HL7Name `hl7:",name=RAR_RAR_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"7,display=Notes and comments segment"`
 }
 
 // Order
 type RAR_RAR_Order struct {
 	HL7      HL7Name           `hl7:",name=RAR_RAR_Order,type=tg"`
-	ORC      ORC               `hl7:"8,required,display=Common order segment"`
+	ORC      *ORC              `hl7:"8,required,display=Common order segment"`
 	Encoding *RAR_RAR_Encoding `hl7:",display=Encoding"`
 	RXA      []RXA             `hl7:"12,required,display=Pharmacy/treatment administration segment"`
-	RXR      RXR               `hl7:"13,required,display=Pharmacy/treatment route segment"`
+	RXR      *RXR              `hl7:"13,required,display=Pharmacy/treatment route segment"`
 }
 
 // Encoding
 type RAR_RAR_Encoding struct {
 	HL7 HL7Name `hl7:",name=RAR_RAR_Encoding,type=tg"`
-	RXE RXE     `hl7:"9,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"9,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"10,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"11,display=Pharmacy/treatment component order segment"`
 }
@@ -5737,8 +5737,8 @@ type RAR_RAR_Encoding struct {
 // Query (QRY_Q27) / Response (RAR_RAR)
 type RAR_RAR struct {
 	HL7        HL7Name              `hl7:",name=RAR_RAR,type=t"`
-	MSH        MSH                  `hl7:"1,required,display=Message header segment"`
-	MSA        MSA                  `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
+	MSA        *MSA                 `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR        *ERR                 `hl7:"3,display=Error segment"`
 	Definition []RAR_RAR_Definition `hl7:",required,display=Definition"`
 	DSC        *DSC                 `hl7:"14,display=Continuation pointer segment"`
@@ -5747,7 +5747,7 @@ type RAR_RAR struct {
 // Patient
 type RAS_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=RAS_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"4,display=Patient Additional Demographic"`
 	NTE          []NTE                 `hl7:"5,display=Notes and comments segment"`
 	AL1          []AL1                 `hl7:"6,display=Patient allergy information segment"`
@@ -5757,18 +5757,18 @@ type RAS_O01_Patient struct {
 // PatientVisit
 type RAS_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RAS_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"7,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"7,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 }
 
 // Order
 type RAS_O01_Order struct {
 	HL7         HL7Name               `hl7:",name=RAS_O01_Order,type=tg"`
-	ORC         ORC                   `hl7:"9,required,display=Common order segment"`
+	ORC         *ORC                  `hl7:"9,required,display=Common order segment"`
 	OrderDetail *RAS_O01_OrderDetail  `hl7:",display=Order Detail"`
 	Encoding    *RAS_O01_Encoding     `hl7:",display=Encoding"`
 	RXA         []RXA                 `hl7:"18,required,display=Pharmacy/treatment administration segment"`
-	RXR         RXR                   `hl7:"19,required,display=Pharmacy/treatment route segment"`
+	RXR         *RXR                  `hl7:"19,required,display=Pharmacy/treatment route segment"`
 	Observation []RAS_O01_Observation `hl7:",display=Observation"`
 	CTI         []CTI                 `hl7:"22,display=Clinical trial identification segment"`
 }
@@ -5776,7 +5776,7 @@ type RAS_O01_Order struct {
 // OrderDetail
 type RAS_O01_OrderDetail struct {
 	HL7                   HL7Name                        `hl7:",name=RAS_O01_OrderDetail,type=tg"`
-	RXO                   RXO                            `hl7:"10,required,display=Pharmacy/treatment order segment"`
+	RXO                   *RXO                           `hl7:"10,required,display=Pharmacy/treatment order segment"`
 	OrderDetailSupplement *RAS_O01_OrderDetailSupplement `hl7:",display=Order Detail Supplement"`
 }
 
@@ -5798,7 +5798,7 @@ type RAS_O01_Components struct {
 // Encoding
 type RAS_O01_Encoding struct {
 	HL7 HL7Name `hl7:",name=RAS_O01_Encoding,type=tg"`
-	RXE RXE     `hl7:"15,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"15,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"16,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"17,display=Pharmacy/treatment component order segment"`
 }
@@ -5806,7 +5806,7 @@ type RAS_O01_Encoding struct {
 // Observation
 type RAS_O01_Observation struct {
 	HL7 HL7Name `hl7:",name=RAS_O01_Observation,type=tg"`
-	OBX OBX     `hl7:"20,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"20,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"21,display=Notes and comments segment"`
 }
 
@@ -5816,7 +5816,7 @@ type RAS_O01_Observation struct {
 // rra
 type RAS_O01 struct {
 	HL7     HL7Name          `hl7:",name=RAS_O01,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
 	NTE     []NTE            `hl7:"2,display=Notes and comments segment"`
 	Patient *RAS_O01_Patient `hl7:",display=Patient"`
 	Order   []RAS_O01_Order  `hl7:",required,display=Order"`
@@ -5825,14 +5825,14 @@ type RAS_O01 struct {
 // Provider
 type RCI_I05_Provider struct {
 	HL7 HL7Name `hl7:",name=RCI_I05_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
 // Observation
 type RCI_I05_Observation struct {
 	HL7     HL7Name           `hl7:",name=RCI_I05_Observation,type=tg"`
-	OBR     OBR               `hl7:"11,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"11,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"12,display=Notes and comments segment"`
 	Results []RCI_I05_Results `hl7:",display=Results"`
 }
@@ -5840,7 +5840,7 @@ type RCI_I05_Observation struct {
 // Results
 type RCI_I05_Results struct {
 	HL7 HL7Name `hl7:",name=RCI_I05_Results,type=tg"`
-	OBX OBX     `hl7:"13,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"13,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
@@ -5849,12 +5849,12 @@ type RCI_I05_Results struct {
 // This event is used to request clinical information for a specific patient.  Generally, this transaction occurs between one provider and another (typically a laboratory or radiology, etc.).  However, it may also be very useful for a payor-to-provider request for clinical observation information to be used in considering a request for treatment authorization.
 type RCI_I05 struct {
 	HL7         HL7Name               `hl7:",name=RCI_I05,type=t"`
-	MSH         MSH                   `hl7:"1,required,display=Message header segment"`
-	MSA         MSA                   `hl7:"2,required,display=Message acknowledgment segment"`
-	QRD         QRD                   `hl7:"3,required,display=Original-style query definition segment"`
+	MSH         *MSH                  `hl7:"1,required,display=Message header segment"`
+	MSA         *MSA                  `hl7:"2,required,display=Message acknowledgment segment"`
+	QRD         *QRD                  `hl7:"3,required,display=Original-style query definition segment"`
 	QRF         *QRF                  `hl7:"4,display=Original style query filter segment"`
 	Provider    []RCI_I05_Provider    `hl7:",required,display=Provider"`
-	PID         PID                   `hl7:"7,required,display=Patient identification segment"`
+	PID         *PID                  `hl7:"7,required,display=Patient identification segment"`
 	DG1         []DG1                 `hl7:"8,display=Diagnosis segment"`
 	DRG         []DRG                 `hl7:"9,display=Diagnosis related group segment"`
 	AL1         []AL1                 `hl7:"10,display=Patient allergy information segment"`
@@ -5865,7 +5865,7 @@ type RCI_I05 struct {
 // Provider
 type RCL_I06_Provider struct {
 	HL7 HL7Name `hl7:",name=RCL_I06_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
@@ -5874,12 +5874,12 @@ type RCL_I06_Provider struct {
 // This event code is sent from one healthcare provider to another  (typically a laboratory or radiology, etc.) to request a list of available clinical observation information.  When the provider is dealing with a community model in which remote requests make transmission of large amounts of data impractical, this event code will provide for interactive lists of transactions from which more specific selections can be made.
 type RCL_I06 struct {
 	HL7      HL7Name            `hl7:",name=RCL_I06,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
-	MSA      MSA                `hl7:"2,required,display=Message acknowledgment segment"`
-	QRD      QRD                `hl7:"3,required,display=Original-style query definition segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	QRD      *QRD               `hl7:"3,required,display=Original-style query definition segment"`
 	QRF      *QRF               `hl7:"4,display=Original style query filter segment"`
 	Provider []RCL_I06_Provider `hl7:",required,display=Provider"`
-	PID      PID                `hl7:"7,required,display=Patient identification segment"`
+	PID      *PID               `hl7:"7,required,display=Patient identification segment"`
 	DG1      []DG1              `hl7:"8,display=Diagnosis segment"`
 	DRG      []DRG              `hl7:"9,display=Diagnosis related group segment"`
 	AL1      []AL1              `hl7:"10,display=Patient allergy information segment"`
@@ -5891,7 +5891,7 @@ type RCL_I06 struct {
 // Patient
 type RDE_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=RDE_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"4,display=Patient Additional Demographic"`
 	NTE          []NTE                 `hl7:"5,display=Notes and comments segment"`
 	PatientVisit *RDE_O01_PatientVisit `hl7:",display=Patient Visit"`
@@ -5903,14 +5903,14 @@ type RDE_O01_Patient struct {
 // PatientVisit
 type RDE_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RDE_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Insurance
 type RDE_O01_Insurance struct {
 	HL7 HL7Name `hl7:",name=RDE_O01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"8,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"8,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"9,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"10,display=Insurance additional information- certification segment"`
 }
@@ -5918,9 +5918,9 @@ type RDE_O01_Insurance struct {
 // Order
 type RDE_O01_Order struct {
 	HL7         HL7Name               `hl7:",name=RDE_O01_Order,type=tg"`
-	ORC         ORC                   `hl7:"13,required,display=Common order segment"`
+	ORC         *ORC                  `hl7:"13,required,display=Common order segment"`
 	OrderDetail *RDE_O01_OrderDetail  `hl7:",display=Order Detail"`
-	RXE         RXE                   `hl7:"19,required,display=Pharmacy/treatment encoded order segment"`
+	RXE         *RXE                  `hl7:"19,required,display=Pharmacy/treatment encoded order segment"`
 	RXR         []RXR                 `hl7:"20,required,display=Pharmacy/treatment route segment"`
 	RXC         []RXC                 `hl7:"21,display=Pharmacy/treatment component order segment"`
 	Observation []RDE_O01_Observation `hl7:",required,display=Observation"`
@@ -5930,7 +5930,7 @@ type RDE_O01_Order struct {
 // OrderDetail
 type RDE_O01_OrderDetail struct {
 	HL7       HL7Name            `hl7:",name=RDE_O01_OrderDetail,type=tg"`
-	RXO       RXO                `hl7:"14,required,display=Pharmacy/treatment order segment"`
+	RXO       *RXO               `hl7:"14,required,display=Pharmacy/treatment order segment"`
 	NTE       []NTE              `hl7:"15,display=Notes and comments segment"`
 	RXR       []RXR              `hl7:"16,required,display=Pharmacy/treatment route segment"`
 	Component *RDE_O01_Component `hl7:",display=Component"`
@@ -5955,7 +5955,7 @@ type RDE_O01_Observation struct {
 // This message communicates the pharmacy or treatment application’s encoding of the pharmacy/treatment order (ORM message with RXO segment, see above).  It may be sent as an unsolicited message to report on either a single order or multiple pharmacy/treatment orders for a patient.
 type RDE_O01 struct {
 	HL7     HL7Name          `hl7:",name=RDE_O01,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
 	NTE     []NTE            `hl7:"2,display=Notes and comments segment"`
 	Patient *RDE_O01_Patient `hl7:",display=Patient"`
 	Order   []RDE_O01_Order  `hl7:",required,display=Order"`
@@ -5964,7 +5964,7 @@ type RDE_O01 struct {
 // Patient
 type RDO_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=RDO_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"4,display=Patient Additional Demographic"`
 	NTE          []NTE                 `hl7:"5,display=Notes and comments segment"`
 	PatientVisit *RDO_O01_PatientVisit `hl7:",display=Patient Visit"`
@@ -5976,14 +5976,14 @@ type RDO_O01_Patient struct {
 // PatientVisit
 type RDO_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RDO_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Insurance
 type RDO_O01_Insurance struct {
 	HL7 HL7Name `hl7:",name=RDO_O01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"8,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"8,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"9,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"10,display=Insurance additional information- certification segment"`
 }
@@ -5991,7 +5991,7 @@ type RDO_O01_Insurance struct {
 // Order
 type RDO_O01_Order struct {
 	HL7         HL7Name              `hl7:",name=RDO_O01_Order,type=tg"`
-	ORC         ORC                  `hl7:"13,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"13,required,display=Common order segment"`
 	OrderDetail *RDO_O01_OrderDetail `hl7:",display=Order Detail"`
 	BLG         *BLG                 `hl7:"21,display=Billing segment"`
 }
@@ -5999,7 +5999,7 @@ type RDO_O01_Order struct {
 // OrderDetail
 type RDO_O01_OrderDetail struct {
 	HL7         HL7Name               `hl7:",name=RDO_O01_OrderDetail,type=tg"`
-	RXO         RXO                   `hl7:"14,required,display=Pharmacy/treatment order segment"`
+	RXO         *RXO                  `hl7:"14,required,display=Pharmacy/treatment order segment"`
 	NTE         []NTE                 `hl7:"15,display=Notes and comments segment"`
 	RXR         []RXR                 `hl7:"16,required,display=Pharmacy/treatment route segment"`
 	Component   *RDO_O01_Component    `hl7:",display=Component"`
@@ -6016,14 +6016,14 @@ type RDO_O01_Component struct {
 // Observation
 type RDO_O01_Observation struct {
 	HL7 HL7Name `hl7:",name=RDO_O01_Observation,type=tg"`
-	OBX OBX     `hl7:"19,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"19,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"20,display=Notes and comments segment"`
 }
 
 // Pharmacy/treatment Order Message
 type RDO_O01 struct {
 	HL7     HL7Name          `hl7:",name=RDO_O01,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
 	NTE     []NTE            `hl7:"2,display=Notes and comments segment"`
 	Patient *RDO_O01_Patient `hl7:",display=Patient"`
 	Order   []RDO_O01_Order  `hl7:",required,display=Order"`
@@ -6032,7 +6032,7 @@ type RDO_O01 struct {
 // Definition
 type RDR_RDR_Definition struct {
 	HL7     HL7Name          `hl7:",name=RDR_RDR_Definition,type=tg"`
-	QRD     QRD              `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD             `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF             `hl7:"5,display=Original style query filter segment"`
 	Patient *RDR_RDR_Patient `hl7:",display=Patient"`
 	Order   []RDR_RDR_Order  `hl7:",required,display=Order"`
@@ -6041,14 +6041,14 @@ type RDR_RDR_Definition struct {
 // Patient
 type RDR_RDR_Patient struct {
 	HL7 HL7Name `hl7:",name=RDR_RDR_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"7,display=Notes and comments segment"`
 }
 
 // Order
 type RDR_RDR_Order struct {
 	HL7      HL7Name            `hl7:",name=RDR_RDR_Order,type=tg"`
-	ORC      ORC                `hl7:"8,required,display=Common order segment"`
+	ORC      *ORC               `hl7:"8,required,display=Common order segment"`
 	Encoding *RDR_RDR_Encoding  `hl7:",display=Encoding"`
 	Dispense []RDR_RDR_Dispense `hl7:",required,display=Dispense"`
 }
@@ -6056,7 +6056,7 @@ type RDR_RDR_Order struct {
 // Encoding
 type RDR_RDR_Encoding struct {
 	HL7 HL7Name `hl7:",name=RDR_RDR_Encoding,type=tg"`
-	RXE RXE     `hl7:"9,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"9,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"10,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"11,display=Pharmacy/treatment component order segment"`
 }
@@ -6064,7 +6064,7 @@ type RDR_RDR_Encoding struct {
 // Dispense
 type RDR_RDR_Dispense struct {
 	HL7 HL7Name `hl7:",name=RDR_RDR_Dispense,type=tg"`
-	RXD RXD     `hl7:"12,required,display=Pharmacy/treatment dispense segment"`
+	RXD *RXD    `hl7:"12,required,display=Pharmacy/treatment dispense segment"`
 	RXR []RXR   `hl7:"13,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"14,display=Pharmacy/treatment component order segment"`
 }
@@ -6074,8 +6074,8 @@ type RDR_RDR_Dispense struct {
 // Query (QRY_Q28) / Response (RDR_RDR)
 type RDR_RDR struct {
 	HL7        HL7Name              `hl7:",name=RDR_RDR,type=t"`
-	MSH        MSH                  `hl7:"1,required,display=Message header segment"`
-	MSA        MSA                  `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
+	MSA        *MSA                 `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR        *ERR                 `hl7:"3,display=Error segment"`
 	Definition []RDR_RDR_Definition `hl7:",required,display=Definition"`
 	DSC        *DSC                 `hl7:"15,display=Continuation pointer segment"`
@@ -6084,7 +6084,7 @@ type RDR_RDR struct {
 // Patient
 type RDS_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=RDS_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"4,display=Patient Additional Demographic"`
 	NTE          []NTE                 `hl7:"5,display=Notes and comments segment"`
 	AL1          []AL1                 `hl7:"6,display=Patient allergy information segment"`
@@ -6094,17 +6094,17 @@ type RDS_O01_Patient struct {
 // PatientVisit
 type RDS_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RDS_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"7,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"7,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 }
 
 // Order
 type RDS_O01_Order struct {
 	HL7         HL7Name               `hl7:",name=RDS_O01_Order,type=tg"`
-	ORC         ORC                   `hl7:"9,required,display=Common order segment"`
+	ORC         *ORC                  `hl7:"9,required,display=Common order segment"`
 	OrderDetail *RDS_O01_OrderDetail  `hl7:",display=Order Detail"`
 	Encoding    *RDS_O01_Encoding     `hl7:",display=Encoding"`
-	RXD         RXD                   `hl7:"18,required,display=Pharmacy/treatment dispense segment"`
+	RXD         *RXD                  `hl7:"18,required,display=Pharmacy/treatment dispense segment"`
 	RXR         []RXR                 `hl7:"19,required,display=Pharmacy/treatment route segment"`
 	RXC         []RXC                 `hl7:"20,display=Pharmacy/treatment component order segment"`
 	Observation []RDS_O01_Observation `hl7:",required,display=Observation"`
@@ -6113,7 +6113,7 @@ type RDS_O01_Order struct {
 // OrderDetail
 type RDS_O01_OrderDetail struct {
 	HL7                   HL7Name                        `hl7:",name=RDS_O01_OrderDetail,type=tg"`
-	RXO                   RXO                            `hl7:"10,required,display=Pharmacy/treatment order segment"`
+	RXO                   *RXO                           `hl7:"10,required,display=Pharmacy/treatment order segment"`
 	OrderDetailSupplement *RDS_O01_OrderDetailSupplement `hl7:",display=Order Detail Supplement"`
 }
 
@@ -6135,7 +6135,7 @@ type RDS_O01_Component struct {
 // Encoding
 type RDS_O01_Encoding struct {
 	HL7 HL7Name `hl7:",name=RDS_O01_Encoding,type=tg"`
-	RXE RXE     `hl7:"15,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"15,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"16,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"17,display=Pharmacy/treatment component order segment"`
 }
@@ -6152,7 +6152,7 @@ type RDS_O01_Observation struct {
 // The RDS message may be created by the pharmacy/treatment application for each instance of dispensing a drug or treatment to fill an existing order or orders.  In the most common case, the RDS messages would be routed to a Nursing application or to some clinical application, which needs the data about drugs dispensed or treatments given.  As a site-specific variant, the original order segments (RXO, RXE and their associated RXR/RXCs) may be sent optionally (for comparison).
 type RDS_O01 struct {
 	HL7     HL7Name          `hl7:",name=RDS_O01,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
 	NTE     []NTE            `hl7:"2,display=Notes and comments segment"`
 	Patient *RDS_O01_Patient `hl7:",display=Patient"`
 	Order   []RDS_O01_Order  `hl7:",required,display=Order"`
@@ -6161,21 +6161,21 @@ type RDS_O01 struct {
 // AuthorizationContact
 type REF_I12_AuthorizationContact struct {
 	HL7 HL7Name `hl7:",name=REF_I12_AuthorizationContact,type=tg"`
-	AUT AUT     `hl7:"3,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"3,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"4,display=Contact Data"`
 }
 
 // ProviderContact
 type REF_I12_ProviderContact struct {
 	HL7 HL7Name `hl7:",name=REF_I12_ProviderContact,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
 // Insurance
 type REF_I12_Insurance struct {
 	HL7 HL7Name `hl7:",name=REF_I12_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -6183,21 +6183,21 @@ type REF_I12_Insurance struct {
 // Procedure
 type REF_I12_Procedure struct {
 	HL7                  HL7Name                        `hl7:",name=REF_I12_Procedure,type=tg"`
-	PR1                  PR1                            `hl7:"17,required,display=Procedures segment"`
+	PR1                  *PR1                           `hl7:"17,required,display=Procedures segment"`
 	AuthorizationContact *REF_I12_AuthorizationContact2 `hl7:",display=Authorization Contact"`
 }
 
 // AuthorizationContact
 type REF_I12_AuthorizationContact2 struct {
 	HL7 HL7Name `hl7:",name=REF_I12_AuthorizationContact2,type=tg"`
-	AUT AUT     `hl7:"18,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"18,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"19,display=Contact Data"`
 }
 
 // Observation
 type REF_I12_Observation struct {
 	HL7          HL7Name                `hl7:",name=REF_I12_Observation,type=tg"`
-	OBR          OBR                    `hl7:"20,required,display=Observation request segment"`
+	OBR          *OBR                   `hl7:"20,required,display=Observation request segment"`
 	NTE          []NTE                  `hl7:"21,display=Notes and comments segment"`
 	ResultsNotes []REF_I12_ResultsNotes `hl7:",display=Results Notes"`
 }
@@ -6205,14 +6205,14 @@ type REF_I12_Observation struct {
 // ResultsNotes
 type REF_I12_ResultsNotes struct {
 	HL7 HL7Name `hl7:",name=REF_I12_ResultsNotes,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // PatientVisit
 type REF_I12_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=REF_I12_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"24,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"24,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"25,display=Patient visit - additional information segment"`
 }
 
@@ -6221,11 +6221,11 @@ type REF_I12_PatientVisit struct {
 // This event triggers a message to be sent from one healthcare provider to another regarding a specific patient.  The referral message may contain patient demographic information, specific medical procedures to be performed (accompanied by previously obtained authorizations) and relevant clinical information pertinent to the patient’s case.
 type REF_I12 struct {
 	HL7                  HL7Name                       `hl7:",name=REF_I12,type=t"`
-	MSH                  MSH                           `hl7:"1,required,display=Message header segment"`
+	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
 	RF1                  *RF1                          `hl7:"2,display=Referral Infomation"`
 	AuthorizationContact *REF_I12_AuthorizationContact `hl7:",display=Authorization Contact"`
 	ProviderContact      []REF_I12_ProviderContact     `hl7:",required,display=Provider Contact"`
-	PID                  PID                           `hl7:"7,required,display=Patient identification segment"`
+	PID                  *PID                          `hl7:"7,required,display=Patient identification segment"`
 	NK1                  []NK1                         `hl7:"8,display=Next of kin / associated parties segment"`
 	GT1                  []GT1                         `hl7:"9,display=Guarantor segment"`
 	Insurance            []REF_I12_Insurance           `hl7:",display=Insurance"`
@@ -6242,21 +6242,21 @@ type REF_I12 struct {
 // AuthorizationContact
 type REF_I13_AuthorizationContact struct {
 	HL7 HL7Name `hl7:",name=REF_I13_AuthorizationContact,type=tg"`
-	AUT AUT     `hl7:"3,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"3,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"4,display=Contact Data"`
 }
 
 // Provider
 type REF_I13_Provider struct {
 	HL7 HL7Name `hl7:",name=REF_I13_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
 // Insurance
 type REF_I13_Insurance struct {
 	HL7 HL7Name `hl7:",name=REF_I13_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -6264,21 +6264,21 @@ type REF_I13_Insurance struct {
 // Procedure
 type REF_I13_Procedure struct {
 	HL7                  HL7Name                        `hl7:",name=REF_I13_Procedure,type=tg"`
-	PR1                  PR1                            `hl7:"17,required,display=Procedures segment"`
+	PR1                  *PR1                           `hl7:"17,required,display=Procedures segment"`
 	AuthorizationContact *REF_I13_AuthorizationContact2 `hl7:",display=Authorization Contact"`
 }
 
 // AuthorizationContact
 type REF_I13_AuthorizationContact2 struct {
 	HL7 HL7Name `hl7:",name=REF_I13_AuthorizationContact2,type=tg"`
-	AUT AUT     `hl7:"18,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"18,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"19,display=Contact Data"`
 }
 
 // Observation
 type REF_I13_Observation struct {
 	HL7          HL7Name                `hl7:",name=REF_I13_Observation,type=tg"`
-	OBR          OBR                    `hl7:"20,required,display=Observation request segment"`
+	OBR          *OBR                   `hl7:"20,required,display=Observation request segment"`
 	NTE          []NTE                  `hl7:"21,display=Notes and comments segment"`
 	ResultsNotes []REF_I13_ResultsNotes `hl7:",display=Results Notes"`
 }
@@ -6286,14 +6286,14 @@ type REF_I13_Observation struct {
 // ResultsNotes
 type REF_I13_ResultsNotes struct {
 	HL7 HL7Name `hl7:",name=REF_I13_ResultsNotes,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // PatientVisit
 type REF_I13_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=REF_I13_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"24,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"24,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"25,display=Patient visit - additional information segment"`
 }
 
@@ -6302,11 +6302,11 @@ type REF_I13_PatientVisit struct {
 // This event triggers a message to be sent from one healthcare provider to another regarding changes to an existing referral.  Changes in a referral may include additional instructions from the referring provider, additional clinical information, and even additional information on patient demographics.
 type REF_I13 struct {
 	HL7                  HL7Name                       `hl7:",name=REF_I13,type=t"`
-	MSH                  MSH                           `hl7:"1,required,display=Message header segment"`
+	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
 	RF1                  *RF1                          `hl7:"2,display=Referral Infomation"`
 	AuthorizationContact *REF_I13_AuthorizationContact `hl7:",display=Authorization Contact"`
 	Provider             []REF_I13_Provider            `hl7:",required,display=Provider"`
-	PID                  PID                           `hl7:"7,required,display=Patient identification segment"`
+	PID                  *PID                          `hl7:"7,required,display=Patient identification segment"`
 	NK1                  []NK1                         `hl7:"8,display=Next of kin / associated parties segment"`
 	GT1                  []GT1                         `hl7:"9,display=Guarantor segment"`
 	Insurance            []REF_I13_Insurance           `hl7:",display=Insurance"`
@@ -6323,21 +6323,21 @@ type REF_I13 struct {
 // AuthorizationContact
 type REF_I14_AuthorizationContact struct {
 	HL7 HL7Name `hl7:",name=REF_I14_AuthorizationContact,type=tg"`
-	AUT AUT     `hl7:"3,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"3,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"4,display=Contact Data"`
 }
 
 // Provider
 type REF_I14_Provider struct {
 	HL7 HL7Name `hl7:",name=REF_I14_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
 // Insurance
 type REF_I14_Insurance struct {
 	HL7 HL7Name `hl7:",name=REF_I14_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -6345,21 +6345,21 @@ type REF_I14_Insurance struct {
 // Procedure
 type REF_I14_Procedure struct {
 	HL7                  HL7Name                        `hl7:",name=REF_I14_Procedure,type=tg"`
-	PR1                  PR1                            `hl7:"17,required,display=Procedures segment"`
+	PR1                  *PR1                           `hl7:"17,required,display=Procedures segment"`
 	AuthorizationContact *REF_I14_AuthorizationContact2 `hl7:",display=Authorization Contact"`
 }
 
 // AuthorizationContact
 type REF_I14_AuthorizationContact2 struct {
 	HL7 HL7Name `hl7:",name=REF_I14_AuthorizationContact2,type=tg"`
-	AUT AUT     `hl7:"18,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"18,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"19,display=Contact Data"`
 }
 
 // Observation
 type REF_I14_Observation struct {
 	HL7          HL7Name                `hl7:",name=REF_I14_Observation,type=tg"`
-	OBR          OBR                    `hl7:"20,required,display=Observation request segment"`
+	OBR          *OBR                   `hl7:"20,required,display=Observation request segment"`
 	NTE          []NTE                  `hl7:"21,display=Notes and comments segment"`
 	ResultsNotes []REF_I14_ResultsNotes `hl7:",display=Results Notes"`
 }
@@ -6367,14 +6367,14 @@ type REF_I14_Observation struct {
 // ResultsNotes
 type REF_I14_ResultsNotes struct {
 	HL7 HL7Name `hl7:",name=REF_I14_ResultsNotes,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // PatientVisit
 type REF_I14_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=REF_I14_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"24,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"24,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"25,display=Patient visit - additional information segment"`
 }
 
@@ -6383,11 +6383,11 @@ type REF_I14_PatientVisit struct {
 // This event triggers a message to be sent from one healthcare provider to another canceling a referral.  A previous referral may have been made in error, or perhaps the cancellation has come from the patient.
 type REF_I14 struct {
 	HL7                  HL7Name                       `hl7:",name=REF_I14,type=t"`
-	MSH                  MSH                           `hl7:"1,required,display=Message header segment"`
+	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
 	RF1                  *RF1                          `hl7:"2,display=Referral Infomation"`
 	AuthorizationContact *REF_I14_AuthorizationContact `hl7:",display=Authorization Contact"`
 	Provider             []REF_I14_Provider            `hl7:",required,display=Provider"`
-	PID                  PID                           `hl7:"7,required,display=Patient identification segment"`
+	PID                  *PID                          `hl7:"7,required,display=Patient identification segment"`
 	NK1                  []NK1                         `hl7:"8,display=Next of kin / associated parties segment"`
 	GT1                  []GT1                         `hl7:"9,display=Guarantor segment"`
 	Insurance            []REF_I14_Insurance           `hl7:",display=Insurance"`
@@ -6404,21 +6404,21 @@ type REF_I14 struct {
 // AuthorizationContact
 type REF_I15_AuthorizationContact struct {
 	HL7 HL7Name `hl7:",name=REF_I15_AuthorizationContact,type=tg"`
-	AUT AUT     `hl7:"3,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"3,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"4,display=Contact Data"`
 }
 
 // Provider
 type REF_I15_Provider struct {
 	HL7 HL7Name `hl7:",name=REF_I15_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
 // Insurance
 type REF_I15_Insurance struct {
 	HL7 HL7Name `hl7:",name=REF_I15_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -6426,21 +6426,21 @@ type REF_I15_Insurance struct {
 // Procedure
 type REF_I15_Procedure struct {
 	HL7                  HL7Name                        `hl7:",name=REF_I15_Procedure,type=tg"`
-	PR1                  PR1                            `hl7:"17,required,display=Procedures segment"`
+	PR1                  *PR1                           `hl7:"17,required,display=Procedures segment"`
 	AuthorizationContact *REF_I15_AuthorizationContact2 `hl7:",display=Authorization Contact"`
 }
 
 // AuthorizationContact
 type REF_I15_AuthorizationContact2 struct {
 	HL7 HL7Name `hl7:",name=REF_I15_AuthorizationContact2,type=tg"`
-	AUT AUT     `hl7:"18,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"18,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"19,display=Contact Data"`
 }
 
 // Observation
 type REF_I15_Observation struct {
 	HL7          HL7Name                `hl7:",name=REF_I15_Observation,type=tg"`
-	OBR          OBR                    `hl7:"20,required,display=Observation request segment"`
+	OBR          *OBR                   `hl7:"20,required,display=Observation request segment"`
 	NTE          []NTE                  `hl7:"21,display=Notes and comments segment"`
 	ResultsNotes []REF_I15_ResultsNotes `hl7:",display=Results Notes"`
 }
@@ -6448,14 +6448,14 @@ type REF_I15_Observation struct {
 // ResultsNotes
 type REF_I15_ResultsNotes struct {
 	HL7 HL7Name `hl7:",name=REF_I15_ResultsNotes,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // PatientVisit
 type REF_I15_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=REF_I15_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"24,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"24,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"25,display=Patient visit - additional information segment"`
 }
 
@@ -6464,11 +6464,11 @@ type REF_I15_PatientVisit struct {
 // This event triggers a message to be sent between healthcare providers regarding the status of a patient referral request.  A previous referral has been made and acknowledged; however, no response has been received to indicate results and/or procedures performed.
 type REF_I15 struct {
 	HL7                  HL7Name                       `hl7:",name=REF_I15,type=t"`
-	MSH                  MSH                           `hl7:"1,required,display=Message header segment"`
+	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
 	RF1                  *RF1                          `hl7:"2,display=Referral Infomation"`
 	AuthorizationContact *REF_I15_AuthorizationContact `hl7:",display=Authorization Contact"`
 	Provider             []REF_I15_Provider            `hl7:",required,display=Provider"`
-	PID                  PID                           `hl7:"7,required,display=Patient identification segment"`
+	PID                  *PID                          `hl7:"7,required,display=Patient identification segment"`
 	NK1                  []NK1                         `hl7:"8,display=Next of kin / associated parties segment"`
 	GT1                  []GT1                         `hl7:"9,display=Guarantor segment"`
 	Insurance            []REF_I15_Insurance           `hl7:",display=Insurance"`
@@ -6485,7 +6485,7 @@ type REF_I15 struct {
 // Definition
 type RER_RER_Definition struct {
 	HL7     HL7Name          `hl7:",name=RER_RER_Definition,type=tg"`
-	QRD     QRD              `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD             `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF             `hl7:"5,display=Original style query filter segment"`
 	Patient *RER_RER_Patient `hl7:",display=Patient"`
 	Order   []RER_RER_Order  `hl7:",required,display=Order"`
@@ -6494,15 +6494,15 @@ type RER_RER_Definition struct {
 // Patient
 type RER_RER_Patient struct {
 	HL7 HL7Name `hl7:",name=RER_RER_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"7,display=Notes and comments segment"`
 }
 
 // Order
 type RER_RER_Order struct {
 	HL7 HL7Name `hl7:",name=RER_RER_Order,type=tg"`
-	ORC ORC     `hl7:"8,required,display=Common order segment"`
-	RXE RXE     `hl7:"9,required,display=Pharmacy/treatment encoded order segment"`
+	ORC *ORC    `hl7:"8,required,display=Common order segment"`
+	RXE *RXE    `hl7:"9,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"10,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"11,display=Pharmacy/treatment component order segment"`
 }
@@ -6512,8 +6512,8 @@ type RER_RER_Order struct {
 // Query (QRY_Q29) / Response (RER_RER)
 type RER_RER struct {
 	HL7        HL7Name              `hl7:",name=RER_RER,type=t"`
-	MSH        MSH                  `hl7:"1,required,display=Message header segment"`
-	MSA        MSA                  `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
+	MSA        *MSA                 `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR        *ERR                 `hl7:"3,display=Error segment"`
 	Definition []RER_RER_Definition `hl7:",required,display=Definition"`
 	DSC        *DSC                 `hl7:"12,display=Continuation pointer segment"`
@@ -6522,7 +6522,7 @@ type RER_RER struct {
 // Definition
 type RGR_RGR_Definition struct {
 	HL7     HL7Name          `hl7:",name=RGR_RGR_Definition,type=tg"`
-	QRD     QRD              `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD             `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF             `hl7:"5,display=Original style query filter segment"`
 	Patient *RGR_RGR_Patient `hl7:",display=Patient"`
 	Order   []RGR_RGR_Order  `hl7:",required,display=Order"`
@@ -6531,14 +6531,14 @@ type RGR_RGR_Definition struct {
 // Patient
 type RGR_RGR_Patient struct {
 	HL7 HL7Name `hl7:",name=RGR_RGR_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"7,display=Notes and comments segment"`
 }
 
 // Order
 type RGR_RGR_Order struct {
 	HL7      HL7Name           `hl7:",name=RGR_RGR_Order,type=tg"`
-	ORC      ORC               `hl7:"8,required,display=Common order segment"`
+	ORC      *ORC              `hl7:"8,required,display=Common order segment"`
 	Encoding *RGR_RGR_Encoding `hl7:",display=Encoding"`
 	RXG      []RXG             `hl7:"12,required,display=Pharmacy/treatment give segment"`
 	RXR      []RXR             `hl7:"13,required,display=Pharmacy/treatment route segment"`
@@ -6548,7 +6548,7 @@ type RGR_RGR_Order struct {
 // Encoding
 type RGR_RGR_Encoding struct {
 	HL7 HL7Name `hl7:",name=RGR_RGR_Encoding,type=tg"`
-	RXE RXE     `hl7:"9,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"9,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"10,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"11,display=Pharmacy/treatment component order segment"`
 }
@@ -6558,8 +6558,8 @@ type RGR_RGR_Encoding struct {
 // Query (QRY_Q30) / Response (RGR_RGR)
 type RGR_RGR struct {
 	HL7        HL7Name              `hl7:",name=RGR_RGR,type=t"`
-	MSH        MSH                  `hl7:"1,required,display=Message header segment"`
-	MSA        MSA                  `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
+	MSA        *MSA                 `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR        *ERR                 `hl7:"3,display=Error segment"`
 	Definition []RGR_RGR_Definition `hl7:",required,display=Definition"`
 	DSC        *DSC                 `hl7:"15,display=Continuation pointer segment"`
@@ -6568,7 +6568,7 @@ type RGR_RGR struct {
 // Patient
 type RGV_O01_Patient struct {
 	HL7          HL7Name               `hl7:",name=RGV_O01_Patient,type=tg"`
-	PID          PID                   `hl7:"3,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"3,required,display=Patient identification segment"`
 	NTE          []NTE                 `hl7:"4,display=Notes and comments segment"`
 	AL1          []AL1                 `hl7:"5,display=Patient allergy information segment"`
 	PatientVisit *RGV_O01_PatientVisit `hl7:",display=Patient Visit"`
@@ -6577,14 +6577,14 @@ type RGV_O01_Patient struct {
 // PatientVisit
 type RGV_O01_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RGV_O01_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"6,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"6,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 }
 
 // Order
 type RGV_O01_Order struct {
 	HL7         HL7Name              `hl7:",name=RGV_O01_Order,type=tg"`
-	ORC         ORC                  `hl7:"8,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"8,required,display=Common order segment"`
 	OrderDetail *RGV_O01_OrderDetail `hl7:",display=Order Detail"`
 	Encoding    *RGV_O01_Encoding    `hl7:",display=Encoding"`
 	Give        []RGV_O01_Give       `hl7:",required,display=Give"`
@@ -6593,7 +6593,7 @@ type RGV_O01_Order struct {
 // OrderDetail
 type RGV_O01_OrderDetail struct {
 	HL7                   HL7Name                        `hl7:",name=RGV_O01_OrderDetail,type=tg"`
-	RXO                   RXO                            `hl7:"9,required,display=Pharmacy/treatment order segment"`
+	RXO                   *RXO                           `hl7:"9,required,display=Pharmacy/treatment order segment"`
 	OrderDetailSupplement *RGV_O01_OrderDetailSupplement `hl7:",display=Order Detail Supplement"`
 }
 
@@ -6615,7 +6615,7 @@ type RGV_O01_Components struct {
 // Encoding
 type RGV_O01_Encoding struct {
 	HL7 HL7Name `hl7:",name=RGV_O01_Encoding,type=tg"`
-	RXE RXE     `hl7:"14,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"14,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"15,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"16,display=Pharmacy/treatment component order segment"`
 }
@@ -6623,7 +6623,7 @@ type RGV_O01_Encoding struct {
 // Give
 type RGV_O01_Give struct {
 	HL7         HL7Name               `hl7:",name=RGV_O01_Give,type=tg"`
-	RXG         RXG                   `hl7:"17,required,display=Pharmacy/treatment give segment"`
+	RXG         *RXG                  `hl7:"17,required,display=Pharmacy/treatment give segment"`
 	RXR         []RXR                 `hl7:"18,required,display=Pharmacy/treatment route segment"`
 	RXC         []RXC                 `hl7:"19,display=Pharmacy/treatment component order segment"`
 	Observation []RGV_O01_Observation `hl7:",required,display=Observation"`
@@ -6641,7 +6641,7 @@ type RGV_O01_Observation struct {
 // The RGV message uses the RXG segment to record drug or treatment administration instructions.  It may carry information about a single scheduled administration on a drug or treatment, or it may carry information about multiple administrations.
 type RGV_O01 struct {
 	HL7     HL7Name          `hl7:",name=RGV_O01,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
 	NTE     []NTE            `hl7:"2,display=Notes and comments segment"`
 	Patient *RGV_O01_Patient `hl7:",display=Patient"`
 	Order   []RGV_O01_Order  `hl7:",required,display=Order"`
@@ -6650,7 +6650,7 @@ type RGV_O01 struct {
 // Definition
 type ROR_ROR_Definition struct {
 	HL7     HL7Name          `hl7:",name=ROR_ROR_Definition,type=tg"`
-	QRD     QRD              `hl7:"4,required,display=Original-style query definition segment"`
+	QRD     *QRD             `hl7:"4,required,display=Original-style query definition segment"`
 	QRF     *QRF             `hl7:"5,display=Original style query filter segment"`
 	Patient *ROR_ROR_Patient `hl7:",display=Patient"`
 	Order   []ROR_ROR_Order  `hl7:",required,display=Order"`
@@ -6659,15 +6659,15 @@ type ROR_ROR_Definition struct {
 // Patient
 type ROR_ROR_Patient struct {
 	HL7 HL7Name `hl7:",name=ROR_ROR_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"7,display=Notes and comments segment"`
 }
 
 // Order
 type ROR_ROR_Order struct {
 	HL7 HL7Name `hl7:",name=ROR_ROR_Order,type=tg"`
-	ORC ORC     `hl7:"8,required,display=Common order segment"`
-	RXO RXO     `hl7:"9,required,display=Pharmacy/treatment order segment"`
+	ORC *ORC    `hl7:"8,required,display=Common order segment"`
+	RXO *RXO    `hl7:"9,required,display=Pharmacy/treatment order segment"`
 	RXR []RXR   `hl7:"10,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"11,display=Pharmacy/treatment component order segment"`
 }
@@ -6677,8 +6677,8 @@ type ROR_ROR_Order struct {
 // Query (QRY_Q26) / Response (ROR_ROR)
 type ROR_ROR struct {
 	HL7        HL7Name              `hl7:",name=ROR_ROR,type=t"`
-	MSH        MSH                  `hl7:"1,required,display=Message header segment"`
-	MSA        MSA                  `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
+	MSA        *MSA                 `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR        *ERR                 `hl7:"3,display=Error segment"`
 	Definition []ROR_ROR_Definition `hl7:",required,display=Definition"`
 	DSC        *DSC                 `hl7:"12,display=Continuation pointer segment"`
@@ -6687,21 +6687,21 @@ type ROR_ROR struct {
 // Authorization
 type RPA_I08_Authorization struct {
 	HL7 HL7Name `hl7:",name=RPA_I08_Authorization,type=tg"`
-	AUT AUT     `hl7:"4,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"4,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"5,display=Contact Data"`
 }
 
 // Provider
 type RPA_I08_Provider struct {
 	HL7 HL7Name `hl7:",name=RPA_I08_Provider,type=tg"`
-	PRD PRD     `hl7:"6,required,display=Provider Data"`
+	PRD *PRD    `hl7:"6,required,display=Provider Data"`
 	CTD []CTD   `hl7:"7,display=Contact Data"`
 }
 
 // Insurance
 type RPA_I08_Insurance struct {
 	HL7 HL7Name `hl7:",name=RPA_I08_Insurance,type=tg"`
-	IN1 IN1     `hl7:"11,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"11,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"12,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"13,display=Insurance additional information- certification segment"`
 }
@@ -6709,21 +6709,21 @@ type RPA_I08_Insurance struct {
 // Procedure
 type RPA_I08_Procedure struct {
 	HL7           HL7Name                 `hl7:",name=RPA_I08_Procedure,type=tg"`
-	PR1           PR1                     `hl7:"18,required,display=Procedures segment"`
+	PR1           *PR1                    `hl7:"18,required,display=Procedures segment"`
 	Authorization *RPA_I08_Authorization2 `hl7:",display=Authorization"`
 }
 
 // Authorization
 type RPA_I08_Authorization2 struct {
 	HL7 HL7Name `hl7:",name=RPA_I08_Authorization2,type=tg"`
-	AUT AUT     `hl7:"19,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"19,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"20,display=Contact Data"`
 }
 
 // Observation
 type RPA_I08_Observation struct {
 	HL7     HL7Name           `hl7:",name=RPA_I08_Observation,type=tg"`
-	OBR     OBR               `hl7:"21,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"21,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"22,display=Notes and comments segment"`
 	Results []RPA_I08_Results `hl7:",display=Results"`
 }
@@ -6731,14 +6731,14 @@ type RPA_I08_Observation struct {
 // Results
 type RPA_I08_Results struct {
 	HL7 HL7Name `hl7:",name=RPA_I08_Results,type=tg"`
-	OBX OBX     `hl7:"23,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"23,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"24,display=Notes and comments segment"`
 }
 
 // Visit
 type RPA_I08_Visit struct {
 	HL7 HL7Name `hl7:",name=RPA_I08_Visit,type=tg"`
-	PV1 PV1     `hl7:"25,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"25,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"26,display=Patient visit - additional information segment"`
 }
 
@@ -6747,12 +6747,12 @@ type RPA_I08_Visit struct {
 // This event triggers a message to be sent from a healthcare provider to a payor requesting authorization to perform specific medical procedures or tests on a given patient.  The specific medical procedures must be filled out in the PR1 segments.  Each repeating PR1 segment may be paired with an AUT segment so that authorization information can be given regarding dollar amounts, number of treatments, and perhaps the estimated length of stay for treatment.  The OBR and OBX segments should be used to include any relevant clinical information that may be required to support or process the authorization
 type RPA_I08 struct {
 	HL7           HL7Name                `hl7:",name=RPA_I08,type=t"`
-	MSH           MSH                    `hl7:"1,required,display=Message header segment"`
-	MSA           MSA                    `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH           *MSH                   `hl7:"1,required,display=Message header segment"`
+	MSA           *MSA                   `hl7:"2,required,display=Message acknowledgment segment"`
 	RF1           *RF1                   `hl7:"3,display=Referral Infomation"`
 	Authorization *RPA_I08_Authorization `hl7:",display=Authorization"`
 	Provider      []RPA_I08_Provider     `hl7:",required,display=Provider"`
-	PID           PID                    `hl7:"8,required,display=Patient identification segment"`
+	PID           *PID                   `hl7:"8,required,display=Patient identification segment"`
 	NK1           []NK1                  `hl7:"9,display=Next of kin / associated parties segment"`
 	GT1           []GT1                  `hl7:"10,display=Guarantor segment"`
 	Insurance     []RPA_I08_Insurance    `hl7:",display=Insurance"`
@@ -6769,21 +6769,21 @@ type RPA_I08 struct {
 // Authorization
 type RPA_I09_Authorization struct {
 	HL7 HL7Name `hl7:",name=RPA_I09_Authorization,type=tg"`
-	AUT AUT     `hl7:"4,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"4,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"5,display=Contact Data"`
 }
 
 // Provider
 type RPA_I09_Provider struct {
 	HL7 HL7Name `hl7:",name=RPA_I09_Provider,type=tg"`
-	PRD PRD     `hl7:"6,required,display=Provider Data"`
+	PRD *PRD    `hl7:"6,required,display=Provider Data"`
 	CTD []CTD   `hl7:"7,display=Contact Data"`
 }
 
 // Insurance
 type RPA_I09_Insurance struct {
 	HL7 HL7Name `hl7:",name=RPA_I09_Insurance,type=tg"`
-	IN1 IN1     `hl7:"11,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"11,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"12,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"13,display=Insurance additional information- certification segment"`
 }
@@ -6791,21 +6791,21 @@ type RPA_I09_Insurance struct {
 // Procedure
 type RPA_I09_Procedure struct {
 	HL7           HL7Name                 `hl7:",name=RPA_I09_Procedure,type=tg"`
-	PR1           PR1                     `hl7:"18,required,display=Procedures segment"`
+	PR1           *PR1                    `hl7:"18,required,display=Procedures segment"`
 	Authorization *RPA_I09_Authorization2 `hl7:",display=Authorization"`
 }
 
 // Authorization
 type RPA_I09_Authorization2 struct {
 	HL7 HL7Name `hl7:",name=RPA_I09_Authorization2,type=tg"`
-	AUT AUT     `hl7:"19,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"19,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"20,display=Contact Data"`
 }
 
 // Observation
 type RPA_I09_Observation struct {
 	HL7     HL7Name           `hl7:",name=RPA_I09_Observation,type=tg"`
-	OBR     OBR               `hl7:"21,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"21,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"22,display=Notes and comments segment"`
 	Results []RPA_I09_Results `hl7:",display=Results"`
 }
@@ -6813,14 +6813,14 @@ type RPA_I09_Observation struct {
 // Results
 type RPA_I09_Results struct {
 	HL7 HL7Name `hl7:",name=RPA_I09_Results,type=tg"`
-	OBX OBX     `hl7:"23,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"23,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"24,display=Notes and comments segment"`
 }
 
 // Visit
 type RPA_I09_Visit struct {
 	HL7 HL7Name `hl7:",name=RPA_I09_Visit,type=tg"`
-	PV1 PV1     `hl7:"25,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"25,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"26,display=Patient visit - additional information segment"`
 }
 
@@ -6829,12 +6829,12 @@ type RPA_I09_Visit struct {
 // This event triggers a message sent from a healthcare provider to a payor requesting changes to a previously referenced authorization.  For example, a provider may determine that a substitute testing or surgical procedure should be performed on a specified patient.
 type RPA_I09 struct {
 	HL7           HL7Name                `hl7:",name=RPA_I09,type=t"`
-	MSH           MSH                    `hl7:"1,required,display=Message header segment"`
-	MSA           MSA                    `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH           *MSH                   `hl7:"1,required,display=Message header segment"`
+	MSA           *MSA                   `hl7:"2,required,display=Message acknowledgment segment"`
 	RF1           *RF1                   `hl7:"3,display=Referral Infomation"`
 	Authorization *RPA_I09_Authorization `hl7:",display=Authorization"`
 	Provider      []RPA_I09_Provider     `hl7:",required,display=Provider"`
-	PID           PID                    `hl7:"8,required,display=Patient identification segment"`
+	PID           *PID                   `hl7:"8,required,display=Patient identification segment"`
 	NK1           []NK1                  `hl7:"9,display=Next of kin / associated parties segment"`
 	GT1           []GT1                  `hl7:"10,display=Guarantor segment"`
 	Insurance     []RPA_I09_Insurance    `hl7:",display=Insurance"`
@@ -6851,21 +6851,21 @@ type RPA_I09 struct {
 // Authorization
 type RPA_I10_Authorization struct {
 	HL7 HL7Name `hl7:",name=RPA_I10_Authorization,type=tg"`
-	AUT AUT     `hl7:"4,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"4,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"5,display=Contact Data"`
 }
 
 // Provider
 type RPA_I10_Provider struct {
 	HL7 HL7Name `hl7:",name=RPA_I10_Provider,type=tg"`
-	PRD PRD     `hl7:"6,required,display=Provider Data"`
+	PRD *PRD    `hl7:"6,required,display=Provider Data"`
 	CTD []CTD   `hl7:"7,display=Contact Data"`
 }
 
 // Insurance
 type RPA_I10_Insurance struct {
 	HL7 HL7Name `hl7:",name=RPA_I10_Insurance,type=tg"`
-	IN1 IN1     `hl7:"11,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"11,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"12,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"13,display=Insurance additional information- certification segment"`
 }
@@ -6873,21 +6873,21 @@ type RPA_I10_Insurance struct {
 // Procedure
 type RPA_I10_Procedure struct {
 	HL7           HL7Name                 `hl7:",name=RPA_I10_Procedure,type=tg"`
-	PR1           PR1                     `hl7:"18,required,display=Procedures segment"`
+	PR1           *PR1                    `hl7:"18,required,display=Procedures segment"`
 	Authorization *RPA_I10_Authorization2 `hl7:",display=Authorization"`
 }
 
 // Authorization
 type RPA_I10_Authorization2 struct {
 	HL7 HL7Name `hl7:",name=RPA_I10_Authorization2,type=tg"`
-	AUT AUT     `hl7:"19,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"19,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"20,display=Contact Data"`
 }
 
 // Observation
 type RPA_I10_Observation struct {
 	HL7     HL7Name           `hl7:",name=RPA_I10_Observation,type=tg"`
-	OBR     OBR               `hl7:"21,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"21,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"22,display=Notes and comments segment"`
 	Results []RPA_I10_Results `hl7:",display=Results"`
 }
@@ -6895,14 +6895,14 @@ type RPA_I10_Observation struct {
 // Results
 type RPA_I10_Results struct {
 	HL7 HL7Name `hl7:",name=RPA_I10_Results,type=tg"`
-	OBX OBX     `hl7:"23,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"23,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"24,display=Notes and comments segment"`
 }
 
 // Visit
 type RPA_I10_Visit struct {
 	HL7 HL7Name `hl7:",name=RPA_I10_Visit,type=tg"`
-	PV1 PV1     `hl7:"25,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"25,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"26,display=Patient visit - additional information segment"`
 }
 
@@ -6911,12 +6911,12 @@ type RPA_I10_Visit struct {
 // If a previously submitted request for treatment authorization is rejected or canceled, this event could trigger a resubmission message for a referenced authorization.  For example, the payor may have rejected a request until additional clinical information is sent to support the authorization request.
 type RPA_I10 struct {
 	HL7           HL7Name                `hl7:",name=RPA_I10,type=t"`
-	MSH           MSH                    `hl7:"1,required,display=Message header segment"`
-	MSA           MSA                    `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH           *MSH                   `hl7:"1,required,display=Message header segment"`
+	MSA           *MSA                   `hl7:"2,required,display=Message acknowledgment segment"`
 	RF1           *RF1                   `hl7:"3,display=Referral Infomation"`
 	Authorization *RPA_I10_Authorization `hl7:",display=Authorization"`
 	Provider      []RPA_I10_Provider     `hl7:",required,display=Provider"`
-	PID           PID                    `hl7:"8,required,display=Patient identification segment"`
+	PID           *PID                   `hl7:"8,required,display=Patient identification segment"`
 	NK1           []NK1                  `hl7:"9,display=Next of kin / associated parties segment"`
 	GT1           []GT1                  `hl7:"10,display=Guarantor segment"`
 	Insurance     []RPA_I10_Insurance    `hl7:",display=Insurance"`
@@ -6933,21 +6933,21 @@ type RPA_I10 struct {
 // Authorization
 type RPA_I11_Authorization struct {
 	HL7 HL7Name `hl7:",name=RPA_I11_Authorization,type=tg"`
-	AUT AUT     `hl7:"4,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"4,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"5,display=Contact Data"`
 }
 
 // Provider
 type RPA_I11_Provider struct {
 	HL7 HL7Name `hl7:",name=RPA_I11_Provider,type=tg"`
-	PRD PRD     `hl7:"6,required,display=Provider Data"`
+	PRD *PRD    `hl7:"6,required,display=Provider Data"`
 	CTD []CTD   `hl7:"7,display=Contact Data"`
 }
 
 // Insurance
 type RPA_I11_Insurance struct {
 	HL7 HL7Name `hl7:",name=RPA_I11_Insurance,type=tg"`
-	IN1 IN1     `hl7:"11,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"11,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"12,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"13,display=Insurance additional information- certification segment"`
 }
@@ -6955,21 +6955,21 @@ type RPA_I11_Insurance struct {
 // Procedure
 type RPA_I11_Procedure struct {
 	HL7           HL7Name                 `hl7:",name=RPA_I11_Procedure,type=tg"`
-	PR1           PR1                     `hl7:"18,required,display=Procedures segment"`
+	PR1           *PR1                    `hl7:"18,required,display=Procedures segment"`
 	Authorization *RPA_I11_Authorization2 `hl7:",display=Authorization"`
 }
 
 // Authorization
 type RPA_I11_Authorization2 struct {
 	HL7 HL7Name `hl7:",name=RPA_I11_Authorization2,type=tg"`
-	AUT AUT     `hl7:"19,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"19,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"20,display=Contact Data"`
 }
 
 // Observation
 type RPA_I11_Observation struct {
 	HL7     HL7Name           `hl7:",name=RPA_I11_Observation,type=tg"`
-	OBR     OBR               `hl7:"21,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"21,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"22,display=Notes and comments segment"`
 	Results []RPA_I11_Results `hl7:",display=Results"`
 }
@@ -6977,14 +6977,14 @@ type RPA_I11_Observation struct {
 // Results
 type RPA_I11_Results struct {
 	HL7 HL7Name `hl7:",name=RPA_I11_Results,type=tg"`
-	OBX OBX     `hl7:"23,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"23,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"24,display=Notes and comments segment"`
 }
 
 // Visit
 type RPA_I11_Visit struct {
 	HL7 HL7Name `hl7:",name=RPA_I11_Visit,type=tg"`
-	PV1 PV1     `hl7:"25,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"25,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"26,display=Patient visit - additional information segment"`
 }
 
@@ -6993,12 +6993,12 @@ type RPA_I11_Visit struct {
 // This event may trigger the cancellation of an authorization.  It may be used by the provider to indicate that an authorized service was not performed, or perhaps that the patient changed to another provider.  A payor may use this request to reject a submitted authorization request from a provider
 type RPA_I11 struct {
 	HL7           HL7Name                `hl7:",name=RPA_I11,type=t"`
-	MSH           MSH                    `hl7:"1,required,display=Message header segment"`
-	MSA           MSA                    `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH           *MSH                   `hl7:"1,required,display=Message header segment"`
+	MSA           *MSA                   `hl7:"2,required,display=Message acknowledgment segment"`
 	RF1           *RF1                   `hl7:"3,display=Referral Infomation"`
 	Authorization *RPA_I11_Authorization `hl7:",display=Authorization"`
 	Provider      []RPA_I11_Provider     `hl7:",required,display=Provider"`
-	PID           PID                    `hl7:"8,required,display=Patient identification segment"`
+	PID           *PID                   `hl7:"8,required,display=Patient identification segment"`
 	NK1           []NK1                  `hl7:"9,display=Next of kin / associated parties segment"`
 	GT1           []GT1                  `hl7:"10,display=Guarantor segment"`
 	Insurance     []RPA_I11_Insurance    `hl7:",display=Insurance"`
@@ -7015,7 +7015,7 @@ type RPA_I11 struct {
 // Provider
 type RPI_I01_Provider struct {
 	HL7 HL7Name `hl7:",name=RPI_I01_Provider,type=tg"`
-	PRD PRD     `hl7:"3,required,display=Provider Data"`
+	PRD *PRD    `hl7:"3,required,display=Provider Data"`
 	CTD []CTD   `hl7:"4,display=Contact Data"`
 }
 
@@ -7029,7 +7029,7 @@ type RPI_I01_GuarantorInsurance struct {
 // Insurance
 type RPI_I01_Insurance struct {
 	HL7 HL7Name `hl7:",name=RPI_I01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"8,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"8,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"9,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"10,display=Insurance additional information- certification segment"`
 }
@@ -7037,10 +7037,10 @@ type RPI_I01_Insurance struct {
 // Return patient information
 type RPI_I01 struct {
 	HL7                HL7Name                     `hl7:",name=RPI_I01,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
-	MSA                MSA                         `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
+	MSA                *MSA                        `hl7:"2,required,display=Message acknowledgment segment"`
 	Provider           []RPI_I01_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"5,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"5,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"6,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RPI_I01_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	NTE                []NTE                       `hl7:"11,display=Notes and comments segment"`
@@ -7049,7 +7049,7 @@ type RPI_I01 struct {
 // Provider
 type RPI_I04_Provider struct {
 	HL7 HL7Name `hl7:",name=RPI_I04_Provider,type=tg"`
-	PRD PRD     `hl7:"3,required,display=Provider Data"`
+	PRD *PRD    `hl7:"3,required,display=Provider Data"`
 	CTD []CTD   `hl7:"4,display=Contact Data"`
 }
 
@@ -7063,7 +7063,7 @@ type RPI_I04_GuarantorInsurance struct {
 // Insurance
 type RPI_I04_Insurance struct {
 	HL7 HL7Name `hl7:",name=RPI_I04_Insurance,type=tg"`
-	IN1 IN1     `hl7:"8,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"8,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"9,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"10,display=Insurance additional information- certification segment"`
 }
@@ -7073,10 +7073,10 @@ type RPI_I04_Insurance struct {
 // This event triggers a request from one healthcare provider to another for patient demographic information, including insurance and billing information.  Typically, this transaction would occur between one provider to another, but it could also be directed to a payor.
 type RPI_I04 struct {
 	HL7                HL7Name                     `hl7:",name=RPI_I04,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
-	MSA                MSA                         `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
+	MSA                *MSA                        `hl7:"2,required,display=Message acknowledgment segment"`
 	Provider           []RPI_I04_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"5,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"5,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"6,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RPI_I04_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	NTE                []NTE                       `hl7:"11,display=Notes and comments segment"`
@@ -7085,7 +7085,7 @@ type RPI_I04 struct {
 // Provider
 type RPL_I02_Provider struct {
 	HL7 HL7Name `hl7:",name=RPL_I02_Provider,type=tg"`
-	PRD PRD     `hl7:"3,required,display=Provider Data"`
+	PRD *PRD    `hl7:"3,required,display=Provider Data"`
 	CTD []CTD   `hl7:"4,display=Contact Data"`
 }
 
@@ -7094,8 +7094,8 @@ type RPL_I02_Provider struct {
 // This trigger event occurs when the inquirer specifies a request for a name lookup listing.  Generally, this request is used by the responder when insufficient data is on hand for a positive match.  In this case, the requester may ask for a list of possible candidates from which to make a selection.  This event code is also used by the responder to signify that the return information contains a list of information rather than information specific to a single patient
 type RPL_I02 struct {
 	HL7      HL7Name            `hl7:",name=RPL_I02,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
-	MSA      MSA                `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA               `hl7:"2,required,display=Message acknowledgment segment"`
 	Provider []RPL_I02_Provider `hl7:",required,display=Provider"`
 	NTE      []NTE              `hl7:"5,display=Notes and comments segment"`
 	DSP      []DSP              `hl7:"6,display=Display data segment"`
@@ -7105,7 +7105,7 @@ type RPL_I02 struct {
 // Provider
 type RPR_I03_Provider struct {
 	HL7 HL7Name `hl7:",name=RPR_I03_Provider,type=tg"`
-	PRD PRD     `hl7:"3,required,display=Provider Data"`
+	PRD *PRD    `hl7:"3,required,display=Provider Data"`
 	CTD []CTD   `hl7:"4,display=Contact Data"`
 }
 
@@ -7114,8 +7114,8 @@ type RPR_I03_Provider struct {
 // This trigger event occurs when the inquirer specifies a request for a listing of patient names.  This event differs from event I02 (request/receipts of patient selection display list) in that it returns the patient list in repeating PID segments instead of repeating DSP segments
 type RPR_I03 struct {
 	HL7      HL7Name            `hl7:",name=RPR_I03,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
-	MSA      MSA                `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA               `hl7:"2,required,display=Message acknowledgment segment"`
 	Provider []RPR_I03_Provider `hl7:",required,display=Provider"`
 	PID      []PID              `hl7:"5,display=Patient identification segment"`
 	NTE      []NTE              `hl7:"6,display=Notes and comments segment"`
@@ -7124,14 +7124,14 @@ type RPR_I03 struct {
 // Authorization
 type RQA_I08_Authorization struct {
 	HL7 HL7Name `hl7:",name=RQA_I08_Authorization,type=tg"`
-	AUT AUT     `hl7:"3,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"3,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"4,display=Contact Data"`
 }
 
 // Provider
 type RQA_I08_Provider struct {
 	HL7 HL7Name `hl7:",name=RQA_I08_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
@@ -7145,7 +7145,7 @@ type RQA_I08_GuarantorInsurance struct {
 // Insurance
 type RQA_I08_Insurance struct {
 	HL7 HL7Name `hl7:",name=RQA_I08_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -7153,21 +7153,21 @@ type RQA_I08_Insurance struct {
 // Procedure
 type RQA_I08_Procedure struct {
 	HL7           HL7Name                 `hl7:",name=RQA_I08_Procedure,type=tg"`
-	PR1           PR1                     `hl7:"17,required,display=Procedures segment"`
+	PR1           *PR1                    `hl7:"17,required,display=Procedures segment"`
 	Authorization *RQA_I08_Authorization2 `hl7:",display=Authorization"`
 }
 
 // Authorization
 type RQA_I08_Authorization2 struct {
 	HL7 HL7Name `hl7:",name=RQA_I08_Authorization2,type=tg"`
-	AUT AUT     `hl7:"18,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"18,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"19,display=Contact Data"`
 }
 
 // Observation
 type RQA_I08_Observation struct {
 	HL7     HL7Name           `hl7:",name=RQA_I08_Observation,type=tg"`
-	OBR     OBR               `hl7:"20,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"20,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"21,display=Notes and comments segment"`
 	Results []RQA_I08_Results `hl7:",display=Results"`
 }
@@ -7175,14 +7175,14 @@ type RQA_I08_Observation struct {
 // Results
 type RQA_I08_Results struct {
 	HL7 HL7Name `hl7:",name=RQA_I08_Results,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Visit
 type RQA_I08_Visit struct {
 	HL7 HL7Name `hl7:",name=RQA_I08_Visit,type=tg"`
-	PV1 PV1     `hl7:"24,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"24,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"25,display=Patient visit - additional information segment"`
 }
 
@@ -7191,11 +7191,11 @@ type RQA_I08_Visit struct {
 // This event triggers a message to be sent from a healthcare provider to a payor requesting authorization to perform specific medical procedures or tests on a given patient.  The specific medical procedures must be filled out in the PR1 segments.  Each repeating PR1 segment may be paired with an AUT segment so that authorization information can be given regarding dollar amounts, number of treatments, and perhaps the estimated length of stay for treatment.  The OBR and OBX segments should be used to include any relevant clinical information that may be required to support or process the authorization
 type RQA_I08 struct {
 	HL7                HL7Name                     `hl7:",name=RQA_I08,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
 	RF1                *RF1                        `hl7:"2,display=Referral Infomation"`
 	Authorization      *RQA_I08_Authorization      `hl7:",display=Authorization"`
 	Provider           []RQA_I08_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"7,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"7,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"8,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RQA_I08_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	ACC                *ACC                        `hl7:"13,display=Accident segment"`
@@ -7211,14 +7211,14 @@ type RQA_I08 struct {
 // Authorization
 type RQA_I09_Authorization struct {
 	HL7 HL7Name `hl7:",name=RQA_I09_Authorization,type=tg"`
-	AUT AUT     `hl7:"3,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"3,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"4,display=Contact Data"`
 }
 
 // Provider
 type RQA_I09_Provider struct {
 	HL7 HL7Name `hl7:",name=RQA_I09_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
@@ -7232,7 +7232,7 @@ type RQA_I09_GuarantorInsurance struct {
 // Insurance
 type RQA_I09_Insurance struct {
 	HL7 HL7Name `hl7:",name=RQA_I09_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -7240,21 +7240,21 @@ type RQA_I09_Insurance struct {
 // Procedure
 type RQA_I09_Procedure struct {
 	HL7           HL7Name                 `hl7:",name=RQA_I09_Procedure,type=tg"`
-	PR1           PR1                     `hl7:"17,required,display=Procedures segment"`
+	PR1           *PR1                    `hl7:"17,required,display=Procedures segment"`
 	Authorization *RQA_I09_Authorization2 `hl7:",display=Authorization"`
 }
 
 // Authorization
 type RQA_I09_Authorization2 struct {
 	HL7 HL7Name `hl7:",name=RQA_I09_Authorization2,type=tg"`
-	AUT AUT     `hl7:"18,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"18,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"19,display=Contact Data"`
 }
 
 // Observation
 type RQA_I09_Observation struct {
 	HL7     HL7Name           `hl7:",name=RQA_I09_Observation,type=tg"`
-	OBR     OBR               `hl7:"20,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"20,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"21,display=Notes and comments segment"`
 	Results []RQA_I09_Results `hl7:",display=Results"`
 }
@@ -7262,14 +7262,14 @@ type RQA_I09_Observation struct {
 // Results
 type RQA_I09_Results struct {
 	HL7 HL7Name `hl7:",name=RQA_I09_Results,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Visit
 type RQA_I09_Visit struct {
 	HL7 HL7Name `hl7:",name=RQA_I09_Visit,type=tg"`
-	PV1 PV1     `hl7:"24,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"24,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"25,display=Patient visit - additional information segment"`
 }
 
@@ -7278,11 +7278,11 @@ type RQA_I09_Visit struct {
 // This event triggers a message sent from a healthcare provider to a payor requesting changes to a previously referenced authorization.  For example, a provider may determine that a substitute testing or surgical procedure should be performed on a specified patient.
 type RQA_I09 struct {
 	HL7                HL7Name                     `hl7:",name=RQA_I09,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
 	RF1                *RF1                        `hl7:"2,display=Referral Infomation"`
 	Authorization      *RQA_I09_Authorization      `hl7:",display=Authorization"`
 	Provider           []RQA_I09_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"7,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"7,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"8,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RQA_I09_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	ACC                *ACC                        `hl7:"13,display=Accident segment"`
@@ -7298,14 +7298,14 @@ type RQA_I09 struct {
 // Authorization
 type RQA_I10_Authorization struct {
 	HL7 HL7Name `hl7:",name=RQA_I10_Authorization,type=tg"`
-	AUT AUT     `hl7:"3,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"3,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"4,display=Contact Data"`
 }
 
 // Provider
 type RQA_I10_Provider struct {
 	HL7 HL7Name `hl7:",name=RQA_I10_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
@@ -7319,7 +7319,7 @@ type RQA_I10_GuarantorInsurance struct {
 // Insurance
 type RQA_I10_Insurance struct {
 	HL7 HL7Name `hl7:",name=RQA_I10_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -7327,21 +7327,21 @@ type RQA_I10_Insurance struct {
 // Procedure
 type RQA_I10_Procedure struct {
 	HL7           HL7Name                 `hl7:",name=RQA_I10_Procedure,type=tg"`
-	PR1           PR1                     `hl7:"17,required,display=Procedures segment"`
+	PR1           *PR1                    `hl7:"17,required,display=Procedures segment"`
 	Authorization *RQA_I10_Authorization2 `hl7:",display=Authorization"`
 }
 
 // Authorization
 type RQA_I10_Authorization2 struct {
 	HL7 HL7Name `hl7:",name=RQA_I10_Authorization2,type=tg"`
-	AUT AUT     `hl7:"18,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"18,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"19,display=Contact Data"`
 }
 
 // Observation
 type RQA_I10_Observation struct {
 	HL7     HL7Name           `hl7:",name=RQA_I10_Observation,type=tg"`
-	OBR     OBR               `hl7:"20,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"20,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"21,display=Notes and comments segment"`
 	Results []RQA_I10_Results `hl7:",display=Results"`
 }
@@ -7349,14 +7349,14 @@ type RQA_I10_Observation struct {
 // Results
 type RQA_I10_Results struct {
 	HL7 HL7Name `hl7:",name=RQA_I10_Results,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Visit
 type RQA_I10_Visit struct {
 	HL7 HL7Name `hl7:",name=RQA_I10_Visit,type=tg"`
-	PV1 PV1     `hl7:"24,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"24,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"25,display=Patient visit - additional information segment"`
 }
 
@@ -7365,11 +7365,11 @@ type RQA_I10_Visit struct {
 // If a previously submitted request for treatment authorization is rejected or canceled, this event could trigger a resubmission message for a referenced authorization.  For example, the payor may have rejected a request until additional clinical information is sent to support the authorization request.
 type RQA_I10 struct {
 	HL7                HL7Name                     `hl7:",name=RQA_I10,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
 	RF1                *RF1                        `hl7:"2,display=Referral Infomation"`
 	Authorization      *RQA_I10_Authorization      `hl7:",display=Authorization"`
 	Provider           []RQA_I10_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"7,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"7,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"8,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RQA_I10_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	ACC                *ACC                        `hl7:"13,display=Accident segment"`
@@ -7385,14 +7385,14 @@ type RQA_I10 struct {
 // Authorization
 type RQA_I11_Authorization struct {
 	HL7 HL7Name `hl7:",name=RQA_I11_Authorization,type=tg"`
-	AUT AUT     `hl7:"3,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"3,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"4,display=Contact Data"`
 }
 
 // Provider
 type RQA_I11_Provider struct {
 	HL7 HL7Name `hl7:",name=RQA_I11_Provider,type=tg"`
-	PRD PRD     `hl7:"5,required,display=Provider Data"`
+	PRD *PRD    `hl7:"5,required,display=Provider Data"`
 	CTD []CTD   `hl7:"6,display=Contact Data"`
 }
 
@@ -7406,7 +7406,7 @@ type RQA_I11_GuarantorInsurance struct {
 // Insurance
 type RQA_I11_Insurance struct {
 	HL7 HL7Name `hl7:",name=RQA_I11_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -7414,21 +7414,21 @@ type RQA_I11_Insurance struct {
 // Procedure
 type RQA_I11_Procedure struct {
 	HL7           HL7Name                 `hl7:",name=RQA_I11_Procedure,type=tg"`
-	PR1           PR1                     `hl7:"17,required,display=Procedures segment"`
+	PR1           *PR1                    `hl7:"17,required,display=Procedures segment"`
 	Authorization *RQA_I11_Authorization2 `hl7:",display=Authorization"`
 }
 
 // Authorization
 type RQA_I11_Authorization2 struct {
 	HL7 HL7Name `hl7:",name=RQA_I11_Authorization2,type=tg"`
-	AUT AUT     `hl7:"18,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"18,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"19,display=Contact Data"`
 }
 
 // Observation
 type RQA_I11_Observation struct {
 	HL7     HL7Name           `hl7:",name=RQA_I11_Observation,type=tg"`
-	OBR     OBR               `hl7:"20,required,display=Observation request segment"`
+	OBR     *OBR              `hl7:"20,required,display=Observation request segment"`
 	NTE     []NTE             `hl7:"21,display=Notes and comments segment"`
 	Results []RQA_I11_Results `hl7:",display=Results"`
 }
@@ -7436,14 +7436,14 @@ type RQA_I11_Observation struct {
 // Results
 type RQA_I11_Results struct {
 	HL7 HL7Name `hl7:",name=RQA_I11_Results,type=tg"`
-	OBX OBX     `hl7:"22,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"22,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"23,display=Notes and comments segment"`
 }
 
 // Visit
 type RQA_I11_Visit struct {
 	HL7 HL7Name `hl7:",name=RQA_I11_Visit,type=tg"`
-	PV1 PV1     `hl7:"24,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"24,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"25,display=Patient visit - additional information segment"`
 }
 
@@ -7452,11 +7452,11 @@ type RQA_I11_Visit struct {
 // This event may trigger the cancellation of an authorization.  It may be used by the provider to indicate that an authorized service was not performed, or perhaps that the patient changed to another provider.  A payor may use this request to reject a submitted authorization request from a provider
 type RQA_I11 struct {
 	HL7                HL7Name                     `hl7:",name=RQA_I11,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
 	RF1                *RF1                        `hl7:"2,display=Referral Infomation"`
 	Authorization      *RQA_I11_Authorization      `hl7:",display=Authorization"`
 	Provider           []RQA_I11_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"7,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"7,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"8,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RQA_I11_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	ACC                *ACC                        `hl7:"13,display=Accident segment"`
@@ -7472,7 +7472,7 @@ type RQA_I11 struct {
 // Provider
 type RQC_I05_Provider struct {
 	HL7 HL7Name `hl7:",name=RQC_I05_Provider,type=tg"`
-	PRD PRD     `hl7:"4,required,display=Provider Data"`
+	PRD *PRD    `hl7:"4,required,display=Provider Data"`
 	CTD []CTD   `hl7:"5,display=Contact Data"`
 }
 
@@ -7481,11 +7481,11 @@ type RQC_I05_Provider struct {
 // This event is used to request clinical information for a specific patient.  Generally, this transaction occurs between one provider and another (typically a laboratory or radiology, etc.).  However, it may also be very useful for a payor-to-provider request for clinical observation information to be used in considering a request for treatment authorization.
 type RQC_I05 struct {
 	HL7      HL7Name            `hl7:",name=RQC_I05,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
-	QRD      QRD                `hl7:"2,required,display=Original-style query definition segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
+	QRD      *QRD               `hl7:"2,required,display=Original-style query definition segment"`
 	QRF      *QRF               `hl7:"3,display=Original style query filter segment"`
 	Provider []RQC_I05_Provider `hl7:",required,display=Provider"`
-	PID      PID                `hl7:"6,required,display=Patient identification segment"`
+	PID      *PID               `hl7:"6,required,display=Patient identification segment"`
 	NK1      []NK1              `hl7:"7,display=Next of kin / associated parties segment"`
 	GT1      []GT1              `hl7:"8,display=Guarantor segment"`
 	NTE      []NTE              `hl7:"9,display=Notes and comments segment"`
@@ -7494,7 +7494,7 @@ type RQC_I05 struct {
 // Provider
 type RQC_I06_Provider struct {
 	HL7 HL7Name `hl7:",name=RQC_I06_Provider,type=tg"`
-	PRD PRD     `hl7:"4,required,display=Provider Data"`
+	PRD *PRD    `hl7:"4,required,display=Provider Data"`
 	CTD []CTD   `hl7:"5,display=Contact Data"`
 }
 
@@ -7503,11 +7503,11 @@ type RQC_I06_Provider struct {
 // This event code is sent from one healthcare provider to another  (typically a laboratory or radiology, etc.) to request a list of available clinical observation information.  When the provider is dealing with a community model in which remote requests make transmission of large amounts of data impractical, this event code will provide for interactive lists of transactions from which more specific selections can be made.
 type RQC_I06 struct {
 	HL7      HL7Name            `hl7:",name=RQC_I06,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
-	QRD      QRD                `hl7:"2,required,display=Original-style query definition segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
+	QRD      *QRD               `hl7:"2,required,display=Original-style query definition segment"`
 	QRF      *QRF               `hl7:"3,display=Original style query filter segment"`
 	Provider []RQC_I06_Provider `hl7:",required,display=Provider"`
-	PID      PID                `hl7:"6,required,display=Patient identification segment"`
+	PID      *PID               `hl7:"6,required,display=Patient identification segment"`
 	NK1      []NK1              `hl7:"7,display=Next of kin / associated parties segment"`
 	GT1      *GT1               `hl7:"8,display=Guarantor segment"`
 	NTE      []NTE              `hl7:"9,display=Notes and comments segment"`
@@ -7516,7 +7516,7 @@ type RQC_I06 struct {
 // Provider
 type RQI_I01_Provider struct {
 	HL7 HL7Name `hl7:",name=RQI_I01_Provider,type=tg"`
-	PRD PRD     `hl7:"2,required,display=Provider Data"`
+	PRD *PRD    `hl7:"2,required,display=Provider Data"`
 	CTD []CTD   `hl7:"3,display=Contact Data"`
 }
 
@@ -7530,7 +7530,7 @@ type RQI_I01_GuarantorInsurance struct {
 // Insurance
 type RQI_I01_Insurance struct {
 	HL7 HL7Name `hl7:",name=RQI_I01_Insurance,type=tg"`
-	IN1 IN1     `hl7:"7,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"7,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"8,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"9,display=Insurance additional information- certification segment"`
 }
@@ -7540,9 +7540,9 @@ type RQI_I01_Insurance struct {
 // This event triggers a message to be sent from one healthcare provider to another to request insurance information for a specified patient.
 type RQI_I01 struct {
 	HL7                HL7Name                     `hl7:",name=RQI_I01,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
 	Provider           []RQI_I01_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"4,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"4,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"5,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RQI_I01_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	NTE                []NTE                       `hl7:"10,display=Notes and comments segment"`
@@ -7551,7 +7551,7 @@ type RQI_I01 struct {
 // Provider
 type RQI_I02_Provider struct {
 	HL7 HL7Name `hl7:",name=RQI_I02_Provider,type=tg"`
-	PRD PRD     `hl7:"2,required,display=Provider Data"`
+	PRD *PRD    `hl7:"2,required,display=Provider Data"`
 	CTD []CTD   `hl7:"3,display=Contact Data"`
 }
 
@@ -7565,7 +7565,7 @@ type RQI_I02_GuarantorInsurance struct {
 // Insurance
 type RQI_I02_Insurance struct {
 	HL7 HL7Name `hl7:",name=RQI_I02_Insurance,type=tg"`
-	IN1 IN1     `hl7:"7,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"7,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"8,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"9,display=Insurance additional information- certification segment"`
 }
@@ -7575,9 +7575,9 @@ type RQI_I02_Insurance struct {
 // This trigger event occurs when the inquirer specifies a request for a name lookup listing.  Generally, this request is used by the responder when insufficient data is on hand for a positive match.  In this case, the requester may ask for a list of possible candidates from which to make a selection.  This event code is also used by the responder to signify that the return information contains a list of information rather than information specific to a single patient
 type RQI_I02 struct {
 	HL7                HL7Name                     `hl7:",name=RQI_I02,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
 	Provider           []RQI_I02_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"4,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"4,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"5,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RQI_I02_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	NTE                []NTE                       `hl7:"10,display=Notes and comments segment"`
@@ -7586,7 +7586,7 @@ type RQI_I02 struct {
 // Provider
 type RQI_I03_Provider struct {
 	HL7 HL7Name `hl7:",name=RQI_I03_Provider,type=tg"`
-	PRD PRD     `hl7:"2,required,display=Provider Data"`
+	PRD *PRD    `hl7:"2,required,display=Provider Data"`
 	CTD []CTD   `hl7:"3,display=Contact Data"`
 }
 
@@ -7600,7 +7600,7 @@ type RQI_I03_GuarantorInsurance struct {
 // Insurance
 type RQI_I03_Insurance struct {
 	HL7 HL7Name `hl7:",name=RQI_I03_Insurance,type=tg"`
-	IN1 IN1     `hl7:"7,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"7,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"8,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"9,display=Insurance additional information- certification segment"`
 }
@@ -7610,9 +7610,9 @@ type RQI_I03_Insurance struct {
 // This trigger event occurs when the inquirer specifies a request for a listing of patient names.  This event differs from event I02 (request/receipts of patient selection display list) in that it returns the patient list in repeating PID segments instead of repeating DSP segments
 type RQI_I03 struct {
 	HL7                HL7Name                     `hl7:",name=RQI_I03,type=t"`
-	MSH                MSH                         `hl7:"1,required,display=Message header segment"`
+	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
 	Provider           []RQI_I03_Provider          `hl7:",required,display=Provider"`
-	PID                PID                         `hl7:"4,required,display=Patient identification segment"`
+	PID                *PID                        `hl7:"4,required,display=Patient identification segment"`
 	NK1                []NK1                       `hl7:"5,display=Next of kin / associated parties segment"`
 	GuarantorInsurance *RQI_I03_GuarantorInsurance `hl7:",display=Guarantor Insurance"`
 	NTE                []NTE                       `hl7:"10,display=Notes and comments segment"`
@@ -7621,7 +7621,7 @@ type RQI_I03 struct {
 // Provider
 type RQP_I04_Provider struct {
 	HL7 HL7Name `hl7:",name=RQP_I04_Provider,type=tg"`
-	PRD PRD     `hl7:"2,required,display=Provider Data"`
+	PRD *PRD    `hl7:"2,required,display=Provider Data"`
 	CTD []CTD   `hl7:"3,display=Contact Data"`
 }
 
@@ -7630,9 +7630,9 @@ type RQP_I04_Provider struct {
 // This event triggers a request from one healthcare provider to another for patient demographic information, including insurance and billing information.  Typically, this transaction would occur between one provider to another, but it could also be directed to a payor.
 type RQP_I04 struct {
 	HL7      HL7Name            `hl7:",name=RQP_I04,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
 	Provider []RQP_I04_Provider `hl7:",required,display=Provider"`
-	PID      PID                `hl7:"4,required,display=Patient identification segment"`
+	PID      *PID               `hl7:"4,required,display=Patient identification segment"`
 	NK1      []NK1              `hl7:"5,display=Next of kin / associated parties segment"`
 	GT1      []GT1              `hl7:"6,display=Guarantor segment"`
 	NTE      []NTE              `hl7:"7,display=Notes and comments segment"`
@@ -7641,8 +7641,8 @@ type RQP_I04 struct {
 // Event replay query
 type RQQ_Q09 struct {
 	HL7 HL7Name `hl7:",name=RQQ_Q09,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	ERQ ERQ     `hl7:"2,required,display=Event replay query segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	ERQ *ERQ    `hl7:"2,required,display=Event replay query segment"`
 	DSC *DSC    `hl7:"3,display=Continuation pointer segment"`
 }
 
@@ -7656,14 +7656,14 @@ type RRA_O02_Response struct {
 // Patient
 type RRA_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=RRA_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // Order
 type RRA_O02_Order struct {
 	HL7            HL7Name                 `hl7:",name=RRA_O02_Order,type=tg"`
-	ORC            ORC                     `hl7:"7,required,display=Common order segment"`
+	ORC            *ORC                    `hl7:"7,required,display=Common order segment"`
 	Administration *RRA_O02_Administration `hl7:",display=Administration"`
 }
 
@@ -7671,14 +7671,14 @@ type RRA_O02_Order struct {
 type RRA_O02_Administration struct {
 	HL7 HL7Name `hl7:",name=RRA_O02_Administration,type=tg"`
 	RXA []RXA   `hl7:"8,required,display=Pharmacy/treatment administration segment"`
-	RXR RXR     `hl7:"9,required,display=Pharmacy/treatment route segment"`
+	RXR *RXR    `hl7:"9,required,display=Pharmacy/treatment route segment"`
 }
 
 // Pharmacy/treatment administration acknowledgment message
 type RRA_O02 struct {
 	HL7      HL7Name           `hl7:",name=RRA_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *RRA_O02_Response `hl7:",display=Response"`
@@ -7694,21 +7694,21 @@ type RRD_O02_Response struct {
 // Patient
 type RRD_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=RRD_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // Order
 type RRD_O02_Order struct {
 	HL7      HL7Name           `hl7:",name=RRD_O02_Order,type=tg"`
-	ORC      ORC               `hl7:"7,required,display=Common order segment"`
+	ORC      *ORC              `hl7:"7,required,display=Common order segment"`
 	Dispense *RRD_O02_Dispense `hl7:",display=Dispense"`
 }
 
 // Dispense
 type RRD_O02_Dispense struct {
 	HL7 HL7Name `hl7:",name=RRD_O02_Dispense,type=tg"`
-	RXD RXD     `hl7:"8,required,display=Pharmacy/treatment dispense segment"`
+	RXD *RXD    `hl7:"8,required,display=Pharmacy/treatment dispense segment"`
 	RXR []RXR   `hl7:"9,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"10,display=Pharmacy/treatment component order segment"`
 }
@@ -7716,8 +7716,8 @@ type RRD_O02_Dispense struct {
 // Pharmacy/treatment dispense acknowledgment message
 type RRD_O02 struct {
 	HL7      HL7Name           `hl7:",name=RRD_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *RRD_O02_Response `hl7:",display=Response"`
@@ -7733,21 +7733,21 @@ type RRE_O02_Response struct {
 // Patient
 type RRE_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=RRE_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // Order
 type RRE_O02_Order struct {
 	HL7      HL7Name           `hl7:",name=RRE_O02_Order,type=tg"`
-	ORC      ORC               `hl7:"7,required,display=Common order segment"`
+	ORC      *ORC              `hl7:"7,required,display=Common order segment"`
 	Encoding *RRE_O02_Encoding `hl7:",display=Encoding"`
 }
 
 // Encoding
 type RRE_O02_Encoding struct {
 	HL7 HL7Name `hl7:",name=RRE_O02_Encoding,type=tg"`
-	RXE RXE     `hl7:"8,required,display=Pharmacy/treatment encoded order segment"`
+	RXE *RXE    `hl7:"8,required,display=Pharmacy/treatment encoded order segment"`
 	RXR []RXR   `hl7:"9,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"10,display=Pharmacy/treatment component order segment"`
 }
@@ -7757,8 +7757,8 @@ type RRE_O02_Encoding struct {
 // This message communicates the pharmacy or treatment application’s encoding of the pharmacy/treatment order (ORM message with RXO segment, see above).  It may be sent as an unsolicited message to report on either a single order or multiple pharmacy/treatment orders for a patient.
 type RRE_O02 struct {
 	HL7      HL7Name           `hl7:",name=RRE_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *RRE_O02_Response `hl7:",display=Response"`
@@ -7774,21 +7774,21 @@ type RRG_O02_Response struct {
 // Patient
 type RRG_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=RRG_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // Order
 type RRG_O02_Order struct {
 	HL7  HL7Name       `hl7:",name=RRG_O02_Order,type=tg"`
-	ORC  ORC           `hl7:"7,required,display=Common order segment"`
+	ORC  *ORC          `hl7:"7,required,display=Common order segment"`
 	Give *RRG_O02_Give `hl7:",display=Give"`
 }
 
 // Give
 type RRG_O02_Give struct {
 	HL7 HL7Name `hl7:",name=RRG_O02_Give,type=tg"`
-	RXG RXG     `hl7:"8,required,display=Pharmacy/treatment give segment"`
+	RXG *RXG    `hl7:"8,required,display=Pharmacy/treatment give segment"`
 	RXR []RXR   `hl7:"9,required,display=Pharmacy/treatment route segment"`
 	RXC []RXC   `hl7:"10,display=Pharmacy/treatment component order segment"`
 }
@@ -7796,8 +7796,8 @@ type RRG_O02_Give struct {
 // Pharmacy/treatment give acknowledgment message
 type RRG_O02 struct {
 	HL7      HL7Name           `hl7:",name=RRG_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *RRG_O02_Response `hl7:",display=Response"`
@@ -7806,35 +7806,35 @@ type RRG_O02 struct {
 // AuthorizationContact
 type RRI_I12_AuthorizationContact struct {
 	HL7 HL7Name `hl7:",name=RRI_I12_AuthorizationContact,type=tg"`
-	AUT AUT     `hl7:"4,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"4,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"5,display=Contact Data"`
 }
 
 // ProviderContact
 type RRI_I12_ProviderContact struct {
 	HL7 HL7Name `hl7:",name=RRI_I12_ProviderContact,type=tg"`
-	PRD PRD     `hl7:"6,required,display=Provider Data"`
+	PRD *PRD    `hl7:"6,required,display=Provider Data"`
 	CTD []CTD   `hl7:"7,display=Contact Data"`
 }
 
 // Procedure
 type RRI_I12_Procedure struct {
 	HL7                  HL7Name                        `hl7:",name=RRI_I12_Procedure,type=tg"`
-	PR1                  PR1                            `hl7:"13,required,display=Procedures segment"`
+	PR1                  *PR1                           `hl7:"13,required,display=Procedures segment"`
 	AuthorizationContact *RRI_I12_AuthorizationContact2 `hl7:",display=Authorization Contact"`
 }
 
 // AuthorizationContact
 type RRI_I12_AuthorizationContact2 struct {
 	HL7 HL7Name `hl7:",name=RRI_I12_AuthorizationContact2,type=tg"`
-	AUT AUT     `hl7:"14,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"14,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"15,display=Contact Data"`
 }
 
 // Observation
 type RRI_I12_Observation struct {
 	HL7          HL7Name                `hl7:",name=RRI_I12_Observation,type=tg"`
-	OBR          OBR                    `hl7:"16,required,display=Observation request segment"`
+	OBR          *OBR                   `hl7:"16,required,display=Observation request segment"`
 	NTE          []NTE                  `hl7:"17,display=Notes and comments segment"`
 	ResultsNotes []RRI_I12_ResultsNotes `hl7:",display=Results Notes"`
 }
@@ -7842,14 +7842,14 @@ type RRI_I12_Observation struct {
 // ResultsNotes
 type RRI_I12_ResultsNotes struct {
 	HL7 HL7Name `hl7:",name=RRI_I12_ResultsNotes,type=tg"`
-	OBX OBX     `hl7:"18,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"18,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
 
 // PatientVisit
 type RRI_I12_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RRI_I12_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"20,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"20,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"21,display=Patient visit - additional information segment"`
 }
 
@@ -7858,12 +7858,12 @@ type RRI_I12_PatientVisit struct {
 // This event triggers a message to be sent from one healthcare provider to another regarding a specific patient.  The referral message may contain patient demographic information, specific medical procedures to be performed (accompanied by previously obtained authorizations) and relevant clinical information pertinent to the patient’s case.
 type RRI_I12 struct {
 	HL7                  HL7Name                       `hl7:",name=RRI_I12,type=t"`
-	MSH                  MSH                           `hl7:"1,required,display=Message header segment"`
+	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
 	MSA                  *MSA                          `hl7:"2,display=Message acknowledgment segment"`
 	RF1                  *RF1                          `hl7:"3,display=Referral Infomation"`
 	AuthorizationContact *RRI_I12_AuthorizationContact `hl7:",display=Authorization Contact"`
 	ProviderContact      []RRI_I12_ProviderContact     `hl7:",required,display=Provider Contact"`
-	PID                  PID                           `hl7:"8,required,display=Patient identification segment"`
+	PID                  *PID                          `hl7:"8,required,display=Patient identification segment"`
 	ACC                  *ACC                          `hl7:"9,display=Accident segment"`
 	DG1                  []DG1                         `hl7:"10,display=Diagnosis segment"`
 	DRG                  []DRG                         `hl7:"11,display=Diagnosis related group segment"`
@@ -7877,35 +7877,35 @@ type RRI_I12 struct {
 // AuthorizationContact
 type RRI_I13_AuthorizationContact struct {
 	HL7 HL7Name `hl7:",name=RRI_I13_AuthorizationContact,type=tg"`
-	AUT AUT     `hl7:"4,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"4,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"5,display=Contact Data"`
 }
 
 // ProviderContact
 type RRI_I13_ProviderContact struct {
 	HL7 HL7Name `hl7:",name=RRI_I13_ProviderContact,type=tg"`
-	PRD PRD     `hl7:"6,required,display=Provider Data"`
+	PRD *PRD    `hl7:"6,required,display=Provider Data"`
 	CTD []CTD   `hl7:"7,display=Contact Data"`
 }
 
 // Procedure
 type RRI_I13_Procedure struct {
 	HL7                  HL7Name                        `hl7:",name=RRI_I13_Procedure,type=tg"`
-	PR1                  PR1                            `hl7:"13,required,display=Procedures segment"`
+	PR1                  *PR1                           `hl7:"13,required,display=Procedures segment"`
 	AuthorizationContact *RRI_I13_AuthorizationContact2 `hl7:",display=Authorization Contact"`
 }
 
 // AuthorizationContact
 type RRI_I13_AuthorizationContact2 struct {
 	HL7 HL7Name `hl7:",name=RRI_I13_AuthorizationContact2,type=tg"`
-	AUT AUT     `hl7:"14,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"14,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"15,display=Contact Data"`
 }
 
 // Observation
 type RRI_I13_Observation struct {
 	HL7          HL7Name                `hl7:",name=RRI_I13_Observation,type=tg"`
-	OBR          OBR                    `hl7:"16,required,display=Observation request segment"`
+	OBR          *OBR                   `hl7:"16,required,display=Observation request segment"`
 	NTE          []NTE                  `hl7:"17,display=Notes and comments segment"`
 	ResultsNotes []RRI_I13_ResultsNotes `hl7:",display=Results Notes"`
 }
@@ -7913,14 +7913,14 @@ type RRI_I13_Observation struct {
 // ResultsNotes
 type RRI_I13_ResultsNotes struct {
 	HL7 HL7Name `hl7:",name=RRI_I13_ResultsNotes,type=tg"`
-	OBX OBX     `hl7:"18,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"18,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
 
 // PatientVisit
 type RRI_I13_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RRI_I13_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"20,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"20,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"21,display=Patient visit - additional information segment"`
 }
 
@@ -7929,12 +7929,12 @@ type RRI_I13_PatientVisit struct {
 // This event triggers a message to be sent from one healthcare provider to another regarding changes to an existing referral.  Changes in a referral may include additional instructions from the referring provider, additional clinical information, and even additional information on patient demographics.
 type RRI_I13 struct {
 	HL7                  HL7Name                       `hl7:",name=RRI_I13,type=t"`
-	MSH                  MSH                           `hl7:"1,required,display=Message header segment"`
+	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
 	MSA                  *MSA                          `hl7:"2,display=Message acknowledgment segment"`
 	RF1                  *RF1                          `hl7:"3,display=Referral Infomation"`
 	AuthorizationContact *RRI_I13_AuthorizationContact `hl7:",display=Authorization Contact"`
 	ProviderContact      []RRI_I13_ProviderContact     `hl7:",required,display=Provider Contact"`
-	PID                  PID                           `hl7:"8,required,display=Patient identification segment"`
+	PID                  *PID                          `hl7:"8,required,display=Patient identification segment"`
 	ACC                  *ACC                          `hl7:"9,display=Accident segment"`
 	DG1                  []DG1                         `hl7:"10,display=Diagnosis segment"`
 	DRG                  []DRG                         `hl7:"11,display=Diagnosis related group segment"`
@@ -7948,35 +7948,35 @@ type RRI_I13 struct {
 // AuthorizationContact
 type RRI_I14_AuthorizationContact struct {
 	HL7 HL7Name `hl7:",name=RRI_I14_AuthorizationContact,type=tg"`
-	AUT AUT     `hl7:"4,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"4,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"5,display=Contact Data"`
 }
 
 // ProviderContact
 type RRI_I14_ProviderContact struct {
 	HL7 HL7Name `hl7:",name=RRI_I14_ProviderContact,type=tg"`
-	PRD PRD     `hl7:"6,required,display=Provider Data"`
+	PRD *PRD    `hl7:"6,required,display=Provider Data"`
 	CTD []CTD   `hl7:"7,display=Contact Data"`
 }
 
 // Procedure
 type RRI_I14_Procedure struct {
 	HL7                  HL7Name                        `hl7:",name=RRI_I14_Procedure,type=tg"`
-	PR1                  PR1                            `hl7:"13,required,display=Procedures segment"`
+	PR1                  *PR1                           `hl7:"13,required,display=Procedures segment"`
 	AuthorizationContact *RRI_I14_AuthorizationContact2 `hl7:",display=Authorization Contact"`
 }
 
 // AuthorizationContact
 type RRI_I14_AuthorizationContact2 struct {
 	HL7 HL7Name `hl7:",name=RRI_I14_AuthorizationContact2,type=tg"`
-	AUT AUT     `hl7:"14,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"14,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"15,display=Contact Data"`
 }
 
 // Observation
 type RRI_I14_Observation struct {
 	HL7          HL7Name                `hl7:",name=RRI_I14_Observation,type=tg"`
-	OBR          OBR                    `hl7:"16,required,display=Observation request segment"`
+	OBR          *OBR                   `hl7:"16,required,display=Observation request segment"`
 	NTE          []NTE                  `hl7:"17,display=Notes and comments segment"`
 	ResultsNotes []RRI_I14_ResultsNotes `hl7:",display=Results Notes"`
 }
@@ -7984,14 +7984,14 @@ type RRI_I14_Observation struct {
 // ResultsNotes
 type RRI_I14_ResultsNotes struct {
 	HL7 HL7Name `hl7:",name=RRI_I14_ResultsNotes,type=tg"`
-	OBX OBX     `hl7:"18,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"18,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
 
 // PatientVisit
 type RRI_I14_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RRI_I14_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"20,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"20,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"21,display=Patient visit - additional information segment"`
 }
 
@@ -8000,12 +8000,12 @@ type RRI_I14_PatientVisit struct {
 // This event triggers a message to be sent from one healthcare provider to another canceling a referral.  A previous referral may have been made in error, or perhaps the cancellation has come from the patient.
 type RRI_I14 struct {
 	HL7                  HL7Name                       `hl7:",name=RRI_I14,type=t"`
-	MSH                  MSH                           `hl7:"1,required,display=Message header segment"`
+	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
 	MSA                  *MSA                          `hl7:"2,display=Message acknowledgment segment"`
 	RF1                  *RF1                          `hl7:"3,display=Referral Infomation"`
 	AuthorizationContact *RRI_I14_AuthorizationContact `hl7:",display=Authorization Contact"`
 	ProviderContact      []RRI_I14_ProviderContact     `hl7:",required,display=Provider Contact"`
-	PID                  PID                           `hl7:"8,required,display=Patient identification segment"`
+	PID                  *PID                          `hl7:"8,required,display=Patient identification segment"`
 	ACC                  *ACC                          `hl7:"9,display=Accident segment"`
 	DG1                  []DG1                         `hl7:"10,display=Diagnosis segment"`
 	DRG                  []DRG                         `hl7:"11,display=Diagnosis related group segment"`
@@ -8019,35 +8019,35 @@ type RRI_I14 struct {
 // AuthorizationContact
 type RRI_I15_AuthorizationContact struct {
 	HL7 HL7Name `hl7:",name=RRI_I15_AuthorizationContact,type=tg"`
-	AUT AUT     `hl7:"4,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"4,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"5,display=Contact Data"`
 }
 
 // ProviderContact
 type RRI_I15_ProviderContact struct {
 	HL7 HL7Name `hl7:",name=RRI_I15_ProviderContact,type=tg"`
-	PRD PRD     `hl7:"6,required,display=Provider Data"`
+	PRD *PRD    `hl7:"6,required,display=Provider Data"`
 	CTD []CTD   `hl7:"7,display=Contact Data"`
 }
 
 // Procedure
 type RRI_I15_Procedure struct {
 	HL7                  HL7Name                        `hl7:",name=RRI_I15_Procedure,type=tg"`
-	PR1                  PR1                            `hl7:"13,required,display=Procedures segment"`
+	PR1                  *PR1                           `hl7:"13,required,display=Procedures segment"`
 	AuthorizationContact *RRI_I15_AuthorizationContact2 `hl7:",display=Authorization Contact"`
 }
 
 // AuthorizationContact
 type RRI_I15_AuthorizationContact2 struct {
 	HL7 HL7Name `hl7:",name=RRI_I15_AuthorizationContact2,type=tg"`
-	AUT AUT     `hl7:"14,required,display=Authorization Information"`
+	AUT *AUT    `hl7:"14,required,display=Authorization Information"`
 	CTD *CTD    `hl7:"15,display=Contact Data"`
 }
 
 // Observation
 type RRI_I15_Observation struct {
 	HL7          HL7Name                `hl7:",name=RRI_I15_Observation,type=tg"`
-	OBR          OBR                    `hl7:"16,required,display=Observation request segment"`
+	OBR          *OBR                   `hl7:"16,required,display=Observation request segment"`
 	NTE          []NTE                  `hl7:"17,display=Notes and comments segment"`
 	ResultsNotes []RRI_I15_ResultsNotes `hl7:",display=Results Notes"`
 }
@@ -8055,14 +8055,14 @@ type RRI_I15_Observation struct {
 // ResultsNotes
 type RRI_I15_ResultsNotes struct {
 	HL7 HL7Name `hl7:",name=RRI_I15_ResultsNotes,type=tg"`
-	OBX OBX     `hl7:"18,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"18,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
 
 // PatientVisit
 type RRI_I15_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=RRI_I15_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"20,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"20,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"21,display=Patient visit - additional information segment"`
 }
 
@@ -8071,12 +8071,12 @@ type RRI_I15_PatientVisit struct {
 // This event triggers a message to be sent between healthcare providers regarding the status of a patient referral request.  A previous referral has been made and acknowledged; however, no response has been received to indicate results and/or procedures performed.
 type RRI_I15 struct {
 	HL7                  HL7Name                       `hl7:",name=RRI_I15,type=t"`
-	MSH                  MSH                           `hl7:"1,required,display=Message header segment"`
+	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
 	MSA                  *MSA                          `hl7:"2,display=Message acknowledgment segment"`
 	RF1                  *RF1                          `hl7:"3,display=Referral Infomation"`
 	AuthorizationContact *RRI_I15_AuthorizationContact `hl7:",display=Authorization Contact"`
 	ProviderContact      []RRI_I15_ProviderContact     `hl7:",required,display=Provider Contact"`
-	PID                  PID                           `hl7:"8,required,display=Patient identification segment"`
+	PID                  *PID                          `hl7:"8,required,display=Patient identification segment"`
 	ACC                  *ACC                          `hl7:"9,display=Accident segment"`
 	DG1                  []DG1                         `hl7:"10,display=Diagnosis segment"`
 	DRG                  []DRG                         `hl7:"11,display=Diagnosis related group segment"`
@@ -8097,21 +8097,21 @@ type RRO_O02_Response struct {
 // Patient
 type RRO_O02_Patient struct {
 	HL7 HL7Name `hl7:",name=RRO_O02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NTE []NTE   `hl7:"6,display=Notes and comments segment"`
 }
 
 // Order
 type RRO_O02_Order struct {
 	HL7         HL7Name              `hl7:",name=RRO_O02_Order,type=tg"`
-	ORC         ORC                  `hl7:"7,required,display=Common order segment"`
+	ORC         *ORC                 `hl7:"7,required,display=Common order segment"`
 	OrderDetail *RRO_O02_OrderDetail `hl7:",display=Order Detail"`
 }
 
 // OrderDetail
 type RRO_O02_OrderDetail struct {
 	HL7  HL7Name `hl7:",name=RRO_O02_OrderDetail,type=tg"`
-	RXO  RXO     `hl7:"8,required,display=Pharmacy/treatment order segment"`
+	RXO  *RXO    `hl7:"8,required,display=Pharmacy/treatment order segment"`
 	NTE  []NTE   `hl7:"9,display=Notes and comments segment"`
 	RXR  []RXR   `hl7:"10,required,display=Pharmacy/treatment route segment"`
 	RXC  []RXC   `hl7:"11,display=Pharmacy/treatment component order segment"`
@@ -8121,8 +8121,8 @@ type RRO_O02_OrderDetail struct {
 // Pharmacy/treatment Order acknowledgment message
 type RRO_O02 struct {
 	HL7      HL7Name           `hl7:",name=RRO_O02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	NTE      []NTE             `hl7:"4,display=Notes and comments segment"`
 	Response *RRO_O02_Response `hl7:",display=Response"`
@@ -8131,7 +8131,7 @@ type RRO_O02 struct {
 // Patient
 type SIU_S12_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S12_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8142,7 +8142,7 @@ type SIU_S12_Patient struct {
 // Resources
 type SIU_S12_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S12_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S12_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S12_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S12_LocationResource  `hl7:",display=Location Resource"`
@@ -8152,28 +8152,28 @@ type SIU_S12_Resources struct {
 // Service
 type SIU_S12_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S12_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S12_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S12_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S12_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S12_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S12_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S12_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8182,8 +8182,8 @@ type SIU_S12_PersonnelResource struct {
 // This message is sent from a filler application to notify other applications that a new appointment has been booked.  The information provided in the SCH segment and the other detail segments as appropriate describe the appointment that has been booked by the filler application.
 type SIU_S12 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S12,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S12_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S12_Resources `hl7:",required,display=Resources"`
@@ -8192,7 +8192,7 @@ type SIU_S12 struct {
 // Patient
 type SIU_S13_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S13_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8203,7 +8203,7 @@ type SIU_S13_Patient struct {
 // Resources
 type SIU_S13_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S13_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S13_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S13_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S13_LocationResource  `hl7:",display=Location Resource"`
@@ -8213,28 +8213,28 @@ type SIU_S13_Resources struct {
 // Service
 type SIU_S13_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S13_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S13_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S13_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S13_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S13_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S13_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S13_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8243,8 +8243,8 @@ type SIU_S13_PersonnelResource struct {
 // This message is sent from a filler application to notify other applications that an existing appointment has been rescheduled.  The information in the SCH segment and the other detail segments as appropriate describe the new date(s) and time(s) to which the previously booked appointment has been moved.  Additionally, it describes the unchanged information in the previously booked appointment.
 type SIU_S13 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S13,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S13_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S13_Resources `hl7:",required,display=Resources"`
@@ -8253,7 +8253,7 @@ type SIU_S13 struct {
 // Patient
 type SIU_S14_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S14_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8264,7 +8264,7 @@ type SIU_S14_Patient struct {
 // Resources
 type SIU_S14_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S14_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S14_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S14_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S14_LocationResource  `hl7:",display=Location Resource"`
@@ -8274,28 +8274,28 @@ type SIU_S14_Resources struct {
 // Service
 type SIU_S14_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S14_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S14_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S14_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S14_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S14_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S14_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S14_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8304,8 +8304,8 @@ type SIU_S14_PersonnelResource struct {
 // This message notifies other applications that an existing appointment has been modified on the filler application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
 type SIU_S14 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S14,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S14_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S14_Resources `hl7:",required,display=Resources"`
@@ -8314,7 +8314,7 @@ type SIU_S14 struct {
 // Patient
 type SIU_S15_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S15_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8325,7 +8325,7 @@ type SIU_S15_Patient struct {
 // Resources
 type SIU_S15_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S15_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S15_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S15_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S15_LocationResource  `hl7:",display=Location Resource"`
@@ -8335,28 +8335,28 @@ type SIU_S15_Resources struct {
 // Service
 type SIU_S15_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S15_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S15_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S15_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S15_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S15_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S15_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S15_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8365,8 +8365,8 @@ type SIU_S15_PersonnelResource struct {
 // A notification of appointment cancellation is sent by the filler application to other applications when an existing appointment has been canceled.  A cancel event is used to stop a valid appointment from taking place.  For example, if a patient scheduled for an exam cancels his/her appointment, then the appointment is canceled on the filler application
 type SIU_S15 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S15,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S15_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S15_Resources `hl7:",required,display=Resources"`
@@ -8375,7 +8375,7 @@ type SIU_S15 struct {
 // Patient
 type SIU_S16_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S16_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8386,7 +8386,7 @@ type SIU_S16_Patient struct {
 // Resources
 type SIU_S16_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S16_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S16_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S16_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S16_LocationResource  `hl7:",display=Location Resource"`
@@ -8396,28 +8396,28 @@ type SIU_S16_Resources struct {
 // Service
 type SIU_S16_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S16_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S16_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S16_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S16_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S16_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S16_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S16_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8426,8 +8426,8 @@ type SIU_S16_PersonnelResource struct {
 // A notification of appointment discontinuation is sent by the filler application to notify other applications that an appointment in progress has been stopped, or that the remaining occurrences of a parent appointment will not occur.  If none of the child appointments of a parent appointment have taken place, then a cancel trigger event should be sent instead
 type SIU_S16 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S16,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S16_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S16_Resources `hl7:",required,display=Resources"`
@@ -8436,7 +8436,7 @@ type SIU_S16 struct {
 // Patient
 type SIU_S17_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S17_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8447,7 +8447,7 @@ type SIU_S17_Patient struct {
 // Resources
 type SIU_S17_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S17_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S17_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S17_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S17_LocationResource  `hl7:",display=Location Resource"`
@@ -8457,28 +8457,28 @@ type SIU_S17_Resources struct {
 // Service
 type SIU_S17_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S17_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S17_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S17_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S17_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S17_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S17_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S17_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8487,8 +8487,8 @@ type SIU_S17_PersonnelResource struct {
 // A notification of appointment deletion is sent by the filler application to other applications when an appointment that had been entered in error has been removed from the system.  A delete trigger event should only be used when an appointment has been erroneously scheduled.  It must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring. This trigger event should not be used for any appointment that has already begun, or that has already been completed.  Likewise, it should not be used for any parent appointment if any child appointments have either begun or been completed
 type SIU_S17 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S17,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S17_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S17_Resources `hl7:",required,display=Resources"`
@@ -8497,7 +8497,7 @@ type SIU_S17 struct {
 // Patient
 type SIU_S18_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S18_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8508,7 +8508,7 @@ type SIU_S18_Patient struct {
 // Resources
 type SIU_S18_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S18_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S18_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S18_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S18_LocationResource  `hl7:",display=Location Resource"`
@@ -8518,28 +8518,28 @@ type SIU_S18_Resources struct {
 // Service
 type SIU_S18_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S18_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S18_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S18_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S18_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S18_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S18_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S18_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8548,8 +8548,8 @@ type SIU_S18_PersonnelResource struct {
 // The notification of addition of service/resource is triggered on the filler application when a new service or resource has been added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
 type SIU_S18 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S18,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S18_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S18_Resources `hl7:",required,display=Resources"`
@@ -8558,7 +8558,7 @@ type SIU_S18 struct {
 // Patient
 type SIU_S19_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S19_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8569,7 +8569,7 @@ type SIU_S19_Patient struct {
 // Resources
 type SIU_S19_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S19_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S19_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S19_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S19_LocationResource  `hl7:",display=Location Resource"`
@@ -8579,28 +8579,28 @@ type SIU_S19_Resources struct {
 // Service
 type SIU_S19_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S19_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S19_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S19_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S19_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S19_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S19_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S19_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8609,8 +8609,8 @@ type SIU_S19_PersonnelResource struct {
 // The notification of modification of service/resource is triggered on the filler application when the information pertaining to an existing service or resource has been changed for an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
 type SIU_S19 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S19,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S19_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S19_Resources `hl7:",required,display=Resources"`
@@ -8619,7 +8619,7 @@ type SIU_S19 struct {
 // Patient
 type SIU_S20_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S20_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8630,7 +8630,7 @@ type SIU_S20_Patient struct {
 // Resources
 type SIU_S20_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S20_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S20_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S20_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S20_LocationResource  `hl7:",display=Location Resource"`
@@ -8640,28 +8640,28 @@ type SIU_S20_Resources struct {
 // Service
 type SIU_S20_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S20_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S20_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S20_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S20_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S20_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S20_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S20_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8670,8 +8670,8 @@ type SIU_S20_PersonnelResource struct {
 // This trigger event notifies other applications that a service or resource has been removed from an existing scheduled appointment that has not yet begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.  For example, if a portable X-ray machine scheduled for an exam is no longer needed, then the resource is canceled on the filler application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
 type SIU_S20 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S20,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S20_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S20_Resources `hl7:",required,display=Resources"`
@@ -8680,7 +8680,7 @@ type SIU_S20 struct {
 // Patient
 type SIU_S21_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S21_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8691,7 +8691,7 @@ type SIU_S21_Patient struct {
 // Resources
 type SIU_S21_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S21_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S21_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S21_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S21_LocationResource  `hl7:",display=Location Resource"`
@@ -8701,28 +8701,28 @@ type SIU_S21_Resources struct {
 // Service
 type SIU_S21_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S21_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S21_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S21_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S21_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S21_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S21_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S21_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8731,8 +8731,8 @@ type SIU_S21_PersonnelResource struct {
 // A notification of discontinuation of service/resource is sent by the filler application to other applications when the remaining children of a parent appointment no longer require a particular service or resource.  In other words, this trigger event is sent to discontinue the performance of a service or resource in a parent appointment that has already begun.  If the first appointment in a set of recurring appointments has not yet taken place, then a cancel trigger event should be sent instead.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
 type SIU_S21 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S21,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S21_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S21_Resources `hl7:",required,display=Resources"`
@@ -8741,7 +8741,7 @@ type SIU_S21 struct {
 // Patient
 type SIU_S22_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S22_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8752,7 +8752,7 @@ type SIU_S22_Patient struct {
 // Resources
 type SIU_S22_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S22_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S22_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S22_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S22_LocationResource  `hl7:",display=Location Resource"`
@@ -8762,28 +8762,28 @@ type SIU_S22_Resources struct {
 // Service
 type SIU_S22_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S22_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S22_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S22_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S22_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S22_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S22_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S22_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8792,8 +8792,8 @@ type SIU_S22_PersonnelResource struct {
 // A notification of deletion of service/resource is sent by the filler application to other applications when a scheduled appointment requiring a service or resource entered in error has been removed from the system. A delete trigger event should only be used in those circumstances when a service or resource has been erroneously attached to an appointment, and must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from taking place
 type SIU_S22 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S22,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S22_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S22_Resources `hl7:",required,display=Resources"`
@@ -8802,7 +8802,7 @@ type SIU_S22 struct {
 // Patient
 type SIU_S23_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S23_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8813,7 +8813,7 @@ type SIU_S23_Patient struct {
 // Resources
 type SIU_S23_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S23_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S23_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S23_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S23_LocationResource  `hl7:",display=Location Resource"`
@@ -8823,28 +8823,28 @@ type SIU_S23_Resources struct {
 // Service
 type SIU_S23_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S23_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S23_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S23_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S23_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S23_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S23_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S23_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8853,8 +8853,8 @@ type SIU_S23_PersonnelResource struct {
 // A notification of blocked schedule time slots is sent by the filler application to other applications when a schedule has had one or more time slots blocked and made unavailable for reasons other than the scheduling of an appointment.  For example, if an exam room is unavailable for several hours because of maintenance needs or contamination, a user may block off those several hours on the exam room’s schedule. Similarly, if a physician is unavailable because he or she has taken vacation time, his or her schedule may be blocked off for the duration of the vacation.  When these types of conditions exist, the filler application may use this transaction to notify other applications that the resources controlled by schedules are unavailable
 type SIU_S23 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S23,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S23_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S23_Resources `hl7:",required,display=Resources"`
@@ -8863,7 +8863,7 @@ type SIU_S23 struct {
 // Patient
 type SIU_S24_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S24_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8874,7 +8874,7 @@ type SIU_S24_Patient struct {
 // Resources
 type SIU_S24_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S24_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S24_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S24_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S24_LocationResource  `hl7:",display=Location Resource"`
@@ -8884,28 +8884,28 @@ type SIU_S24_Resources struct {
 // Service
 type SIU_S24_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S24_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S24_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S24_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S24_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S24_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S24_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S24_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8914,8 +8914,8 @@ type SIU_S24_PersonnelResource struct {
 // A notification of blocked schedule time slots is sent by the filler application to other applications when a schedule has one or more time slots open up (“un-blocked”) and become available for use.  Typically, the blocked period of time on a schedule is simply allowed to expire, because the blocked amount of time is generally used for non-appointment activities. This transaction can be used either to discontinue the blocked status on the schedule, or to reverse a previous block made in error.  For the purposes of this transaction, discontinuing a block currently in progress (the blocked period has started, but not yet completed) and canceling a blocked period in the future are not significantly different.  Therefore, a separate discontinue block transaction is not necessary.  If this transaction is received prior to the inception of a blocked period, then the entire block period is simply canceled according to the data provided in the transaction.  If the transaction is received after the blocked period has begun, but prior to the end of the blocked period, then the blocked period is discontinued according to the data provided in the transactions.  Applications may decide how to handle transactions that attempt to open a blocked period that has both started and ended in the past; however, these transactions can generally be ignored
 type SIU_S24 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S24,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S24_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S24_Resources `hl7:",required,display=Resources"`
@@ -8924,7 +8924,7 @@ type SIU_S24 struct {
 // Patient
 type SIU_S26_Patient struct {
 	HL7 HL7Name `hl7:",name=SIU_S26_Patient,type=tg"`
-	PID PID     `hl7:"4,required,display=Patient identification segment"`
+	PID *PID    `hl7:"4,required,display=Patient identification segment"`
 	PD1 *PD1    `hl7:"5,display=Patient Additional Demographic"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
@@ -8935,7 +8935,7 @@ type SIU_S26_Patient struct {
 // Resources
 type SIU_S26_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SIU_S26_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SIU_S26_Service           `hl7:",display=Service"`
 	GeneralResource   []SIU_S26_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SIU_S26_LocationResource  `hl7:",display=Location Resource"`
@@ -8945,28 +8945,28 @@ type SIU_S26_Resources struct {
 // Service
 type SIU_S26_Service struct {
 	HL7 HL7Name `hl7:",name=SIU_S26_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SIU_S26_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S26_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SIU_S26_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S26_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SIU_S26_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SIU_S26_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -8975,8 +8975,8 @@ type SIU_S26_PersonnelResource struct {
 // A notification that a patient did not show up for an appointment.  For example, if a patient was scheduled for a clinic visit, and never arrived for that appointment, this trigger event can be used to set a status on the appointment record for statistical purposes, as well as to free resources assigned to the appointment (or any other application level actions that must be taken in the event a patient does not appear for an appointment).
 type SIU_S26 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S26,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	SCH       SCH                 `hl7:"2,required,display=Schedule activity information segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	SCH       *SCH                `hl7:"2,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"3,display=Notes and comments segment"`
 	Patient   []SIU_S26_Patient   `hl7:",display=Patient"`
 	Resources []SIU_S26_Resources `hl7:",required,display=Resources"`
@@ -8985,8 +8985,8 @@ type SIU_S26 struct {
 // Stored procedure request
 type SPQ_Q08 struct {
 	HL7 HL7Name `hl7:",name=SPQ_Q08,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	SPR SPR     `hl7:"2,required,display=Stored procedure request definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	SPR *SPR    `hl7:"2,required,display=Stored procedure request definition segment"`
 	RDF *RDF    `hl7:"3,display=Table row definition segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -8994,7 +8994,7 @@ type SPQ_Q08 struct {
 // Request
 type SQM_S25_Request struct {
 	HL7       HL7Name             `hl7:",name=SQM_S25_Request,type=tg"`
-	ARQ       ARQ                 `hl7:"4,required,display=Appointment request segment"`
+	ARQ       *ARQ                `hl7:"4,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"5,display=Appointment preferences segment"`
 	PID       *PID                `hl7:"6,display=Patient identification segment"`
 	Resources []SQM_S25_Resources `hl7:",required,display=Resources"`
@@ -9003,7 +9003,7 @@ type SQM_S25_Request struct {
 // Resources
 type SQM_S25_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SQM_S25_Resources,type=tg"`
-	RGS               RGS                         `hl7:"7,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"7,required,display=Resource group segment"`
 	Service           []SQM_S25_Service           `hl7:",display=Service"`
 	GeneralResource   []SQM_S25_GeneralResource   `hl7:",display=General Resource"`
 	PersonnelResource []SQM_S25_PersonnelResource `hl7:",display=Personnel Resource"`
@@ -9013,28 +9013,28 @@ type SQM_S25_Resources struct {
 // Service
 type SQM_S25_Service struct {
 	HL7 HL7Name `hl7:",name=SQM_S25_Service,type=tg"`
-	AIS AIS     `hl7:"8,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"8,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"9,display=Appointment preferences segment"`
 }
 
 // GeneralResource
 type SQM_S25_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SQM_S25_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"10,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"10,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"11,display=Appointment preferences segment"`
 }
 
 // PersonnelResource
 type SQM_S25_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SQM_S25_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"12,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"12,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"13,display=Appointment preferences segment"`
 }
 
 // LocationResource
 type SQM_S25_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SQM_S25_LocationResource,type=tg"`
-	AIL AIL     `hl7:"14,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"14,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 }
 
@@ -9043,8 +9043,8 @@ type SQM_S25_LocationResource struct {
 // Original Mode record-oriented query transactions are initiated from the querying application using the Schedule Query (SQM) to request information about a filler application’s schedule(s).  The filler application responds to these requests, using the Schedule Query Response (SQR) message to either return the requested information, or to signal that an interfacing error of some kind has occurred.
 type SQM_S25 struct {
 	HL7     HL7Name          `hl7:",name=SQM_S25,type=t"`
-	MSH     MSH              `hl7:"1,required,display=Message header segment"`
-	QRD     QRD              `hl7:"2,required,display=Original-style query definition segment"`
+	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
+	QRD     *QRD             `hl7:"2,required,display=Original-style query definition segment"`
 	QRF     *QRF             `hl7:"3,display=Original style query filter segment"`
 	Request *SQM_S25_Request `hl7:",display=Request"`
 	DSC     *DSC             `hl7:"16,display=Continuation pointer segment"`
@@ -9053,7 +9053,7 @@ type SQM_S25 struct {
 // Schedule
 type SQR_S25_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SQR_S25_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"5,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"5,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"6,display=Notes and comments segment"`
 	Patient   *SQR_S25_Patient    `hl7:",display=Patient"`
 	Resources []SQR_S25_Resources `hl7:",required,display=Resources"`
@@ -9062,7 +9062,7 @@ type SQR_S25_Schedule struct {
 // Patient
 type SQR_S25_Patient struct {
 	HL7 HL7Name `hl7:",name=SQR_S25_Patient,type=tg"`
-	PID PID     `hl7:"7,required,display=Patient identification segment"`
+	PID *PID    `hl7:"7,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"8,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"9,display=Patient visit - additional information segment"`
 	DG1 *DG1    `hl7:"10,display=Diagnosis segment"`
@@ -9071,7 +9071,7 @@ type SQR_S25_Patient struct {
 // Resources
 type SQR_S25_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SQR_S25_Resources,type=tg"`
-	RGS               RGS                         `hl7:"11,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"11,required,display=Resource group segment"`
 	Service           []SQR_S25_Service           `hl7:",display=Service"`
 	GeneralResource   []SQR_S25_GeneralResource   `hl7:",display=General Resource"`
 	PersonnelResource []SQR_S25_PersonnelResource `hl7:",display=Personnel Resource"`
@@ -9081,28 +9081,28 @@ type SQR_S25_Resources struct {
 // Service
 type SQR_S25_Service struct {
 	HL7 HL7Name `hl7:",name=SQR_S25_Service,type=tg"`
-	AIS AIS     `hl7:"12,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"12,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SQR_S25_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SQR_S25_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"15,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SQR_S25_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SQR_S25_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"16,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"16,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"17,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SQR_S25_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SQR_S25_LocationResource,type=tg"`
-	AIL AIL     `hl7:"18,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"18,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
 
@@ -9111,10 +9111,10 @@ type SQR_S25_LocationResource struct {
 // Original Mode record-oriented query transactions are initiated from the querying application using the Schedule Query (SQM) to request information about a filler application’s schedule(s).  The filler application responds to these requests, using the Schedule Query Response (SQR) message to either return the requested information, or to signal that an interfacing error of some kind has occurred.
 type SQR_S25 struct {
 	HL7      HL7Name            `hl7:",name=SQR_S25,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
-	MSA      MSA                `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA               `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR               `hl7:"3,display=Error segment"`
-	QAK      QAK                `hl7:"4,required,display=Query Acknowledgement"`
+	QAK      *QAK               `hl7:"4,required,display=Query Acknowledgement"`
 	Schedule []SQR_S25_Schedule `hl7:",display=Schedule"`
 	DSC      *DSC               `hl7:"20,display=Continuation pointer segment"`
 }
@@ -9122,7 +9122,7 @@ type SQR_S25 struct {
 // Patient
 type SRM_S01_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S01_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9132,7 +9132,7 @@ type SRM_S01_Patient struct {
 // Resources
 type SRM_S01_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S01_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S01_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S01_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S01_LocationResource  `hl7:",display=Location Resource"`
@@ -9142,7 +9142,7 @@ type SRM_S01_Resources struct {
 // Service
 type SRM_S01_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S01_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9150,7 +9150,7 @@ type SRM_S01_Service struct {
 // GeneralResource
 type SRM_S01_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S01_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9158,7 +9158,7 @@ type SRM_S01_GeneralResource struct {
 // LocationResource
 type SRM_S01_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S01_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9166,7 +9166,7 @@ type SRM_S01_LocationResource struct {
 // PersonnelResource
 type SRM_S01_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S01_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9176,8 +9176,8 @@ type SRM_S01_PersonnelResource struct {
 // A placer application sends a transaction with this trigger event to a filler application to request that a new appointment be booked.  If it is successful, the filler application returns an application acknowledgment (if requested under the enhanced acknowledgment mode, or if the original acknowledgment mode is in use). The acknowledgment may optionally contain an SCH segment and related detail segments describing the actual appointment that was booked.
 type SRM_S01 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S01,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S01_Patient   `hl7:",display=Patient"`
@@ -9187,7 +9187,7 @@ type SRM_S01 struct {
 // Patient
 type SRM_S02_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9197,7 +9197,7 @@ type SRM_S02_Patient struct {
 // Resources
 type SRM_S02_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S02_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S02_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S02_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S02_LocationResource  `hl7:",display=Location Resource"`
@@ -9207,7 +9207,7 @@ type SRM_S02_Resources struct {
 // Service
 type SRM_S02_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S02_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9215,7 +9215,7 @@ type SRM_S02_Service struct {
 // GeneralResource
 type SRM_S02_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S02_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9223,7 +9223,7 @@ type SRM_S02_GeneralResource struct {
 // LocationResource
 type SRM_S02_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S02_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9231,7 +9231,7 @@ type SRM_S02_LocationResource struct {
 // PersonnelResource
 type SRM_S02_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S02_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9241,8 +9241,8 @@ type SRM_S02_PersonnelResource struct {
 // A placer application uses this trigger event to request that an existing appointment be rescheduled.  The new Requested Start Date and Time, Appointment Duration, Repeating Interval, Repeating Interval Duration, and/or Priority are provided in the ARQ segment, along with the existing placer and filler identification numbers.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information for the rescheduled appointment.
 type SRM_S02 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S02,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S02_Patient   `hl7:",display=Patient"`
@@ -9252,7 +9252,7 @@ type SRM_S02 struct {
 // Patient
 type SRM_S03_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S03_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9262,7 +9262,7 @@ type SRM_S03_Patient struct {
 // Resources
 type SRM_S03_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S03_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S03_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S03_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S03_LocationResource  `hl7:",display=Location Resource"`
@@ -9272,7 +9272,7 @@ type SRM_S03_Resources struct {
 // Service
 type SRM_S03_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S03_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9280,7 +9280,7 @@ type SRM_S03_Service struct {
 // GeneralResource
 type SRM_S03_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S03_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9288,7 +9288,7 @@ type SRM_S03_GeneralResource struct {
 // LocationResource
 type SRM_S03_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S03_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9296,7 +9296,7 @@ type SRM_S03_LocationResource struct {
 // PersonnelResource
 type SRM_S03_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S03_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9306,8 +9306,8 @@ type SRM_S03_PersonnelResource struct {
 // This message transmits a request for modification of an existing appointment to a filler application.  This trigger event is used to request the modification of information on an existing appointment, outside of the need to reschedule, cancel, discontinue or delete the appointment, or to add, modify, cancel, discontinue, or delete services and/or resources on the appointment.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information for the modified appointment.
 type SRM_S03 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S03,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S03_Patient   `hl7:",display=Patient"`
@@ -9317,7 +9317,7 @@ type SRM_S03 struct {
 // Patient
 type SRM_S04_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S04_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9327,7 +9327,7 @@ type SRM_S04_Patient struct {
 // Resources
 type SRM_S04_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S04_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S04_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S04_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S04_LocationResource  `hl7:",display=Location Resource"`
@@ -9337,7 +9337,7 @@ type SRM_S04_Resources struct {
 // Service
 type SRM_S04_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S04_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9345,7 +9345,7 @@ type SRM_S04_Service struct {
 // GeneralResource
 type SRM_S04_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S04_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9353,7 +9353,7 @@ type SRM_S04_GeneralResource struct {
 // LocationResource
 type SRM_S04_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S04_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9361,7 +9361,7 @@ type SRM_S04_LocationResource struct {
 // PersonnelResource
 type SRM_S04_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S04_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9371,8 +9371,8 @@ type SRM_S04_PersonnelResource struct {
 // The request appointment cancellation trigger event is sent by the placer application to the filler application to request that an existing appointment be canceled.  A cancel event is used to stop a valid appointment from occurring.  For example, if a patient scheduled for an exam cancels his/her appointment, then a request to cancel the appointment is sent.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the canceled appointment.
 type SRM_S04 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S04,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S04_Patient   `hl7:",display=Patient"`
@@ -9382,7 +9382,7 @@ type SRM_S04 struct {
 // Patient
 type SRM_S05_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S05_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9392,7 +9392,7 @@ type SRM_S05_Patient struct {
 // Resources
 type SRM_S05_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S05_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S05_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S05_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S05_LocationResource  `hl7:",display=Location Resource"`
@@ -9402,7 +9402,7 @@ type SRM_S05_Resources struct {
 // Service
 type SRM_S05_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S05_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9410,7 +9410,7 @@ type SRM_S05_Service struct {
 // GeneralResource
 type SRM_S05_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S05_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9418,7 +9418,7 @@ type SRM_S05_GeneralResource struct {
 // LocationResource
 type SRM_S05_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S05_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9426,7 +9426,7 @@ type SRM_S05_LocationResource struct {
 // PersonnelResource
 type SRM_S05_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S05_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9436,8 +9436,8 @@ type SRM_S05_PersonnelResource struct {
 // The request appointment discontinuation is sent by the placer application to the filler application to request that an appointment in progress be stopped, or that the remaining occurrences of a parent appointment not occur as scheduled.  If none of the child appointments of a parent appointment have occurred, then a cancel trigger event should be sent instead.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the discontinued appointment.
 type SRM_S05 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S05,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S05_Patient   `hl7:",display=Patient"`
@@ -9447,7 +9447,7 @@ type SRM_S05 struct {
 // Patient
 type SRM_S06_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S06_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9457,7 +9457,7 @@ type SRM_S06_Patient struct {
 // Resources
 type SRM_S06_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S06_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S06_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S06_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S06_LocationResource  `hl7:",display=Location Resource"`
@@ -9467,7 +9467,7 @@ type SRM_S06_Resources struct {
 // Service
 type SRM_S06_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S06_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9475,7 +9475,7 @@ type SRM_S06_Service struct {
 // GeneralResource
 type SRM_S06_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S06_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9483,7 +9483,7 @@ type SRM_S06_GeneralResource struct {
 // LocationResource
 type SRM_S06_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S06_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9491,7 +9491,7 @@ type SRM_S06_LocationResource struct {
 // PersonnelResource
 type SRM_S06_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S06_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9499,8 +9499,8 @@ type SRM_S06_PersonnelResource struct {
 // Request appointment deletion
 type SRM_S06 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S06,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S06_Patient   `hl7:",display=Patient"`
@@ -9510,7 +9510,7 @@ type SRM_S06 struct {
 // Patient
 type SRM_S07_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S07_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9520,7 +9520,7 @@ type SRM_S07_Patient struct {
 // Resources
 type SRM_S07_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S07_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S07_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S07_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S07_LocationResource  `hl7:",display=Location Resource"`
@@ -9530,7 +9530,7 @@ type SRM_S07_Resources struct {
 // Service
 type SRM_S07_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S07_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9538,7 +9538,7 @@ type SRM_S07_Service struct {
 // GeneralResource
 type SRM_S07_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S07_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9546,7 +9546,7 @@ type SRM_S07_GeneralResource struct {
 // LocationResource
 type SRM_S07_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S07_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9554,7 +9554,7 @@ type SRM_S07_LocationResource struct {
 // PersonnelResource
 type SRM_S07_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S07_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9564,8 +9564,8 @@ type SRM_S07_PersonnelResource struct {
 // The request addition of service/resource is triggered by the placer application to request that a new service or resource be added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
 type SRM_S07 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S07,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S07_Patient   `hl7:",display=Patient"`
@@ -9575,7 +9575,7 @@ type SRM_S07 struct {
 // Patient
 type SRM_S08_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S08_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9585,7 +9585,7 @@ type SRM_S08_Patient struct {
 // Resources
 type SRM_S08_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S08_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S08_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S08_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S08_LocationResource  `hl7:",display=Location Resource"`
@@ -9595,7 +9595,7 @@ type SRM_S08_Resources struct {
 // Service
 type SRM_S08_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S08_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9603,7 +9603,7 @@ type SRM_S08_Service struct {
 // GeneralResource
 type SRM_S08_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S08_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9611,7 +9611,7 @@ type SRM_S08_GeneralResource struct {
 // LocationResource
 type SRM_S08_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S08_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9619,7 +9619,7 @@ type SRM_S08_LocationResource struct {
 // PersonnelResource
 type SRM_S08_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S08_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9629,8 +9629,8 @@ type SRM_S08_PersonnelResource struct {
 // The request modification of service/resource is triggered on the placer application to request that information pertaining to an existing service or resource be changed for an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
 type SRM_S08 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S08,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S08_Patient   `hl7:",display=Patient"`
@@ -9640,7 +9640,7 @@ type SRM_S08 struct {
 // Patient
 type SRM_S09_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S09_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9650,7 +9650,7 @@ type SRM_S09_Patient struct {
 // Resources
 type SRM_S09_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S09_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S09_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S09_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S09_LocationResource  `hl7:",display=Location Resource"`
@@ -9660,7 +9660,7 @@ type SRM_S09_Resources struct {
 // Service
 type SRM_S09_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S09_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9668,7 +9668,7 @@ type SRM_S09_Service struct {
 // GeneralResource
 type SRM_S09_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S09_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9676,7 +9676,7 @@ type SRM_S09_GeneralResource struct {
 // LocationResource
 type SRM_S09_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S09_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9684,7 +9684,7 @@ type SRM_S09_LocationResource struct {
 // PersonnelResource
 type SRM_S09_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S09_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9694,8 +9694,8 @@ type SRM_S09_PersonnelResource struct {
 // This trigger event requests that a service or resource be removed from an existing scheduled appointment that has not yet begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.  For example, if a portable X-ray machine scheduled for an exam is no longer needed, then the placer application requests that the resource be canceled on the filler application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
 type SRM_S09 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S09,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S09_Patient   `hl7:",display=Patient"`
@@ -9705,7 +9705,7 @@ type SRM_S09 struct {
 // Patient
 type SRM_S10_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S10_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9715,7 +9715,7 @@ type SRM_S10_Patient struct {
 // Resources
 type SRM_S10_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S10_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S10_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S10_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S10_LocationResource  `hl7:",display=Location Resource"`
@@ -9725,7 +9725,7 @@ type SRM_S10_Resources struct {
 // Service
 type SRM_S10_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S10_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9733,7 +9733,7 @@ type SRM_S10_Service struct {
 // GeneralResource
 type SRM_S10_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S10_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9741,7 +9741,7 @@ type SRM_S10_GeneralResource struct {
 // LocationResource
 type SRM_S10_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S10_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9749,7 +9749,7 @@ type SRM_S10_LocationResource struct {
 // PersonnelResource
 type SRM_S10_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S10_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9759,8 +9759,8 @@ type SRM_S10_PersonnelResource struct {
 // A request discontinuation of service/resource is sent by the placer application to the filler application when the remaining occurrences of a recurring appointment no longer require a particular service or resource.  In other words, this trigger event is sent to request that the performance of a service or resource in a recurring appointment that has already begun be stopped.  If the first appointment in a set of recurring appointments has not yet occurred, then a cancel trigger event should be sent instead.  This trigger event should only be used on appointments that have not been completed, or on parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
 type SRM_S10 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S10,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S10_Patient   `hl7:",display=Patient"`
@@ -9770,7 +9770,7 @@ type SRM_S10 struct {
 // Patient
 type SRM_S11_Patient struct {
 	HL7 HL7Name `hl7:",name=SRM_S11_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"6,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"7,display=Patient visit - additional information segment"`
 	OBX []OBX   `hl7:"8,display=Observation/result segment"`
@@ -9780,7 +9780,7 @@ type SRM_S11_Patient struct {
 // Resources
 type SRM_S11_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRM_S11_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRM_S11_Service           `hl7:",display=Service"`
 	GeneralResource   []SRM_S11_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRM_S11_LocationResource  `hl7:",display=Location Resource"`
@@ -9790,7 +9790,7 @@ type SRM_S11_Resources struct {
 // Service
 type SRM_S11_Service struct {
 	HL7 HL7Name `hl7:",name=SRM_S11_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	APR *APR    `hl7:"12,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"13,display=Notes and comments segment"`
 }
@@ -9798,7 +9798,7 @@ type SRM_S11_Service struct {
 // GeneralResource
 type SRM_S11_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S11_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"14,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"14,required,display=Appointment information - general resource segment"`
 	APR *APR    `hl7:"15,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
@@ -9806,7 +9806,7 @@ type SRM_S11_GeneralResource struct {
 // LocationResource
 type SRM_S11_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S11_LocationResource,type=tg"`
-	AIL AIL     `hl7:"17,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"17,required,display=Appointment information - location resource segment"`
 	APR *APR    `hl7:"18,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"19,display=Notes and comments segment"`
 }
@@ -9814,7 +9814,7 @@ type SRM_S11_LocationResource struct {
 // PersonnelResource
 type SRM_S11_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRM_S11_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"20,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"20,required,display=Appointment information - personnel resource segment"`
 	APR *APR    `hl7:"21,display=Appointment preferences segment"`
 	NTE []NTE   `hl7:"22,display=Notes and comments segment"`
 }
@@ -9824,8 +9824,8 @@ type SRM_S11_PersonnelResource struct {
 // A request deletion of service/resource is sent by the placer application to the filler application to request that a scheduled appointment requiring a service or resource entered in error be removed from the system. A delete trigger event should only be used when a service or resource has been erroneously attached to an appointment, and must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring.  This trigger event should only be used on appointments that have not been completed, or on parent appointments whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
 type SRM_S11 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S11,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	ARQ       ARQ                 `hl7:"2,required,display=Appointment request segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	ARQ       *ARQ                `hl7:"2,required,display=Appointment request segment"`
 	APR       *APR                `hl7:"3,display=Appointment preferences segment"`
 	NTE       []NTE               `hl7:"4,display=Notes and comments segment"`
 	Patient   []SRM_S11_Patient   `hl7:",display=Patient"`
@@ -9835,7 +9835,7 @@ type SRM_S11 struct {
 // Schedule
 type SRR_S01_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S01_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S01_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S01_Resources `hl7:",required,display=Resources"`
@@ -9844,7 +9844,7 @@ type SRR_S01_Schedule struct {
 // Patient
 type SRR_S01_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S01_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -9853,7 +9853,7 @@ type SRR_S01_Patient struct {
 // Resources
 type SRR_S01_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S01_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S01_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S01_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S01_LocationResource  `hl7:",display=Location Resource"`
@@ -9863,28 +9863,28 @@ type SRR_S01_Resources struct {
 // Service
 type SRR_S01_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S01_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S01_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S01_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S01_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S01_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S01_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S01_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -9893,8 +9893,8 @@ type SRR_S01_PersonnelResource struct {
 // A placer application sends a transaction with this trigger event to a filler application to request that a new appointment be booked.  If it is successful, the filler application returns an application acknowledgment (if requested under the enhanced acknowledgment mode, or if the original acknowledgment mode is in use). The acknowledgment may optionally contain an SCH segment and related detail segments describing the actual appointment that was booked.
 type SRR_S01 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S01,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S01_Schedule `hl7:",display=Schedule"`
 }
@@ -9902,7 +9902,7 @@ type SRR_S01 struct {
 // Schedule
 type SRR_S02_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S02_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S02_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S02_Resources `hl7:",required,display=Resources"`
@@ -9911,7 +9911,7 @@ type SRR_S02_Schedule struct {
 // Patient
 type SRR_S02_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S02_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -9920,7 +9920,7 @@ type SRR_S02_Patient struct {
 // Resources
 type SRR_S02_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S02_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S02_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S02_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S02_LocationResource  `hl7:",display=Location Resource"`
@@ -9930,28 +9930,28 @@ type SRR_S02_Resources struct {
 // Service
 type SRR_S02_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S02_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S02_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S02_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S02_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S02_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S02_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S02_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -9960,8 +9960,8 @@ type SRR_S02_PersonnelResource struct {
 // A placer application uses this trigger event to request that an existing appointment be rescheduled.  The new Requested Start Date and Time, Appointment Duration, Repeating Interval, Repeating Interval Duration, and/or Priority are provided in the ARQ segment, along with the existing placer and filler identification numbers.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information for the rescheduled appointment.
 type SRR_S02 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S02,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S02_Schedule `hl7:",display=Schedule"`
 }
@@ -9969,7 +9969,7 @@ type SRR_S02 struct {
 // Schedule
 type SRR_S03_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S03_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S03_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S03_Resources `hl7:",required,display=Resources"`
@@ -9978,7 +9978,7 @@ type SRR_S03_Schedule struct {
 // Patient
 type SRR_S03_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S03_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -9987,7 +9987,7 @@ type SRR_S03_Patient struct {
 // Resources
 type SRR_S03_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S03_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S03_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S03_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S03_LocationResource  `hl7:",display=Location Resource"`
@@ -9997,28 +9997,28 @@ type SRR_S03_Resources struct {
 // Service
 type SRR_S03_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S03_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S03_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S03_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S03_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S03_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S03_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S03_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10027,8 +10027,8 @@ type SRR_S03_PersonnelResource struct {
 // This message transmits a request for modification of an existing appointment to a filler application.  This trigger event is used to request the modification of information on an existing appointment, outside of the need to reschedule, cancel, discontinue or delete the appointment, or to add, modify, cancel, discontinue, or delete services and/or resources on the appointment.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information for the modified appointment.
 type SRR_S03 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S03,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S03_Schedule `hl7:",display=Schedule"`
 }
@@ -10036,7 +10036,7 @@ type SRR_S03 struct {
 // Schedule
 type SRR_S04_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S04_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S04_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S04_Resources `hl7:",required,display=Resources"`
@@ -10045,7 +10045,7 @@ type SRR_S04_Schedule struct {
 // Patient
 type SRR_S04_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S04_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -10054,7 +10054,7 @@ type SRR_S04_Patient struct {
 // Resources
 type SRR_S04_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S04_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S04_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S04_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S04_LocationResource  `hl7:",display=Location Resource"`
@@ -10064,28 +10064,28 @@ type SRR_S04_Resources struct {
 // Service
 type SRR_S04_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S04_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S04_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S04_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S04_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S04_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S04_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S04_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10094,8 +10094,8 @@ type SRR_S04_PersonnelResource struct {
 // The request appointment cancellation trigger event is sent by the placer application to the filler application to request that an existing appointment be canceled.  A cancel event is used to stop a valid appointment from occurring.  For example, if a patient scheduled for an exam cancels his/her appointment, then a request to cancel the appointment is sent.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the canceled appointment.
 type SRR_S04 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S04,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S04_Schedule `hl7:",display=Schedule"`
 }
@@ -10103,7 +10103,7 @@ type SRR_S04 struct {
 // Schedule
 type SRR_S05_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S05_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S05_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S05_Resources `hl7:",required,display=Resources"`
@@ -10112,7 +10112,7 @@ type SRR_S05_Schedule struct {
 // Patient
 type SRR_S05_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S05_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -10121,7 +10121,7 @@ type SRR_S05_Patient struct {
 // Resources
 type SRR_S05_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S05_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S05_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S05_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S05_LocationResource  `hl7:",display=Location Resource"`
@@ -10131,28 +10131,28 @@ type SRR_S05_Resources struct {
 // Service
 type SRR_S05_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S05_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S05_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S05_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S05_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S05_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S05_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S05_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10161,8 +10161,8 @@ type SRR_S05_PersonnelResource struct {
 // The request appointment discontinuation is sent by the placer application to the filler application to request that an appointment in progress be stopped, or that the remaining occurrences of a parent appointment not occur as scheduled.  If none of the child appointments of a parent appointment have occurred, then a cancel trigger event should be sent instead.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the discontinued appointment.
 type SRR_S05 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S05,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S05_Schedule `hl7:",display=Schedule"`
 }
@@ -10170,7 +10170,7 @@ type SRR_S05 struct {
 // Schedule
 type SRR_S06_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S06_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S06_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S06_Resources `hl7:",required,display=Resources"`
@@ -10179,7 +10179,7 @@ type SRR_S06_Schedule struct {
 // Patient
 type SRR_S06_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S06_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -10188,7 +10188,7 @@ type SRR_S06_Patient struct {
 // Resources
 type SRR_S06_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S06_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S06_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S06_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S06_LocationResource  `hl7:",display=Location Resource"`
@@ -10198,28 +10198,28 @@ type SRR_S06_Resources struct {
 // Service
 type SRR_S06_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S06_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S06_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S06_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S06_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S06_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S06_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S06_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10228,8 +10228,8 @@ type SRR_S06_PersonnelResource struct {
 // A request appointment deletion is sent by the placer application to the filler application to request that an appointment that had been entered in error be removed from the system.  A delete trigger event should only be used when an appointment has been erroneously requested, and must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring.  This trigger event should not be used for any appointment that has already begun, or has already been completed.  Likewise, it should not be used on any parent appointment if any child appointments have either begun or been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the deleted appointment.
 type SRR_S06 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S06,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S06_Schedule `hl7:",display=Schedule"`
 }
@@ -10237,7 +10237,7 @@ type SRR_S06 struct {
 // Schedule
 type SRR_S07_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S07_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S07_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S07_Resources `hl7:",required,display=Resources"`
@@ -10246,7 +10246,7 @@ type SRR_S07_Schedule struct {
 // Patient
 type SRR_S07_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S07_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -10255,7 +10255,7 @@ type SRR_S07_Patient struct {
 // Resources
 type SRR_S07_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S07_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S07_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S07_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S07_LocationResource  `hl7:",display=Location Resource"`
@@ -10265,28 +10265,28 @@ type SRR_S07_Resources struct {
 // Service
 type SRR_S07_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S07_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S07_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S07_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S07_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S07_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S07_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S07_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10295,8 +10295,8 @@ type SRR_S07_PersonnelResource struct {
 // The request addition of service/resource is triggered by the placer application to request that a new service or resource be added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
 type SRR_S07 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S07,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S07_Schedule `hl7:",display=Schedule"`
 }
@@ -10304,7 +10304,7 @@ type SRR_S07 struct {
 // Schedule
 type SRR_S08_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S08_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S08_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S08_Resources `hl7:",required,display=Resources"`
@@ -10313,7 +10313,7 @@ type SRR_S08_Schedule struct {
 // Patient
 type SRR_S08_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S08_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -10322,7 +10322,7 @@ type SRR_S08_Patient struct {
 // Resources
 type SRR_S08_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S08_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S08_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S08_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S08_LocationResource  `hl7:",display=Location Resource"`
@@ -10332,28 +10332,28 @@ type SRR_S08_Resources struct {
 // Service
 type SRR_S08_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S08_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S08_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S08_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S08_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S08_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S08_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S08_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10362,8 +10362,8 @@ type SRR_S08_PersonnelResource struct {
 // The request modification of service/resource is triggered on the placer application to request that information pertaining to an existing service or resource be changed for an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
 type SRR_S08 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S08,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S08_Schedule `hl7:",display=Schedule"`
 }
@@ -10371,7 +10371,7 @@ type SRR_S08 struct {
 // Schedule
 type SRR_S09_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S09_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S09_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S09_Resources `hl7:",required,display=Resources"`
@@ -10380,7 +10380,7 @@ type SRR_S09_Schedule struct {
 // Patient
 type SRR_S09_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S09_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -10389,7 +10389,7 @@ type SRR_S09_Patient struct {
 // Resources
 type SRR_S09_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S09_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S09_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S09_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S09_LocationResource  `hl7:",display=Location Resource"`
@@ -10399,28 +10399,28 @@ type SRR_S09_Resources struct {
 // Service
 type SRR_S09_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S09_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S09_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S09_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S09_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S09_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S09_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S09_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10429,8 +10429,8 @@ type SRR_S09_PersonnelResource struct {
 // This trigger event requests that a service or resource be removed from an existing scheduled appointment that has not yet begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.  For example, if a portable X-ray machine scheduled for an exam is no longer needed, then the placer application requests that the resource be canceled on the filler application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
 type SRR_S09 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S09,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S09_Schedule `hl7:",display=Schedule"`
 }
@@ -10438,7 +10438,7 @@ type SRR_S09 struct {
 // Schedule
 type SRR_S10_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S10_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S10_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S10_Resources `hl7:",required,display=Resources"`
@@ -10447,7 +10447,7 @@ type SRR_S10_Schedule struct {
 // Patient
 type SRR_S10_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S10_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -10456,7 +10456,7 @@ type SRR_S10_Patient struct {
 // Resources
 type SRR_S10_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S10_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S10_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S10_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S10_LocationResource  `hl7:",display=Location Resource"`
@@ -10466,28 +10466,28 @@ type SRR_S10_Resources struct {
 // Service
 type SRR_S10_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S10_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S10_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S10_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S10_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S10_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S10_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S10_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10496,8 +10496,8 @@ type SRR_S10_PersonnelResource struct {
 // A request discontinuation of service/resource is sent by the placer application to the filler application when the remaining occurrences of a recurring appointment no longer require a particular service or resource.  In other words, this trigger event is sent to request that the performance of a service or resource in a recurring appointment that has already begun be stopped.  If the first appointment in a set of recurring appointments has not yet occurred, then a cancel trigger event should be sent instead.  This trigger event should only be used on appointments that have not been completed, or on parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
 type SRR_S10 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S10,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S10_Schedule `hl7:",display=Schedule"`
 }
@@ -10505,7 +10505,7 @@ type SRR_S10 struct {
 // Schedule
 type SRR_S11_Schedule struct {
 	HL7       HL7Name             `hl7:",name=SRR_S11_Schedule,type=tg"`
-	SCH       SCH                 `hl7:"4,required,display=Schedule activity information segment"`
+	SCH       *SCH                `hl7:"4,required,display=Schedule activity information segment"`
 	NTE       []NTE               `hl7:"5,display=Notes and comments segment"`
 	Patient   []SRR_S11_Patient   `hl7:",display=Patient"`
 	Resources []SRR_S11_Resources `hl7:",required,display=Resources"`
@@ -10514,7 +10514,7 @@ type SRR_S11_Schedule struct {
 // Patient
 type SRR_S11_Patient struct {
 	HL7 HL7Name `hl7:",name=SRR_S11_Patient,type=tg"`
-	PID PID     `hl7:"6,required,display=Patient identification segment"`
+	PID *PID    `hl7:"6,required,display=Patient identification segment"`
 	PV1 *PV1    `hl7:"7,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"8,display=Patient visit - additional information segment"`
 	DG1 []DG1   `hl7:"9,display=Diagnosis segment"`
@@ -10523,7 +10523,7 @@ type SRR_S11_Patient struct {
 // Resources
 type SRR_S11_Resources struct {
 	HL7               HL7Name                     `hl7:",name=SRR_S11_Resources,type=tg"`
-	RGS               RGS                         `hl7:"10,required,display=Resource group segment"`
+	RGS               *RGS                        `hl7:"10,required,display=Resource group segment"`
 	Service           []SRR_S11_Service           `hl7:",display=Service"`
 	GeneralResource   []SRR_S11_GeneralResource   `hl7:",display=General Resource"`
 	LocationResource  []SRR_S11_LocationResource  `hl7:",display=Location Resource"`
@@ -10533,28 +10533,28 @@ type SRR_S11_Resources struct {
 // Service
 type SRR_S11_Service struct {
 	HL7 HL7Name `hl7:",name=SRR_S11_Service,type=tg"`
-	AIS AIS     `hl7:"11,required,display=Appointment information - service segment"`
+	AIS *AIS    `hl7:"11,required,display=Appointment information - service segment"`
 	NTE []NTE   `hl7:"12,display=Notes and comments segment"`
 }
 
 // GeneralResource
 type SRR_S11_GeneralResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S11_GeneralResource,type=tg"`
-	AIG AIG     `hl7:"13,required,display=Appointment information - general resource segment"`
+	AIG *AIG    `hl7:"13,required,display=Appointment information - general resource segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
 // LocationResource
 type SRR_S11_LocationResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S11_LocationResource,type=tg"`
-	AIL AIL     `hl7:"15,required,display=Appointment information - location resource segment"`
+	AIL *AIL    `hl7:"15,required,display=Appointment information - location resource segment"`
 	NTE []NTE   `hl7:"16,display=Notes and comments segment"`
 }
 
 // PersonnelResource
 type SRR_S11_PersonnelResource struct {
 	HL7 HL7Name `hl7:",name=SRR_S11_PersonnelResource,type=tg"`
-	AIP AIP     `hl7:"17,required,display=Appointment information - personnel resource segment"`
+	AIP *AIP    `hl7:"17,required,display=Appointment information - personnel resource segment"`
 	NTE []NTE   `hl7:"18,display=Notes and comments segment"`
 }
 
@@ -10563,8 +10563,8 @@ type SRR_S11_PersonnelResource struct {
 // A request deletion of service/resource is sent by the placer application to the filler application to request that a scheduled appointment requiring a service or resource entered in error be removed from the system. A delete trigger event should only be used when a service or resource has been erroneously attached to an appointment, and must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring.  This trigger event should only be used on appointments that have not been completed, or on parent appointments whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
 type SRR_S11 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S11,type=t"`
-	MSH      MSH               `hl7:"1,required,display=Message header segment"`
-	MSA      MSA               `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA      *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR      *ERR              `hl7:"3,display=Error segment"`
 	Schedule *SRR_S11_Schedule `hl7:",display=Schedule"`
 }
@@ -10572,25 +10572,25 @@ type SRR_S11 struct {
 // Facility
 type SUR_P09_Facility struct {
 	HL7            HL7Name                  `hl7:",name=SUR_P09_Facility,type=tg"`
-	FAC            FAC                      `hl7:"2,required,display=Facility segment"`
+	FAC            *FAC                     `hl7:"2,required,display=Facility segment"`
 	Product        []SUR_P09_Product        `hl7:",required,display=Product"`
-	PSH            PSH                      `hl7:"5,required,display=Product summary header segment"`
+	PSH            *PSH                     `hl7:"5,required,display=Product summary header segment"`
 	FacilityDetail []SUR_P09_FacilityDetail `hl7:",required,display=Facility Detail"`
 }
 
 // Product
 type SUR_P09_Product struct {
 	HL7 HL7Name `hl7:",name=SUR_P09_Product,type=tg"`
-	PSH PSH     `hl7:"3,required,display=Product summary header segment"`
-	PDC PDC     `hl7:"4,required,display=Product detail country segment"`
+	PSH *PSH    `hl7:"3,required,display=Product summary header segment"`
+	PDC *PDC    `hl7:"4,required,display=Product detail country segment"`
 }
 
 // FacilityDetail
 type SUR_P09_FacilityDetail struct {
 	HL7 HL7Name `hl7:",name=SUR_P09_FacilityDetail,type=tg"`
-	FAC FAC     `hl7:"6,required,display=Facility segment"`
-	PDC PDC     `hl7:"7,required,display=Product detail country segment"`
-	NTE NTE     `hl7:"8,required,display=Notes and comments segment"`
+	FAC *FAC    `hl7:"6,required,display=Facility segment"`
+	PDC *PDC    `hl7:"7,required,display=Product detail country segment"`
+	NTE *NTE    `hl7:"8,required,display=Notes and comments segment"`
 }
 
 // Summary product experience report
@@ -10598,18 +10598,18 @@ type SUR_P09_FacilityDetail struct {
 // Sending summary reports related to products constitutes a P09 event.
 type SUR_P09 struct {
 	HL7      HL7Name            `hl7:",name=SUR_P09,type=t"`
-	MSH      MSH                `hl7:"1,required,display=Message header segment"`
+	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
 	Facility []SUR_P09_Facility `hl7:",required,display=Facility"`
 }
 
 // Tabular data response
 type TBR_R08 struct {
 	HL7 HL7Name `hl7:",name=TBR_R08,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	MSA MSA     `hl7:"2,required,display=Message acknowledgment segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	MSA *MSA    `hl7:"2,required,display=Message acknowledgment segment"`
 	ERR *ERR    `hl7:"3,display=Error segment"`
-	QAK QAK     `hl7:"4,required,display=Query Acknowledgement"`
-	RDF RDF     `hl7:"5,required,display=Table row definition segment"`
+	QAK *QAK    `hl7:"4,required,display=Query Acknowledgement"`
+	RDF *RDF    `hl7:"5,required,display=Table row definition segment"`
 	RDT []RDT   `hl7:"6,required,display=Table row data segment"`
 	DSC *DSC    `hl7:"7,display=Continuation pointer segment"`
 }
@@ -10621,8 +10621,8 @@ type TBR_R08 struct {
 // Trigger events for the unsolicited update are generally the completion of a particular action (concerning a given patient).  For example, a lab test might be completed, generating a STAT unsolicited display message to be sent to the appropriate location
 type UDM_Q05 struct {
 	HL7 HL7Name `hl7:",name=UDM_Q05,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	URD URD     `hl7:"2,required,display=Results/update definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	URD *URD    `hl7:"2,required,display=Results/update definition segment"`
 	URS *URS    `hl7:"3,display=Unsolicited selection segment"`
 	DSP []DSP   `hl7:"4,required,display=Display data segment"`
 	DSC *DSC    `hl7:"5,display=Continuation pointer segment"`
@@ -10633,8 +10633,8 @@ type UDM_Q05 struct {
 // Like other types of HL7 messages, the UDM message can be continued by use of the DSC segment and MSH-14-continuation pointer.
 type UDM_R06 struct {
 	HL7 HL7Name `hl7:",name=UDM_R06,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	URD URD     `hl7:"2,required,display=Results/update definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	URD *URD    `hl7:"2,required,display=Results/update definition segment"`
 	URS *URS    `hl7:"3,display=Unsolicited selection segment"`
 	DSP []DSP   `hl7:"4,required,display=Display data segment"`
 	DSC *DSC    `hl7:"5,display=Continuation pointer segment"`
@@ -10643,8 +10643,8 @@ type UDM_R06 struct {
 // Virtual table query
 type VQQ_Q07 struct {
 	HL7 HL7Name `hl7:",name=VQQ_Q07,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	VTQ VTQ     `hl7:"2,required,display=Virtual table query request segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	VTQ *VTQ    `hl7:"2,required,display=Virtual table query request segment"`
 	RDF *RDF    `hl7:"3,display=Table row definition segment"`
 	DSC *DSC    `hl7:"4,display=Continuation pointer segment"`
 }
@@ -10654,22 +10654,22 @@ type VQQ_Q07 struct {
 // When an immunization registry does not already have the complete patient vaccination record, it will send a query (with a V01 event) for the definitive (last updated) record.  Within the definitions for QRD and QRF, certain components are defined according to position in the field, as detailed in Section 4.11, “QUERIES FOR IMMUNIZATION RECORDS (QRF SEGMENTS).”  The three-letter code in the leftmost column indicates the segment that is included; the column on the right specifies the chapter in which that segment is fully defined
 type VXQ_V01 struct {
 	HL7 HL7Name `hl7:",name=VXQ_V01,type=t"`
-	MSH MSH     `hl7:"1,required,display=Message header segment"`
-	QRD QRD     `hl7:"2,required,display=Original-style query definition segment"`
+	MSH *MSH    `hl7:"1,required,display=Message header segment"`
+	QRD *QRD    `hl7:"2,required,display=Original-style query definition segment"`
 	QRF *QRF    `hl7:"3,display=Original style query filter segment"`
 }
 
 // PatientVisit
 type VXR_V03_PatientVisit struct {
 	HL7 HL7Name `hl7:",name=VXR_V03_PatientVisit,type=tg"`
-	PV1 PV1     `hl7:"8,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"8,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"9,display=Patient visit - additional information segment"`
 }
 
 // Insurance
 type VXR_V03_Insurance struct {
 	HL7 HL7Name `hl7:",name=VXR_V03_Insurance,type=tg"`
-	IN1 IN1     `hl7:"10,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"10,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"11,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"12,display=Insurance additional information- certification segment"`
 }
@@ -10678,7 +10678,7 @@ type VXR_V03_Insurance struct {
 type VXR_V03_Order struct {
 	HL7         HL7Name               `hl7:",name=VXR_V03_Order,type=tg"`
 	ORC         *ORC                  `hl7:"13,display=Common order segment"`
-	RXA         RXA                   `hl7:"14,required,display=Pharmacy/treatment administration segment"`
+	RXA         *RXA                  `hl7:"14,required,display=Pharmacy/treatment administration segment"`
 	RXR         *RXR                  `hl7:"15,display=Pharmacy/treatment route segment"`
 	Observation []VXR_V03_Observation `hl7:",display=Observation"`
 }
@@ -10686,7 +10686,7 @@ type VXR_V03_Order struct {
 // Observation
 type VXR_V03_Observation struct {
 	HL7 HL7Name `hl7:",name=VXR_V03_Observation,type=tg"`
-	OBX OBX     `hl7:"16,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"16,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"17,display=Notes and comments segment"`
 }
 
@@ -10695,11 +10695,11 @@ type VXR_V03_Observation struct {
 // When the patient has been uniquely identified (there is only one “match” to the query), the response to the query (with a V03 event) will follow this format.  Within the definitions for QRD and QRF, certain components are defined according to position in the field, as detailed in Section 4.11, “QUERIES FOR IMMUNIZATION RECORDS (QRF SEGMENTS).”  The three-letter code in the leftmost column indicates the segment that is included; the column on the right specifies the chapter in which that segment is fully defined.
 type VXR_V03 struct {
 	HL7          HL7Name               `hl7:",name=VXR_V03,type=t"`
-	MSH          MSH                   `hl7:"1,required,display=Message header segment"`
-	MSA          MSA                   `hl7:"2,required,display=Message acknowledgment segment"`
-	QRD          QRD                   `hl7:"3,required,display=Original-style query definition segment"`
+	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
+	MSA          *MSA                  `hl7:"2,required,display=Message acknowledgment segment"`
+	QRD          *QRD                  `hl7:"3,required,display=Original-style query definition segment"`
 	QRF          *QRF                  `hl7:"4,display=Original style query filter segment"`
-	PID          PID                   `hl7:"5,required,display=Patient identification segment"`
+	PID          *PID                  `hl7:"5,required,display=Patient identification segment"`
 	PD1          *PD1                  `hl7:"6,display=Patient Additional Demographic"`
 	NK1          []NK1                 `hl7:"7,display=Next of kin / associated parties segment"`
 	PatientVisit *VXR_V03_PatientVisit `hl7:",display=Patient Visit"`
@@ -10710,14 +10710,14 @@ type VXR_V03 struct {
 // Patient
 type VXU_V04_Patient struct {
 	HL7 HL7Name `hl7:",name=VXU_V04_Patient,type=tg"`
-	PV1 PV1     `hl7:"5,required,display=Patient visit segment"`
+	PV1 *PV1    `hl7:"5,required,display=Patient visit segment"`
 	PV2 *PV2    `hl7:"6,display=Patient visit - additional information segment"`
 }
 
 // Insurance
 type VXU_V04_Insurance struct {
 	HL7 HL7Name `hl7:",name=VXU_V04_Insurance,type=tg"`
-	IN1 IN1     `hl7:"7,required,display=Insurance segment"`
+	IN1 *IN1    `hl7:"7,required,display=Insurance segment"`
 	IN2 *IN2    `hl7:"8,display=Insurance additional information segment"`
 	IN3 *IN3    `hl7:"9,display=Insurance additional information- certification segment"`
 }
@@ -10726,7 +10726,7 @@ type VXU_V04_Insurance struct {
 type VXU_V04_Order struct {
 	HL7         HL7Name               `hl7:",name=VXU_V04_Order,type=tg"`
 	ORC         *ORC                  `hl7:"10,display=Common order segment"`
-	RXA         RXA                   `hl7:"11,required,display=Pharmacy/treatment administration segment"`
+	RXA         *RXA                  `hl7:"11,required,display=Pharmacy/treatment administration segment"`
 	RXR         *RXR                  `hl7:"12,display=Pharmacy/treatment route segment"`
 	Observation []VXU_V04_Observation `hl7:",display=Observation"`
 }
@@ -10734,7 +10734,7 @@ type VXU_V04_Order struct {
 // Observation
 type VXU_V04_Observation struct {
 	HL7 HL7Name `hl7:",name=VXU_V04_Observation,type=tg"`
-	OBX OBX     `hl7:"13,required,display=Observation/result segment"`
+	OBX *OBX    `hl7:"13,required,display=Observation/result segment"`
 	NTE []NTE   `hl7:"14,display=Notes and comments segment"`
 }
 
@@ -10743,8 +10743,8 @@ type VXU_V04_Observation struct {
 // When a provider wishes to update the patient’s vaccination record being held in  a registry, he will transmit an unsolicited update of the record ( a V04 trigger event).
 type VXU_V04 struct {
 	HL7       HL7Name             `hl7:",name=VXU_V04,type=t"`
-	MSH       MSH                 `hl7:"1,required,display=Message header segment"`
-	PID       PID                 `hl7:"2,required,display=Patient identification segment"`
+	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
+	PID       *PID                `hl7:"2,required,display=Patient identification segment"`
 	PD1       *PD1                `hl7:"3,display=Patient Additional Demographic"`
 	NK1       []NK1               `hl7:"4,display=Next of kin / associated parties segment"`
 	Patient   *VXU_V04_Patient    `hl7:",display=Patient"`
@@ -10755,7 +10755,7 @@ type VXU_V04 struct {
 // Patient
 type VXX_V02_Patient struct {
 	HL7 HL7Name `hl7:",name=VXX_V02_Patient,type=tg"`
-	PID PID     `hl7:"5,required,display=Patient identification segment"`
+	PID *PID    `hl7:"5,required,display=Patient identification segment"`
 	NK1 []NK1   `hl7:"6,display=Next of kin / associated parties segment"`
 }
 
@@ -10764,9 +10764,9 @@ type VXX_V02_Patient struct {
 // In response to a query for the definitive patient vaccination record, the registry holding the record will return it to the registry originating the query.
 type VXX_V02 struct {
 	HL7     HL7Name           `hl7:",name=VXX_V02,type=t"`
-	MSH     MSH               `hl7:"1,required,display=Message header segment"`
-	MSA     MSA               `hl7:"2,required,display=Message acknowledgment segment"`
-	QRD     QRD               `hl7:"3,required,display=Original-style query definition segment"`
+	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
+	MSA     *MSA              `hl7:"2,required,display=Message acknowledgment segment"`
+	QRD     *QRD              `hl7:"3,required,display=Original-style query definition segment"`
 	QRF     *QRF              `hl7:"4,display=Original style query filter segment"`
 	Patient []VXX_V02_Patient `hl7:",required,display=Patient"`
 }

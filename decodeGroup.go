@@ -9,7 +9,7 @@ type messageStructure interface {
 	MessageStructureID() string
 }
 
-func newWalker(list []any, triggerRegistry map[string]any) (*walker, error) {
+func newWalker(list []any, registry Registry) (*walker, error) {
 	if len(list) == 0 {
 		return nil, fmt.Errorf("List is empty")
 	}
@@ -23,7 +23,8 @@ func newWalker(list []any, triggerRegistry map[string]any) (*walker, error) {
 	if len(code) == 0 {
 		return nil, fmt.Errorf("Message structure code empty, malformed message: %#v", root)
 	}
-	vex, ok := triggerRegistry[code]
+	tr := registry.Trigger()
+	vex, ok := tr[code]
 	if !ok {
 		return nil, fmt.Errorf("Message structure code not found %q", code)
 	}
@@ -44,6 +45,7 @@ func newWalker(list []any, triggerRegistry map[string]any) (*walker, error) {
 
 	w := &walker{
 		triggerCode: code,
+		registry:    registry,
 	}
 	err := w.eat(nil, 0, tp, false)
 	if err != nil {
@@ -73,8 +75,8 @@ func (w *walker) process(list []any) (any, error) {
 }
 
 // Group a list of segments into hierarchical groups with a single root element.
-func Group(list []any, triggerRegistry map[string]any) (any, error) {
-	w, err := newWalker(list, triggerRegistry)
+func Group(list []any, registry Registry) (any, error) {
+	w, err := newWalker(list, registry)
 	if err != nil {
 		return nil, err
 	}
@@ -115,8 +117,36 @@ type structItem struct {
 	InArray     bool // If this struct node is within an array (and thus can always be added to).
 }
 
+func (si *structItem) present() bool {
+	rv := si.ActiveValue
+	if !rv.IsValid() {
+		return false
+	}
+	if rv.IsZero() {
+		return false
+	}
+
+	return true
+	// return present(si.ActiveValue)
+	// return si.ActiveSet
+}
+func present(rv reflect.Value) bool {
+	if !rv.IsValid() {
+		return false
+	}
+	if rv.IsZero() {
+		return false
+	}
+
+	return true
+}
+func (si *structItem) set(rv reflect.Value) {
+	si.ActiveValue = rv
+}
+
 type walker struct {
 	triggerCode string // For error reporting.
+	registry    Registry
 
 	last int
 	list []*structItem
@@ -137,7 +167,7 @@ func (w *walker) digest(line int, v any) error {
 		if w.fullInArray(si) {
 			continue
 		}
-		return w.found(i, si, v, rv, rt)
+		return w.found(line, i, si, v, rv, rt)
 	}
 	// If not found going forward, go backwards.
 	for i := w.last; i >= 0; i-- {
@@ -148,31 +178,27 @@ func (w *walker) digest(line int, v any) error {
 		if w.fullInArray(si) {
 			continue
 		}
-		return w.found(i, si, v, rv, rt)
+		return w.found(line, i, si, v, rv, rt)
 	}
 
+	gr := w.registry.ControlSegment()
+	_, isControl := gr[rt.Name()]
+	if isControl {
+		// TODO: handle batch and control segments.
+		return nil
+	}
 	return fmt.Errorf("line %d (%T) not found in trigger %q", line, v, w.triggerCode)
 }
 
-func present(rv reflect.Value) bool {
-	if !rv.IsValid() {
-		return false
-	}
-	if rv.IsZero() {
-		return false
-	}
-
-	return true
-}
-
 // Found creates the parent tree and sets it up.
-func (w *walker) found(index int, si *structItem, v any, rv reflect.Value, rt reflect.Type) error {
+func (w *walker) found(line, index int, si *structItem, v any, rv reflect.Value, rt reflect.Type) error {
 	w.last = index
 
 	// fmt.Printf("found, %s\n", rv.Type())
 	currentList := []*structItem{}
 	current := si
-	findList := present(si.ActiveValue) // Current value is full, find the next list.
+	findList := si.present() // Current value is full, find the next list.
+	hasList := false
 	for {
 		// Stop at the root item or at the first parent which is valid.
 		if current == nil {
@@ -182,19 +208,23 @@ func (w *walker) found(index int, si *structItem, v any, rv reflect.Value, rt re
 		// If the current item is not valid, always add.
 		// If the current item is valid, but full, continue.
 		// A LinkList LinkType is never full.
-		valid := present(current.ActiveValue)
+		// valid := present(current.ActiveValue)
+		valid := current.present()
 		if !valid {
+			if current.LinkType == linkList {
+				hasList = true
+			}
 			currentList = append(currentList, current)
 			current = current.Parent
 			continue
 		}
 		// All valid.
-		if !findList {
+		// Break if no list is needed or if a list has already been found.
+		if !findList || hasList {
 			break
 		}
 		currentList = append(currentList, current)
 		if current.LinkType == linkList {
-			current = current.Parent
 			break
 		}
 		current = current.Parent
@@ -207,6 +237,9 @@ func (w *walker) found(index int, si *structItem, v any, rv reflect.Value, rt re
 		c := currentList[i]
 		if c.Parent == nil {
 			// The root value just needs to be created when found.
+			if c.present() {
+				return fmt.Errorf("attempting to set a root value when already present, this is an error")
+			}
 			c.ActiveValue = reflect.New(c.Type).Elem()
 			continue
 		}
@@ -215,9 +248,6 @@ func (w *walker) found(index int, si *structItem, v any, rv reflect.Value, rt re
 		case c.Leaf:
 			set = rv
 		default:
-			if present(c.ActiveValue) && c.LinkType != linkList {
-				return fmt.Errorf("unepxected valid element when creating a new element")
-			}
 			set = reflect.New(c.Type)
 		}
 		pv := c.Parent.ActiveValue.Field(c.Index)
@@ -227,10 +257,10 @@ func (w *walker) found(index int, si *structItem, v any, rv reflect.Value, rt re
 				set = set.Elem()
 			}
 			if present(pv) {
-				return fmt.Errorf("expected empty value %s, value is present", pv.Type())
+				return fmt.Errorf("expected empty value %s, value present", pv.Type())
 			}
 			pv.Set(set)
-			c.ActiveValue = pv
+			c.set(pv)
 
 		case linkOpt:
 			if set.Kind() != reflect.Pointer {
@@ -240,14 +270,14 @@ func (w *walker) found(index int, si *structItem, v any, rv reflect.Value, rt re
 				return fmt.Errorf("expected empty pointer %s, pointer is present", pv.Type())
 			}
 			pv.Set(set)
-			c.ActiveValue = pv.Elem()
+			c.set(pv.Elem())
 
 		case linkList:
 			if set.Kind() == reflect.Pointer {
 				set = set.Elem()
 			}
 			pv.Set(reflect.Append(pv, set))
-			c.ActiveValue = pv.Index(pv.Len() - 1)
+			c.set(pv.Index(pv.Len() - 1))
 		}
 	}
 
