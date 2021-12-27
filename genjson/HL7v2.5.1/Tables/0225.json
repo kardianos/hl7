@@ -1,0 +1,1 @@
+{"id":"0225","tableId":"0225","tableType":"HL7","name":"Escort Required","chapters":["CH_04"],"entries":[{"value":"N","description":"Not Required","comment":null},{"value":"R","description":"Required","comment":null},{"value":"U","description":"Unknown","comment":null}]}

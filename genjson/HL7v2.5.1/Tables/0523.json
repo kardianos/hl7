@@ -1,0 +1,1 @@
+{"id":"0523","tableId":"0523","tableType":"HL7","name":"Computation type","chapters":["CH_02"],"entries":[{"value":"%","description":"Indicates a percent change","comment":null},{"value":"a","description":"Absolute Change","comment":null}]}

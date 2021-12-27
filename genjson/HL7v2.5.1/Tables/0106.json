@@ -1,0 +1,1 @@
+{"id":"0106","tableId":"0106","tableType":"HL7","name":"Query/response format code","chapters":["CH_05"],"entries":[{"value":"D","description":"Response is in display format","comment":null},{"value":"R","description":"Response is in record-oriented format","comment":null},{"value":"T","description":"Response is in tabular format","comment":null}]}
