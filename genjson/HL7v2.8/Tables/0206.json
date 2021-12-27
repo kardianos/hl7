@@ -1,0 +1,1 @@
+{"id":"0206","tableId":"0206","tableType":"HL7","name":"Segment action code","chapters":["CH_02"],"entries":[{"value":"A","description":"Add/Insert","comment":null},{"value":"D","description":"Delete","comment":null},{"value":"U","description":"Update","comment":null},{"value":"X","description":"No Change","comment":null}]}

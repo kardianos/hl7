@@ -1,0 +1,1 @@
+{"id":"0272","tableId":"0272","tableType":"HL7","name":"Document Confidentiality Status","chapters":["CH_02"],"entries":[{"value":"R","description":"Restricted","comment":null},{"value":"U","description":"Usual control","comment":null},{"value":"V","description":"Very restricted","comment":null}]}

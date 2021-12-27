@@ -1,0 +1,1 @@
+{"id":"0931","tableId":"0931","tableType":"HL7","name":"Temperature Units","chapters":["CH_02"],"entries":[{"value":"Cel","description":"Degrees Celsius","comment":null},{"value":"degF","description":"Degrees Fahrenheit","comment":null}]}

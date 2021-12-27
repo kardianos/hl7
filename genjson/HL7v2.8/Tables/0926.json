@@ -1,0 +1,1 @@
+{"id":"0926","tableId":"0926","tableType":"HL7","name":"Phlebotomy Status","chapters":["CH_02"],"entries":[{"value":"NDR","description":"Not Drawn","comment":null},{"value":"SUC","description":"Successful","comment":"Successful means a complete component was drawn"},{"value":"UL5","description":"Unsuccessful Less than 50 ml drawn","comment":null}]}

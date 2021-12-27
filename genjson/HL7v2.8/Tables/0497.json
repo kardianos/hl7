@@ -1,0 +1,1 @@
+{"id":"0497","tableId":"0497","tableType":"HL7","name":"Consent Mode","chapters":["CH_02"],"entries":[{"value":"T","description":"Telephone","comment":null},{"value":"V","description":"Verbal","comment":null},{"value":"W","description":"Written","comment":null}]}

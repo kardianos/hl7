@@ -1,0 +1,1 @@
+{"id":"0516","tableId":"0516","tableType":"HL7","name":"Error Severity","chapters":["CH_02"],"entries":[{"value":"E","description":"Error","comment":null},{"value":"F","description":"Fatal Error","comment":null},{"value":"I","description":"Information","comment":null},{"value":"W","description":"Warning","comment":null}]}

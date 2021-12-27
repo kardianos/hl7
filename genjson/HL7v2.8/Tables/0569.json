@@ -1,0 +1,1 @@
+{"id":"0569","tableId":"0569","tableType":"User","name":"Adjustment Action","chapters":["CH_16"],"entries":[{"value":"EOB","description":"Print on EOB","comment":null},{"value":"PAT","description":"Inform Patient","comment":null},{"value":"PRO","description":"Inform Provider","comment":null}]}

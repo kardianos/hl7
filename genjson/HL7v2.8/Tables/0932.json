@@ -1,0 +1,1 @@
+{"id":"0932","tableId":"0932","tableType":"HL7","name":"Donation Duration Units","chapters":["CH_02"],"entries":[{"value":"min","description":"Minutes","comment":null},{"value":"s","description":"Seconds","comment":null}]}

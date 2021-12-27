@@ -1,0 +1,1 @@
+{"id":"0236","tableId":"0236","tableType":"HL7","name":"Event Reported To","chapters":["CH_02"],"entries":[{"value":"D","description":"Distributor","comment":null},{"value":"L","description":"Local facility/user facility","comment":null},{"value":"M","description":"Manufacturer","comment":null},{"value":"R","description":"Regulatory agency","comment":null}]}

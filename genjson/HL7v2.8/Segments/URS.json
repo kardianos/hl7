@@ -1,0 +1,1 @@
+{"id":"URS","segmentId":"URS","longName":"Results/Update Selection Criteria","description":"","sample":"","chapters":["CH_05"],"fields":[{"id":"URS.1","type":"Field","position":"URS.1","length":0,"dataType":"ST","dataTypeName":"String Data","usage":"O","rpt":"1","tableId":null,"tableName":null,"name":"URS.1","description":null}]}

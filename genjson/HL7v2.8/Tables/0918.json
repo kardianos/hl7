@@ -1,0 +1,1 @@
+{"id":"0918","tableId":"0918","tableType":"HL7","name":"PCA Type","chapters":["CH_02"],"entries":[{"value":"C","description":"Continuous","comment":null},{"value":"P","description":"PCA Only","comment":null},{"value":"PC","description":"PCA + Continuous","comment":null}]}

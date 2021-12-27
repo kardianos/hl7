@@ -1,0 +1,1 @@
+{"id":"QRF","segmentId":"QRF","longName":"Withdrawn","description":"","sample":"","chapters":["CH_05"],"fields":[{"id":"QRF.1","type":"Field","position":"QRF.1","length":0,"dataType":"ST","dataTypeName":"String Data","usage":"O","rpt":"1","tableId":null,"tableName":null,"name":"QRF.1","description":null}]}

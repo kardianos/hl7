@@ -1,0 +1,1 @@
+{"id":"0558","tableId":"0558","tableType":"User","name":"Payee Relationship to Invoice","chapters":["CH_16"],"entries":[{"value":"FM","description":"Family Member","comment":null},{"value":"GT","description":"Guarantor","comment":null},{"value":"PT","description":"Patient","comment":null},{"value":"SB","description":"Subscriber","comment":null}]}

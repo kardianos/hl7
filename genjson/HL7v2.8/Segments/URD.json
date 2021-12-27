@@ -1,0 +1,1 @@
+{"id":"URD","segmentId":"URD","longName":"Results/Update Definition","description":"","sample":"","chapters":["CH_05"],"fields":[{"id":"URD.1","type":"Field","position":"URD.1","length":0,"dataType":"ST","dataTypeName":"String Data","usage":"O","rpt":"1","tableId":null,"tableName":null,"name":"URD.1","description":null}]}

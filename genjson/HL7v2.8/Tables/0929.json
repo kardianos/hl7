@@ -1,0 +1,1 @@
+{"id":"0929","tableId":"0929","tableType":"HL7","name":"Weight Units","chapters":["CH_02"],"entries":[{"value":"[lb_av]","description":"Pound","comment":null},{"value":"[oz_av]","description":"Ounce","comment":null},{"value":"g","description":"Gram","comment":null},{"value":"kg","description":"Kilogram","comment":null}]}
