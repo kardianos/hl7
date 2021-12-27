@@ -370,21 +370,62 @@ func (d *decoder) getID(data []byte) (string, int) {
 }
 
 func parseDateTime(dt string) (time.Time, error) {
-	for _, r := range dt {
-		if r < '0' || r > '9' {
-			return time.Time{}, nil // Probably something like "Invalid date".
+	var zoneIndex int
+	for i, r := range dt {
+		switch {
+		default:
+			return time.Time{}, fmt.Errorf("invalid characters in date: %q", dt)
+		case unicode.IsNumber(r):
+		case r == '.':
+		case r == '-':
+			zoneIndex = i
+		case r == '+':
+			zoneIndex = i
 		}
+	}
+	// Format: YYYY[MM[DD[HH[MM[SS[.S[S[S[S]]]]]]]]][+/-ZZZZ]^<degree of precision>
+	// 20200522143859198-0700
+	// 20060102150405
+	in := dt
+	var t time.Time
+	var err error
+	if zoneIndex > 0 {
+		tp := dt[:zoneIndex]
+		zp := dt[zoneIndex:]
+
+		switch len(dt) {
+		default:
+			in = tp[:12] + zp
+			t, err = time.Parse("200601021504-0700", in)
+		case 8 + 5: // To the day.
+			t, err = time.Parse("20060102-0700", in)
+		case 12 + 5: // To the minute.
+			t, err = time.Parse("200601021504-0700", in)
+		case 14 + 5, 16 + 5: // To the second.
+			in = tp[:14] + zp
+			t, err = time.Parse("20060102150405-0700", in)
+		}
+		if err != nil {
+			err = fmt.Errorf("field %q: %w", dt, err)
+		}
+		return t, err
 	}
 	switch len(dt) {
 	default:
-		return time.Parse("20060102150405", dt)
+		in = dt[:12]
+		t, err = time.Parse("200601021504", in)
 	case 0:
-		return time.Time{}, nil // No date supplied, use zero value
-	case 8:
-		return time.Parse("20060102", dt)
-	case 12:
-		return time.Parse("200601021504", dt)
-	case 14, 16:
-		return time.Parse("20060102150405", dt[:14])
+		t, err = time.Time{}, nil // No date supplied, use zero value
+	case 8: // To the day.
+		t, err = time.Parse("20060102", in)
+	case 12: // To the minute.
+		t, err = time.Parse("200601021504", in)
+	case 14, 16: // To the second.
+		in = dt[:14]
+		t, err = time.Parse("20060102150405", in)
 	}
+	if err != nil {
+		err = fmt.Errorf("field %q : %w", dt, err)
+	}
+	return t, err
 }

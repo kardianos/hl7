@@ -1,0 +1,28 @@
+MSH|^~\&|AZ.DOH.ELR^2.16.840.1.114222.4.3.3.2.9.3^ISO|AZDOH^2.16.840.1.114222.4.1.142^ISO|LNAME|LNAME LAB^12345678^CLIA|20200522143800||ACK|13211169|P|2.5|||||||||
+MSA|AR|1585594800000000000|200330001|||
+ERR||MSH^1^3^1^2|101^Required field missing^HL70357|E|1006^Required field missing|MSH/SendingApplication/UniversalID||||||
+ERR||MSH^1^3^1^3|101^Required field missing^HL70357|E|1006^Required field missing|MSH/SendingApplication/UniversalIDType||||||
+ERR||MSH^1^4^1^1|207^Application internal error^HL70357|E|1008^Field too long: 32 > 20|MSH/SendingFacility/NamespaceID||||||
+ERR||SFT^1^1^1^1|207^Application internal error^HL70357|E|1035^Situational rule violated|SFT[0]/SoftwareVendorOrganization/OrganizationName||||||
+ERR||SFT^1^1^1|101^Required field missing^HL70357|E|1006^Required field missing|SFT[0]/SoftwareVendorOrganization||||||
+ERR||SFT^1^2^1|101^Required field missing^HL70357|E|1006^Required field missing|SFT[0]/SoftwareCertifiedVersionOrReleaseNumber||||||
+ERR||SFT^1^3^1|101^Required field missing^HL70357|E|1006^Required field missing|SFT[0]/SoftwareProductName||||||
+ERR||SFT^1^4^1|101^Required field missing^HL70357|E|1006^Required field missing|SFT[0]/SoftwareBinaryID||||||
+ERR||PID^1^3^1^4^2|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/PATIENT/PID/PatientIdentifierList[0]/AssigningAuthority/UniversalID||||||
+ERR||PID^1^3^1^4^3|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/PATIENT/PID/PatientIdentifierList[0]/AssigningAuthority/UniversalIDType||||||
+ERR||PID^1^3^1^4|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/PATIENT/PID/PatientIdentifierList[0]/AssigningAuthority||||||
+ERR||PID^1^3^1^5|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/PATIENT/PID/PatientIdentifierList[0]/IdentifierTypeCode||||||
+ERR||ORC^1^3^1^2|207^Application internal error^HL70357|E|1008^Field too long: 32 > 20|PATIENT_RESULT/ORDER_OBSERVATION[0]/ORC/FillerOrderNumber/NamespaceID||||||
+ERR||ORC^1^12^1^1|207^Application internal error^HL70357|E|1008^Field too long: 16 > 15|PATIENT_RESULT/ORDER_OBSERVATION[0]/ORC/OrderingProvider[0]/IDNumber||||||
+ERR||ORC^1^12^1^9|207^Application internal error^HL70357|E|1035^Situational rule violated|PATIENT_RESULT/ORDER_OBSERVATION[0]/ORC/OrderingProvider[0]/AssigningAuthority||||||
+ERR||ORC^1^12^1^13|207^Application internal error^HL70357|E|1035^Situational rule violated|PATIENT_RESULT/ORDER_OBSERVATION[0]/ORC/OrderingProvider[0]/IdentifierTypeCode||||||
+ERR||OBR^1^2^1^2|207^Application internal error^HL70357|E|1008^Field too long: 32 > 20|PATIENT_RESULT/ORDER_OBSERVATION[0]/OBR/PlacerOrderNumber/NamespaceID||||||
+ERR||OBR^1^3^1^2|207^Application internal error^HL70357|E|1008^Field too long: 32 > 20|PATIENT_RESULT/ORDER_OBSERVATION[0]/OBR/FillerOrderNumber/NamespaceID||||||
+ERR||OBX^1^8^1^3|207^Application internal error^HL70357|E|1035^Situational rule violated|PATIENT_RESULT/ORDER_OBSERVATION[0]/OBSERVATION[0]/OBX/AbnormalFlags/NameOfCodingSystem||||||
+ERR||SPM^1^2^1^1^3|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/ORDER_OBSERVATION[0]/SPECIMEN[0]/SPM/SpecimenID/PlacerAssignedIdentifier/UniversalID||||||
+ERR||SPM^1^2^1^1^4|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/ORDER_OBSERVATION[0]/SPECIMEN[0]/SPM/SpecimenID/PlacerAssignedIdentifier/UniversalIDType||||||
+ERR||SPM^1^2^1^2^1|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/ORDER_OBSERVATION[0]/SPECIMEN[0]/SPM/SpecimenID/FillerAssignedIdentifier/EntityIdentifier||||||
+ERR||SPM^1^2^1^2^3|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/ORDER_OBSERVATION[0]/SPECIMEN[0]/SPM/SpecimenID/FillerAssignedIdentifier/UniversalID||||||
+ERR||SPM^1^2^1^2^4|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/ORDER_OBSERVATION[0]/SPECIMEN[0]/SPM/SpecimenID/FillerAssignedIdentifier/UniversalIDType||||||
+ERR||SPM^1^2^1^2|101^Required field missing^HL70357|E|1006^Required field missing|PATIENT_RESULT/ORDER_OBSERVATION[0]/SPECIMEN[0]/SPM/SpecimenID/FillerAssignedIdentifier||||||
+ERR||SPM^1^4^1^7|207^Application internal error^HL70357|E|1035^Situational rule violated|PATIENT_RESULT/ORDER_OBSERVATION[0]/SPECIMEN[0]/SPM/SpecimenType/CodingSystemVersionID||||||

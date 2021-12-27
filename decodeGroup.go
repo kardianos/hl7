@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-type MessageStructure interface {
+type messageStructure interface {
 	MessageStructureID() string
 }
 
@@ -15,7 +15,7 @@ func newWalker(list []any, triggerRegistry map[string]any) (*walker, error) {
 	}
 
 	root := list[0]
-	ms, ok := root.(MessageStructure)
+	ms, ok := root.(messageStructure)
 	if !ok {
 		return nil, fmt.Errorf("First message must implment MessageStructure, %T does not", root)
 	}
