@@ -303,7 +303,7 @@ func run(ctx context.Context) error {
 		}
 	}
 
-	processField := func(containerID string, f *Field) {
+	processField := func(containerID string, f *Field, ord int, unique map[string]int) {
 		name := f.Name
 
 		name, _, _ = strings.Cut(name, "(e.g.")
@@ -319,6 +319,7 @@ func run(ctx context.Context) error {
 			}
 			return r
 		}, name)
+		ordS := strconv.FormatInt(int64(ord), 10)
 		parts := strings.Fields(name)
 		ret := make([]string, 0, len(parts))
 		for _, v := range parts {
@@ -332,26 +333,46 @@ func run(ctx context.Context) error {
 				v = strings.ToUpper(v)
 			case strings.EqualFold(v, containerID):
 				omit = true
+			case ordS == v:
+				omit = true
 			}
-			if !omit {
+			if !omit && len(v) > 0 {
 				ret = append(ret, v)
 			}
 		}
-		f.ID = strings.Join(ret, "")
+		var id string
+		if len(ret) == 0 {
+			id = "Value"
+		} else {
+			id = strings.Join(ret, "")
+		}
+		ct := unique[id]
+		ct++
+		unique[id] = ct
+		if ct > 1 {
+			id = id + strconv.FormatInt(int64(ct), 10)
+		}
+		f.ID = id
 	}
 
+	emptyDataTypes := map[string]bool{}
 	for i := range to.DataType {
+		unique := map[string]int{}
 		dt := &to.DataType[i]
+		if len(dt.Fields) == 0 {
+			emptyDataTypes[dt.ID] = true
+		}
 		for j := range dt.Fields {
 			f := &dt.Fields[j]
-			processField(dt.ID, f)
+			processField(dt.ID, f, j+1, unique)
 		}
 	}
 	for i := range to.Segment {
+		unique := map[string]int{}
 		s := &to.Segment[i]
 		for j := range s.Fields {
 			f := &s.Fields[j]
-			processField(s.ID, f)
+			processField(s.ID, f, j+1, unique)
 		}
 	}
 
@@ -426,15 +447,17 @@ func run(ctx context.Context) error {
 			if f.Rpt != "1" || f.Rpt == "*" {
 				return "[]"
 			}
-			switch f.DataType {
 			// Special case these, where empty is not present.
+			switch f.DataType {
+			default:
+				if emptyDataTypes[f.DataType] {
+					return ""
+				}
 			case "TS", "TM", "DTM", "DT":
 				return ""
-			case "ST", "TX", "IS", "ID", "SI":
-				return ""
-			case "NM":
-				return ""
-			case "FN", "FT", "GTS":
+			case "VARIES":
+				// continue.
+			case "FN":
 				return ""
 			}
 			switch f.Usage {
@@ -584,6 +607,14 @@ func run(ctx context.Context) error {
 				}
 			}
 			return ""
+		},
+		"hasField": func(name string, ff []Field) bool {
+			for _, f := range ff {
+				if f.ID == name {
+					return true
+				}
+			}
+			return false
 		},
 	}
 

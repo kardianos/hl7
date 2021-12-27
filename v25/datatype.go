@@ -416,6 +416,9 @@ func (d MSG) MessageStructureID() string {
 	if len(d.MessageStructure) > 0 {
 		return d.MessageStructure
 	}
+	if len(d.TriggerEvent) == 0 {
+		return d.MessageCode
+	}
 	return d.MessageCode + "_" + d.TriggerEvent
 }
 
