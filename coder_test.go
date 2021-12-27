@@ -42,7 +42,9 @@ NTE|2||more comments here|||
 OBR|1|ABC||||||||||||||1234^Acron^Smith~5678^Beta^Zeta|||||||||||||||||||||||||||||||||||||||||||
 OBR|2|XYZ||||||||||||||903^Blacky|||||||||||||||||||||||||||||||||||||||||||`)
 
-	v, err := Unmarshal(raw, v25.Registry)
+	v, err := Unmarshal(raw, UnmarshalOption{
+		Registry: v25.Registry,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -58,7 +60,9 @@ func TestGroup(t *testing.T) {
 MSA|AA|161||||
 `)
 
-	v, err := Unmarshal(raw, v25.Registry)
+	v, err := Unmarshal(raw, UnmarshalOption{
+		Registry: v25.Registry,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -110,8 +114,10 @@ func TestRoundTrip(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-
-			v, err := Unmarshal(bb, v251.Registry)
+			uo := UnmarshalOption{
+				Registry: v251.Registry,
+			}
+			v, err := Unmarshal(bb, uo)
 			if err != nil {
 				t.Fatal("unmarshal", err)
 			}

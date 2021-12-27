@@ -32,7 +32,12 @@ func (d *decoder) setupUnescaper() {
 
 var timeType reflect.Type = reflect.TypeOf(time.Time{})
 
-func Unmarshal(data []byte, registry Registry) ([]any, error) {
+type UnmarshalOption struct {
+	Registry      Registry
+	ErrorZSegment bool // Error on an unknown Zxx segment.
+}
+
+func Unmarshal(data []byte, opt UnmarshalOption) ([]any, error) {
 	// Explicitly accept both CR and LF as new lines. Some systems do use \n, despite the spec.
 	lines := bytes.FieldsFunc(data, func(r rune) bool {
 		switch r {
@@ -53,7 +58,7 @@ func Unmarshal(data []byte, registry Registry) ([]any, error) {
 	ret := []any{}
 
 	d := &decoder{}
-	segmentRegistry := registry.Segment()
+	segmentRegistry := opt.Registry.Segment()
 	for index, line := range lines {
 		lineNumber := index + 1
 		if len(line) == 0 {
@@ -68,6 +73,10 @@ func Unmarshal(data []byte, registry Registry) ([]any, error) {
 
 		seg, ok := segmentRegistry[segTypeName]
 		if !ok {
+			isZ := len(segTypeName) > 0 && segTypeName[0] == 'Z'
+			if isZ && !opt.ErrorZSegment {
+				continue
+			}
 			return nil, fmt.Errorf("line %d: unknown segment type %q", lineNumber, segTypeName)
 		}
 
