@@ -1,0 +1,1 @@
+{"id":"0008","tableId":"0008","tableType":"HL7","name":"ACKNOWLEDGMENT CODE","chapters":[],"entries":[{"value":"AA","description":"Application Accept","comment":null},{"value":"AE","description":"Application Error","comment":null},{"value":"AR","description":"Application Reject","comment":null}]}

@@ -1,0 +1,1 @@
+{"id":"0121","tableId":"0121","tableType":"HL7","name":"RESPONSE FLAG","chapters":[],"entries":[{"value":"E","description":"Report exceptions only.","comment":null},{"value":"F","description":"Same as D, plus confirmations explicitly.","comment":null},{"value":"N","description":"Only the MSA segment is returned.","comment":null}]}

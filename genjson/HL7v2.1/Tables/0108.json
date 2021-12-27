@@ -1,0 +1,1 @@
+{"id":"0108","tableId":"0108","tableType":"HL7","name":"QUERY RESULTS LEVEL","chapters":[],"entries":[{"value":"O","description":"Order plus order status","comment":null},{"value":"S","description":"Status only","comment":null},{"value":"T","description":"Full Results","comment":null}]}

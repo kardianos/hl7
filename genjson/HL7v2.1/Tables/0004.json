@@ -1,0 +1,1 @@
+{"id":"0004","tableId":"0004","tableType":"HL7","name":"PATIENT CLASS","chapters":[],"entries":[{"value":"E","description":"Emergency","comment":null},{"value":"I","description":"Inpatient","comment":null},{"value":"O","description":"Outpatient","comment":null},{"value":"P","description":"Preadmit","comment":null}]}

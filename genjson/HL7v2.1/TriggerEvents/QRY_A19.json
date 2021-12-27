@@ -1,0 +1,1 @@
+{"id":"QRY_A19","msgStructId":"QRY_A19","eventDesc":"Patient Query","description":null,"sample":null,"chapters":[],"segments":[{"id":"MSH","name":"MSH","longName":"Message Header","sequence":"1","usage":"R","rpt":"1","isGroup":false,"segments":null},{"id":"QRD","name":"QRD","longName":"Query Definition","sequence":"2","usage":"R","rpt":"1","isGroup":false,"segments":null}]}

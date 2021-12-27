@@ -1,0 +1,1 @@
+{"id":"0007","tableId":"0007","tableType":"HL7","name":"ADMISSION TYPE","chapters":[],"entries":[{"value":"A","description":"Accident","comment":null},{"value":"E","description":"Emergency","comment":null},{"value":"L","description":"Labor and Delivery","comment":null},{"value":"R","description":"Routine","comment":null}]}

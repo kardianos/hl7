@@ -1,0 +1,1 @@
+{"id":"0124","tableId":"0124","tableType":"HL7","name":"TRANSPORTATION MODE","chapters":[],"entries":[{"value":"PORT","description":"The examining device goes to Patient's Loc.","comment":null},{"value":"WALK","description":"Patient walks to diagnostic service","comment":null},{"value":"WHLC","description":"Wheelchair","comment":null}]}

@@ -1,0 +1,1 @@
+{"id":"DSC","segmentId":"DSC","longName":"Continuation Pointer","description":"","sample":"","chapters":[],"fields":[{"id":"DSC.1","type":"Field","position":"DSC.1","length":60,"dataType":"ST","dataTypeName":"String Data","usage":"O","rpt":"1","tableId":null,"tableName":null,"name":"Continuation Pointer","description":null}]}
