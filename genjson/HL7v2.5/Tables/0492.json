@@ -1,0 +1,1 @@
+{"id":"0492","tableId":"0492","tableType":"HL7","name":"Specimen Appropriateness","chapters":["CH_07"],"entries":[{"value":"??","description":"Inappropriate due to _","comment":null},{"value":"A","description":"Appropriate","comment":null},{"value":"I","description":"Inappropriate","comment":null},{"value":"P","description":"Preferred","comment":null}]}

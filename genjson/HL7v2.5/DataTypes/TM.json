@@ -1,0 +1,1 @@
+{"id":"TM","type":"DataType","name":"Time","description":"Specifies the hour of the day with optional minutes, seconds, fraction of second using a 24-hour clock notation and time zone.","dataType":null,"dataTypeName":null,"length":16,"usage":null,"rpt":null,"tableId":null,"tableName":null,"sample":"","fields":[]}

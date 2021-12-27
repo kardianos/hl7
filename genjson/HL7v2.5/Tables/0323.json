@@ -1,0 +1,1 @@
+{"id":"0323","tableId":"0323","tableType":"HL7","name":"Action Code","chapters":["CH_04"],"entries":[{"value":"A","description":"Add/Insert","comment":null},{"value":"D","description":"Delete","comment":null},{"value":"U","description":"Update","comment":null},{"value":"X","description":"No change","comment":null}]}

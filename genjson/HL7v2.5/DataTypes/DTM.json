@@ -1,0 +1,1 @@
+{"id":"DTM","type":"DataType","name":"Date/Time","description":"Specifies a point in time using a 24-hour clock notation.\r\n\r\nFormat: YYYY[MM[DD[HH[MM[SS[.S[S[S[S]]]]]]]]][+/-ZZZZ]. ","dataType":null,"dataTypeName":null,"length":24,"usage":null,"rpt":null,"tableId":null,"tableName":null,"sample":"","fields":[]}
