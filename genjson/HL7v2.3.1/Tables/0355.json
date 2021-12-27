@@ -1,0 +1,1 @@
+{"id":"0355","tableId":"0355","tableType":"HL7","name":"Primary key value type","chapters":["CH_08"],"entries":[{"value":"CE","description":"Coded element","comment":null},{"value":"PL","description":"Person location","comment":null}]}

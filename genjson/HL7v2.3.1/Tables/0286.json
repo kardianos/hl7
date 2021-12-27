@@ -1,0 +1,1 @@
+{"id":"0286","tableId":"0286","tableType":"User","name":"Provider role","chapters":["CH_11"],"entries":[{"value":"CP","description":"Consulting Provider","comment":null},{"value":"PP","description":"Primary Care Provider","comment":null},{"value":"RP","description":"Referring Provider","comment":null},{"value":"RT","description":"Referred to Provider","comment":null}]}

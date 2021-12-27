@@ -1,0 +1,1 @@
+{"id":"0359","tableId":"0359","tableType":"HL7","name":"Diagnosis priority","chapters":["CH_06"],"entries":[{"value":"0","description":"Not included in diagnosis ranking","comment":null},{"value":"1","description":"The primary diagnosis","comment":null},{"value":"2","description":"For ranked secondary diagnoses","comment":"2 and higher"}]}

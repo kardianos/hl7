@@ -1,0 +1,1 @@
+{"id":"0238","tableId":"0238","tableType":"HL7","name":"Event seriousness","chapters":["CH_07"],"entries":[{"value":"N","description":"No","comment":null},{"value":"S","description":"Significant","comment":null},{"value":"Y","description":"Yes","comment":null}]}

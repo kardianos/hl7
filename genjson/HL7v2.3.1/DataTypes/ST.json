@@ -1,0 +1,1 @@
+{"id":"ST","type":"DataType","name":"String Data","description":"To include any HL7 delimiter character (except the segment terminator) within a string data field, use the appropriate HL7 escape sequence (see Section 2.9.1, Formatting codes).","dataType":null,"dataTypeName":null,"length":0,"usage":null,"rpt":null,"tableId":null,"tableName":null,"sample":"","fields":[]}
