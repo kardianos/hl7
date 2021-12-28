@@ -304,9 +304,6 @@ func run(ctx context.Context) error {
 		"\n", ` `,
 		"\r", ` `,
 	)
-	commentSan := strings.NewReplacer(
-		"\n", "\n// ",
-	)
 
 	rawMap := func(r rune) rune {
 		if r == '`' {
@@ -466,7 +463,33 @@ func run(ctx context.Context) error {
 			return strings.Map(rawMap, c)
 		},
 		"comment": func(c string) string {
-			return commentSan.Replace(c)
+			if len(c) == 0 {
+				return ""
+			}
+			buf := &strings.Builder{}
+			ct := 0
+			for _, r := range c {
+				switch r {
+				default:
+					ct++
+					buf.WriteRune(r)
+				case ' ':
+					if ct == 0 {
+						continue
+					}
+					if ct < 100 {
+						buf.WriteRune(r)
+						continue
+					}
+					ct = 0
+					buf.WriteString("\n// ")
+				case '\n':
+					ct = 0
+					buf.WriteString("\n// ")
+				}
+			}
+
+			return buf.String()
 		},
 		"typeprefix": func(f Field) string {
 			if f.Rpt != "1" || f.Rpt == "*" {

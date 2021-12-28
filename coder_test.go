@@ -26,7 +26,8 @@ func TestEncode(t *testing.T) {
 		},
 	}
 
-	bb, err := Marshal(msg)
+	e := NewEncoder(nil)
+	bb, err := e.Encode(msg)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -42,9 +43,8 @@ NTE|2||more comments here|||
 OBR|1|ABC||||||||||||||1234^Acron^Smith~5678^Beta^Zeta|||||||||||||||||||||||||||||||||||||||||||
 OBR|2|XYZ||||||||||||||903^Blacky|||||||||||||||||||||||||||||||||||||||||||`)
 
-	v, err := Unmarshal(raw, UnmarshalOption{
-		Registry: v25.Registry,
-	})
+	d := NewDecoder(v25.Registry, nil)
+	v, err := d.DecodeList(raw)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,17 +60,17 @@ func TestGroup(t *testing.T) {
 MSA|AA|161||||
 `)
 
-	v, err := Unmarshal(raw, UnmarshalOption{
-		Registry: v25.Registry,
-	})
+	d := NewDecoder(v25.Registry, nil)
+	v, err := d.DecodeList(raw)
 	if err != nil {
 		t.Fatal(err)
 	}
-	root, err := Group(v, v25.Registry)
+	root, err := group(v, v25.Registry)
 	if err != nil {
 		t.Fatal(err)
 	}
-	rt, err := Marshal(root)
+	e := NewEncoder(nil)
+	rt, err := e.Encode(root)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -104,6 +104,10 @@ func TestRoundTrip(t *testing.T) {
 		Separator:         " ",
 	}
 	_ = c
+
+	d := NewDecoder(v251.Registry, nil)
+	e := NewEncoder(nil)
+
 	for _, f := range dirList {
 		if f.IsDir() {
 			continue
@@ -114,10 +118,7 @@ func TestRoundTrip(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			uo := UnmarshalOption{
-				Registry: v251.Registry,
-			}
-			v, err := Unmarshal(bb, uo)
+			v, err := d.DecodeList(bb)
 			if err != nil {
 				t.Fatal("unmarshal", err)
 			}
@@ -125,7 +126,7 @@ func TestRoundTrip(t *testing.T) {
 				c.Dump(v)
 			}
 
-			root, err := Group(v, v251.Registry)
+			root, err := d.DecodeGroup(v)
 			if err != nil {
 				t.Fatal("group", err)
 			}
@@ -133,7 +134,7 @@ func TestRoundTrip(t *testing.T) {
 				c.Dump(root)
 			}
 
-			rt, err := Marshal(root)
+			rt, err := e.Encode(root)
 			if err != nil {
 				t.Fatal("marshal", err)
 			}

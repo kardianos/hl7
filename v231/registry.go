@@ -20,9 +20,14 @@ func (registry) Segment() map[string]any {
 func (registry) Trigger() map[string]any {
 	return TriggerRegistry
 }
+func (registry) DataType() map[string]any {
+	return DataTypeRegistry
+}
 
+// Version of this HL7 package.
 var Version = `2.3.1`
 
+// Segments specific to file and batch control.
 var ControlSegmentRegistry = map[string]any{
 	"BHS": BHS{},
 	"BTS": BTS{},
@@ -32,6 +37,7 @@ var ControlSegmentRegistry = map[string]any{
 	"ADD": ADD{},
 }
 
+// Segment lookup by ID.
 var SegmentRegistry = map[string]any{
 	"ACC": ACC{},
 	"ADD": ADD{},
@@ -145,6 +151,7 @@ var SegmentRegistry = map[string]any{
 	"VTQ": VTQ{},
 }
 
+// Trigger lookup by ID.
 var TriggerRegistry = map[string]any{
 	"ACK":     ACK{},
 	"ADR_A19": ADR_A19{},
@@ -422,4 +429,84 @@ var TriggerRegistry = map[string]any{
 	"VXR_V03": VXR_V03{},
 	"VXU_V04": VXU_V04{},
 	"VXX_V02": VXX_V02{},
+}
+
+// Data Type lookup by ID.
+var DataTypeRegistry = map[string]any{
+	"AD":           *(new(AD)),
+	"AUI":          *(new(AUI)),
+	"CCD":          *(new(CCD)),
+	"CE":           *(new(CE)),
+	"CK":           *(new(CK)),
+	"CM_ABS_RANGE": *(new(CM_ABS_RANGE)),
+	"CM_OSD":       *(new(CM_OSD)),
+	"CM_PEN":       *(new(CM_PEN)),
+	"CM_RANGE":     *(new(CM_RANGE)),
+	"CN":           *(new(CN)),
+	"CP":           *(new(CP)),
+	"CQ":           *(new(CQ)),
+	"CX":           *(new(CX)),
+	"DDI":          *(new(DDI)),
+	"DIN":          *(new(DIN)),
+	"DLD":          *(new(DLD)),
+	"DLN":          *(new(DLN)),
+	"DLT":          *(new(DLT)),
+	"DR":           *(new(DR)),
+	"DT":           *(new(DT)),
+	"DTN":          *(new(DTN)),
+	"EI":           *(new(EI)),
+	"EIP":          *(new(EIP)),
+	"ELD":          *(new(ELD)),
+	"FC":           *(new(FC)),
+	"FN":           *(new(FN)),
+	"FT":           *(new(FT)),
+	"HD":           *(new(HD)),
+	"ID":           *(new(ID)),
+	"IS":           *(new(IS)),
+	"JCC":          *(new(JCC)),
+	"LA1":          *(new(LA1)),
+	"LA2":          *(new(LA2)),
+	"MO":           *(new(MO)),
+	"MOC":          *(new(MOC)),
+	"MSG":          *(new(MSG)),
+	"NDL":          *(new(NDL)),
+	"NM":           *(new(NM)),
+	"NR":           *(new(NR)),
+	"OCD":          *(new(OCD)),
+	"OSP":          *(new(OSP)),
+	"PCF":          *(new(PCF)),
+	"PI":           *(new(PI)),
+	"PIP":          *(new(PIP)),
+	"PL":           *(new(PL)),
+	"PLN":          *(new(PLN)),
+	"PPN":          *(new(PPN)),
+	"PRL":          *(new(PRL)),
+	"PT":           *(new(PT)),
+	"PTA":          *(new(PTA)),
+	"QIP":          *(new(QIP)),
+	"QSC":          *(new(QSC)),
+	"RCD":          *(new(RCD)),
+	"RFR":          *(new(RFR)),
+	"RI":           *(new(RI)),
+	"RMC":          *(new(RMC)),
+	"SCV":          *(new(SCV)),
+	"SI":           *(new(SI)),
+	"SPD":          *(new(SPD)),
+	"SPS":          *(new(SPS)),
+	"ST":           *(new(ST)),
+	"TM":           *(new(TM)),
+	"TN":           *(new(TN)),
+	"TQ":           *(new(TQ)),
+	"TS":           *(new(TS)),
+	"TX":           *(new(TX)),
+	"UVC":          *(new(UVC)),
+	"VARIES":       *(new(VARIES)),
+	"VH":           *(new(VH)),
+	"VID":          *(new(VID)),
+	"VR":           *(new(VR)),
+	"XAD":          *(new(XAD)),
+	"XCN":          *(new(XCN)),
+	"XON":          *(new(XON)),
+	"XPN":          *(new(XPN)),
+	"XTN":          *(new(XTN)),
 }

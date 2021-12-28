@@ -17,7 +17,8 @@ type ACC struct {
 
 // Addendum segment
 //
-// The ADD segment is used to define the continuation of the prior segment in a continuation message. See Section 2.23.2, Continuation messages and segments, for details.
+// The ADD segment is used to define the continuation of the prior segment in a continuation message. See Section 2.23.2, Continuation
+// messages and segments, for details.
 type ADD struct {
 	HL7                         HL7Name `hl7:",name=ADD,type=s"`
 	AddendumContinuationPointer ST      `hl7:"1,len=65536,display=Addendum Continuation Pointer"`
@@ -25,7 +26,11 @@ type ADD struct {
 
 // Appointment information - general resource segment
 //
-// The AIG segment contains information about various kinds of resources (other than those with specifically defined segments in this chapter) that can be scheduled. Resources included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Resources not controlled by a schedule are not identified on a schedule request using this segment. Resources described by this segment are general kinds of resources, such as equipment, that are identified with a simple identification code.
+// The AIG segment contains information about various kinds of resources (other than those with specifically defined segments
+// in this chapter) that can be scheduled. Resources included in a transaction using this segment are assumed to be controlled
+// by a schedule on a schedule filler application. Resources not controlled by a schedule are not identified on a schedule
+// request using this segment. Resources described by this segment are general kinds of resources, such as equipment, that
+// are identified with a simple identification code.
 type AIG struct {
 	HL7                      HL7Name `hl7:",name=AIG,type=s"`
 	SetID                    SI      `hl7:"1,seq,required,len=4,display=Set ID - AIG"`
@@ -46,7 +51,11 @@ type AIG struct {
 
 // Appointment information - location resource segment
 //
-// The AIL segment contains information about location resources (meeting rooms, operating rooms, examination rooms, or other locations) that can be scheduled. Resources included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Resources not controlled by a schedule are not identified on a schedule request using this segment. Location resources are identified with this specific segment because of the specific encoding of locations used by the HL7 specification.
+// The AIL segment contains information about location resources (meeting rooms, operating rooms, examination rooms,
+// or other locations) that can be scheduled. Resources included in a transaction using this segment are assumed to be controlled
+// by a schedule on a schedule filler application. Resources not controlled by a schedule are not identified on a schedule
+// request using this segment. Location resources are identified with this specific segment because of the specific encoding
+// of locations used by the HL7 specification.
 type AIL struct {
 	HL7                      HL7Name `hl7:",name=AIL,type=s"`
 	SetID                    SI      `hl7:"1,seq,required,len=4,display=Set ID - AIL"`
@@ -65,7 +74,11 @@ type AIL struct {
 
 // Appointment information - personnel resource segment
 //
-// The AIP segment contains information about the personnel types that can be scheduled. Personnel included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Personnel not controlled by a schedule are not identified on a schedule request using this segment. The kinds of personnel described on this segment include any healthcare provider in the institution controlled by a schedule (for example: technicians, physicians, nurses, surgeons, anesthesiologists, or CRNAs).
+// The AIP segment contains information about the personnel types that can be scheduled. Personnel included in a transaction
+// using this segment are assumed to be controlled by a schedule on a schedule filler application. Personnel not controlled
+// by a schedule are not identified on a schedule request using this segment. The kinds of personnel described on this segment
+// include any healthcare provider in the institution controlled by a schedule (for example: technicians, physicians,
+// nurses, surgeons, anesthesiologists, or CRNAs).
 type AIP struct {
 	HL7                      HL7Name `hl7:",name=AIP,type=s"`
 	SetID                    SI      `hl7:"1,seq,required,len=4,display=Set ID - AIP"`
@@ -84,7 +97,9 @@ type AIP struct {
 
 // Appointment information - service segment
 //
-// The AIS segment contains information about various kinds of services that can be scheduled. Services included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Services not controlled by a schedule are not identified on a schedule request using this segment.
+// The AIS segment contains information about various kinds of services that can be scheduled. Services included in a transaction
+// using this segment are assumed to be controlled by a schedule on a schedule filler application. Services not controlled
+// by a schedule are not identified on a schedule request using this segment.
 type AIS struct {
 	HL7                      HL7Name `hl7:",name=AIS,type=s"`
 	SetID                    SI      `hl7:"1,seq,required,len=4,display=Set ID - AIS"`
@@ -101,7 +116,8 @@ type AIS struct {
 
 // Patient allergy information segment
 //
-// The AL1 segment contains patient allergy information of various types. Most of this information will be derived from user-defined tables. Each AL1 segment describes a single patient allergy.
+// The AL1 segment contains patient allergy information of various types. Most of this information will be derived from user-defined
+// tables. Each AL1 segment describes a single patient allergy.
 type AL1 struct {
 	HL7                            HL7Name `hl7:",name=AL1,type=s"`
 	SetID                          SI      `hl7:"1,seq,required,len=4,display=Set ID - AL1"`
@@ -114,7 +130,13 @@ type AL1 struct {
 
 // Appointment preferences segment
 //
-// The APR segment contains parameters and preference specifications used for requesting appointments in the SRM message. It allows placer applications to provide coded parameters and preference indicators to the filler application, to help determine when a requested appointment should be scheduled. An APR segment can be provided in conjunction with either the ARQ segment or any of the service and resource segments (AIG, AIS, AIP, and AIL). If an APR segment appears in conjunction with an ARQ segment, its parameters and preference indicators pertain to the schedule request as a whole. If the APR segment appears with any of the service and resource segments, then its parameters and preferences apply only to the immediately preceding service or resource.
+// The APR segment contains parameters and preference specifications used for requesting appointments in the SRM message.
+// It allows placer applications to provide coded parameters and preference indicators to the filler application, to help
+// determine when a requested appointment should be scheduled. An APR segment can be provided in conjunction with either
+// the ARQ segment or any of the service and resource segments (AIG, AIS, AIP, and AIL). If an APR segment appears in conjunction
+// with an ARQ segment, its parameters and preference indicators pertain to the schedule request as a whole. If the APR segment
+// appears with any of the service and resource segments, then its parameters and preferences apply only to the immediately
+// preceding service or resource.
 type APR struct {
 	HL7                       HL7Name `hl7:",name=APR,type=s"`
 	TimeSelectionCriteria     []SCV   `hl7:"1,len=80,display=Time Selection Criteria"`
@@ -126,7 +148,8 @@ type APR struct {
 
 // Appointment request segment
 //
-// The ARQ segment defines a request for the booking of an appointment. It is used in transactions sent from an application acting in the role of a placer.
+// The ARQ segment defines a request for the booking of an appointment. It is used in transactions sent from an application
+// acting in the role of a placer.
 type ARQ struct {
 	HL7                         HL7Name `hl7:",name=ARQ,type=s"`
 	PlacerAppointmentID         EI      `hl7:"1,required,len=75,display=Placer Appointment ID"`
@@ -156,7 +179,8 @@ type ARQ struct {
 
 // Authorization Information
 //
-// This segment represents an authorization or a pre-authorization for a referred procedure or requested service by the payor covering the patient's health care.
+// This segment represents an authorization or a pre-authorization for a referred procedure or requested service by the
+// payor covering the patient's health care.
 type AUT struct {
 	HL7                          HL7Name `hl7:",name=AUT,type=s"`
 	AuthorizingPayorPlanID       *CE     `hl7:"1,len=200,table=0072,display=Authorizing Payor- Plan ID"`
@@ -212,7 +236,14 @@ type BTS struct {
 
 // Charge description master segment
 //
-// The CDM segment contains the fields for identifying anything which is charged to patient accounts, including procedures, services, supplies. It is intended to be used to maintain a list of valid chargeable utilization items. Its purpose is to keep billing codes synchronized between HIS, Patient Accounting, and other departmental systems. It is not intended to completely support materials management, inventory, or complex pricing structures for which additional complex fields would be required. Given an identifying charge code, the associated fields in the charge description master file will provide basic pricing and billing data. All the additional information necessary for patient accounting systems to do billing and claims is not intended to be included in this segment; those should be part of insurance or billing profile tables.
+// The CDM segment contains the fields for identifying anything which is charged to patient accounts, including procedures,
+// services, supplies. It is intended to be used to maintain a list of valid chargeable utilization items. Its purpose is to
+// keep billing codes synchronized between HIS, Patient Accounting, and other departmental systems. It is not intended
+// to completely support materials management, inventory, or complex pricing structures for which additional complex
+// fields would be required. Given an identifying charge code, the associated fields in the charge description master file
+// will provide basic pricing and billing data. All the additional information necessary for patient accounting systems
+// to do billing and claims is not intended to be included in this segment; those should be part of insurance or billing profile
+// tables.
 type CDM struct {
 	HL7                          HL7Name `hl7:",name=CDM,type=s"`
 	PrimaryKeyValue              CE      `hl7:"1,required,len=200,table=0132,display=Primary Key Value - CDM"`
@@ -232,7 +263,10 @@ type CDM struct {
 
 // Clinical study master segment
 //
-// The Clinical Study Master (CM0) segment contains the information about the study itself. The sending application study number for each patient is sent in the CSR segment. The optional CM0 enables information about the study at the sending application that may be useful to the receiving systems. All of the fields in the segment describe the study status at the sending facility unless otherwise agreed upon.
+// The Clinical Study Master (CM0) segment contains the information about the study itself. The sending application study
+// number for each patient is sent in the CSR segment. The optional CM0 enables information about the study at the sending application
+// that may be useful to the receiving systems. All of the fields in the segment describe the study status at the sending facility
+// unless otherwise agreed upon.
 type CM0 struct {
 	HL7                 HL7Name `hl7:",name=CM0,type=s"`
 	SetID               SI      `hl7:"1,seq,len=4,display=Set ID - CM0"`
@@ -250,7 +284,10 @@ type CM0 struct {
 
 // Clinical study phase master segment
 //
-// Each Clinical Study Phase Master (CM1) segment contains the information about one phase of a study identified in the preceding CM0. This is an optional structure to be used if the study has more than one treatment or evaluation phase within it. The identification of study phases that the patient enters are sent in the CSP segment: sequence 2. The CM1 segment describes the phase in general for the receiving system.
+// Each Clinical Study Phase Master (CM1) segment contains the information about one phase of a study identified in the preceding
+// CM0. This is an optional structure to be used if the study has more than one treatment or evaluation phase within it. The identification
+// of study phases that the patient enters are sent in the CSP segment: sequence 2. The CM1 segment describes the phase in general
+// for the receiving system.
 type CM1 struct {
 	HL7                     HL7Name `hl7:",name=CM1,type=s"`
 	SetID                   SI      `hl7:"1,seq,required,len=4,display=Set ID - CM1"`
@@ -260,7 +297,9 @@ type CM1 struct {
 
 // Clinical study schedule master segment
 //
-// The Clinical Study Schedule Master (CM2) contains the information about the scheduled time points for study or phase-related treatment or evaluation events. The fact that a patient has data satisfying a scheduled time point is sent in the CSS segment, sequence 2. The CM2 segment describes the scheduled time points in general.
+// The Clinical Study Schedule Master (CM2) contains the information about the scheduled time points for study or phase-related
+// treatment or evaluation events. The fact that a patient has data satisfying a scheduled time point is sent in the CSS segment,
+// sequence 2. The CM2 segment describes the scheduled time points in general.
 type CM2 struct {
 	HL7                          HL7Name `hl7:",name=CM2,type=s"`
 	SetID                        SI      `hl7:"1,seq,len=4,display=Set ID - CM2"`
@@ -271,7 +310,13 @@ type CM2 struct {
 
 // Clinical study phase segment
 //
-// The CSP segment contains information on a patient's status for a particular phase of the study. This segment is optional and is useful when a study has different evaluation intervals within it. (See Section 7.5.1.2, 'Phase of a clinical trial.' The CSP segment is implemented on a study-specific basis for messaging purposes. The fact that the patient has entered a phase of the study that represents a certain treatment approach may need to be messaged to other systems, like pharmacy, nursing, or order entry. It is also important to sponsors and data management centers for tracking patient progress through the study and monitoring the data schedule defined for each phase. It may subsume OBR and OBX segments that follow it to indicate that these data describe the phase.
+// The CSP segment contains information on a patient's status for a particular phase of the study. This segment is optional
+// and is useful when a study has different evaluation intervals within it. (See Section 7.5.1.2, 'Phase of a clinical trial.'
+// The CSP segment is implemented on a study-specific basis for messaging purposes. The fact that the patient has entered
+// a phase of the study that represents a certain treatment approach may need to be messaged to other systems, like pharmacy,
+// nursing, or order entry. It is also important to sponsors and data management centers for tracking patient progress through
+// the study and monitoring the data schedule defined for each phase. It may subsume OBR and OBX segments that follow it to indicate
+// that these data describe the phase.
 type CSP struct {
 	HL7                     HL7Name `hl7:",name=CSP,type=s"`
 	StudyPhaseIdentifier    CE      `hl7:"1,required,len=60,display=Study Phase Identifier"`
@@ -282,7 +327,10 @@ type CSP struct {
 
 // Clinical study registration segment
 //
-// The CSR segment will contain fundamental administrative and regulatory information required to document a patient's enrollment on a clinical trial. This segment is all that is required if one needs to message another system that an enrollment has taken place, i.e., from clinical trials to pharmacy, accounting, or order entry systems. The CSR segment may also be used to identify that OBR, OBX, RXA, and RXR segments that follow represent data applicable to the identified study.
+// The CSR segment will contain fundamental administrative and regulatory information required to document a patient's
+// enrollment on a clinical trial. This segment is all that is required if one needs to message another system that an enrollment
+// has taken place, i.e., from clinical trials to pharmacy, accounting, or order entry systems. The CSR segment may also be
+// used to identify that OBR, OBX, RXA, and RXR segments that follow represent data applicable to the identified study.
 type CSR struct {
 	HL7                                HL7Name `hl7:",name=CSR,type=s"`
 	SponsorStudyID                     EI      `hl7:"1,required,len=60,display=Sponsor Study ID"`
@@ -305,7 +353,11 @@ type CSR struct {
 
 // Clinical study data schedule segment
 //
-// The Clinical Study Data Schedule (CSS) segment is optional depending on whether messaging of study data needs to be linked to the scheduled data time points for the study. (See Section 7.5.1.3, 'data schedule.') The CSS segment enables communication of data schedules and adherence that ranges from the basic to the elaborate. Use of the segment must be planned for each implementation. Each CSS segment will subsume observation and drug administration segments that follow, indicating that they satisfy this scheduled time point.
+// The Clinical Study Data Schedule (CSS) segment is optional depending on whether messaging of study data needs to be linked
+// to the scheduled data time points for the study. (See Section 7.5.1.3, 'data schedule.') The CSS segment enables communication
+// of data schedules and adherence that ranges from the basic to the elaborate. Use of the segment must be planned for each implementation.
+// Each CSS segment will subsume observation and drug administration segments that follow, indicating that they satisfy
+// this scheduled time point.
 type CSS struct {
 	HL7                            HL7Name `hl7:",name=CSS,type=s"`
 	StudyScheduledTimePoint        CE      `hl7:"1,required,len=60,display=Study Scheduled Time Point"`
@@ -315,7 +367,13 @@ type CSS struct {
 
 // Contact Data
 //
-// The CTD segment may identify any contact personnel associated with a patient referral message and its related transactions. The CTD segment will be paired with a PRD segment. The PRD segment contains data specifically focused on provider information in a referral. While it is important in an inter-enterprise transaction to transmit specific information regarding the providers involved (referring and referred-to), it may also be important to identify the contact personnel associated with the given provider. For example, a provider receiving a referral may need to know the office manager or the billing person at the institution of the provider who sent the referral. This segment allows for multiple contact personnel to be associated with a single provider.
+// The CTD segment may identify any contact personnel associated with a patient referral message and its related transactions.
+// The CTD segment will be paired with a PRD segment. The PRD segment contains data specifically focused on provider information
+// in a referral. While it is important in an inter-enterprise transaction to transmit specific information regarding the
+// providers involved (referring and referred-to), it may also be important to identify the contact personnel associated
+// with the given provider. For example, a provider receiving a referral may need to know the office manager or the billing
+// person at the institution of the provider who sent the referral. This segment allows for multiple contact personnel to
+// be associated with a single provider.
 type CTD struct {
 	HL7                             HL7Name `hl7:",name=CTD,type=s"`
 	ContactRole                     []CE    `hl7:"1,required,len=200,table=0131,display=Contact Role"`
@@ -329,7 +387,8 @@ type CTD struct {
 
 // Clinical trial identification segment
 //
-// The CTI segment is an optional segment that contains information to identify the clinical trial, phase and time point with which an order or result is associated.
+// The CTI segment is an optional segment that contains information to identify the clinical trial, phase and time point with
+// which an order or result is associated.
 type CTI struct {
 	HL7                     HL7Name `hl7:",name=CTI,type=s"`
 	SponsorStudyID          EI      `hl7:"1,required,len=60,display=Sponsor Study ID"`
@@ -339,7 +398,10 @@ type CTI struct {
 
 // Disability segment
 //
-// The disability segment contains information related to the disability of a person. This segment was created instead of adding disability attributes to each segment that contains a person (to which disability may apply). This is an optional segment that can be used to send disability information about a person already defined by the Patient Administration Chapter. The disabled person code and identifier allow for the association of the disability information to the person.
+// The disability segment contains information related to the disability of a person. This segment was created instead of
+// adding disability attributes to each segment that contains a person (to which disability may apply). This is an optional
+// segment that can be used to send disability information about a person already defined by the Patient Administration Chapter.
+// The disabled person code and identifier allow for the association of the disability information to the person.
 type DB1 struct {
 	HL7                        HL7Name `hl7:",name=DB1,type=s"`
 	SetID                      SI      `hl7:"1,seq,required,len=4,display=Set ID - DB1"`
@@ -354,7 +416,11 @@ type DB1 struct {
 
 // Diagnosis segment
 //
-// The DG1 segment contains patient diagnosis information of various types, for example, admitting, primary, etc. The DG1 segment is used to send multiple diagnoses (for example, for medical records encoding). It is also used when the FT1-19-diagnosiscode-FT1 does not provide sufficient information for a billing system. This diagnosis coding should be distinguished from the clinical problem segment used by caregivers to manage the patient (see Chapter 12, Patient Care). Coding methodologies are also defined.
+// The DG1 segment contains patient diagnosis information of various types, for example, admitting, primary, etc. The DG1
+// segment is used to send multiple diagnoses (for example, for medical records encoding). It is also used when the FT1-19-diagnosiscode-FT1
+// does not provide sufficient information for a billing system. This diagnosis coding should be distinguished from the
+// clinical problem segment used by caregivers to manage the patient (see Chapter 12, Patient Care). Coding methodologies
+// are also defined.
 type DG1 struct {
 	HL7                     HL7Name `hl7:",name=DG1,type=s"`
 	SetID                   SI      `hl7:"1,seq,required,len=4,display=Set ID - DG1"`
@@ -380,7 +446,8 @@ type DG1 struct {
 
 // Diagnosis related group segment
 //
-// The DRG segment contains diagnoses-related grouping information of various types. The DRG segment is used to send the DRG information, for example, for billing and medical records encoding.
+// The DRG segment contains diagnoses-related grouping information of various types. The DRG segment is used to send the
+// DRG information, for example, for billing and medical records encoding.
 type DRG struct {
 	HL7                    HL7Name `hl7:",name=DRG,type=s"`
 	DiagnosticRelatedGroup *CE     `hl7:"1,len=60,table=0055,display=Diagnostic Related Group"`
@@ -405,7 +472,8 @@ type DSC struct {
 
 // Display data segment
 //
-// The DSP segment is used to contain data that has been preformatted by the sender for display. The semantic content of the data is lost; the data is simply treated as lines of text.
+// The DSP segment is used to contain data that has been preformatted by the sender for display. The semantic content of the
+// data is lost; the data is simply treated as lines of text.
 type DSP struct {
 	HL7               HL7Name `hl7:",name=DSP,type=s"`
 	SetID             SI      `hl7:"1,seq,len=4,display=Set ID - DSP"`
@@ -417,7 +485,8 @@ type DSP struct {
 
 // Embedded query language segment
 //
-// The EQL segment is used to define queries using select statements based on the query language of choice (e.g., SQL). Refer to the functional chapters for the lists of HL7-defined EQL select statements.
+// The EQL segment is used to define queries using select statements based on the query language of choice (e.g., SQL). Refer
+// to the functional chapters for the lists of HL7-defined EQL select statements.
 type EQL struct {
 	HL7                     HL7Name `hl7:",name=EQL,type=s"`
 	QueryTag                ST      `hl7:"1,len=32,display=Query Tag"`
@@ -428,7 +497,9 @@ type EQL struct {
 
 // Event replay query segment
 //
-// The ERQ segment is used to issue queries where the desired response is formatted as an event replay response message. This enables the querying application to request detailed event data from an application that supports this feature, such that it may no longer be necessary for it to capture and store all event information at the time of the original trigger event.
+// The ERQ segment is used to issue queries where the desired response is formatted as an event replay response message. This
+// enables the querying application to request detailed event data from an application that supports this feature, such
+// that it may no longer be necessary for it to capture and store all event information at the time of the original trigger event.
 type ERQ struct {
 	HL7                HL7Name `hl7:",name=ERQ,type=s"`
 	QueryTag           ST      `hl7:"1,len=32,display=Query Tag"`
@@ -447,7 +518,8 @@ type ERR struct {
 
 // Event type segment
 //
-// The EVN segment is used to communicate necessary trigger event information to receiving applications. Valid event types for all chapters are contained in HL7 table 0003 - Event type.
+// The EVN segment is used to communicate necessary trigger event information to receiving applications. Valid event types
+// for all chapters are contained in HL7 table 0003 - Event type.
 type EVN struct {
 	HL7                  HL7Name `hl7:",name=EVN,type=s"`
 	EventTypeCode        ID      `hl7:"1,len=3,table=0003,display=Event Type Code"`
@@ -498,7 +570,8 @@ type FHS struct {
 
 // Financial transaction segment
 //
-// The FT1 segment contains the detail data necessary to post charges, payments, adjustments, etc. to patient accounting records.
+// The FT1 segment contains the detail data necessary to post charges, payments, adjustments, etc. to patient accounting
+// records.
 type FT1 struct {
 	HL7                       HL7Name `hl7:",name=FT1,type=s"`
 	SetID                     SI      `hl7:"1,seq,len=4,display=Set ID - FT1"`
@@ -568,7 +641,8 @@ type GOL struct {
 
 // Guarantor segment
 //
-// The GT1 segment contains guarantor (e.g., the person or the organization with financial responsibility for payment of a patient account) data for patient and insurance billing applications.
+// The GT1 segment contains guarantor (e.g., the person or the organization with financial responsibility for payment of
+// a patient account) data for patient and insurance billing applications.
 type GT1 struct {
 	HL7                                HL7Name `hl7:",name=GT1,type=s"`
 	SetID                              SI      `hl7:"1,seq,required,len=4,display=Set ID - GT1"`
@@ -630,7 +704,8 @@ type GT1 struct {
 
 // Insurance segment
 //
-// The IN1 segment contains insurance policy coverage information necessary to produce properly pro-rated and patient and insurance bills.
+// The IN1 segment contains insurance policy coverage information necessary to produce properly pro-rated and patient
+// and insurance bills.
 type IN1 struct {
 	HL7                           HL7Name `hl7:",name=IN1,type=s"`
 	SetID                         SI      `hl7:"1,seq,required,len=4,display=Set ID - IN1"`
@@ -686,7 +761,8 @@ type IN1 struct {
 
 // Insurance additional information segment
 //
-// The IN2 segment contains additional insurance policy coverage and benefit information necessary for proper billing and reimbursement. Fields used by this segment are defined by HCFA or other regulatory agencies.
+// The IN2 segment contains additional insurance policy coverage and benefit information necessary for proper billing
+// and reimbursement. Fields used by this segment are defined by HCFA or other regulatory agencies.
 type IN2 struct {
 	HL7                                  HL7Name `hl7:",name=IN2,type=s"`
 	InsuredSEmployeeID                   []CX    `hl7:"1,len=59,display=Insured s Employee ID"`
@@ -765,7 +841,8 @@ type IN2 struct {
 
 // Insurance additional information, certification segment
 //
-// The IN3 segment contains additional insurance information for certifying the need for patient care. Fields used by this segment are defined by HCFA, or other regulatory agencies.
+// The IN3 segment contains additional insurance information for certifying the need for patient care. Fields used by this
+// segment are defined by HCFA, or other regulatory agencies.
 type IN3 struct {
 	HL7                                HL7Name `hl7:",name=IN3,type=s"`
 	SetID                              SI      `hl7:"1,seq,required,len=4,display=Set ID - IN3"`
@@ -797,7 +874,8 @@ type IN3 struct {
 
 // Location charge code segment
 //
-// The optional LCC segment identifies how a patient location room can be billed by a certain department. A department can use different charge codes for the same room or bed, so there can be multiple LCC segments following an LDP segment.
+// The optional LCC segment identifies how a patient location room can be billed by a certain department. A department can
+// use different charge codes for the same room or bed, so there can be multiple LCC segments following an LDP segment.
 type LCC struct {
 	HL7                HL7Name `hl7:",name=LCC,type=s"`
 	PrimaryKeyValue    PL      `hl7:"1,required,len=200,display=Primary Key Value - LCC"`
@@ -808,7 +886,9 @@ type LCC struct {
 
 // Location characteristic segment
 //
-// The LCH segment is used to identify location characteristics which determine which patients will be assigned to the room or bed. It contains the location characteristics of the room or bed identified in the preceding LOC segment. There should be one LCH segment for each attribute.
+// The LCH segment is used to identify location characteristics which determine which patients will be assigned to the room
+// or bed. It contains the location characteristics of the room or bed identified in the preceding LOC segment. There should
+// be one LCH segment for each attribute.
 type LCH struct {
 	HL7                         HL7Name `hl7:",name=LCH,type=s"`
 	PrimaryKeyValue             PL      `hl7:"1,required,len=200,display=Primary Key Value - LCH"`
@@ -820,7 +900,9 @@ type LCH struct {
 
 // Location department segment
 //
-// The LDP segment identifies how a patient location room is being used by a certain department. Multiple departments can use the same patient location, so there can be multiple LDP segments following an LOC segment. There must be at least one LDP segment for each LOC segment. This is not intended to include any current occupant information.
+// The LDP segment identifies how a patient location room is being used by a certain department. Multiple departments can
+// use the same patient location, so there can be multiple LDP segments following an LOC segment. There must be at least one
+// LDP segment for each LOC segment. This is not intended to include any current occupant information.
 type LDP struct {
 	HL7                 HL7Name `hl7:",name=LDP,type=s"`
 	PrimaryKeyValue     PL      `hl7:"1,required,len=200,display=Primary Key Value - LDP"`
@@ -838,7 +920,10 @@ type LDP struct {
 
 // Location identification segment
 //
-// The LOC segment can identify any patient location referenced by information systems. This segment gives physical set up information about the location. This is not intended to include any current occupant or current use information. There should be one LOC segment for each patient location. If desired, there can also be one LOC segment for each nursing unit and room.
+// The LOC segment can identify any patient location referenced by information systems. This segment gives physical set
+// up information about the location. This is not intended to include any current occupant or current use information. There
+// should be one LOC segment for each patient location. If desired, there can also be one LOC segment for each nursing unit and
+// room.
 type LOC struct {
 	HL7                 HL7Name `hl7:",name=LOC,type=s"`
 	PrimaryKeyValue     PL      `hl7:"1,required,len=200,display=Primary Key Value - LOC"`
@@ -904,7 +989,9 @@ type MFI struct {
 
 // Merge patient information segment-
 //
-// The MRG segment provides receiving applications with information necessary to initiate the merging of patient data as well as groups of records. It is intended that this segment be used throughout the Standard to allow the merging of registration, accounting, and clinical records within specific applications.
+// The MRG segment provides receiving applications with information necessary to initiate the merging of patient data as
+// well as groups of records. It is intended that this segment be used throughout the Standard to allow the merging of registration,
+// accounting, and clinical records within specific applications.
 type MRG struct {
 	HL7                        HL7Name `hl7:",name=MRG,type=s"`
 	PriorPatientIdentifierList []CX    `hl7:"1,required,len=20,display=Prior Patient Identifier List"`
@@ -972,7 +1059,8 @@ type NCK struct {
 
 // Next of kin / associated parties segment
 //
-// The NK1 segment contains information about the patient's other related parties. Any associated parties may be identified. Utilizing NK1-1-set ID, multiple NK1 segments can be sent to patient accounts.
+// The NK1 segment contains information about the patient's other related parties. Any associated parties may be identified.
+// Utilizing NK1-1-set ID, multiple NK1 segments can be sent to patient accounts.
 type NK1 struct {
 	HL7                                      HL7Name `hl7:",name=NK1,type=s"`
 	SetID                                    SI      `hl7:"1,seq,required,len=4,display=Set ID - NK1"`
@@ -1016,7 +1104,8 @@ type NK1 struct {
 
 // Bed status update segment
 //
-// The NPU segment allows the updating of census (bed status) data without sending patient-specific data. An example might include changing the status of a bed from 'housekeeping' to 'unoccupied.'
+// The NPU segment allows the updating of census (bed status) data without sending patient-specific data. An example might
+// include changing the status of a bed from 'housekeeping' to 'unoccupied.'
 type NPU struct {
 	HL7         HL7Name `hl7:",name=NPU,type=s"`
 	BedLocation PL      `hl7:"1,required,len=80,display=Bed Location"`
@@ -1025,7 +1114,9 @@ type NPU struct {
 
 // Status change
 //
-// The NSC segment can be used to request the start-up, shut-down, and/or migration (to a different cpu or file-server/file-system) of a particular application. It can also be used in an unsolicited update from one system to another to announce the start-up, shut-down, or migration of an application.
+// The NSC segment can be used to request the start-up, shut-down, and/or migration (to a different cpu or file-server/file-system)
+// of a particular application. It can also be used in an unsolicited update from one system to another to announce the start-up,
+// shut-down, or migration of an application.
 type NSC struct {
 	HL7                HL7Name `hl7:",name=NSC,type=s"`
 	NetworkChangeType  IS      `hl7:"1,required,len=4,table=0333,display=Network Change Type"`
@@ -1041,7 +1132,9 @@ type NSC struct {
 
 // Statistics
 //
-// The NST segment allows network statistical information to be passed between the various systems on the network.  Some fields in this segment refer to portions of lower level protocols; they contain information that can be used by network management applications monitoring the state of various network links
+// The NST segment allows network statistical information to be passed between the various systems on the network.  Some fields
+// in this segment refer to portions of lower level protocols; they contain information that can be used by network management
+// applications monitoring the state of various network links
 type NST struct {
 	HL7                    HL7Name `hl7:",name=NST,type=s"`
 	StatisticsAvailable    ID      `hl7:"1,required,len=1,table=0136,display=Statistics Available"`
@@ -1063,7 +1156,8 @@ type NST struct {
 
 // Notes and comments segment
 //
-// The NTE segment is defined here for inclusion in messages defined in other chapters. It is a common format for sending notes and comments.
+// The NTE segment is defined here for inclusion in messages defined in other chapters. It is a common format for sending notes
+// and comments.
 type NTE struct {
 	HL7             HL7Name `hl7:",name=NTE,type=s"`
 	SetID           SI      `hl7:"1,seq,len=4,display=Set ID - NTE"`
@@ -1074,7 +1168,8 @@ type NTE struct {
 
 // Observation request segment
 //
-// The Observation Request (OBR) segment is used to transmit information specific to an order for a diagnostic study or observation, physical exam, or assessment.
+// The Observation Request (OBR) segment is used to transmit information specific to an order for a diagnostic study or observation,
+// physical exam, or assessment.
 type OBR struct {
 	HL7                                 HL7Name `hl7:",name=OBR,type=s"`
 	SetID                               SI      `hl7:"1,seq,len=4,display=Set ID - OBR"`
@@ -1126,7 +1221,8 @@ type OBR struct {
 
 // Observation/result segment
 //
-// The OBX segment is used to transmit a single observation or observation fragment. It represents the smallest indivisible unit of a report. Its structure is summarized in Figure 7-5.
+// The OBX segment is used to transmit a single observation or observation fragment. It represents the smallest indivisible
+// unit of a report. Its structure is summarized in Figure 7-5.
 type OBX struct {
 	HL7                      HL7Name  `hl7:",name=OBX,type=s"`
 	SetID                    SI       `hl7:"1,seq,len=4,display=Set ID - OBX"`
@@ -1150,7 +1246,12 @@ type OBX struct {
 
 // Dietary orders, supplements, and preferences segment
 //
-// The ORC sequence items of interest to ODS are ORC-1-order control,ORC-2-placer order number, ORC-3-filler order number, ORC-7-quantity/timing, ORC-9-date/time of transaction, ORC-10-entered by, and ORC-11-verified by. For ORC-1-order control, the values may be New (NW), Cancel (CA), Discontinue Order Request (DC), Change (XO), Hold Order Request (HD), and Release Previous Hold (RL). The HD and RL codes could stop service for a specified length of time. ORC-7-quantity/timing should be used to specify whether an order is continuous or for one service period only. It is also useful for supplements which are part of a diet but only delivered, say, every day at night. Example:
+// The ORC sequence items of interest to ODS are ORC-1-order control,ORC-2-placer order number, ORC-3-filler order number,
+// ORC-7-quantity/timing, ORC-9-date/time of transaction, ORC-10-entered by, and ORC-11-verified by. For ORC-1-order
+// control, the values may be New (NW), Cancel (CA), Discontinue Order Request (DC), Change (XO), Hold Order Request (HD),
+// and Release Previous Hold (RL). The HD and RL codes could stop service for a specified length of time. ORC-7-quantity/timing
+// should be used to specify whether an order is continuous or for one service period only. It is also useful for supplements
+// which are part of a diet but only delivered, say, every day at night. Example:
 type ODS struct {
 	HL7                            HL7Name `hl7:",name=ODS,type=s"`
 	Type                           ID      `hl7:"1,required,len=1,table=0159,display=Type"`
@@ -1161,7 +1262,8 @@ type ODS struct {
 
 // Diet tray instructions segment
 //
-// This segment addresses tray instructions. These are independent of diet codes, supplements, and preferences and therefore get separate order numbers.
+// This segment addresses tray instructions. These are independent of diet codes, supplements, and preferences and therefore
+// get separate order numbers.
 type ODT struct {
 	HL7             HL7Name `hl7:",name=ODT,type=s"`
 	TrayType        CE      `hl7:"1,required,len=60,table=0160,display=Tray Type"`
@@ -1171,7 +1273,8 @@ type ODT struct {
 
 // General segment
 //
-// The OM1 segment contains the attributes that apply to the definition of most observations. This segment also contains the field attributes that specify what additional segments might also be defined for this observation.
+// The OM1 segment contains the attributes that apply to the definition of most observations. This segment also contains
+// the field attributes that specify what additional segments might also be defined for this observation.
 type OM1 struct {
 	HL7                                                    HL7Name `hl7:",name=OM1,type=s"`
 	SequenceNumberTestObservationMasterFile                NM      `hl7:"1,required,len=4,display=Sequence Number - Test/Observation Master File"`
@@ -1225,7 +1328,9 @@ type OM1 struct {
 
 // Numeric observation segment
 //
-// This segment contains the attributes of observations with continuous values (including those with data types of numeric, date, or time stamp). It can be applied to observation batteries of type A and C (see OM1-18-nature of test/observation ).
+// This segment contains the attributes of observations with continuous values (including those with data types of numeric,
+// date, or time stamp). It can be applied to observation batteries of type A and C (see OM1-18-nature of test/observation
+// ).
 type OM2 struct {
 	HL7                                     HL7Name       `hl7:",name=OM2,type=s"`
 	SequenceNumberTestObservationMasterFile NM            `hl7:"1,len=4,display=Sequence Number - Test/Observation Master File"`
@@ -1256,7 +1361,9 @@ type OM3 struct {
 
 // Observations that require specimens segment
 //
-// This segment applies to observations/batteries that require a specimen for their performance. When an observation or battery requires multiple specimens for their performance (e.g., creatinine clearance requires a 24-hour urine specimen and a serum specimen), multiple segments may be included, one for each specimen type.
+// This segment applies to observations/batteries that require a specimen for their performance. When an observation or
+// battery requires multiple specimens for their performance (e.g., creatinine clearance requires a 24-hour urine specimen
+// and a serum specimen), multiple segments may be included, one for each specimen type.
 type OM4 struct {
 	HL7                                     HL7Name `hl7:",name=OM4,type=s"`
 	SequenceNumberTestObservationMasterFile NM      `hl7:"1,len=4,display=Sequence Number - Test/Observation Master File"`
@@ -1277,7 +1384,8 @@ type OM4 struct {
 
 // Observation batteries (sets)
 //
-// This segment contains the information about batteries and supersets (a nature code of F, P or S, as described in OM1-18-nature of test/observation ).
+// This segment contains the information about batteries and supersets (a nature code of F, P or S, as described in OM1-18-nature
+// of test/observation ).
 type OM5 struct {
 	HL7                                                HL7Name `hl7:",name=OM5,type=s"`
 	SequenceNumberTestObservationMasterFile            NM      `hl7:"1,len=4,display=Sequence Number - Test/Observation Master File"`
@@ -1287,7 +1395,8 @@ type OM5 struct {
 
 // Observations that are calculated from other observations segment
 //
-// This segment contains the information about quantities that are derived from one or more other quantities or direct observations by mathematical or logical means.
+// This segment contains the information about quantities that are derived from one or more other quantities or direct observations
+// by mathematical or logical means.
 type OM6 struct {
 	HL7                                     HL7Name `hl7:",name=OM6,type=s"`
 	SequenceNumberTestObservationMasterFile NM      `hl7:"1,len=4,display=Sequence Number - Test/Observation Master File"`
@@ -1296,7 +1405,9 @@ type OM6 struct {
 
 // Common order segment
 //
-// The Common Order segment (ORC) is used to transmit fields that are common to all orders (all types of services that are requested). The ORC segment is required in the Order (ORM) message. ORC is mandatory in Order Acknowledgment (ORR) messages if an order detail segment is present, but is not required otherwise.
+// The Common Order segment (ORC) is used to transmit fields that are common to all orders (all types of services that are requested).
+// The ORC segment is required in the Order (ORM) message. ORC is mandatory in Order Acknowledgment (ORR) messages if an order
+// detail segment is present, but is not required otherwise.
 type ORC struct {
 	HL7                           HL7Name `hl7:",name=ORC,type=s"`
 	OrderControl                  ID      `hl7:"1,required,len=2,table=0119,display=Order Control"`
@@ -1327,7 +1438,9 @@ type ORC struct {
 
 // Possible causal relationship segment
 //
-// The PCR segment is used to communicate a potential or suspected relationship between a product (drug or device) or test and an event with detrimental effect on a patient. This segment identifies a potential causal relationship between the product identified in this segment and the event identified in the PEO segment.
+// The PCR segment is used to communicate a potential or suspected relationship between a product (drug or device) or test
+// and an event with detrimental effect on a patient. This segment identifies a potential causal relationship between the
+// product identified in this segment and the event identified in the PEO segment.
 type PCR struct {
 	HL7                               HL7Name `hl7:",name=PCR,type=s"`
 	ImplicatedProduct                 CE      `hl7:"1,required,len=60,display=Implicated Product"`
@@ -1398,7 +1511,11 @@ type PDC struct {
 
 // Product experience observation segment
 //
-// Details related to a particular clinical experience or event are embodied in the PEO segment. This segment can be used to characterize an event which might be attributed to a product to which the patient was exposed. Products with a possible causal relationship to the observed experience are described in the following PCR (possible causal relationship) segments. The message format was designed to be robust and includes many optional elements which may not be required for a particular regulatory purpose but allow a complete representation of the drug experience if needed.
+// Details related to a particular clinical experience or event are embodied in the PEO segment. This segment can be used to
+// characterize an event which might be attributed to a product to which the patient was exposed. Products with a possible
+// causal relationship to the observed experience are described in the following PCR (possible causal relationship) segments.
+// The message format was designed to be robust and includes many optional elements which may not be required for a particular
+// regulatory purpose but allow a complete representation of the drug experience if needed.
 type PEO struct {
 	HL7                                   HL7Name `hl7:",name=PEO,type=s"`
 	EventIdentifiersUsed                  []CE    `hl7:"1,len=60,display=Event Identifiers Used"`
@@ -1450,7 +1567,9 @@ type PES struct {
 
 // Patient identification segment
 //
-// The PID segment is used by all applications as the primary means of communicating patient identification information. This segment contains permanent patient identifying and demographic information that, for the most part, is not likely to change frequently.
+// The PID segment is used by all applications as the primary means of communicating patient identification information.
+// This segment contains permanent patient identifying and demographic information that, for the most part, is not likely
+// to change frequently.
 type PID struct {
 	HL7                         HL7Name `hl7:",name=PID,type=s"`
 	SetID                       SI      `hl7:"1,seq,len=4,display=Set ID - PID"`
@@ -1487,7 +1606,9 @@ type PID struct {
 
 // Procedures segment
 //
-// The PR1 segment contains information relative to various types of procedures that can be performed on a patient. The PR1 segment can be used to send procedure information, for example: Surgical, Nuclear Medicine, X-ray with contrast, etc. The PR1 segment is used to send multiple procedures, for example, for medical records encoding or for billing systems.
+// The PR1 segment contains information relative to various types of procedures that can be performed on a patient. The PR1
+// segment can be used to send procedure information, for example: Surgical, Nuclear Medicine, X-ray with contrast, etc.
+// The PR1 segment is used to send multiple procedures, for example, for medical records encoding or for billing systems.
 type PR1 struct {
 	HL7                     HL7Name `hl7:",name=PR1,type=s"`
 	SetID                   SI      `hl7:"1,seq,required,len=4,display=Set ID - PR1"`
@@ -1510,7 +1631,10 @@ type PR1 struct {
 
 // Practitioner detail segment
 //
-// The PRA segment adds detailed medical practitioner information to the personnel identified by the STF segment. A PRA segment may optionally follow an STF segment. A PRA segment must always have been preceded by a corresponding STF segment. The PRA segment may also be used for staff who work in healthcare who are not practitioners, but need to be certified, e.g., 'medical records staff.'
+// The PRA segment adds detailed medical practitioner information to the personnel identified by the STF segment. A PRA segment
+// may optionally follow an STF segment. A PRA segment must always have been preceded by a corresponding STF segment. The PRA
+// segment may also be used for staff who work in healthcare who are not practitioners, but need to be certified, e.g., 'medical
+// records staff.'
 type PRA struct {
 	HL7                   HL7Name `hl7:",name=PRA,type=s"`
 	PrimaryKeyValue       CE      `hl7:"1,required,len=60,display=Primary Key Value - PRA"`
@@ -1557,7 +1681,10 @@ type PRB struct {
 
 // Pricing segment
 //
-// The PRC segment contains the pricing information for the preceding CDM segment's chargeable item. It contains the fields which, for the same chargeable item, might vary depending upon facility or department or patient type. The preceding CDM segment contains the fields which, for one chargeable item, remain the same across facilities, departments, and patient types.
+// The PRC segment contains the pricing information for the preceding CDM segment's chargeable item. It contains the fields
+// which, for the same chargeable item, might vary depending upon facility or department or patient type. The preceding CDM
+// segment contains the fields which, for one chargeable item, remain the same across facilities, departments, and patient
+// types.
 type PRC struct {
 	HL7                 HL7Name `hl7:",name=PRC,type=s"`
 	PrimaryKeyValue     CE      `hl7:"1,required,len=200,table=0132,display=Primary Key Value - PRC"`
@@ -1582,7 +1709,14 @@ type PRC struct {
 
 // Provider Data
 //
-// This segment will be employed as part of a patient referral message and its related transactions. The PRD segment contains data specifically focused on a referral, and it is inter-enterprise in nature. The justification for this new segment comes from the fact that we are dealing with referrals that are external to the facilities that received them. Therefore, using a segment such as the current PV1 would be inadequate for all the return information that may be required by the receiving facility or application. In addition, the PV1 does not always provide information sufficient to enable the external facility to make a complete identification of the referring entity. The information contained in the PRD segment will include the referring provider, the referred-to provider, the referred-to location or service, and the referring provider clinic address.
+// This segment will be employed as part of a patient referral message and its related transactions. The PRD segment contains
+// data specifically focused on a referral, and it is inter-enterprise in nature. The justification for this new segment
+// comes from the fact that we are dealing with referrals that are external to the facilities that received them. Therefore,
+// using a segment such as the current PV1 would be inadequate for all the return information that may be required by the receiving
+// facility or application. In addition, the PV1 does not always provide information sufficient to enable the external facility
+// to make a complete identification of the referring entity. The information contained in the PRD segment will include the
+// referring provider, the referred-to provider, the referred-to location or service, and the referring provider clinic
+// address.
 type PRD struct {
 	HL7                              HL7Name `hl7:",name=PRD,type=s"`
 	ProviderRole                     []CE    `hl7:"1,required,len=200,table=0286,display=Provider Role"`
@@ -1619,7 +1753,8 @@ type PSH struct {
 
 // Pathway
 //
-// The pathway segment contains the data necessary to add, update, correct, and delete from the record pathways that are utilized to address an individual's health care.
+// The pathway segment contains the data necessary to add, update, correct, and delete from the record pathways that are utilized
+// to address an individual's health care.
 type PTH struct {
 	HL7                                  HL7Name `hl7:",name=PTH,type=s"`
 	ActionCode                           ID      `hl7:"1,required,len=2,table=0287,display=Action Code"`
@@ -1632,7 +1767,9 @@ type PTH struct {
 
 // Patient visit segment
 //
-// The PV1 segment is used by Registration/Patient Administration applications to communicate information on a visit-specific basis. This segment can be used to send multiple-visit statistic records to the same patient account or single-visit records to more than one account. Individual sites must determine the use for this segment.
+// The PV1 segment is used by Registration/Patient Administration applications to communicate information on a visit-specific
+// basis. This segment can be used to send multiple-visit statistic records to the same patient account or single-visit records
+// to more than one account. Individual sites must determine the use for this segment.
 type PV1 struct {
 	HL7                     HL7Name `hl7:",name=PV1,type=s"`
 	SetID                   SI      `hl7:"1,seq,len=4,display=Set ID - PV1"`
@@ -1735,7 +1872,9 @@ type PV2 struct {
 
 // Query Acknowledgement
 //
-// The QAK segment contains information sent with responses to a query. Although the QAK segment is required in the responses to the enhanced queries (see section 2.19), it may appear as an optional segment placed after the (optional) ERR segment in any query response (message) to any original mode query.
+// The QAK segment contains information sent with responses to a query. Although the QAK segment is required in the responses
+// to the enhanced queries (see section 2.19), it may appear as an optional segment placed after the (optional) ERR segment
+// in any query response (message) to any original mode query.
 type QAK struct {
 	HL7                 HL7Name `hl7:",name=QAK,type=s"`
 	QueryTag            ST      `hl7:"1,conditional,len=32,display=Query Tag"`
@@ -1779,7 +1918,8 @@ type QRF struct {
 
 // Table row definition segment
 //
-// The RDF segment defines the content of the row data segments (RDT) in the Tabular Data Response Message (TBR). It is used in two ways:
+// The RDF segment defines the content of the row data segments (RDT) in the Tabular Data Response Message (TBR). It is used
+// in two ways:
 type RDF struct {
 	HL7                   HL7Name `hl7:",name=RDF,type=s"`
 	NumberOfColumnsPerRow NM      `hl7:"1,required,len=3,display=Number of Columns per Row"`
@@ -1796,7 +1936,8 @@ type RDT struct {
 
 // Referral Infomation
 //
-// This segment represents information that may be useful when sending referrals from the referring provider to the referred-to provider.
+// This segment represents information that may be useful when sending referrals from the referring provider to the referred-to
+// provider.
 type RF1 struct {
 	HL7                           HL7Name `hl7:",name=RF1,type=s"`
 	ReferralStatus                *CE     `hl7:"1,len=200,table=0283,display=Referral Status"`
@@ -1814,7 +1955,11 @@ type RF1 struct {
 
 // Resource group segment
 //
-// The RGS segment is used to identify relationships between resources identified for a scheduled event. This segment can be used, on a site specified basis, to identify groups of resources that are used together within a scheduled event, or to describe some other relationship between resources. To specify related groups of resources within a message, begin each group with an RGS segment, and then follow that RGS with one or more of the Appointment Information segments (AIG, AIL, AIS, or AIP).
+// The RGS segment is used to identify relationships between resources identified for a scheduled event. This segment can
+// be used, on a site specified basis, to identify groups of resources that are used together within a scheduled event, or to
+// describe some other relationship between resources. To specify related groups of resources within a message, begin each
+// group with an RGS segment, and then follow that RGS with one or more of the Appointment Information segments (AIG, AIL, AIS,
+// or AIP).
 type RGS struct {
 	HL7               HL7Name `hl7:",name=RGS,type=s"`
 	SetID             SI      `hl7:"1,seq,required,len=4,display=Set ID - RGS"`
@@ -1824,7 +1969,8 @@ type RGS struct {
 
 // Role
 //
-// The role segment contains the data necessary to add, update, correct, and delete from the record persons involved, as well as their functional involvement with the activity being transmitted.
+// The role segment contains the data necessary to add, update, correct, and delete from the record persons involved, as well
+// as their functional involvement with the activity being transmitted.
 type ROL struct {
 	HL7               HL7Name `hl7:",name=ROL,type=s"`
 	RoleInstanceID    EI      `hl7:"1,required,len=60,display=Role Instance ID"`
@@ -1839,7 +1985,8 @@ type ROL struct {
 
 // Requisition detail-1 segment
 //
-// RQ1 contains additional detail for each nonstock requisitioned item. This segment definition is paired with a preceding RQD segment.
+// RQ1 contains additional detail for each nonstock requisitioned item. This segment definition is paired with a preceding
+// RQD segment.
 type RQ1 struct {
 	HL7                  HL7Name `hl7:",name=RQ1,type=s"`
 	AnticipatedPrice     ST      `hl7:"1,len=10,display=Anticipated Price"`
@@ -1870,7 +2017,9 @@ type RQD struct {
 
 // Pharmacy/treatment administration segment
 //
-// The ORC must have the filler order number and the order control code RE. As a site-specific variant, the RXO and associated RXCs and/or the RXE (and associated RXCs) may be present if the receiving application needs any of their data. The RXA carries the administration data.
+// The ORC must have the filler order number and the order control code RE. As a site-specific variant, the RXO and associated
+// RXCs and/or the RXE (and associated RXCs) may be present if the receiving application needs any of their data. The RXA carries
+// the administration data.
 type RXA struct {
 	HL7                           HL7Name `hl7:",name=RXA,type=s"`
 	GiveSubIDCounter              NM      `hl7:"1,required,len=4,display=Give Sub-ID Counter"`
@@ -1899,7 +2048,10 @@ type RXA struct {
 
 // Pharmacy/treatment component order segment
 //
-// If the drug or treatment ordered with the RXO segment is a compound drug OR an IV solution, AND there is not a coded value for OBR-4-universal service ID , which specifies the components (base and all additives), then the components (the base and additives) are specified by two or more RXC segments. The policy of the pharmacy or treatment application on substitutions at the RXC level is identical to that for the RXO level.
+// If the drug or treatment ordered with the RXO segment is a compound drug OR an IV solution, AND there is not a coded value for
+// OBR-4-universal service ID , which specifies the components (base and all additives), then the components (the base and
+// additives) are specified by two or more RXC segments. The policy of the pharmacy or treatment application on substitutions
+// at the RXC level is identical to that for the RXO level.
 type RXC struct {
 	HL7                    HL7Name `hl7:",name=RXC,type=s"`
 	RXComponentType        ID      `hl7:"1,required,len=1,table=0166,display=RX Component Type"`
@@ -1943,7 +2095,9 @@ type RXD struct {
 
 // Pharmacy/treatment encoded order segment
 //
-// The RXE segment details the pharmacy or treatment application's encoding of the order. It also contains several pharmacy-specific order status fields, such as RXE-16-number of refills remaining , RXE-17-number of refills/doses dispensed, RXE-18-D/T of most recent refill or dose dispensed , and RXE-19-total daily dose.
+// The RXE segment details the pharmacy or treatment application's encoding of the order. It also contains several pharmacy-specific
+// order status fields, such as RXE-16-number of refills remaining , RXE-17-number of refills/doses dispensed, RXE-18-D/T
+// of most recent refill or dose dispensed , and RXE-19-total daily dose.
 type RXE struct {
 	HL7                                                     HL7Name `hl7:",name=RXE,type=s"`
 	QuantityTiming                                          TQ      `hl7:"1,required,len=200,display=Quantity/Timing"`
@@ -2009,7 +2163,8 @@ type RXG struct {
 
 // Pharmacy/treatment order segment
 //
-// This is the 'master' pharmacy/treatment order segment. It contains order data not specific to components or additives. Unlike the OBR, it does not contain status fields or other data that are results-only.
+// This is the 'master' pharmacy/treatment order segment. It contains order data not specific to components or additives.
+// Unlike the OBR, it does not contain status fields or other data that are results-only.
 type RXO struct {
 	HL7                                    HL7Name `hl7:",name=RXO,type=s"`
 	RequestedGiveCode                      *CE     `hl7:"1,conditional,len=100,display=Requested Give Code"`
@@ -2039,7 +2194,9 @@ type RXO struct {
 
 // Pharmacy/treatment route segment
 //
-// The Pharmacy/Treatment Route segment contains the alternative combination of route, site, administration device, and administration method that are prescribed. The pharmacy, treatment staff and/or nursing staff has a choice between the routes based on either their professional judgment or administration instructions provided by the physician.
+// The Pharmacy/Treatment Route segment contains the alternative combination of route, site, administration device,
+// and administration method that are prescribed. The pharmacy, treatment staff and/or nursing staff has a choice between
+// the routes based on either their professional judgment or administration instructions provided by the physician.
 type RXR struct {
 	HL7                  HL7Name `hl7:",name=RXR,type=s"`
 	Route                CE      `hl7:"1,required,len=60,table=0162,display=Route"`
@@ -2083,7 +2240,8 @@ type SCH struct {
 
 // Stored procedure request definition segment
 //
-// The SPR segment is used to issue queries using stored procedure calls. Refer to the functional chapters for the lists of HL7-defined stored procedure names, input parameters and output tables.
+// The SPR segment is used to issue queries using stored procedure calls. Refer to the functional chapters for the lists of
+// HL7-defined stored procedure names, input parameters and output tables.
 type SPR struct {
 	HL7                     HL7Name `hl7:",name=SPR,type=s"`
 	QueryTag                ST      `hl7:"1,len=32,display=Query Tag"`
@@ -2094,7 +2252,13 @@ type SPR struct {
 
 // Staff identification segment
 //
-// The STF segment can identify any personnel referenced by information systems. These can be providers, staff, system users, and referring agents. In a network environment, this segment can be used to define personnel to other applications; for example, order entry clerks, insurance verification clerks, admission clerks, as well as provider demographics. MFE-4-primary key value is used to link all the segments pertaining to the same master file entry. Therefore, in the MFE segment, MFE-4-primary key value must be filled in. Other segments may follow the STF segment to provide data for a particular type of staff member. The PRA segment (practitioner) is one such. It may optionally follow the STF segment in order to add practitioner-specific data. Other segments may be defined as needed.
+// The STF segment can identify any personnel referenced by information systems. These can be providers, staff, system users,
+// and referring agents. In a network environment, this segment can be used to define personnel to other applications; for
+// example, order entry clerks, insurance verification clerks, admission clerks, as well as provider demographics. MFE-4-primary
+// key value is used to link all the segments pertaining to the same master file entry. Therefore, in the MFE segment, MFE-4-primary
+// key value must be filled in. Other segments may follow the STF segment to provide data for a particular type of staff member.
+// The PRA segment (practitioner) is one such. It may optionally follow the STF segment in order to add practitioner-specific
+// data. Other segments may be defined as needed.
 type STF struct {
 	HL7                         HL7Name `hl7:",name=STF,type=s"`
 	PrimaryKeyValue             CE      `hl7:"1,required,len=60,display=Primary Key Value - STF"`
@@ -2127,7 +2291,11 @@ type STF struct {
 
 // Document notification segment
 //
-// The TXA segment contains information specific to a transcribed document but does not include the text of the document. The message is created as a result of a document status change. This information is used to update other healthcare systems to identify reports that are available in the transcription system. By maintaining the TXA message information in these systems, the information is available when constructing queries to the transcription system requesting the full document text.
+// The TXA segment contains information specific to a transcribed document but does not include the text of the document.
+// The message is created as a result of a document status change. This information is used to update other healthcare systems
+// to identify reports that are available in the transcription system. By maintaining the TXA message information in these
+// systems, the information is available when constructing queries to the transcription system requesting the full document
+// text.
 type TXA struct {
 	HL7                             HL7Name `hl7:",name=TXA,type=s"`
 	SetID                           SI      `hl7:"1,seq,required,len=4,display=Set ID - TXA"`
@@ -2157,7 +2325,10 @@ type TXA struct {
 
 // UB82 data segment
 //
-// The UB1 segment contains the data necessary to complete UB82 bills. Only UB82 fields that do not exist in other HL7 defined segments appear in this segment. Patient Name and Date of Birth are required for UB82 billing; however, they are included in the PID segment and therefore do not appear here. The UB codes listed as examples are not an exhaustive or current list. Refer to a UB specification for additional information.
+// The UB1 segment contains the data necessary to complete UB82 bills. Only UB82 fields that do not exist in other HL7 defined
+// segments appear in this segment. Patient Name and Date of Birth are required for UB82 billing; however, they are included
+// in the PID segment and therefore do not appear here. The UB codes listed as examples are not an exhaustive or current list.
+// Refer to a UB specification for additional information.
 type UB1 struct {
 	HL7                     HL7Name `hl7:",name=UB1,type=s"`
 	SetID                   SI      `hl7:"1,seq,len=4,display=Set ID - UB1"`
@@ -2187,7 +2358,11 @@ type UB1 struct {
 
 // UB92 data segment
 //
-// The UB2 segment contains data necessary to complete UB92 bills. Only UB92 fields that do not exist in other HL7 defined segments appear in this segment. Just as with the UB82 billing, Patient Name and Date of Birth are required; they are included in the PID segment and therefore do not appear here. When the field locators are different on the UB92, as compared to the UB82, the element is listed with its new location in parentheses ( ). The UB codes listed as examples are not an exhaustive or current list; refer to a UB specification for additional information.
+// The UB2 segment contains data necessary to complete UB92 bills. Only UB92 fields that do not exist in other HL7 defined segments
+// appear in this segment. Just as with the UB82 billing, Patient Name and Date of Birth are required; they are included in the
+// PID segment and therefore do not appear here. When the field locators are different on the UB92, as compared to the UB82,
+// the element is listed with its new location in parentheses ( ). The UB codes listed as examples are not an exhaustive or current
+// list; refer to a UB specification for additional information.
 type UB2 struct {
 	HL7                     HL7Name `hl7:",name=UB2,type=s"`
 	SetID                   SI      `hl7:"1,seq,len=4,display=Set ID - UB2"`
@@ -2211,7 +2386,8 @@ type UB2 struct {
 
 // Results/update definition segment
 //
-// The URD segment is used in sending unsolicited updates about orders and results. Its purpose is similar to that of the QRD segment, but from the results/unsolicited update point of view. Some of the fields have parallels in the QRD segment.
+// The URD segment is used in sending unsolicited updates about orders and results. Its purpose is similar to that of the QRD
+// segment, but from the results/unsolicited update point of view. Some of the fields have parallels in the QRD segment.
 type URD struct {
 	HL7                     HL7Name `hl7:",name=URD,type=s"`
 	RUDateTime              TS      `hl7:"1,len=26,format=YMDHMS,display=R/U Date/Time"`
@@ -2225,7 +2401,8 @@ type URD struct {
 
 // Unsolicited selection segment
 //
-// The URS segment is identical with the QRF segment, except that if the name of any field contains Query (of QRY), this word has been changed to Results (see URS-5-R/U other results subject definition).
+// The URS segment is identical with the QRF segment, except that if the name of any field contains Query (of QRY), this word
+// has been changed to Results (see URS-5-R/U other results subject definition).
 type URS struct {
 	HL7                             HL7Name `hl7:",name=URS,type=s"`
 	RUWhereSubjectDefinition        []ST    `hl7:"1,required,len=20,display=R/U Where Subject Definition"`
@@ -2241,7 +2418,8 @@ type URS struct {
 
 // Variance
 //
-// The variance segment contains the data necessary to describe differences that may have occurred at the time when a healthcare event was documented.
+// The variance segment contains the data necessary to describe differences that may have occurred at the time when a healthcare
+// event was documented.
 type VAR struct {
 	HL7                    HL7Name `hl7:",name=VAR,type=s"`
 	VarianceInstanceID     EI      `hl7:"1,required,len=60,display=Variance Instance ID"`
@@ -2254,7 +2432,10 @@ type VAR struct {
 
 // Virtual table query request segment
 //
-// The VTQ segment is used to define queries that are responded to with the Tabular Data Message (TBR). The VTQ query message is an alternate method to the EQQ query message that some systems may find easier to implement, due to its use of HL7 delimiters that separate components of the selection definition, and its limited selection criteria. Queries involving complex selection criteria (nested operators, etc.) may need to be formatted as an EQL segment.
+// The VTQ segment is used to define queries that are responded to with the Tabular Data Message (TBR). The VTQ query message
+// is an alternate method to the EQQ query message that some systems may find easier to implement, due to its use of HL7 delimiters
+// that separate components of the selection definition, and its limited selection criteria. Queries involving complex
+// selection criteria (nested operators, etc.) may need to be formatted as an EQL segment.
 type VTQ struct {
 	HL7                     HL7Name `hl7:",name=VTQ,type=s"`
 	QueryTag                ST      `hl7:"1,len=32,display=Query Tag"`

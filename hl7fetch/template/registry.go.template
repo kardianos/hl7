@@ -20,17 +20,30 @@ func (registry) Segment() map[string]any {
 func (registry) Trigger() map[string]any {
 	return TriggerRegistry
 }
+func (registry) DataType() map[string]any {
+	return DataTypeRegistry
+}
 
+// Version of this HL7 package.
 var Version = `{{.HL7Version}}`
 
+// Segments specific to file and batch control.
 var ControlSegmentRegistry = map[string]any { {{range .ControlSegment}}
 	"{{.}}": {{.}}{}, {{end}}
 }
 
+// Segment lookup by ID.
 var SegmentRegistry = map[string]any { {{range .Segment}}
 	"{{.ID}}": {{.ID}}{}, {{end}}
 }
 
+// Trigger lookup by ID.
 var TriggerRegistry = map[string]any { {{range .Trigger}}
 	"{{.MsgStructID}}": {{.ID}}{}, {{end}}
 }
+
+// Data Type lookup by ID.
+var DataTypeRegistry = map[string]any { {{range .DataType}}
+	"{{.ID}}": *(new({{.ID}})) , {{end}}
+}
+

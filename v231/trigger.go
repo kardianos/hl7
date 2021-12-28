@@ -4,7 +4,9 @@ package v231
 
 // General acknowledgment message
 //
-// The simple general acknowledgment (ACK) can be used where the application does not define a special application level acknowledgment message or where there has been an error that precludes application processing.  It is also used for accept level acknowledgments.  The details are described in Section 2.12.1, “Original and enhanced processing rules.”
+// The simple general acknowledgment (ACK) can be used where the application does not define a special application level
+// acknowledgment message or where there has been an error that precludes application processing.  It is also used for accept
+// level acknowledgments.  The details are described in Section 2.12.1, “Original and enhanced processing rules.”
 type ACK struct {
 	HL7 HL7Name `hl7:",name=ACK,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -51,7 +53,8 @@ type ADR_A19_Insurance struct {
 
 // Patient query
 //
-// The following trigger event is served by QRY (a query from another system) and ADR (a response from an Patient Administration system.)
+// The following trigger event is served by QRY (a query from another system) and ADR (a response from an Patient Administration
+// system.)
 type ADR_A19 struct {
 	HL7           HL7Name                 `hl7:",name=ADR_A19,type=t"`
 	MSH           *MSH                    `hl7:"1,required,display=Message header segment"`
@@ -81,7 +84,15 @@ type ADT_A01_Insurance struct {
 
 // Admit/visit notification
 //
-// An A01 event is intended to be used for “Admitted” patients only.  An A01 event is sent as a result of a patient undergoing the admission process which assigns the patient to a bed.  It signals the beginning of a patient’s stay in a healthcare facility.  Normally, this information is entered in the primary Patient Administration system and broadcast to the nursing units and ancillary systems.  It includes short stay and John Doe admissions.  For example, an A01 event can be used to notify: the pharmacy system that a patient has been admitted and may be legitimately prescribed drugs; the nursing system that the patient has been admitted and needs a care plan prepared; the finance system of the start of the billing period; the dietary system that a new patient has been installed and requires dietary services; the laboratory, pathology, and radiology systems that a patient has been admitted and is entitled to receive services; the clinical repository that an admission has taken place for the EMR (electronic medical record).
+// An A01 event is intended to be used for “Admitted” patients only.  An A01 event is sent as a result of a patient undergoing the
+// admission process which assigns the patient to a bed.  It signals the beginning of a patient’s stay in a healthcare facility.
+// Normally, this information is entered in the primary Patient Administration system and broadcast to the nursing units
+// and ancillary systems.  It includes short stay and John Doe admissions.  For example, an A01 event can be used to notify: the
+// pharmacy system that a patient has been admitted and may be legitimately prescribed drugs; the nursing system that the
+// patient has been admitted and needs a care plan prepared; the finance system of the start of the billing period; the dietary
+// system that a new patient has been installed and requires dietary services; the laboratory, pathology, and radiology
+// systems that a patient has been admitted and is entitled to receive services; the clinical repository that an admission
+// has taken place for the EMR (electronic medical record).
 type ADT_A01 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A01,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -128,7 +139,9 @@ type ADT_A03_Procedure struct {
 
 // Discharge/end visit
 //
-// An A03 event signals the end of a patient’s stay in a healthcare facility.  It signals that the patient’s status has changed to “discharged” and that a discharge date has been recorded.  The patient is no longer in the facility.  The patient’s location prior to discharge should be entered in PV1-3-assigned patient location.
+// An A03 event signals the end of a patient’s stay in a healthcare facility.  It signals that the patient’s status has changed
+// to “discharged” and that a discharge date has been recorded.  The patient is no longer in the facility.  The patient’s location
+// prior to discharge should be entered in PV1-3-assigned patient location.
 type ADT_A03 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A03,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -161,7 +174,10 @@ type ADT_A04_Insurance struct {
 
 // Register a patient
 //
-// An A04 event signals that the patient has arrived or checked in as a one-time, or recurring outpatient, and is not assigned to a bed.  One example might be its use to signal the beginning of a visit to the Emergency Room.  Note that some systems refer to these events as outpatient registrations or emergency admissions. PV1-44-admit date/time is used for the visit start date/time.
+// An A04 event signals that the patient has arrived or checked in as a one-time, or recurring outpatient, and is not assigned
+// to a bed.  One example might be its use to signal the beginning of a visit to the Emergency Room.  Note that some systems refer
+// to these events as outpatient registrations or emergency admissions. PV1-44-admit date/time is used for the visit start
+// date/time.
 type ADT_A04 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A04,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -201,7 +217,10 @@ type ADT_A05_Insurance struct {
 
 // Pre-admit a patient
 //
-// An A05 event is sent when a patient undergoes the pre-admission process.  During this process, episoderelated data is collected in preparation for a patient’s visit or stay in a healthcare facility.  For example, a pre-admit may be performed prior to inpatient or outpatient surgery so that lab tests can be performed prior to the surgery.  This event can also be used to pre-register a non-admitted patient.
+// An A05 event is sent when a patient undergoes the pre-admission process.  During this process, episoderelated data is collected
+// in preparation for a patient’s visit or stay in a healthcare facility.  For example, a pre-admit may be performed prior to
+// inpatient or outpatient surgery so that lab tests can be performed prior to the surgery.  This event can also be used to pre-register
+// a non-admitted patient.
 type ADT_A05 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A05,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -241,7 +260,10 @@ type ADT_A06_Insurance struct {
 
 // Change an outpatient to an inpatient
 //
-// An A06 event is sent when a patient who was present for a non-admitted visit is being admitted after an evaluation of the seriousness of the patient’s condition.  This event changes a patient’s status from nonadmitted to admitted.  The new patient location should appear in PV1-3-assigned patient location, while the old patient location (if different) should appear in PV1-6-prior patient location.  The new patient class should appear in PV1-2-patient class.
+// An A06 event is sent when a patient who was present for a non-admitted visit is being admitted after an evaluation of the seriousness
+// of the patient’s condition.  This event changes a patient’s status from nonadmitted to admitted.  The new patient location
+// should appear in PV1-3-assigned patient location, while the old patient location (if different) should appear in PV1-6-prior
+// patient location.  The new patient class should appear in PV1-2-patient class.
 type ADT_A06 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A06,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -282,7 +304,10 @@ type ADT_A07_Insurance struct {
 
 // Change an inpatient to an outpatient
 //
-// An A07 event is sent when a patient who was admitted changes his/her status to “no longer admitted” but is still being seen for this episode of care.  This event changes a patient from an “admitted” to a “nonadmitted” status.  The new patient location should appear in PV1-3-assigned patient location, while the old patient location (if different) should appear in PV1-6-prior patient location.
+// An A07 event is sent when a patient who was admitted changes his/her status to “no longer admitted” but is still being seen
+// for this episode of care.  This event changes a patient from an “admitted” to a “nonadmitted” status.  The new patient location
+// should appear in PV1-3-assigned patient location, while the old patient location (if different) should appear in PV1-6-prior
+// patient location.
 type ADT_A07 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A07,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -323,7 +348,10 @@ type ADT_A08_Insurance struct {
 
 // Update patient information
 //
-// This trigger event is used when any patient information has changed but when no other trigger event has occurred.  For example, an A08 event can be used to notify the receiving systems of a change of address or a name change.  We recommend that the A08 transaction be used to update fields that are not related to any of the other trigger events.  The A08 event can include information specific to an episode of care, but it can also be used for demographic information only.
+// This trigger event is used when any patient information has changed but when no other trigger event has occurred.  For example,
+// an A08 event can be used to notify the receiving systems of a change of address or a name change.  We recommend that the A08 transaction
+// be used to update fields that are not related to any of the other trigger events.  The A08 event can include information specific
+// to an episode of care, but it can also be used for demographic information only.
 type ADT_A08 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A08,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -348,7 +376,10 @@ type ADT_A08 struct {
 
 // Patient departing - tracking
 //
-// The A09 and A10 (patient arriving-tracking) events are used when there is a change in a patient’s physical location and when this is NOT a change in the official census bed location.  There are three situations that qualify as non-census location changes:  (a) patient tracking, (b) the patient is in transit between locations for some time, (c) a notification of temporary location change.
+// The A09 and A10 (patient arriving-tracking) events are used when there is a change in a patient’s physical location and
+// when this is NOT a change in the official census bed location.  There are three situations that qualify as non-census location
+// changes:  (a) patient tracking, (b) the patient is in transit between locations for some time, (c) a notification of temporary
+// location change.
 //
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A09 struct {
@@ -366,7 +397,11 @@ type ADT_A09 struct {
 
 // Patient arriving - tracking
 //
-// The A10 event is sent when a patient arrives at a new location in the healthcare facility.  The A09 (patient departing-tracking) and A10 events are used when there is a change in a patient’s physical location and when this is NOT a change in the official census bed location.  There are three varieties of these non-census location changes involving three different kinds of notification:  (a) an unofficial notification of location change prior to the official notification of patient tracking, (b) the patient is in transit between locations for some time, (c) a notification of a temporary location change.
+// The A10 event is sent when a patient arrives at a new location in the healthcare facility.  The A09 (patient departing-tracking)
+// and A10 events are used when there is a change in a patient’s physical location and when this is NOT a change in the official
+// census bed location.  There are three varieties of these non-census location changes involving three different kinds
+// of notification:  (a) an unofficial notification of location change prior to the official notification of patient tracking,
+// (b) the patient is in transit between locations for some time, (c) a notification of a temporary location change.
 //
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A10 struct {
@@ -384,8 +419,11 @@ type ADT_A10 struct {
 
 // Cancel admit/visit notification
 //
-// For “admitted” patients, the A11 event is sent when an A01 (admit/visit notification) event is canceled, either because of an erroneous entry of the A01 event, or because of a decision not to admit the patient after all.
-// For “non-admitted” patients, the A11 event is sent when an A04 (register a patient) event is canceled, either because of an erroneous entry of the A04 event, or because of a decision not to check the patient in for the visit after all.  To cancel an A05 (pre-admit a patient) event, use the A38 (cancel pre-admit), which is new for Version 2.3 of this Standard.
+// For “admitted” patients, the A11 event is sent when an A01 (admit/visit notification) event is canceled, either because
+// of an erroneous entry of the A01 event, or because of a decision not to admit the patient after all.
+// For “non-admitted” patients, the A11 event is sent when an A04 (register a patient) event is canceled, either because of
+// an erroneous entry of the A04 event, or because of a decision not to check the patient in for the visit after all.  To cancel
+// an A05 (pre-admit a patient) event, use the A38 (cancel pre-admit), which is new for Version 2.3 of this Standard.
 //
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A11 struct {
@@ -403,7 +441,9 @@ type ADT_A11 struct {
 
 // Cancel transfer
 //
-// The A12 event is sent when an A02 (transfer a patient) event is canceled, either because of erroneous entry of the A02 event or because of a decision not to transfer the patient after all.  PV1-3-assigned patient location must show the location of the patient prior to the original transfer.
+// The A12 event is sent when an A02 (transfer a patient) event is canceled, either because of erroneous entry of the A02 event
+// or because of a decision not to transfer the patient after all.  PV1-3-assigned patient location must show the location
+// of the patient prior to the original transfer.
 //
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A12 struct {
@@ -436,7 +476,11 @@ type ADT_A13_Insurance struct {
 
 // Cancel discharge/end visit
 //
-// The A13 event is sent when an A03 (discharge/end visit) event is canceled, either because of erroneous entry of the A03 event or because of a decision not to discharge or end the visit of the patient after all.  PV13-assigned patient location should reflect the location of the patient after the cancellation has been processed.  Note that this location may be different from the patient’s location prior to the erroneous discharge. Prior Location could be used to show the location of the patient prior to the erroneous discharge.
+// The A13 event is sent when an A03 (discharge/end visit) event is canceled, either because of erroneous entry of the A03 event
+// or because of a decision not to discharge or end the visit of the patient after all.  PV13-assigned patient location should
+// reflect the location of the patient after the cancellation has been processed.  Note that this location may be different
+// from the patient’s location prior to the erroneous discharge. Prior Location could be used to show the location of the patient
+// prior to the erroneous discharge.
 type ADT_A13 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A13,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -476,7 +520,10 @@ type ADT_A14_Insurance struct {
 
 // Pending admit
 //
-// An A14 event notifies other systems of a planned admission, when there is a reservation or when patient admission is to occur imminently.  The A14 event is similar to a pre-admit, but without the implication that an account should be opened for the purposes of tests prior to admission.  It is used when advanced notification of an admit is required in order to prepare for the patient’s arrival.
+// An A14 event notifies other systems of a planned admission, when there is a reservation or when patient admission is to occur
+// imminently.  The A14 event is similar to a pre-admit, but without the implication that an account should be opened for the
+// purposes of tests prior to admission.  It is used when advanced notification of an admit is required in order to prepare for
+// the patient’s arrival.
 type ADT_A14 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A14,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -501,7 +548,10 @@ type ADT_A14 struct {
 
 // Pending transfer
 //
-// An A15 event notifies other systems of a plan to transfer a patient to a new location when the patient has not yet left the old location.  It is used when advanced notification of a transfer is required in order to prepare for the patient’s location change.  For example, this transaction could be sent so that orderlies will be on hand to move the patient or so that dietary services can route the next meal to the new location.
+// An A15 event notifies other systems of a plan to transfer a patient to a new location when the patient has not yet left the old
+// location.  It is used when advanced notification of a transfer is required in order to prepare for the patient’s location
+// change.  For example, this transaction could be sent so that orderlies will be on hand to move the patient or so that dietary
+// services can route the next meal to the new location.
 //
 // The DG1 segment remains in this message for backward compatibility only.
 type ADT_A15 struct {
@@ -519,7 +569,10 @@ type ADT_A15 struct {
 
 // Pending discharge
 //
-// An A16 event notifies other systems of a plan to discharge a patient when the patient has not yet left the healthcare facility.  It is used when advanced notification of a discharge is required in order to prepare for the patient’s change in location.  For example, it is used to notify the pharmacy of the possible need for discharge drugs or to notify psychotherapy of the possible need for post-discharge appointments.
+// An A16 event notifies other systems of a plan to discharge a patient when the patient has not yet left the healthcare facility.
+// It is used when advanced notification of a discharge is required in order to prepare for the patient’s change in location.
+// For example, it is used to notify the pharmacy of the possible need for discharge drugs or to notify psychotherapy of the
+// possible need for post-discharge appointments.
 type ADT_A16 struct {
 	HL7 HL7Name `hl7:",name=ADT_A16,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -536,7 +589,10 @@ type ADT_A16 struct {
 
 // Swap patients
 //
-// The A17 is used when it is decided that two patients will exchange beds.  The patient ID and visit data are repeated for the two patients changing places.  See Section 3.5.1, “Swapping a patient,” for a discussion of issues related to implementing this trigger event. When other important fields change, it is recommended that the A08 (update patient information) event be used in addition.
+// The A17 is used when it is decided that two patients will exchange beds.  The patient ID and visit data are repeated for the
+// two patients changing places.  See Section 3.5.1, “Swapping a patient,” for a discussion of issues related to implementing
+// this trigger event. When other important fields change, it is recommended that the A08 (update patient information) event
+// be used in addition.
 type ADT_A17 struct {
 	HL7  HL7Name `hl7:",name=ADT_A17,type=t"`
 	MSH  *MSH    `hl7:"1,required,display=Message header segment"`
@@ -557,7 +613,15 @@ type ADT_A17 struct {
 
 // Merge patient information
 //
-// Event A18 is being retained for backward compatibility.  The A18 event is used to merge current and previous patient identification numbers: PID-3-patient identifier list, PID-2-patient ID, PID-4-alternate patient ID-PID, and PID-18-patient account number.  This procedure is required, for example, when a previous patient is registered under a new patient identification number because of an error, or because there was insufficient time to determine the actual patient identification number.  The merge event occurs when a decision is made to combine the information under either the new or the old identifier(s).  We recommend that events A34 (merge patient information-patient ID only), A35 (merge patient information-account number only), A36 (merge patient information-patient ID & account number), A39 (merge person-patient ID), A40 (merge patient-patient identifier list), A41 (merge account-patient account number), and A42 (merge visitvisit number) be utilized in place of the A18 event whenever possible.
+// Event A18 is being retained for backward compatibility.  The A18 event is used to merge current and previous patient identification
+// numbers: PID-3-patient identifier list, PID-2-patient ID, PID-4-alternate patient ID-PID, and PID-18-patient account
+// number.  This procedure is required, for example, when a previous patient is registered under a new patient identification
+// number because of an error, or because there was insufficient time to determine the actual patient identification number.
+// The merge event occurs when a decision is made to combine the information under either the new or the old identifier(s).
+// We recommend that events A34 (merge patient information-patient ID only), A35 (merge patient information-account number
+// only), A36 (merge patient information-patient ID & account number), A39 (merge person-patient ID), A40 (merge patient-patient
+// identifier list), A41 (merge account-patient account number), and A42 (merge visitvisit number) be utilized in place
+// of the A18 event whenever possible.
 type ADT_A18 struct {
 	HL7 HL7Name `hl7:",name=ADT_A18,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -580,7 +644,9 @@ type ADT_A20 struct {
 
 // Patient goes on a "leave of absence"
 //
-// An A21 event is sent to notify systems that an admitted patient has left the healthcare institution temporarily.  It is used for systems in which a bed is still assigned to the patient, and it puts the current admitted patient activities on hold.  For example, it is used to notify dietary services and laboratory systems when the patient goes home for the weekend.
+// An A21 event is sent to notify systems that an admitted patient has left the healthcare institution temporarily.  It is used
+// for systems in which a bed is still assigned to the patient, and it puts the current admitted patient activities on hold.
+// For example, it is used to notify dietary services and laboratory systems when the patient goes home for the weekend.
 type ADT_A21 struct {
 	HL7 HL7Name `hl7:",name=ADT_A21,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -595,7 +661,10 @@ type ADT_A21 struct {
 
 // Patient returns from a "leave of absence"
 //
-// An A22 event is sent to notify systems that an admitted patient has returned to the healthcare institution after a temporary “leave of absence.”  It is used for systems in which a bed is still assigned to the patient, and it takes their current admitted patient activities off of “hold” status.  For example, it is used to notify dietary services and laboratory systems when the patient returns from a weekend trip to his/her home.
+// An A22 event is sent to notify systems that an admitted patient has returned to the healthcare institution after a temporary
+// “leave of absence.”  It is used for systems in which a bed is still assigned to the patient, and it takes their current admitted
+// patient activities off of “hold” status.  For example, it is used to notify dietary services and laboratory systems when
+// the patient returns from a weekend trip to his/her home.
 type ADT_A22 struct {
 	HL7 HL7Name `hl7:",name=ADT_A22,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -610,7 +679,9 @@ type ADT_A22 struct {
 
 // Delete a patient record
 //
-// The A23 event is used to delete visit or episode-specific information from the patient record.  For example, it is used to remove old data from a database that cannot hold all historical patient visit data.  When an event was entered erroneously, use one of the cancel transactions.  This event can be used to purge accountlevel data while retaining the person in the database.
+// The A23 event is used to delete visit or episode-specific information from the patient record.  For example, it is used to
+// remove old data from a database that cannot hold all historical patient visit data.  When an event was entered erroneously,
+// use one of the cancel transactions.  This event can be used to purge accountlevel data while retaining the person in the database.
 type ADT_A23 struct {
 	HL7 HL7Name `hl7:",name=ADT_A23,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -625,7 +696,15 @@ type ADT_A23 struct {
 
 // Link patient information
 //
-// The A24 event is used when the first PID segment needs to be linked to the second PID segment and when both patient identifiers identify the same patient.  Linking two or more patients does not require the actual merging of patient information; following a link event, the affected patient data records should remain distinct.  For example, this event could be used in a hospital network environment in which there are multiple campuses and in which records need to be linked.  For example, hospital A, hospital B, and hospital C would each keep their own records on a patient, but an A24 link event would be sent to a corporate-wide MPI to enable the coupling of ID information with the corporate ID number.  It is used for corporate data repositories, etc.  This event is not meant to link mothers and babies since a field exists (PID-21-mother’s identifier) for that purpose.  See Section 3.5.3, “Patient record links,” for a discussion of issues related to implementing patient link messages and MPI issues.
+// The A24 event is used when the first PID segment needs to be linked to the second PID segment and when both patient identifiers
+// identify the same patient.  Linking two or more patients does not require the actual merging of patient information; following
+// a link event, the affected patient data records should remain distinct.  For example, this event could be used in a hospital
+// network environment in which there are multiple campuses and in which records need to be linked.  For example, hospital
+// A, hospital B, and hospital C would each keep their own records on a patient, but an A24 link event would be sent to a corporate-wide
+// MPI to enable the coupling of ID information with the corporate ID number.  It is used for corporate data repositories, etc.
+// This event is not meant to link mothers and babies since a field exists (PID-21-mother’s identifier) for that purpose.
+// See Section 3.5.3, “Patient record links,” for a discussion of issues related to implementing patient link messages and
+// MPI issues.
 type ADT_A24 struct {
 	HL7  HL7Name `hl7:",name=ADT_A24,type=t"`
 	MSH  *MSH    `hl7:"1,required,display=Message header segment"`
@@ -642,7 +721,8 @@ type ADT_A24 struct {
 
 // Cancel pending discharge
 //
-// The A25 event is sent when an A16 (pending discharge) event is canceled, either because of erroneous entry of the A16 event or because of a decision not to discharge the patient after all.
+// The A25 event is sent when an A16 (pending discharge) event is canceled, either because of erroneous entry of the A16 event
+// or because of a decision not to discharge the patient after all.
 type ADT_A25 struct {
 	HL7 HL7Name `hl7:",name=ADT_A25,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -657,7 +737,8 @@ type ADT_A25 struct {
 
 // Cancel pending transfer
 //
-// The A26 event is sent when an A15 (pending transfer) event is canceled, either because of erroneous entry of the A15 event or because of a decision not to transfer the patient after all.
+// The A26 event is sent when an A15 (pending transfer) event is canceled, either because of erroneous entry of the A15 event
+// or because of a decision not to transfer the patient after all.
 type ADT_A26 struct {
 	HL7 HL7Name `hl7:",name=ADT_A26,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -672,7 +753,8 @@ type ADT_A26 struct {
 
 // Cancel pending admit
 //
-// The A27 event is sent when an A14 (pending admit) event is canceled, either because of erroneous entry of the A14 event or because of a decision not to admit the patient after all.
+// The A27 event is sent when an A14 (pending admit) event is canceled, either because of erroneous entry of the A14 event or
+// because of a decision not to admit the patient after all.
 type ADT_A27 struct {
 	HL7 HL7Name `hl7:",name=ADT_A27,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -702,7 +784,10 @@ type ADT_A28_Insurance struct {
 
 // Add person information
 //
-// The A28 event can be used to send everything that is known about a person.  For example, it can be sent to an ICU unit (in addition to the A02 (transfer a patient) event) when a patient is transferred to the ICU unit in order to backload all demographic information for the patient into the ICU system.  An A28 (add person information) or A31 (update person information) can also be used for backloading MPI information for the person, or for backloading person and historical information.
+// The A28 event can be used to send everything that is known about a person.  For example, it can be sent to an ICU unit (in addition
+// to the A02 (transfer a patient) event) when a patient is transferred to the ICU unit in order to backload all demographic
+// information for the patient into the ICU system.  An A28 (add person information) or A31 (update person information) can
+// also be used for backloading MPI information for the person, or for backloading person and historical information.
 type ADT_A28 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A28,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -727,7 +812,10 @@ type ADT_A28 struct {
 
 // Delete person information
 //
-// An A29 event can be used to delete all demographic information related to a given person.  This event “undoes” an A28 (add person information) event.  The information from the A28 event is deleted.  This event is used, for example, when adding the information was performed in error, or when another record already exists for the person, or when one wants to purge the person from the database.  When this event occurs, all visit and account level data for this person is also purged.
+// An A29 event can be used to delete all demographic information related to a given person.  This event “undoes” an A28 (add
+// person information) event.  The information from the A28 event is deleted.  This event is used, for example, when adding
+// the information was performed in error, or when another record already exists for the person, or when one wants to purge
+// the person from the database.  When this event occurs, all visit and account level data for this person is also purged.
 type ADT_A29 struct {
 	HL7 HL7Name `hl7:",name=ADT_A29,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -742,7 +830,13 @@ type ADT_A29 struct {
 
 // Merge person information
 //
-// Event A30 is being retained for backward compatibility.  An A30 event can be used to merge person information on an MPI.  The A34 (merge patient information-patient ID only), A35 (merge patient information-account number only), A36 (merge patient information-patient ID & account number), A40 (merge patient-patient identifier list), A41 (merge account-patient account number) and A42 (merge visit-visit number) events should be used to merge patient information for a current episode.  The “incorrect MRN” identified on the MRG segment (MRG-1-prior patient identifier list) is to be merged with the “correct MRN” identified on the PID segment (PID-3-patient identifier list).  The “incorrect MRN” then no longer exists.  All PID data associated with the “correct MRN” are treated as updated information.
+// Event A30 is being retained for backward compatibility.  An A30 event can be used to merge person information on an MPI.  The
+// A34 (merge patient information-patient ID only), A35 (merge patient information-account number only), A36 (merge patient
+// information-patient ID & account number), A40 (merge patient-patient identifier list), A41 (merge account-patient
+// account number) and A42 (merge visit-visit number) events should be used to merge patient information for a current episode.
+// The “incorrect MRN” identified on the MRG segment (MRG-1-prior patient identifier list) is to be merged with the “correct
+// MRN” identified on the PID segment (PID-3-patient identifier list).  The “incorrect MRN” then no longer exists.  All PID
+// data associated with the “correct MRN” are treated as updated information.
 //
 // An A30 (merge person information) is intended for merging person records without merging patient identifiers.
 type ADT_A30 struct {
@@ -771,7 +865,10 @@ type ADT_A31_Insurance struct {
 
 // Update person information
 //
-// An A31 event can be used to update person information on an MPI.  It is similar to an A08 (update patient information) event, but an A08 (update patient information) event should be used to update patient information for a current episode.   An A28 (add person information) or A31 can also be used for backloading MPI information for the person, or for backloading person and historical information.
+// An A31 event can be used to update person information on an MPI.  It is similar to an A08 (update patient information) event,
+// but an A08 (update patient information) event should be used to update patient information for a current episode.   An A28
+// (add person information) or A31 can also be used for backloading MPI information for the person, or for backloading person
+// and historical information.
 type ADT_A31 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A31,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -796,7 +893,8 @@ type ADT_A31 struct {
 
 // Cancel patient arriving - tracking
 //
-// The A32 event is sent when an A10 (patient arriving-tracking) event is canceled, either because of erroneous entry of the A10 event or because of a decision not to receive the patient after all.
+// The A32 event is sent when an A10 (patient arriving-tracking) event is canceled, either because of erroneous entry of the
+// A10 event or because of a decision not to receive the patient after all.
 type ADT_A32 struct {
 	HL7 HL7Name `hl7:",name=ADT_A32,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -811,7 +909,8 @@ type ADT_A32 struct {
 
 // Cancel patient departing - tracking
 //
-// The A33 event is sent when an A09 (patient departing-tracking) event is canceled, either because of erroneous entry of the A09 event or because of a decision not to send the patient after all.
+// The A33 event is sent when an A09 (patient departing-tracking) event is canceled, either because of erroneous entry of
+// the A09 event or because of a decision not to send the patient after all.
 type ADT_A33 struct {
 	HL7 HL7Name `hl7:",name=ADT_A33,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -826,9 +925,12 @@ type ADT_A33 struct {
 
 // Merge patient information - patient id only
 //
-// Event A34 is being retained for backward compatibility.  Only PID-3-patient identifier list has changed as a result of the merge.  See Section 3.5.2, “Merging patient/person information,” for a discussion of issues related to the implementation of merge messages.
+// Event A34 is being retained for backward compatibility.  Only PID-3-patient identifier list has changed as a result of
+// the merge.  See Section 3.5.2, “Merging patient/person information,” for a discussion of issues related to the implementation
+// of merge messages.
 //
-// An A34 (merge patient information-patient ID only) event is intended for merging or changing patient identifiers.  It would be used to change patient identifiers on all of this patient’s existing accounts.
+// An A34 (merge patient information-patient ID only) event is intended for merging or changing patient identifiers.  It
+// would be used to change patient identifiers on all of this patient’s existing accounts.
 type ADT_A34 struct {
 	HL7 HL7Name `hl7:",name=ADT_A34,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -840,7 +942,9 @@ type ADT_A34 struct {
 
 // Merge patient information - account number only
 //
-// Event A35 is being retained for backward compatibility.  Only the patient account number has changed as a result of the merge.  See Section 3.5.2, “Merging patient/person information,” for a discussion of issues related to the implementation of merge messages.
+// Event A35 is being retained for backward compatibility.  Only the patient account number has changed as a result of the merge.
+// See Section 3.5.2, “Merging patient/person information,” for a discussion of issues related to the implementation of
+// merge messages.
 //
 // An A35 (merge patient information-account number only) event is intended for merging or changing an account number only.
 type ADT_A35 struct {
@@ -854,7 +958,9 @@ type ADT_A35 struct {
 
 // Merge patient information - patient id and account number
 //
-// Event A36 is being retained for backward compatibility.  Both the patient identification-internal and the patient account number have changed as a result of the merge.  See Section 3.5.2, “Merging patient/person information,” for a discussion of issues related to the implementation of merge messages.
+// Event A36 is being retained for backward compatibility.  Both the patient identification-internal and the patient account
+// number have changed as a result of the merge.  See Section 3.5.2, “Merging patient/person information,” for a discussion
+// of issues related to the implementation of merge messages.
 type ADT_A36 struct {
 	HL7 HL7Name `hl7:",name=ADT_A36,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -883,7 +989,8 @@ type ADT_A37 struct {
 
 // Cancel pre-admit
 //
-// The A38 event is sent when an A05 (pre-admit a patient) event is canceled, either because of erroneous entry of the A05 event or because of a decision not to pre-admit the patient after all.
+// The A38 event is sent when an A05 (pre-admit a patient) event is canceled, either because of erroneous entry of the A05 event
+// or because of a decision not to pre-admit the patient after all.
 type ADT_A38 struct {
 	HL7 HL7Name `hl7:",name=ADT_A38,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -909,9 +1016,14 @@ type ADT_A39_Patient struct {
 
 // Merge person - patient id
 //
-// Event A39 is being retained for backward compatibility.  A merge has been done at the external identifier level.  That is, two PID-2-patient ID identifiers have been merged into one.
+// Event A39 is being retained for backward compatibility.  A merge has been done at the external identifier level.  That is,
+// two PID-2-patient ID identifiers have been merged into one.
 //
-// An A39 event is used to signal a merge of records for a person that was incorrectly filed under two different PID-2-patient IDs.  The “incorrect source patient ID” identified in the MRG segment (MRG-4-prior patient ID) is to be merged with the required “correct target patient ID” identified in the PID segment (PID-2patient ID).  The “incorrect source patient ID” would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
+// An A39 event is used to signal a merge of records for a person that was incorrectly filed under two different PID-2-patient
+// IDs.  The “incorrect source patient ID” identified in the MRG segment (MRG-4-prior patient ID) is to be merged with the required
+// “correct target patient ID” identified in the PID segment (PID-2patient ID).  The “incorrect source patient ID” would
+// then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this
+// “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
 type ADT_A39 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A39,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -930,9 +1042,15 @@ type ADT_A40_Patient struct {
 
 // Merge patient - patient identifier list
 //
-// A merge has been done at the internal identifier level.  That is, two PID-3-patient identifier list identifiers have been merged into one.
+// A merge has been done at the internal identifier level.  That is, two PID-3-patient identifier list identifiers have been
+// merged into one.
 //
-// An A40 event is used to signal a merge of records for a patient that was incorrectly filed under two different identifiers.  The “incorrect source identifier” identified in the MRG segment (MRG-1-prior patient identifier list) is to be merged with the required “correct target identifier” of the same ”identifier type code” component identified in the PID segment (PID-3-patient identifier list). The “incorrect source identifier” would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
+// An A40 event is used to signal a merge of records for a patient that was incorrectly filed under two different identifiers.
+// The “incorrect source identifier” identified in the MRG segment (MRG-1-prior patient identifier list) is to be merged
+// with the required “correct target identifier” of the same ”identifier type code” component identified in the PID segment
+// (PID-3-patient identifier list). The “incorrect source identifier” would then logically never be referenced in future
+// transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes
+// or other reasons associated with database index implementation requirements.
 type ADT_A40 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A40,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -951,9 +1069,15 @@ type ADT_A41_Patient struct {
 
 // Merge account - patient account number
 //
-// A merge has been done at the account identifier level.  That is, two PID-18-patient account number identifiers have been merged into one.
+// A merge has been done at the account identifier level.  That is, two PID-18-patient account number identifiers have been
+// merged into one.
 //
-// An A41 event is used to signal a merge of records for an account that was incorrectly filed under two different account numbers.  The “incorrect source patient account number” identified in the MRG segment (MRG-3-prior patient account number) is to be merged with the “correct target patient account number” identified in the PID segment (PID-18-patient account number). The “incorrect source patient account number” would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
+// An A41 event is used to signal a merge of records for an account that was incorrectly filed under two different account numbers.
+// The “incorrect source patient account number” identified in the MRG segment (MRG-3-prior patient account number) is
+// to be merged with the “correct target patient account number” identified in the PID segment (PID-18-patient account number).
+// The “incorrect source patient account number” would then logically never be referenced in future transactions.  It is
+// noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons
+// associated with database index implementation requirements.
 type ADT_A41 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A41,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -972,9 +1096,15 @@ type ADT_A42_Patient struct {
 
 // Merge visit - visit number
 //
-// A merge has been done at the visit identifier level.  That is, two PV1-19-visit number identifiers have been merged into one.
+// A merge has been done at the visit identifier level.  That is, two PV1-19-visit number identifiers have been merged into
+// one.
 //
-// An A42 event is used to signal a merge of records for a visit that was incorrectly filed under two different visit numbers.  The “incorrect source visit number” identified in the MRG segment (MRG-5-prior visit number) is to be merged with the required “correct target visit number” identified in the PV1 segment (PV1-19-visit number). The “incorrect source visit number” would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation requirements.
+// An A42 event is used to signal a merge of records for a visit that was incorrectly filed under two different visit numbers.
+// The “incorrect source visit number” identified in the MRG segment (MRG-5-prior visit number) is to be merged with the required
+// “correct target visit number” identified in the PV1 segment (PV1-19-visit number). The “incorrect source visit number”
+// would then logically never be referenced in future transactions.  It is noted that some systems may still physically keep
+// this “incorrect identifier” for audit trail purposes or other reasons associated with database index implementation
+// requirements.
 type ADT_A42 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A42,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -992,9 +1122,12 @@ type ADT_A43_Patient struct {
 
 // Move patient information - patient identifier list
 //
-// A move has been done at the internal identifier level.  That is, the PID-3-patient identifier list associated with one external identifier (PID-2-patient ID) has been moved to another external identifier.
+// A move has been done at the internal identifier level.  That is, the PID-3-patient identifier list associated with one external
+// identifier (PID-2-patient ID) has been moved to another external identifier.
 //
-// An A43 event is used to signal a move of records identified by the MRG-1-prior patient identifier list from the “incorrect source external identifier” identified in the MRG segment (MRG-4-prior patient ID) to the “correct target external identifier” identified in the PID segment (PID-2-patient ID).
+// An A43 event is used to signal a move of records identified by the MRG-1-prior patient identifier list from the “incorrect
+// source external identifier” identified in the MRG segment (MRG-4-prior patient ID) to the “correct target external identifier”
+// identified in the PID segment (PID-2-patient ID).
 type ADT_A43 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A43,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1012,9 +1145,12 @@ type ADT_A44_Patient struct {
 
 // Move account information - patient account number
 //
-// A move has been done at the account identifier level.  That is, a PID-18-patient account number associated with one internal identifier (PID-3-patient identifier list) has been moved to another internal identifier.
+// A move has been done at the account identifier level.  That is, a PID-18-patient account number associated with one internal
+// identifier (PID-3-patient identifier list) has been moved to another internal identifier.
 //
-// An A44 event is used to signal a move of records identified by the MRG-3-prior patient account number from the “incorrect source internal identifier” identified in the MRG segment (MRG-1-prior patient identifier list) to the “correct target internal identifier” identified in the PID segment (PID-3-patient identifier list).
+// An A44 event is used to signal a move of records identified by the MRG-3-prior patient account number from the “incorrect
+// source internal identifier” identified in the MRG segment (MRG-1-prior patient identifier list) to the “correct target
+// internal identifier” identified in the PID segment (PID-3-patient identifier list).
 type ADT_A44 struct {
 	HL7     HL7Name           `hl7:",name=ADT_A44,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1031,9 +1167,12 @@ type ADT_A45_MergeInfo struct {
 
 // Move visit information - visit number
 //
-// A move has been done at the visit identifier level.  That is, a PV1-19-visit number or PV1-50-alternate visit ID associated with one account identifier (PID-18-patient account number) has been moved to another account identifier.
+// A move has been done at the visit identifier level.  That is, a PV1-19-visit number or PV1-50-alternate visit ID associated
+// with one account identifier (PID-18-patient account number) has been moved to another account identifier.
 //
-// An A45 event is used to signal a move of records identified by the MRG-5-prior visit number or the MRG6-prior alternate visit ID from the “incorrect source account identifier” identified in the MRG segment (MRG-3-prior patient account number) to the “correct target account identifier” identified in the PID segment (PID-18-patient account number).
+// An A45 event is used to signal a move of records identified by the MRG-5-prior visit number or the MRG6-prior alternate visit
+// ID from the “incorrect source account identifier” identified in the MRG segment (MRG-3-prior patient account number)
+// to the “correct target account identifier” identified in the PID segment (PID-18-patient account number).
 type ADT_A45 struct {
 	HL7       HL7Name             `hl7:",name=ADT_A45,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -1045,9 +1184,13 @@ type ADT_A45 struct {
 
 // Change patient id (for backward compatibility only)
 //
-// With HL7 v2.3.1, event A46 is being retained for backward compatibility, corresponding with PID-2patient ID, which is also retained for backward compatibility. Event A47 (change patient identifier list) should be used instead. A change has been done at the external identifier level.  That is, a PID-2-patient ID has been found to be incorrect and has been changed.
+// With HL7 v2.3.1, event A46 is being retained for backward compatibility, corresponding with PID-2patient ID, which is
+// also retained for backward compatibility. Event A47 (change patient identifier list) should be used instead. A change
+// has been done at the external identifier level.  That is, a PID-2-patient ID has been found to be incorrect and has been changed.
 //
-// An A46 event is used to signal a change of an incorrectly assigned PID-2-patient ID value.  The “incorrect source patient ID” value is stored in the MRG segment (MRG-4-prior patient ID) and is to be changed to the “correct target patient ID” value stored in the PID segment (PID-2-patient ID).
+// An A46 event is used to signal a change of an incorrectly assigned PID-2-patient ID value.  The “incorrect source patient
+// ID” value is stored in the MRG segment (MRG-4-prior patient ID) and is to be changed to the “correct target patient ID” value
+// stored in the PID segment (PID-2-patient ID).
 type ADT_A46 struct {
 	HL7 HL7Name `hl7:",name=ADT_A46,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1059,9 +1202,12 @@ type ADT_A46 struct {
 
 // Change patient identifier list
 //
-// A change has been done at the internal identifier level.  That is, a single PID-3-patient identifier list value has been found to be incorrect and has been changed.
+// A change has been done at the internal identifier level.  That is, a single PID-3-patient identifier list value has been
+// found to be incorrect and has been changed.
 //
-// An A47 event is used to signal a change of an incorrectly assigned PID-3-patient identifier list value.  The “incorrect source identifier” value is stored in the MRG segment (MRG-1-prior patient identifier list) and is to be changed to the “correct target patient ID” value stored in the PID segment (PID-3-patient identifier list).
+// An A47 event is used to signal a change of an incorrectly assigned PID-3-patient identifier list value.  The “incorrect
+// source identifier” value is stored in the MRG segment (MRG-1-prior patient identifier list) and is to be changed to the
+// “correct target patient ID” value stored in the PID segment (PID-3-patient identifier list).
 type ADT_A47 struct {
 	HL7 HL7Name `hl7:",name=ADT_A47,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1073,9 +1219,14 @@ type ADT_A47 struct {
 
 // Change alternate patient id
 //
-// With HL7 v.2.3.1, event A48 is being retained for backward compatibility, corresponding with PID-4alternate Patient ID-PID, which is also retained for backward compatibility.  Event A47 (change patient identifier list) should be used instead.  A change has been done at the alternate patient identifier level. That is, a PID-4-alternate patient ID-PID has been found to be incorrect and has been changed.
+// With HL7 v.2.3.1, event A48 is being retained for backward compatibility, corresponding with PID-4alternate Patient
+// ID-PID, which is also retained for backward compatibility.  Event A47 (change patient identifier list) should be used
+// instead.  A change has been done at the alternate patient identifier level. That is, a PID-4-alternate patient ID-PID has
+// been found to be incorrect and has been changed.
 //
-// An A48 event is used to signal a change of an incorrectly assigned alternate patient identifier value.  The “incorrect source alternate patient ID” value is stored in the MRG segment (MRG-2-prior alternate patient ID) and is to be changed to the “correct target alternate patient ID” value stored in the PID segment (PID-4alternate patient ID-PID).
+// An A48 event is used to signal a change of an incorrectly assigned alternate patient identifier value.  The “incorrect source
+// alternate patient ID” value is stored in the MRG segment (MRG-2-prior alternate patient ID) and is to be changed to the “correct
+// target alternate patient ID” value stored in the PID segment (PID-4alternate patient ID-PID).
 type ADT_A48 struct {
 	HL7 HL7Name `hl7:",name=ADT_A48,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1087,9 +1238,12 @@ type ADT_A48 struct {
 
 // Change patient account number
 //
-// A change has been done at the account identifier level.  That is, a PID-18-patient account number has been found to be incorrect and has been changed.
+// A change has been done at the account identifier level.  That is, a PID-18-patient account number has been found to be incorrect
+// and has been changed.
 //
-// An A49 event is used to signal a change of an incorrectly assigned account number value.  The “incorrect source account number” value is stored in the MRG segment (MRG-3-prior patient account number) and is to be changed to the “correct target account number” value stored in the PID segment (PID-18-patient account number).
+// An A49 event is used to signal a change of an incorrectly assigned account number value.  The “incorrect source account number”
+// value is stored in the MRG segment (MRG-3-prior patient account number) and is to be changed to the “correct target account
+// number” value stored in the PID segment (PID-18-patient account number).
 type ADT_A49 struct {
 	HL7 HL7Name `hl7:",name=ADT_A49,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1101,9 +1255,12 @@ type ADT_A49 struct {
 
 // Change visit number
 //
-// A change has been done at the visit identifier level.  That is, a PV1-19-visit number has been found to be incorrect and has been changed.
+// A change has been done at the visit identifier level.  That is, a PV1-19-visit number has been found to be incorrect and has
+// been changed.
 //
-// An A50 event is used to signal a change of an incorrectly assigned visit number value.  The “incorrect source visit number” value is stored in the MRG segment (MRG-5-prior visit number) and is to be changed to the “correct target visit number” value stored in the PV1 segment (PV1-19-visit number).
+// An A50 event is used to signal a change of an incorrectly assigned visit number value.  The “incorrect source visit number”
+// value is stored in the MRG segment (MRG-5-prior visit number) and is to be changed to the “correct target visit number” value
+// stored in the PV1 segment (PV1-19-visit number).
 type ADT_A50 struct {
 	HL7 HL7Name `hl7:",name=ADT_A50,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1116,9 +1273,12 @@ type ADT_A50 struct {
 
 // Change alternate visit id
 //
-// A change has been done at the alternate visit identifier level.  That is, a PV1-50-alternate visit ID has been found to be incorrect and has been changed.
+// A change has been done at the alternate visit identifier level.  That is, a PV1-50-alternate visit ID has been found to be
+// incorrect and has been changed.
 //
-// An A51 event is used to signal a change of an incorrectly assigned alternate visit ID value.  The “incorrect source alternate visit ID” value is stored in the MRG segment (MRG-6-prior alternate visit ID) and is to be changed to the “correct target alternate visit ID” value stored in the PV1 segment (PV1-50-alternate visit ID).
+// An A51 event is used to signal a change of an incorrectly assigned alternate visit ID value.  The “incorrect source alternate
+// visit ID” value is stored in the MRG segment (MRG-6-prior alternate visit ID) and is to be changed to the “correct target
+// alternate visit ID” value stored in the PV1 segment (PV1-50-alternate visit ID).
 type ADT_A51 struct {
 	HL7 HL7Name `hl7:",name=ADT_A51,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1165,7 +1325,10 @@ type BAR_P01_Insurance struct {
 
 // Add patient accounts
 //
-// From Standard Version 2.3 onward, the P01 event should only be used to add a new account that did not exist before, not to update an existing account.  The new P05 (update account) event should be used to update an existing account.  The new P06 (end account) event should be used to close an account.  With the P01 event, EVN-2-recorded date/time should contain the account start date.
+// From Standard Version 2.3 onward, the P01 event should only be used to add a new account that did not exist before, not to update
+// an existing account.  The new P05 (update account) event should be used to update an existing account.  The new P06 (end account)
+// event should be used to close an account.  With the P01 event, EVN-2-recorded date/time should contain the account start
+// date.
 type BAR_P01 struct {
 	HL7   HL7Name         `hl7:",name=BAR_P01,type=t"`
 	MSH   *MSH            `hl7:"1,required,display=Message header segment"`
@@ -1186,7 +1349,11 @@ type BAR_P02_Patient struct {
 
 // Purge patient accounts
 //
-// Generally, the elimination of all billing/accounts receivable records will be an internal function controlled, for example, by the patient accounting or financial system.  However, on occasion, there will be a need to correct an account, or a series of accounts, that may require that a notice of account deletion be sent from another sub-system and processed, for example, by the patient accounting or financial system. Although a series of accounts may be purged within this one event, we recommend that only one PID segment be sent per event.
+// Generally, the elimination of all billing/accounts receivable records will be an internal function controlled, for
+// example, by the patient accounting or financial system.  However, on occasion, there will be a need to correct an account,
+// or a series of accounts, that may require that a notice of account deletion be sent from another sub-system and processed,
+// for example, by the patient accounting or financial system. Although a series of accounts may be purged within this one
+// event, we recommend that only one PID segment be sent per event.
 type BAR_P02 struct {
 	HL7     HL7Name           `hl7:",name=BAR_P02,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1230,7 +1397,8 @@ type BAR_P05_Insurance struct {
 
 // Update account
 //
-// The P05 event is sent when an existing account is being updated.  From Standard Version 2.3 onward, the P01 (add account) event should no longer be used for updating an existing account, but only for creating a new account.
+// The P05 event is sent when an existing account is being updated.  From Standard Version 2.3 onward, the P01 (add account)
+// event should no longer be used for updating an existing account, but only for creating a new account.
 type BAR_P05 struct {
 	HL7   HL7Name         `hl7:",name=BAR_P05,type=t"`
 	MSH   *MSH            `hl7:"1,required,display=Message header segment"`
@@ -1249,7 +1417,9 @@ type BAR_P06_Patient struct {
 
 // End account
 //
-// The P06 event is a notification that the account is no longer open, that is, no new charges can accrue to this account.  This notification is not related to whether or not the account is paid in full.  EVN-2-recorded date/time must contain the account end date.
+// The P06 event is a notification that the account is no longer open, that is, no new charges can accrue to this account.  This
+// notification is not related to whether or not the account is paid in full.  EVN-2-recorded date/time must contain the account
+// end date.
 type BAR_P06 struct {
 	HL7     HL7Name           `hl7:",name=BAR_P06,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1268,7 +1438,10 @@ type CRM_C01_Patient struct {
 
 // Register a patient on a clinical trial
 //
-// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
+// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order
+// entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility
+// computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security
+// mechanisms are in place
 type CRM_C01 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C01,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1286,7 +1459,10 @@ type CRM_C02_Patient struct {
 
 // Cancel a patient registration on clinical trial (for clerical mistakes since an intended registration should not be canceled)
 //
-// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
+// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order
+// entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility
+// computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security
+// mechanisms are in place
 type CRM_C02 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C02,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1304,7 +1480,10 @@ type CRM_C03_Patient struct {
 
 // Correct/update registration information
 //
-// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
+// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order
+// entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility
+// computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security
+// mechanisms are in place
 type CRM_C03 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C03,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1322,7 +1501,10 @@ type CRM_C04_Patient struct {
 
 // Patient has gone off a clinical trial
 //
-// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
+// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order
+// entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility
+// computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security
+// mechanisms are in place
 type CRM_C04 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C04,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1340,7 +1522,10 @@ type CRM_C05_Patient struct {
 
 // Patient enters phase of clinical trial
 //
-// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
+// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order
+// entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility
+// computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security
+// mechanisms are in place
 type CRM_C05 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C05,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1358,7 +1543,10 @@ type CRM_C06_Patient struct {
 
 // Cancel patient entering a phase (clerical mistake)
 //
-// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
+// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order
+// entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility
+// computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security
+// mechanisms are in place
 type CRM_C06 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C06,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1376,7 +1564,10 @@ type CRM_C07_Patient struct {
 
 // Correct/update phase information
 //
-// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
+// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order
+// entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility
+// computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security
+// mechanisms are in place
 type CRM_C07 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C07,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1394,7 +1585,10 @@ type CRM_C08_Patient struct {
 
 // Patient has gone off phase of clinical trial
 //
-// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security mechanisms are in place
+// The data are entered in a clinical trials or other patient data system and broadcast to other facility systems such as order
+// entry, pharmacy, accounting, and nursing systems.  They can be transmitted in batch mode or broadcast to outside-facility
+// computer systems, including diagnostic and patient management systems.  It is assumed that proper routing and security
+// mechanisms are in place
 type CRM_C08 struct {
 	HL7     HL7Name           `hl7:",name=CRM_C08,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1458,7 +1652,11 @@ type CSU_C09_RxAdmin struct {
 
 // Automated time intervals for reporting, like monthly
 //
-// Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative studies.
+// Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other
+// clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated
+// in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the
+// clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative
+// studies.
 type CSU_C09 struct {
 	HL7     HL7Name           `hl7:",name=CSU_C09,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1522,7 +1720,11 @@ type CSU_C10_RxAdmin struct {
 
 // Patient completes the clinical trial
 //
-// Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative studies.
+// Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other
+// clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated
+// in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the
+// clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative
+// studies.
 type CSU_C10 struct {
 	HL7     HL7Name           `hl7:",name=CSU_C10,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1586,7 +1788,11 @@ type CSU_C11_RxAdmin struct {
 
 // Patient completes a phase of the clinical trial
 //
-// Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative studies.
+// Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other
+// clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated
+// in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the
+// clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative
+// studies.
 type CSU_C11 struct {
 	HL7     HL7Name           `hl7:",name=CSU_C11,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1650,7 +1856,11 @@ type CSU_C12_RxAdmin struct {
 
 // Update/correction of patient order/result information
 //
-// Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative studies.
+// Data are entered in the clinical trials system or may reside in laboratory, pathology, radiology, pharmacy and/or other
+// clinical applications.  Most clinical trials data - clinical observations and study variables - will be communicated
+// in OBR and OBX segments.  The CSR, CSP, and CSS segments will identify the specific association these OBR and OBX have to the
+// clinical trial.  Data can be broadcast or transmitted in batch mode to study sponsors or the data management center for collaborative
+// studies.
 type CSU_C12 struct {
 	HL7     HL7Name           `hl7:",name=CSU_C12,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -1681,7 +1891,8 @@ type DFT_P03_Insurance struct {
 
 // Post detail financial transaction
 //
-// The Detail Financial Transaction (DFT) message is used to describe a financial transaction transmitted between systems, that is, to the billing system for ancillary charges, ADT to billing system for patient deposits, etc.
+// The Detail Financial Transaction (DFT) message is used to describe a financial transaction transmitted between systems,
+// that is, to the billing system for ancillary charges, ADT to billing system for patient deposits, etc.
 type DFT_P03 struct {
 	HL7       HL7Name             `hl7:",name=DFT_P03,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -1724,7 +1935,8 @@ type DOC_T12 struct {
 
 // Display response message
 //
-// For patient accounting systems that support demand billing, the QRY/DSR transaction, as defined in Chapter 2, will provide the mechanism with which to request a copy of the bill for printing or viewing by the requesting system.
+// For patient accounting systems that support demand billing, the QRY/DSR transaction, as defined in Chapter 2, will provide
+// the mechanism with which to request a copy of the bill for printing or viewing by the requesting system.
 type DSR_P04 struct {
 	HL7 HL7Name `hl7:",name=DSR_P04,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1752,7 +1964,9 @@ type DSR_Q01 struct {
 
 // Deferred response to a query
 //
-// For clarity, A is the system initiating the query and B is the system sending the responses.  Multiple queries and responses are permitted within single messages.  The responses to a given query may be broken into several separate DSR messages.  A single DSR message may contain responses to more than one QRY.
+// For clarity, A is the system initiating the query and B is the system sending the responses.  Multiple queries and responses
+// are permitted within single messages.  The responses to a given query may be broken into several separate DSR messages.
+// A single DSR message may contain responses to more than one QRY.
 type DSR_Q03 struct {
 	HL7 HL7Name `hl7:",name=DSR_Q03,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1767,7 +1981,9 @@ type DSR_Q03 struct {
 
 // Enhanced display response
 //
-// Enhanced mode record-oriented response messages note: The RDF segment from the EQQ, VQQ and SPQ messages, and the ERQ segment from the EQQ message, are echoed back in their respective responses. The DSC segment contains the continuation pointer, if it is not null (DSC-1-continuation pointer).
+// Enhanced mode record-oriented response messages note: The RDF segment from the EQQ, VQQ and SPQ messages, and the ERQ segment
+// from the EQQ message, are echoed back in their respective responses. The DSC segment contains the continuation pointer,
+// if it is not null (DSC-1-continuation pointer).
 type EDR_R07 struct {
 	HL7 HL7Name `hl7:",name=EDR_R07,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1788,10 +2004,17 @@ type EQQ_Q04 struct {
 
 // Event replay response
 //
-// Enhanced mode record-oriented response messages note: The RDF segment from the EQQ, VQQ and SPQ messages, and the ERQ segment from the EQQ message, are echoed back in their respective responses. The DSC segment contains the continuation pointer, if it is not null (DSC-1-continuation pointer).
+// Enhanced mode record-oriented response messages note: The RDF segment from the EQQ, VQQ and SPQ messages, and the ERQ segment
+// from the EQQ message, are echoed back in their respective responses. The DSC segment contains the continuation pointer,
+// if it is not null (DSC-1-continuation pointer).
 //
-// Note: The remainder of this message is defined by the contents of the corresponding segment-oriented recordoriented unsolicited update message, excluding the MSH, as defined by the function-specific chapters of this specification.  The input parameter list may be satisfied by more than one record-oriented unsolicited update message: in this case, the segment group after the ERQ segment may repeat.
-// When this message is continued, the continuation messages should include the MSH, MSA, [ERR], QAK, ERQ, and [DSC] segments, as well as the segments indicated by the ellipsis (...) in the response definition and the DSC should be used only at the end of the group corresponding to the record-oriented unsolicited update message.
+// Note: The remainder of this message is defined by the contents of the corresponding segment-oriented recordoriented
+// unsolicited update message, excluding the MSH, as defined by the function-specific chapters of this specification.
+// The input parameter list may be satisfied by more than one record-oriented unsolicited update message: in this case, the
+// segment group after the ERQ segment may repeat.
+// When this message is continued, the continuation messages should include the MSH, MSA, [ERR], QAK, ERQ, and [DSC] segments,
+// as well as the segments indicated by the ellipsis (...) in the response definition and the DSC should be used only at the end
+// of the group corresponding to the record-oriented unsolicited update message.
 type ERP_R09 struct {
 	HL7 HL7Name `hl7:",name=ERP_R09,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1804,13 +2027,15 @@ type ERP_R09 struct {
 
 // Original document notification
 //
-// This is a notification of the creation of a document without the accompanying content.  There are multiple approaches by which systems become aware of documents:
+// This is a notification of the creation of a document without the accompanying content.  There are multiple approaches by
+// which systems become aware of documents:
 //
 // Scenario A: A document is dictated and chart tracking system is notified that it has been dictated and is awaiting transcription.
 //
 // Scenario B: Dictation is transcribed and chart tracking system is notified that the document exists and requires authentication.
 //
-// Scenario C: A provider orders a series of three X-rays.  The radiologist dictates a single document which covers all three orders.  Multiple placer numbers are used to identify each of these orders.
+// Scenario C: A provider orders a series of three X-rays.  The radiologist dictates a single document which covers all three
+// orders.  Multiple placer numbers are used to identify each of these orders.
 type MDM_T01 struct {
 	HL7 HL7Name `hl7:",name=MDM_T01,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1824,9 +2049,12 @@ type MDM_T01 struct {
 //
 // This is a notification of the creation of a document with the accompanying content.
 //
-// Scenario A: Dictation is transcribed and the chart tracking system is notified that the document exists and requires authentication.  The content of the document is transmitted along with the notification.
+// Scenario A: Dictation is transcribed and the chart tracking system is notified that the document exists and requires authentication.
+// The content of the document is transmitted along with the notification.
 //
-// Scenario B: A provider orders a series of three X-rays.  The radiologist’s dictation is transcribed in a single document, which covers all three orders.  Multiple placer numbers are used to identify each of the orders within the single document message.  The notification and document content are transmitted.
+// Scenario B: A provider orders a series of three X-rays.  The radiologist’s dictation is transcribed in a single document,
+// which covers all three orders.  Multiple placer numbers are used to identify each of the orders within the single document
+// message.  The notification and document content are transmitted.
 type MDM_T02 struct {
 	HL7 HL7Name `hl7:",name=MDM_T02,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1841,7 +2069,8 @@ type MDM_T02 struct {
 //
 // This is a notification of a change in a status of a document without the accompanying content.
 //
-// Scenario: A document is authenticated.  Notification is sent to the chart tracking system and is used to update the document status from pre-authenticated to authenticated or legally authenticated.
+// Scenario: A document is authenticated.  Notification is sent to the chart tracking system and is used to update the document
+// status from pre-authenticated to authenticated or legally authenticated.
 type MDM_T03 struct {
 	HL7 HL7Name `hl7:",name=MDM_T03,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1855,7 +2084,8 @@ type MDM_T03 struct {
 //
 // This is a notification of a change in a status of a document with the accompanying content.
 //
-// Scenario: A document is authenticated.  Notification is sent to the chart tracking system and is used to update the document status from pre-authenticated to authenticated or legally authenticated.  The document content is also transmitted.
+// Scenario: A document is authenticated.  Notification is sent to the chart tracking system and is used to update the document
+// status from pre-authenticated to authenticated or legally authenticated.  The document content is also transmitted.
 type MDM_T04 struct {
 	HL7 HL7Name `hl7:",name=MDM_T04,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1870,7 +2100,9 @@ type MDM_T04 struct {
 //
 // This is a notification of an addendum to a document without the accompanying content.
 //
-// Scenario:  Author dictates additional information as an addendum to a previously transcribed document.  A new document is transcribed.  This addendum has its own new unique document ID that is linked to the original document via the parent ID.  Addendum document notification is transmitted.  This creates a composite document.
+// Scenario:  Author dictates additional information as an addendum to a previously transcribed document.  A new document
+// is transcribed.  This addendum has its own new unique document ID that is linked to the original document via the parent ID.
+// Addendum document notification is transmitted.  This creates a composite document.
 type MDM_T05 struct {
 	HL7 HL7Name `hl7:",name=MDM_T05,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1884,7 +2116,9 @@ type MDM_T05 struct {
 //
 // This is a notification of an addendum to a document with the accompanying content.
 //
-// Scenario:  Author dictates additional information as an addendum to a previously transcribed document.  A new document is transcribed.  This addendum has its own new unique document ID that is linked to the original document via the parent ID.  Addendum document notification is transmitted, along with the document content.  This creates a composite document.
+// Scenario:  Author dictates additional information as an addendum to a previously transcribed document.  A new document
+// is transcribed.  This addendum has its own new unique document ID that is linked to the original document via the parent ID.
+// Addendum document notification is transmitted, along with the document content.  This creates a composite document.
 type MDM_T06 struct {
 	HL7 HL7Name `hl7:",name=MDM_T06,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1897,11 +2131,13 @@ type MDM_T06 struct {
 
 // Document edit notification
 //
-// Note: The only valid use of this trigger event is for documents whose availability status is “Unavailable,” i.e., the document has not been made available for patient care.
+// Note: The only valid use of this trigger event is for documents whose availability status is “Unavailable,” i.e., the document
+// has not been made available for patient care.
 //
 // This is a notification of an edit to a document without the accompanying content.
 //
-// Scenario:  Errors, which need to be corrected, are discovered in a document.  The original document is edited, and an edit notification is sent.
+// Scenario:  Errors, which need to be corrected, are discovered in a document.  The original document is edited, and an edit
+// notification is sent.
 type MDM_T07 struct {
 	HL7 HL7Name `hl7:",name=MDM_T07,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1913,11 +2149,13 @@ type MDM_T07 struct {
 
 // Document edit notification and content
 //
-// Note: The only valid use of this trigger event is for documents whose availability status is "Unavailable," i.e., the document has not been made available for patient care.
+// Note: The only valid use of this trigger event is for documents whose availability status is "Unavailable," i.e., the document
+// has not been made available for patient care.
 //
 // This is a notification of an edit to a document with the accompanying content.
 //
-// Scenario:   Errors, which need to be corrected, are discovered in a document.  The original document is edited, and an edit notification and document content are sent.
+// Scenario:   Errors, which need to be corrected, are discovered in a document.  The original document is edited, and an edit
+// notification and document content are sent.
 type MDM_T08 struct {
 	HL7 HL7Name `hl7:",name=MDM_T08,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1934,7 +2172,10 @@ type MDM_T08 struct {
 //
 // This is a notification of replacement to a document without the accompanying content.
 //
-// Scenario:  Errors discovered in a document are corrected.  The original document is replaced with the revised document.  The replacement document has its own new unique document ID that is linked to the original document via the parent ID.  The availability status of the original document is changed to “Obsolete” but the original document should be retained in the system for historical reference.  Document replacement notification is sent.
+// Scenario:  Errors discovered in a document are corrected.  The original document is replaced with the revised document.
+// The replacement document has its own new unique document ID that is linked to the original document via the parent ID.  The
+// availability status of the original document is changed to “Obsolete” but the original document should be retained in
+// the system for historical reference.  Document replacement notification is sent.
 type MDM_T09 struct {
 	HL7 HL7Name `hl7:",name=MDM_T09,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1946,7 +2187,10 @@ type MDM_T09 struct {
 
 // Document replacement notification and content
 //
-// Scenario:   Errors discovered in a document are corrected.  The original document is replaced with the revised document.  The replacement document has its own new unique document ID that is linked to the original document via the parent ID.  The availability status of the original document is changed to “Obsolete” but the original document should be retained in the system for historical reference.  Document replacement notification and document content are sent.
+// Scenario:   Errors discovered in a document are corrected.  The original document is replaced with the revised document.
+// The replacement document has its own new unique document ID that is linked to the original document via the parent ID.  The
+// availability status of the original document is changed to “Obsolete” but the original document should be retained in
+// the system for historical reference.  Document replacement notification and document content are sent.
 type MDM_T10 struct {
 	HL7 HL7Name `hl7:",name=MDM_T10,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1959,9 +2203,18 @@ type MDM_T10 struct {
 
 // Document cancel notification
 //
-// This is a notification of a cancellation of a document.   This trigger event should be used only for an original document with an availability status of “Unavailable.”  When a document has been made available for patient care, the process should be to replace the original document, which then becomes obsolete.  The replacement document describes why the erroneous information exists.
+// This is a notification of a cancellation of a document.   This trigger event should be used only for an original document with
+// an availability status of “Unavailable.”  When a document has been made available for patient care, the process should
+// be to replace the original document, which then becomes obsolete.  The replacement document describes why the erroneous
+// information exists.
 //
-// Scenario:  When the author dictated a document, the wrong patient identification was given, and the document was transcribed and sent to the wrong patient’s record.  When the error is discovered, a cancellation notice is sent to remove the document from general access in the wrong patient’s record. In these cases, a reason should be supplied in the cancellation message.  To protect patient privacy, the correct patient’s identifying information should not be placed on the erroneous document that is retained in the wrong patient’s record for historical reference.  A new document notification and content will be created using a T02 (original document notification and content) event and sent for association with the correct patient’s record.
+// Scenario:  When the author dictated a document, the wrong patient identification was given, and the document was transcribed
+// and sent to the wrong patient’s record.  When the error is discovered, a cancellation notice is sent to remove the document
+// from general access in the wrong patient’s record. In these cases, a reason should be supplied in the cancellation message.
+// To protect patient privacy, the correct patient’s identifying information should not be placed on the erroneous document
+// that is retained in the wrong patient’s record for historical reference.  A new document notification and content will
+// be created using a T02 (original document notification and content) event and sent for association with the correct patient’s
+// record.
 type MDM_T11 struct {
 	HL7 HL7Name `hl7:",name=MDM_T11,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -1973,7 +2226,8 @@ type MDM_T11 struct {
 
 // Master file delayed application acknowledgment
 //
-// The MFD transaction is the delayed application acknowledgment.  It can be used to return  “deferred” application-level acknowledgment statuses at the MFE level, without reference to the original MFN message
+// The MFD transaction is the delayed application acknowledgment.  It can be used to return  “deferred” application-level
+// acknowledgment statuses at the MFE level, without reference to the original MFN message
 type MFD_MFA struct {
 	HL7 HL7Name `hl7:",name=MFD_MFA,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2021,7 +2275,12 @@ type MFK_M03 struct {
 
 // Master files charge description acknowledgment
 //
-// The charge description (CDM) master file segment should be used in conjunction with the general master file segments in Section 8.4, “general master file SEGMENTs.”  Interfacing systems often need not only to communicate data about a patient’s detailed charges, but also to communicate the charge identification entries by which an application knows how to handle a particular charge code.  The charge description master is a master file.  The CDM segment below is a specially designed master file segment for interfacing charge description masters.  In the following message, the MFI-master file identifier should equal “CDM.”
+// The charge description (CDM) master file segment should be used in conjunction with the general master file segments in
+// Section 8.4, “general master file SEGMENTs.”  Interfacing systems often need not only to communicate data about a patient’s
+// detailed charges, but also to communicate the charge identification entries by which an application knows how to handle
+// a particular charge code.  The charge description master is a master file.  The CDM segment below is a specially designed
+// master file segment for interfacing charge description masters.  In the following message, the MFI-master file identifier
+// should equal “CDM.”
 type MFK_M04 struct {
 	HL7 HL7Name `hl7:",name=MFK_M04,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2032,7 +2291,10 @@ type MFK_M04 struct {
 
 // Patient location master file acknowledgment
 //
-// This section is specifically concerned with describing a master file message that should be used to transmit information which identifies the inventory of healthcare patient locations, such as nursing units, rooms, beds, clinics, exam rooms, etc.  In a network environment, this segment can be used to define patient locations to other applications.  The segment also includes the readiness states and support locations for the patient locations
+// This section is specifically concerned with describing a master file message that should be used to transmit information
+// which identifies the inventory of healthcare patient locations, such as nursing units, rooms, beds, clinics, exam rooms,
+// etc.  In a network environment, this segment can be used to define patient locations to other applications.  The segment
+// also includes the readiness states and support locations for the patient locations
 type MFK_M05 struct {
 	HL7 HL7Name `hl7:",name=MFK_M05,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2121,7 +2383,10 @@ type MFN_M02_MfStaff struct {
 
 // Master file - staff practitioner
 //
-// The staff (STF) and practitioner (PRA) segments can be used to transmit master files information between systems. The STF segment provides general information about personnel; the PRA segment provides detailed information for a staff member who is also a health practitioner. Other segments may be defined to follow the STF segment to provide additional detail information for a particular type of staff member: the PRA segment is the first such segment.
+// The staff (STF) and practitioner (PRA) segments can be used to transmit master files information between systems. The
+// STF segment provides general information about personnel; the PRA segment provides detailed information for a staff
+// member who is also a health practitioner. Other segments may be defined to follow the STF segment to provide additional
+// detail information for a particular type of staff member: the PRA segment is the first such segment.
 type MFN_M02 struct {
 	HL7     HL7Name           `hl7:",name=MFN_M02,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2155,7 +2420,12 @@ type MFN_M04_MfCdm struct {
 
 // Master files charge description
 //
-// The charge description (CDM) master file segment should be used in conjunction with the general master file segments in Section 8.4, “general master file SEGMENTs.”  Interfacing systems often need not only to communicate data about a patient’s detailed charges, but also to communicate the charge identification entries by which an application knows how to handle a particular charge code.  The charge description master is a master file.  The CDM segment below is a specially designed master file segment for interfacing charge description masters.  In the following message, the MFI-master file identifier should equal “CDM.”
+// The charge description (CDM) master file segment should be used in conjunction with the general master file segments in
+// Section 8.4, “general master file SEGMENTs.”  Interfacing systems often need not only to communicate data about a patient’s
+// detailed charges, but also to communicate the charge identification entries by which an application knows how to handle
+// a particular charge code.  The charge description master is a master file.  The CDM segment below is a specially designed
+// master file segment for interfacing charge description masters.  In the following message, the MFI-master file identifier
+// should equal “CDM.”
 type MFN_M04 struct {
 	HL7   HL7Name         `hl7:",name=MFN_M04,type=t"`
 	MSH   *MSH            `hl7:"1,required,display=Message header segment"`
@@ -2206,7 +2476,10 @@ type MFN_M06_MfPhaseSchedDetail struct {
 
 // Clinical study with phases and schedules master file
 //
-// The CM0 (Clinical Study Master), CM1 (Clinical Study Phase), and CM2 (Clinical Study Schedule) segments can be used to transmit master files information between systems. The CM0 segment contains the information about the study itself; the CM1 contains the information about one phase of the study identified in the preceding CM0; and the CM2 contains the information about the scheduled time points for the preceding study or phase-related treatment or evaluation events.
+// The CM0 (Clinical Study Master), CM1 (Clinical Study Phase), and CM2 (Clinical Study Schedule) segments can be used to
+// transmit master files information between systems. The CM0 segment contains the information about the study itself;
+// the CM1 contains the information about one phase of the study identified in the preceding CM0; and the CM2 contains the information
+// about the scheduled time points for the preceding study or phase-related treatment or evaluation events.
 type MFN_M06 struct {
 	HL7         HL7Name               `hl7:",name=MFN_M06,type=t"`
 	MSH         *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -2332,7 +2605,8 @@ type MFN_M11 struct {
 
 // Query for Master File Record - Not otherwise specified
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 //
 // (for backward compatibility only)
 type MFQ_M01 struct {
@@ -2345,7 +2619,8 @@ type MFQ_M01 struct {
 
 // Query for Master File Record - Staff Practitioner
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M02 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M02,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2356,7 +2631,8 @@ type MFQ_M02 struct {
 
 // Query for Master File Record - Test/Observation
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 //
 // (for backward compatibility only)
 type MFQ_M03 struct {
@@ -2369,7 +2645,8 @@ type MFQ_M03 struct {
 
 // Query for Master File Record - Charge description
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M04 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M04,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2380,7 +2657,8 @@ type MFQ_M04 struct {
 
 // Query for Master File Record - Patient location
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M05 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M05,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2391,7 +2669,8 @@ type MFQ_M05 struct {
 
 // Query for Master File Record - Clinical study with phases and schedules
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M06 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M06,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2402,7 +2681,8 @@ type MFQ_M06 struct {
 
 // Query for Master File Record - Clinical study without phases but with schedules
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M07 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M07,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2413,7 +2693,8 @@ type MFQ_M07 struct {
 
 // Query for Master File Record - Test/observation (Numeric)
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M08 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M08,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2424,7 +2705,8 @@ type MFQ_M08 struct {
 
 // Query for Master File Record - Test/Observation (Categorical)
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M09 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M09,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2435,7 +2717,8 @@ type MFQ_M09 struct {
 
 // Query for Master File Record - Test /observation batteries
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M10 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M10,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2446,7 +2729,8 @@ type MFQ_M10 struct {
 
 // Query for Master File Record - Test/calculated observations
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFQ_M11 struct {
 	HL7 HL7Name `hl7:",name=MFQ_M11,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -2463,7 +2747,8 @@ type MFR_M01_MfQuery struct {
 
 // Master Files Response - Not otherwise specified
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 //
 // (for backward compatibility only)
 type MFR_M01 struct {
@@ -2486,7 +2771,8 @@ type MFR_M02_MfQuery struct {
 
 // Master Files Response - Staff Practitioner
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M02 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M02,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2507,7 +2793,8 @@ type MFR_M03_MfQuery struct {
 
 // Master Files Response - Test/Observation
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 //
 // (for backward compatibility only)
 type MFR_M03 struct {
@@ -2530,7 +2817,8 @@ type MFR_M04_MfQuery struct {
 
 // Master Files Response - Charge description
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M04 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M04,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2551,7 +2839,8 @@ type MFR_M05_MfQuery struct {
 
 // Master Files Response - Patient location
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M05 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M05,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2572,7 +2861,8 @@ type MFR_M06_MfQuery struct {
 
 // Master Files Response - Clinical study with phases and schedules
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M06 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M06,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2593,7 +2883,8 @@ type MFR_M07_MfQuery struct {
 
 // Master Files Response - Clinical study without phases but with schedules
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M07 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M07,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2614,7 +2905,8 @@ type MFR_M08_MfQuery struct {
 
 // Master Files Response - Test/observation (Numeric)
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M08 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M08,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2635,7 +2927,8 @@ type MFR_M09_MfQuery struct {
 
 // Master Files Response - Test/Observation
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M09 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M09,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2656,7 +2949,8 @@ type MFR_M10_MfQuery struct {
 
 // Master Files Response - Test /observation batteries
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M10 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M10,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2677,7 +2971,8 @@ type MFR_M11_MfQuery struct {
 
 // Master Files Response - Test/calculated observations
 //
-// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in a particular master file.
+// The MFQ/MFR transaction allows a system to query for a particular record or group records (defined by the primary key) in
+// a particular master file.
 type MFR_M11 struct {
 	HL7     HL7Name           `hl7:",name=MFR_M11,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -2721,7 +3016,9 @@ type NMD_N02_AppStatus struct {
 
 // Network management data message
 //
-// One system creates an unsolicited update (UU) Network Management Data message (NMD) to transmit network management information to another system.  In this case, the initiating system sends an NMD message as an unsolicited update (UU) containing network management information to a receiving system, which responds with a generic acknowledgement message (ACK).
+// One system creates an unsolicited update (UU) Network Management Data message (NMD) to transmit network management information
+// to another system.  In this case, the initiating system sends an NMD message as an unsolicited update (UU) containing network
+// management information to a receiving system, which responds with a generic acknowledgement message (ACK).
 type NMD_N02 struct {
 	HL7                    HL7Name                          `hl7:",name=NMD_N02,type=t"`
 	MSH                    *MSH                             `hl7:"1,required,display=Message header segment"`
@@ -2745,7 +3042,12 @@ type NMQ_N01_ClockAndStatistics struct {
 
 // Network management query message
 //
-// The NMQ (Network Management Query) message is used by one system to make system-level requests for information or action to another system.  It has three segments, the NCK segment (network clock), the NST segment (network statistics), and the NSC segment (network status change). An example of the last type, NSC (network status change) would be an application or system startup/shut down request. At least one of these three segments must be present in the NMQ message. If a segment is present in the NMQ message, the corresponding segment needs to be present in the NMR message to return the requested data or status
+// The NMQ (Network Management Query) message is used by one system to make system-level requests for information or action
+// to another system.  It has three segments, the NCK segment (network clock), the NST segment (network statistics), and the
+// NSC segment (network status change). An example of the last type, NSC (network status change) would be an application or
+// system startup/shut down request. At least one of these three segments must be present in the NMQ message. If a segment is
+// present in the NMQ message, the corresponding segment needs to be present in the NMR message to return the requested data
+// or status
 type NMQ_N01 struct {
 	HL7                HL7Name                      `hl7:",name=NMQ_N01,type=t"`
 	MSH                *MSH                         `hl7:"1,required,display=Message header segment"`
@@ -2766,7 +3068,12 @@ type NMR_N01_ClockAndStatsWithNotesAlt struct {
 
 // Network management response message
 //
-// The NMQ (Network Management Query) message is used by one system to make system-level requests for information or action to another system.  It has three segments, the NCK segment (network clock), the NST segment (network statistics), and the NSC segment (network status change). An example of the last type, NSC (network status change) would be an application or system startup/shut down request. At least one of these three segments must be present in the NMQ message. If a segment is present in the NMQ message, the corresponding segment needs to be present in the NMR message to return the requested data or status
+// The NMQ (Network Management Query) message is used by one system to make system-level requests for information or action
+// to another system.  It has three segments, the NCK segment (network clock), the NST segment (network statistics), and the
+// NSC segment (network status change). An example of the last type, NSC (network status change) would be an application or
+// system startup/shut down request. At least one of these three segments must be present in the NMQ message. If a segment is
+// present in the NMQ message, the corresponding segment needs to be present in the NMR message to return the requested data
+// or status
 type NMR_N01 struct {
 	HL7                       HL7Name                             `hl7:",name=NMR_N01,type=t"`
 	MSH                       *MSH                                `hl7:"1,required,display=Message header segment"`
@@ -2835,7 +3142,8 @@ type OMD_O01_OrderTray struct {
 
 // Dietary order
 //
-// A diet office needs to receive specific information, the most important being the diet order itself.  Diet restrictions (often called diet codes) are the basic building blocks of a diet order.
+// A diet office needs to receive specific information, the most important being the diet order itself.  Diet restrictions
+// (often called diet codes) are the basic building blocks of a diet order.
 type OMD_O01 struct {
 	HL7       HL7Name             `hl7:",name=OMD_O01,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -2997,7 +3305,8 @@ type ORD_O02_OrderTray struct {
 
 // Dietary order acknowledgment message
 //
-// A diet office needs to receive specific information, the most important being the diet order itself.  Diet restrictions (often called diet codes) are the basic building blocks of a diet order.
+// A diet office needs to receive specific information, the most important being the diet order itself.  Diet restrictions
+// (often called diet codes) are the basic building blocks of a diet order.
 type ORD_O02 struct {
 	HL7      HL7Name           `hl7:",name=ORD_O02,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -3084,7 +3393,8 @@ type ORF_W02_Observation struct {
 
 // Waveform result, response to query
 //
-// The W02 trigger event identifies ORF messages which are a response to a QRY message specifying an immediate mode query for waveform results/observations with record-oriented format.
+// The W02 trigger event identifies ORF messages which are a response to a QRY message specifying an immediate mode query for
+// waveform results/observations with record-oriented format.
 type ORF_W02 struct {
 	HL7           HL7Name                 `hl7:",name=ORF_W02,type=t"`
 	MSH           *MSH                    `hl7:"1,required,display=Message header segment"`
@@ -3162,7 +3472,9 @@ type ORM_O01_Observation struct {
 
 // Order message
 //
-// The function of this message is to initiate the transmission of information about an order.  This includes placing new orders, cancellation of existing orders, discontinuation, holding, etc.  ORM messages can originate also with a placer, filler, or an interested third party.
+// The function of this message is to initiate the transmission of information about an order.  This includes placing new orders,
+// cancellation of existing orders, discontinuation, holding, etc.  ORM messages can originate also with a placer, filler,
+// or an interested third party.
 type ORM_O01 struct {
 	HL7     HL7Name          `hl7:",name=ORM_O01,type=t"`
 	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
@@ -3241,6 +3553,7 @@ type ORR_O02_OrderDetailSegment struct {
 // Order response
 //
 // The function of this message is to respond to an ORM message.  An ORR message is the application acknowledgment to an ORM message.
+//
 type ORR_O02 struct {
 	HL7      HL7Name           `hl7:",name=ORR_O02,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -3325,7 +3638,9 @@ type ORU_R01_Observation struct {
 
 // Unsolicited transmission of an observation message
 //
-// With the type (OBX) defined in this chapter, and the OBR defined in Chapter 4, one can construct almost any clinical report as a three-level hierarchy, with the PID segment defined in Chapter 3 at the upper level, an order record (OBR) at the next level and one or more observation records (OBX) at the bottom.
+// With the type (OBX) defined in this chapter, and the OBR defined in Chapter 4, one can construct almost any clinical report
+// as a three-level hierarchy, with the PID segment defined in Chapter 3 at the upper level, an order record (OBR) at the next
+// level and one or more observation records (OBX) at the bottom.
 type ORU_R01 struct {
 	HL7           HL7Name                 `hl7:",name=ORU_R01,type=t"`
 	MSH           *MSH                    `hl7:"1,required,display=Message header segment"`
@@ -3375,7 +3690,11 @@ type ORU_W01_Observation struct {
 
 // Waveform result, unsolicited transmission of requested information
 //
-// The waveform response unsolicited trigger event identifies ORU messages used to transmit waveform data which are results of an ordered test or series of observations. The W01 trigger event may also be used to identify ORU messages sent as the eventual response to a QRY message specifying a deferred mode query for waveform results/observations with record-oriented format (similar to the deferred response display mode DSR message type described in Chapter 2).  One or more ORU messages with the W01 trigger event  may result from this type of QRY message.
+// The waveform response unsolicited trigger event identifies ORU messages used to transmit waveform data which are results
+// of an ordered test or series of observations. The W01 trigger event may also be used to identify ORU messages sent as the eventual
+// response to a QRY message specifying a deferred mode query for waveform results/observations with record-oriented format
+// (similar to the deferred response display mode DSR message type described in Chapter 2).  One or more ORU messages with the
+// W01 trigger event  may result from this type of QRY message.
 type ORU_W01 struct {
 	HL7      HL7Name            `hl7:",name=ORU_W01,type=t"`
 	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
@@ -3522,7 +3841,8 @@ type PEX_P07_Study struct {
 
 // Unsolicited initial individual product experience report
 //
-// The primary application of this message is to transfer information related to an adverse event occurring while a patient was exposed to a product
+// The primary application of this message is to transfer information related to an adverse event occurring while a patient
+// was exposed to a product
 type PEX_P07 struct {
 	HL7        HL7Name              `hl7:",name=PEX_P07,type=t"`
 	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
@@ -3615,7 +3935,8 @@ type PEX_P08_Study struct {
 
 // Unsolicited update individual product experience report
 //
-// The primary application of this message is to transfer information related to an adverse event occurring while a patient was exposed to a product
+// The primary application of this message is to transfer information related to an adverse event occurring while a patient
+// was exposed to a product
 type PEX_P08 struct {
 	HL7        HL7Name              `hl7:",name=PEX_P08,type=t"`
 	MSH        *MSH                 `hl7:"1,required,display=Message header segment"`
@@ -3729,7 +4050,9 @@ type PGL_PC6_OrderObservation struct {
 
 // Goal add
 //
-// This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
+// This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).
+// Many of the segments associated with this event are optional.  This optionality allows systems in need of this information
+// to set up transactions that fulfill their requirements.
 type PGL_PC6 struct {
 	HL7          HL7Name               `hl7:",name=PGL_PC6,type=t"`
 	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -3840,7 +4163,9 @@ type PGL_PC7_OrderObservation struct {
 
 // Goal Update
 //
-// This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
+// This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).
+// Many of the segments associated with this event are optional.  This optionality allows systems in need of this information
+// to set up transactions that fulfill their requirements.
 type PGL_PC7 struct {
 	HL7          HL7Name               `hl7:",name=PGL_PC7,type=t"`
 	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -3951,7 +4276,9 @@ type PGL_PC8_OrderObservation struct {
 
 // Goal Delete
 //
-// This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
+// This message is used to send goals from one application to another (e.g., a point of care system to a clinical repository).
+// Many of the segments associated with this event are optional.  This optionality allows systems in need of this information
+// to set up transactions that fulfill their requirements.
 type PGL_PC8 struct {
 	HL7          HL7Name               `hl7:",name=PGL_PC8,type=t"`
 	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -3984,7 +4311,8 @@ type PIN_I07_Insurance struct {
 
 // Unsolicited insurance information
 //
-// This trigger event is used by an entity or organization to transmit to a healthcare provider the insurance information on a specific patient.  Typically, the healthcare provider will be a primary care provider.
+// This trigger event is used by an entity or organization to transmit to a healthcare provider the insurance information
+// on a specific patient.  Typically, the healthcare provider will be a primary care provider.
 type PIN_I07 struct {
 	HL7                HL7Name                     `hl7:",name=PIN_I07,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -4805,7 +5133,9 @@ type PPR_PC1_OrderObservation struct {
 
 // Problem add
 //
-// The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
+// The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical
+// repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of
+// this information to set up transactions that fulfill their requirements.
 type PPR_PC1 struct {
 	HL7          HL7Name               `hl7:",name=PPR_PC1,type=t"`
 	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -4916,7 +5246,9 @@ type PPR_PC2_OrderObservation struct {
 
 // Problem update
 //
-// The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
+// The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical
+// repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of
+// this information to set up transactions that fulfill their requirements.
 type PPR_PC2 struct {
 	HL7          HL7Name               `hl7:",name=PPR_PC2,type=t"`
 	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -5027,7 +5359,9 @@ type PPR_PC3_OrderObservation struct {
 
 // Problem delete
 //
-// The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of this information to set up transactions that fulfill their requirements.
+// The patient problem message is used to send problems from one application to another (e.g., a point of care system to a clinical
+// repository).  Many of the segments associated with this event are optional.  This optionality allows systems in need of
+// this information to set up transactions that fulfill their requirements.
 type PPR_PC3 struct {
 	HL7          HL7Name               `hl7:",name=PPR_PC3,type=t"`
 	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -5155,7 +5489,8 @@ type PPT_PCL_OrderObservation struct {
 
 // Pathway (goal-oriented) query response
 //
-// The following trigger/message event is served by PPT (a response from the system responsible for maintaining the goal-oriented pathway information).
+// The following trigger/message event is served by PPT (a response from the system responsible for maintaining the goal-oriented
+// pathway information).
 type PPT_PCL struct {
 	HL7     HL7Name           `hl7:",name=PPT_PCL,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -5276,7 +5611,8 @@ type PPV_PCA_OrderObservation struct {
 
 // Goal response
 //
-// The following trigger/message event is served by PPV (a response from the system responsible for maintaining the goal information).
+// The following trigger/message event is served by PPV (a response from the system responsible for maintaining the goal
+// information).
 type PPV_PCA struct {
 	HL7     HL7Name           `hl7:",name=PPV_PCA,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -5397,7 +5733,8 @@ type PRR_PC5_OrderObservation struct {
 
 // Problem response
 //
-// The following trigger/message event is served by PRR (a response from the system responsible for maintaining the problem information).
+// The following trigger/message event is served by PRR (a response from the system responsible for maintaining the problem
+// information).
 type PRR_PC5 struct {
 	HL7     HL7Name           `hl7:",name=PRR_PC5,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -5527,7 +5864,8 @@ type PTR_PCF_OrderObservation struct {
 
 // Pathway (problem-oriented) query response
 //
-// The following trigger/message event is served by PTR (a response from the system responsible for maintaining the problem-oriented pathway information).
+// The following trigger/message event is served by PTR (a response from the system responsible for maintaining the problem-oriented
+// pathway information).
 type PTR_PCF struct {
 	HL7     HL7Name           `hl7:",name=PTR_PCF,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`
@@ -5557,7 +5895,8 @@ type QRY_A19 struct {
 
 // Generate bills and accounts receivable statements
 //
-// For patient accounting systems that support demand billing, the QRY/DSR transaction, as defined in Chapter 2, will provide the mechanism with which to request a copy of the bill for printing or viewing by the requesting system.
+// For patient accounting systems that support demand billing, the QRY/DSR transaction, as defined in Chapter 2, will provide
+// the mechanism with which to request a copy of the bill for printing or viewing by the requesting system.
 //
 // Note: This is a display-oriented response.  That is why the associated messages are defined in Chapter 2.
 type QRY_P04 struct {
@@ -5570,7 +5909,10 @@ type QRY_P04 struct {
 
 // Problem query
 //
-// The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should be returned becomes an implementation issue.
+// The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the
+// patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query
+// is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should
+// be returned becomes an implementation issue.
 type QRY_PC4 struct {
 	HL7 HL7Name `hl7:",name=QRY_PC4,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -5580,7 +5922,10 @@ type QRY_PC4 struct {
 
 // Goal query
 //
-// The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should be returned becomes an implementation issue
+// The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the
+// patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query
+// is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should
+// be returned becomes an implementation issue
 type QRY_PC9 struct {
 	HL7 HL7Name `hl7:",name=QRY_PC9,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -5590,7 +5935,10 @@ type QRY_PC9 struct {
 
 // Pathway (problem-oriented) query
 //
-// The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should be returned becomes an implementation issue.
+// The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the
+// patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query
+// is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should
+// be returned becomes an implementation issue.
 type QRY_PCE struct {
 	HL7 HL7Name `hl7:",name=QRY_PCE,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -5600,7 +5948,10 @@ type QRY_PCE struct {
 
 // Pathway (goal-oriented) query
 //
-// The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should be returned becomes an implementation issue.
+// The following trigger/message event is served by QRY (a query from another system).  The QRD-8-who filter identifies the
+// patient or account number upon which the query is defined and can contain a Format Code of R (record-oriented).  If the query
+// is based on the Patient ID and there are data associated with multiple accounts, the problem of which account data should
+// be returned becomes an implementation issue.
 type QRY_PCK struct {
 	HL7 HL7Name `hl7:",name=QRY_PCK,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -5619,7 +5970,9 @@ type QRY_Q01 struct {
 
 // Query sent for deferred response
 //
-// For clarity, A is the system initiating the query and B is the system sending the responses.  Multiple queries and responses are permitted within single messages.  The responses to a given query may be broken into several separate DSR messages.  A single DSR message may contain responses to more than one QRY.
+// For clarity, A is the system initiating the query and B is the system sending the responses.  Multiple queries and responses
+// are permitted within single messages.  The responses to a given query may be broken into several separate DSR messages.
+// A single DSR message may contain responses to more than one QRY.
 type QRY_Q02 struct {
 	HL7 HL7Name `hl7:",name=QRY_Q02,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -5812,7 +6165,10 @@ type RAS_O01_Observation struct {
 
 // Pharmacy/treatment administration message
 //
-// The RAS message may be created by the administering application (e.g., nursing application) for each instance of administration for an existing order.  If the administering application wants to report several administrations of medication for a given order with a single RAS message, each instance is reported by a separate (repeating) RXA segment.  In addition, the administration records for a group of orders may be sent in a single message by creating repeating groups of segments at the ORC level.
+// The RAS message may be created by the administering application (e.g., nursing application) for each instance of administration
+// for an existing order.  If the administering application wants to report several administrations of medication for a given
+// order with a single RAS message, each instance is reported by a separate (repeating) RXA segment.  In addition, the administration
+// records for a group of orders may be sent in a single message by creating repeating groups of segments at the ORC level.
 // rra
 type RAS_O01 struct {
 	HL7     HL7Name          `hl7:",name=RAS_O01,type=t"`
@@ -5846,7 +6202,9 @@ type RCI_I05_Results struct {
 
 // Return clinical information
 //
-// This event is used to request clinical information for a specific patient.  Generally, this transaction occurs between one provider and another (typically a laboratory or radiology, etc.).  However, it may also be very useful for a payor-to-provider request for clinical observation information to be used in considering a request for treatment authorization.
+// This event is used to request clinical information for a specific patient.  Generally, this transaction occurs between
+// one provider and another (typically a laboratory or radiology, etc.).  However, it may also be very useful for a payor-to-provider
+// request for clinical observation information to be used in considering a request for treatment authorization.
 type RCI_I05 struct {
 	HL7         HL7Name               `hl7:",name=RCI_I05,type=t"`
 	MSH         *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -5871,7 +6229,10 @@ type RCL_I06_Provider struct {
 
 // Return clinical information
 //
-// This event code is sent from one healthcare provider to another  (typically a laboratory or radiology, etc.) to request a list of available clinical observation information.  When the provider is dealing with a community model in which remote requests make transmission of large amounts of data impractical, this event code will provide for interactive lists of transactions from which more specific selections can be made.
+// This event code is sent from one healthcare provider to another  (typically a laboratory or radiology, etc.) to request
+// a list of available clinical observation information.  When the provider is dealing with a community model in which remote
+// requests make transmission of large amounts of data impractical, this event code will provide for interactive lists of
+// transactions from which more specific selections can be made.
 type RCL_I06 struct {
 	HL7      HL7Name            `hl7:",name=RCL_I06,type=t"`
 	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
@@ -5952,7 +6313,9 @@ type RDE_O01_Observation struct {
 
 // Pharmacy/treatment encoded order message
 //
-// This message communicates the pharmacy or treatment application’s encoding of the pharmacy/treatment order (ORM message with RXO segment, see above).  It may be sent as an unsolicited message to report on either a single order or multiple pharmacy/treatment orders for a patient.
+// This message communicates the pharmacy or treatment application’s encoding of the pharmacy/treatment order (ORM message
+// with RXO segment, see above).  It may be sent as an unsolicited message to report on either a single order or multiple pharmacy/treatment
+// orders for a patient.
 type RDE_O01 struct {
 	HL7     HL7Name          `hl7:",name=RDE_O01,type=t"`
 	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
@@ -6149,7 +6512,10 @@ type RDS_O01_Observation struct {
 
 // Pharmacy/treatment dispense information
 //
-// The RDS message may be created by the pharmacy/treatment application for each instance of dispensing a drug or treatment to fill an existing order or orders.  In the most common case, the RDS messages would be routed to a Nursing application or to some clinical application, which needs the data about drugs dispensed or treatments given.  As a site-specific variant, the original order segments (RXO, RXE and their associated RXR/RXCs) may be sent optionally (for comparison).
+// The RDS message may be created by the pharmacy/treatment application for each instance of dispensing a drug or treatment
+// to fill an existing order or orders.  In the most common case, the RDS messages would be routed to a Nursing application or
+// to some clinical application, which needs the data about drugs dispensed or treatments given.  As a site-specific variant,
+// the original order segments (RXO, RXE and their associated RXR/RXCs) may be sent optionally (for comparison).
 type RDS_O01 struct {
 	HL7     HL7Name          `hl7:",name=RDS_O01,type=t"`
 	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
@@ -6218,7 +6584,9 @@ type REF_I12_PatientVisit struct {
 
 // Patient referral
 //
-// This event triggers a message to be sent from one healthcare provider to another regarding a specific patient.  The referral message may contain patient demographic information, specific medical procedures to be performed (accompanied by previously obtained authorizations) and relevant clinical information pertinent to the patient’s case.
+// This event triggers a message to be sent from one healthcare provider to another regarding a specific patient.  The referral
+// message may contain patient demographic information, specific medical procedures to be performed (accompanied by previously
+// obtained authorizations) and relevant clinical information pertinent to the patient’s case.
 type REF_I12 struct {
 	HL7                  HL7Name                       `hl7:",name=REF_I12,type=t"`
 	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
@@ -6299,7 +6667,9 @@ type REF_I13_PatientVisit struct {
 
 // Modify patient referral
 //
-// This event triggers a message to be sent from one healthcare provider to another regarding changes to an existing referral.  Changes in a referral may include additional instructions from the referring provider, additional clinical information, and even additional information on patient demographics.
+// This event triggers a message to be sent from one healthcare provider to another regarding changes to an existing referral.
+// Changes in a referral may include additional instructions from the referring provider, additional clinical information,
+// and even additional information on patient demographics.
 type REF_I13 struct {
 	HL7                  HL7Name                       `hl7:",name=REF_I13,type=t"`
 	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
@@ -6380,7 +6750,8 @@ type REF_I14_PatientVisit struct {
 
 // Cancel patient referral
 //
-// This event triggers a message to be sent from one healthcare provider to another canceling a referral.  A previous referral may have been made in error, or perhaps the cancellation has come from the patient.
+// This event triggers a message to be sent from one healthcare provider to another canceling a referral.  A previous referral
+// may have been made in error, or perhaps the cancellation has come from the patient.
 type REF_I14 struct {
 	HL7                  HL7Name                       `hl7:",name=REF_I14,type=t"`
 	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
@@ -6461,7 +6832,9 @@ type REF_I15_PatientVisit struct {
 
 // Request patient referral status
 //
-// This event triggers a message to be sent between healthcare providers regarding the status of a patient referral request.  A previous referral has been made and acknowledged; however, no response has been received to indicate results and/or procedures performed.
+// This event triggers a message to be sent between healthcare providers regarding the status of a patient referral request.
+// A previous referral has been made and acknowledged; however, no response has been received to indicate results and/or
+// procedures performed.
 type REF_I15 struct {
 	HL7                  HL7Name                       `hl7:",name=REF_I15,type=t"`
 	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
@@ -6638,7 +7011,8 @@ type RGV_O01_Observation struct {
 
 // Pharmacy/treatment give message
 //
-// The RGV message uses the RXG segment to record drug or treatment administration instructions.  It may carry information about a single scheduled administration on a drug or treatment, or it may carry information about multiple administrations.
+// The RGV message uses the RXG segment to record drug or treatment administration instructions.  It may carry information
+// about a single scheduled administration on a drug or treatment, or it may carry information about multiple administrations.
 type RGV_O01 struct {
 	HL7     HL7Name          `hl7:",name=RGV_O01,type=t"`
 	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
@@ -6744,7 +7118,11 @@ type RPA_I08_Visit struct {
 
 // Return for treatment authorization information
 //
-// This event triggers a message to be sent from a healthcare provider to a payor requesting authorization to perform specific medical procedures or tests on a given patient.  The specific medical procedures must be filled out in the PR1 segments.  Each repeating PR1 segment may be paired with an AUT segment so that authorization information can be given regarding dollar amounts, number of treatments, and perhaps the estimated length of stay for treatment.  The OBR and OBX segments should be used to include any relevant clinical information that may be required to support or process the authorization
+// This event triggers a message to be sent from a healthcare provider to a payor requesting authorization to perform specific
+// medical procedures or tests on a given patient.  The specific medical procedures must be filled out in the PR1 segments.
+// Each repeating PR1 segment may be paired with an AUT segment so that authorization information can be given regarding dollar
+// amounts, number of treatments, and perhaps the estimated length of stay for treatment.  The OBR and OBX segments should
+// be used to include any relevant clinical information that may be required to support or process the authorization
 type RPA_I08 struct {
 	HL7           HL7Name                `hl7:",name=RPA_I08,type=t"`
 	MSH           *MSH                   `hl7:"1,required,display=Message header segment"`
@@ -6826,7 +7204,9 @@ type RPA_I09_Visit struct {
 
 // Return for modification to an authorization
 //
-// This event triggers a message sent from a healthcare provider to a payor requesting changes to a previously referenced authorization.  For example, a provider may determine that a substitute testing or surgical procedure should be performed on a specified patient.
+// This event triggers a message sent from a healthcare provider to a payor requesting changes to a previously referenced
+// authorization.  For example, a provider may determine that a substitute testing or surgical procedure should be performed
+// on a specified patient.
 type RPA_I09 struct {
 	HL7           HL7Name                `hl7:",name=RPA_I09,type=t"`
 	MSH           *MSH                   `hl7:"1,required,display=Message header segment"`
@@ -6908,7 +7288,9 @@ type RPA_I10_Visit struct {
 
 // Return for resubmission of an authorization
 //
-// If a previously submitted request for treatment authorization is rejected or canceled, this event could trigger a resubmission message for a referenced authorization.  For example, the payor may have rejected a request until additional clinical information is sent to support the authorization request.
+// If a previously submitted request for treatment authorization is rejected or canceled, this event could trigger a resubmission
+// message for a referenced authorization.  For example, the payor may have rejected a request until additional clinical
+// information is sent to support the authorization request.
 type RPA_I10 struct {
 	HL7           HL7Name                `hl7:",name=RPA_I10,type=t"`
 	MSH           *MSH                   `hl7:"1,required,display=Message header segment"`
@@ -6990,7 +7372,9 @@ type RPA_I11_Visit struct {
 
 // Return for cancellation of an authorization
 //
-// This event may trigger the cancellation of an authorization.  It may be used by the provider to indicate that an authorized service was not performed, or perhaps that the patient changed to another provider.  A payor may use this request to reject a submitted authorization request from a provider
+// This event may trigger the cancellation of an authorization.  It may be used by the provider to indicate that an authorized
+// service was not performed, or perhaps that the patient changed to another provider.  A payor may use this request to reject
+// a submitted authorization request from a provider
 type RPA_I11 struct {
 	HL7           HL7Name                `hl7:",name=RPA_I11,type=t"`
 	MSH           *MSH                   `hl7:"1,required,display=Message header segment"`
@@ -7070,7 +7454,9 @@ type RPI_I04_Insurance struct {
 
 // Return patient information
 //
-// This event triggers a request from one healthcare provider to another for patient demographic information, including insurance and billing information.  Typically, this transaction would occur between one provider to another, but it could also be directed to a payor.
+// This event triggers a request from one healthcare provider to another for patient demographic information, including
+// insurance and billing information.  Typically, this transaction would occur between one provider to another, but it could
+// also be directed to a payor.
 type RPI_I04 struct {
 	HL7                HL7Name                     `hl7:",name=RPI_I04,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -7091,7 +7477,10 @@ type RPL_I02_Provider struct {
 
 // Return patient display list
 //
-// This trigger event occurs when the inquirer specifies a request for a name lookup listing.  Generally, this request is used by the responder when insufficient data is on hand for a positive match.  In this case, the requester may ask for a list of possible candidates from which to make a selection.  This event code is also used by the responder to signify that the return information contains a list of information rather than information specific to a single patient
+// This trigger event occurs when the inquirer specifies a request for a name lookup listing.  Generally, this request is used
+// by the responder when insufficient data is on hand for a positive match.  In this case, the requester may ask for a list of possible
+// candidates from which to make a selection.  This event code is also used by the responder to signify that the return information
+// contains a list of information rather than information specific to a single patient
 type RPL_I02 struct {
 	HL7      HL7Name            `hl7:",name=RPL_I02,type=t"`
 	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
@@ -7111,7 +7500,9 @@ type RPR_I03_Provider struct {
 
 // Return patient list
 //
-// This trigger event occurs when the inquirer specifies a request for a listing of patient names.  This event differs from event I02 (request/receipts of patient selection display list) in that it returns the patient list in repeating PID segments instead of repeating DSP segments
+// This trigger event occurs when the inquirer specifies a request for a listing of patient names.  This event differs from
+// event I02 (request/receipts of patient selection display list) in that it returns the patient list in repeating PID segments
+// instead of repeating DSP segments
 type RPR_I03 struct {
 	HL7      HL7Name            `hl7:",name=RPR_I03,type=t"`
 	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
@@ -7188,7 +7579,11 @@ type RQA_I08_Visit struct {
 
 // Request for treatment authorization information
 //
-// This event triggers a message to be sent from a healthcare provider to a payor requesting authorization to perform specific medical procedures or tests on a given patient.  The specific medical procedures must be filled out in the PR1 segments.  Each repeating PR1 segment may be paired with an AUT segment so that authorization information can be given regarding dollar amounts, number of treatments, and perhaps the estimated length of stay for treatment.  The OBR and OBX segments should be used to include any relevant clinical information that may be required to support or process the authorization
+// This event triggers a message to be sent from a healthcare provider to a payor requesting authorization to perform specific
+// medical procedures or tests on a given patient.  The specific medical procedures must be filled out in the PR1 segments.
+// Each repeating PR1 segment may be paired with an AUT segment so that authorization information can be given regarding dollar
+// amounts, number of treatments, and perhaps the estimated length of stay for treatment.  The OBR and OBX segments should
+// be used to include any relevant clinical information that may be required to support or process the authorization
 type RQA_I08 struct {
 	HL7                HL7Name                     `hl7:",name=RQA_I08,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -7275,7 +7670,9 @@ type RQA_I09_Visit struct {
 
 // Request for modification to an authorization
 //
-// This event triggers a message sent from a healthcare provider to a payor requesting changes to a previously referenced authorization.  For example, a provider may determine that a substitute testing or surgical procedure should be performed on a specified patient.
+// This event triggers a message sent from a healthcare provider to a payor requesting changes to a previously referenced
+// authorization.  For example, a provider may determine that a substitute testing or surgical procedure should be performed
+// on a specified patient.
 type RQA_I09 struct {
 	HL7                HL7Name                     `hl7:",name=RQA_I09,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -7362,7 +7759,9 @@ type RQA_I10_Visit struct {
 
 // Request for resubmission of an authorization
 //
-// If a previously submitted request for treatment authorization is rejected or canceled, this event could trigger a resubmission message for a referenced authorization.  For example, the payor may have rejected a request until additional clinical information is sent to support the authorization request.
+// If a previously submitted request for treatment authorization is rejected or canceled, this event could trigger a resubmission
+// message for a referenced authorization.  For example, the payor may have rejected a request until additional clinical
+// information is sent to support the authorization request.
 type RQA_I10 struct {
 	HL7                HL7Name                     `hl7:",name=RQA_I10,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -7449,7 +7848,9 @@ type RQA_I11_Visit struct {
 
 // Request for cancellation of an authorization
 //
-// This event may trigger the cancellation of an authorization.  It may be used by the provider to indicate that an authorized service was not performed, or perhaps that the patient changed to another provider.  A payor may use this request to reject a submitted authorization request from a provider
+// This event may trigger the cancellation of an authorization.  It may be used by the provider to indicate that an authorized
+// service was not performed, or perhaps that the patient changed to another provider.  A payor may use this request to reject
+// a submitted authorization request from a provider
 type RQA_I11 struct {
 	HL7                HL7Name                     `hl7:",name=RQA_I11,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -7478,7 +7879,9 @@ type RQC_I05_Provider struct {
 
 // Request for patient clinical information
 //
-// This event is used to request clinical information for a specific patient.  Generally, this transaction occurs between one provider and another (typically a laboratory or radiology, etc.).  However, it may also be very useful for a payor-to-provider request for clinical observation information to be used in considering a request for treatment authorization.
+// This event is used to request clinical information for a specific patient.  Generally, this transaction occurs between
+// one provider and another (typically a laboratory or radiology, etc.).  However, it may also be very useful for a payor-to-provider
+// request for clinical observation information to be used in considering a request for treatment authorization.
 type RQC_I05 struct {
 	HL7      HL7Name            `hl7:",name=RQC_I05,type=t"`
 	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
@@ -7500,7 +7903,10 @@ type RQC_I06_Provider struct {
 
 // Request/receipt of clinical data listing
 //
-// This event code is sent from one healthcare provider to another  (typically a laboratory or radiology, etc.) to request a list of available clinical observation information.  When the provider is dealing with a community model in which remote requests make transmission of large amounts of data impractical, this event code will provide for interactive lists of transactions from which more specific selections can be made.
+// This event code is sent from one healthcare provider to another  (typically a laboratory or radiology, etc.) to request
+// a list of available clinical observation information.  When the provider is dealing with a community model in which remote
+// requests make transmission of large amounts of data impractical, this event code will provide for interactive lists of
+// transactions from which more specific selections can be made.
 type RQC_I06 struct {
 	HL7      HL7Name            `hl7:",name=RQC_I06,type=t"`
 	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
@@ -7537,7 +7943,8 @@ type RQI_I01_Insurance struct {
 
 // Request for insurance information
 //
-// This event triggers a message to be sent from one healthcare provider to another to request insurance information for a specified patient.
+// This event triggers a message to be sent from one healthcare provider to another to request insurance information for a
+// specified patient.
 type RQI_I01 struct {
 	HL7                HL7Name                     `hl7:",name=RQI_I01,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -7572,7 +7979,10 @@ type RQI_I02_Insurance struct {
 
 // Request/receipt of patient selection display list
 //
-// This trigger event occurs when the inquirer specifies a request for a name lookup listing.  Generally, this request is used by the responder when insufficient data is on hand for a positive match.  In this case, the requester may ask for a list of possible candidates from which to make a selection.  This event code is also used by the responder to signify that the return information contains a list of information rather than information specific to a single patient
+// This trigger event occurs when the inquirer specifies a request for a name lookup listing.  Generally, this request is used
+// by the responder when insufficient data is on hand for a positive match.  In this case, the requester may ask for a list of possible
+// candidates from which to make a selection.  This event code is also used by the responder to signify that the return information
+// contains a list of information rather than information specific to a single patient
 type RQI_I02 struct {
 	HL7                HL7Name                     `hl7:",name=RQI_I02,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -7607,7 +8017,9 @@ type RQI_I03_Insurance struct {
 
 // Request/receipt of patient selection list
 //
-// This trigger event occurs when the inquirer specifies a request for a listing of patient names.  This event differs from event I02 (request/receipts of patient selection display list) in that it returns the patient list in repeating PID segments instead of repeating DSP segments
+// This trigger event occurs when the inquirer specifies a request for a listing of patient names.  This event differs from
+// event I02 (request/receipts of patient selection display list) in that it returns the patient list in repeating PID segments
+// instead of repeating DSP segments
 type RQI_I03 struct {
 	HL7                HL7Name                     `hl7:",name=RQI_I03,type=t"`
 	MSH                *MSH                        `hl7:"1,required,display=Message header segment"`
@@ -7627,7 +8039,9 @@ type RQP_I04_Provider struct {
 
 // Request patient demographics
 //
-// This event triggers a request from one healthcare provider to another for patient demographic information, including insurance and billing information.  Typically, this transaction would occur between one provider to another, but it could also be directed to a payor.
+// This event triggers a request from one healthcare provider to another for patient demographic information, including
+// insurance and billing information.  Typically, this transaction would occur between one provider to another, but it could
+// also be directed to a payor.
 type RQP_I04 struct {
 	HL7      HL7Name            `hl7:",name=RQP_I04,type=t"`
 	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
@@ -7754,7 +8168,9 @@ type RRE_O02_Encoding struct {
 
 // Pharmacy/treatment encoded order acknowledgment message
 //
-// This message communicates the pharmacy or treatment application’s encoding of the pharmacy/treatment order (ORM message with RXO segment, see above).  It may be sent as an unsolicited message to report on either a single order or multiple pharmacy/treatment orders for a patient.
+// This message communicates the pharmacy or treatment application’s encoding of the pharmacy/treatment order (ORM message
+// with RXO segment, see above).  It may be sent as an unsolicited message to report on either a single order or multiple pharmacy/treatment
+// orders for a patient.
 type RRE_O02 struct {
 	HL7      HL7Name           `hl7:",name=RRE_O02,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -7855,7 +8271,9 @@ type RRI_I12_PatientVisit struct {
 
 // Return patient referral
 //
-// This event triggers a message to be sent from one healthcare provider to another regarding a specific patient.  The referral message may contain patient demographic information, specific medical procedures to be performed (accompanied by previously obtained authorizations) and relevant clinical information pertinent to the patient’s case.
+// This event triggers a message to be sent from one healthcare provider to another regarding a specific patient.  The referral
+// message may contain patient demographic information, specific medical procedures to be performed (accompanied by previously
+// obtained authorizations) and relevant clinical information pertinent to the patient’s case.
 type RRI_I12 struct {
 	HL7                  HL7Name                       `hl7:",name=RRI_I12,type=t"`
 	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
@@ -7926,7 +8344,9 @@ type RRI_I13_PatientVisit struct {
 
 // Return modify patient referral
 //
-// This event triggers a message to be sent from one healthcare provider to another regarding changes to an existing referral.  Changes in a referral may include additional instructions from the referring provider, additional clinical information, and even additional information on patient demographics.
+// This event triggers a message to be sent from one healthcare provider to another regarding changes to an existing referral.
+// Changes in a referral may include additional instructions from the referring provider, additional clinical information,
+// and even additional information on patient demographics.
 type RRI_I13 struct {
 	HL7                  HL7Name                       `hl7:",name=RRI_I13,type=t"`
 	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
@@ -7997,7 +8417,8 @@ type RRI_I14_PatientVisit struct {
 
 // Return cancel patient referral
 //
-// This event triggers a message to be sent from one healthcare provider to another canceling a referral.  A previous referral may have been made in error, or perhaps the cancellation has come from the patient.
+// This event triggers a message to be sent from one healthcare provider to another canceling a referral.  A previous referral
+// may have been made in error, or perhaps the cancellation has come from the patient.
 type RRI_I14 struct {
 	HL7                  HL7Name                       `hl7:",name=RRI_I14,type=t"`
 	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
@@ -8068,7 +8489,9 @@ type RRI_I15_PatientVisit struct {
 
 // Return request patient referral status
 //
-// This event triggers a message to be sent between healthcare providers regarding the status of a patient referral request.  A previous referral has been made and acknowledged; however, no response has been received to indicate results and/or procedures performed.
+// This event triggers a message to be sent between healthcare providers regarding the status of a patient referral request.
+// A previous referral has been made and acknowledged; however, no response has been received to indicate results and/or
+// procedures performed.
 type RRI_I15 struct {
 	HL7                  HL7Name                       `hl7:",name=RRI_I15,type=t"`
 	MSH                  *MSH                          `hl7:"1,required,display=Message header segment"`
@@ -8179,7 +8602,9 @@ type SIU_S12_PersonnelResource struct {
 
 // Notification of new appointment booking
 //
-// This message is sent from a filler application to notify other applications that a new appointment has been booked.  The information provided in the SCH segment and the other detail segments as appropriate describe the appointment that has been booked by the filler application.
+// This message is sent from a filler application to notify other applications that a new appointment has been booked.  The
+// information provided in the SCH segment and the other detail segments as appropriate describe the appointment that has
+// been booked by the filler application.
 type SIU_S12 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S12,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8240,7 +8665,10 @@ type SIU_S13_PersonnelResource struct {
 
 // Notification of appointment rescheduling
 //
-// This message is sent from a filler application to notify other applications that an existing appointment has been rescheduled.  The information in the SCH segment and the other detail segments as appropriate describe the new date(s) and time(s) to which the previously booked appointment has been moved.  Additionally, it describes the unchanged information in the previously booked appointment.
+// This message is sent from a filler application to notify other applications that an existing appointment has been rescheduled.
+// The information in the SCH segment and the other detail segments as appropriate describe the new date(s) and time(s) to
+// which the previously booked appointment has been moved.  Additionally, it describes the unchanged information in the
+// previously booked appointment.
 type SIU_S13 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S13,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8301,7 +8729,9 @@ type SIU_S14_PersonnelResource struct {
 
 // Notification of appointment modification
 //
-// This message notifies other applications that an existing appointment has been modified on the filler application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
+// This message notifies other applications that an existing appointment has been modified on the filler application.  This
+// trigger event should only be used for appointments that have not been completed, or for parent appointments whose children
+// have not been completed
 type SIU_S14 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S14,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8362,7 +8792,9 @@ type SIU_S15_PersonnelResource struct {
 
 // Notification of appointment cancellation
 //
-// A notification of appointment cancellation is sent by the filler application to other applications when an existing appointment has been canceled.  A cancel event is used to stop a valid appointment from taking place.  For example, if a patient scheduled for an exam cancels his/her appointment, then the appointment is canceled on the filler application
+// A notification of appointment cancellation is sent by the filler application to other applications when an existing appointment
+// has been canceled.  A cancel event is used to stop a valid appointment from taking place.  For example, if a patient scheduled
+// for an exam cancels his/her appointment, then the appointment is canceled on the filler application
 type SIU_S15 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S15,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8423,7 +8855,9 @@ type SIU_S16_PersonnelResource struct {
 
 // Notification of appointment discontinuation
 //
-// A notification of appointment discontinuation is sent by the filler application to notify other applications that an appointment in progress has been stopped, or that the remaining occurrences of a parent appointment will not occur.  If none of the child appointments of a parent appointment have taken place, then a cancel trigger event should be sent instead
+// A notification of appointment discontinuation is sent by the filler application to notify other applications that an
+// appointment in progress has been stopped, or that the remaining occurrences of a parent appointment will not occur.  If
+// none of the child appointments of a parent appointment have taken place, then a cancel trigger event should be sent instead
 type SIU_S16 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S16,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8484,7 +8918,13 @@ type SIU_S17_PersonnelResource struct {
 
 // Notification of appointment deletion
 //
-// A notification of appointment deletion is sent by the filler application to other applications when an appointment that had been entered in error has been removed from the system.  A delete trigger event should only be used when an appointment has been erroneously scheduled.  It must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring. This trigger event should not be used for any appointment that has already begun, or that has already been completed.  Likewise, it should not be used for any parent appointment if any child appointments have either begun or been completed
+// A notification of appointment deletion is sent by the filler application to other applications when an appointment that
+// had been entered in error has been removed from the system.  A delete trigger event should only be used when an appointment
+// has been erroneously scheduled.  It must be removed from the schedule so that it does not affect any statistical processing.
+// A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts
+// to prevent a valid request from occurring. This trigger event should not be used for any appointment that has already begun,
+// or that has already been completed.  Likewise, it should not be used for any parent appointment if any child appointments
+// have either begun or been completed
 type SIU_S17 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S17,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8545,7 +8985,10 @@ type SIU_S18_PersonnelResource struct {
 
 // Notification of addition of service/resource on appointment
 //
-// The notification of addition of service/resource is triggered on the filler application when a new service or resource has been added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
+// The notification of addition of service/resource is triggered on the filler application when a new service or resource
+// has been added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments
+// on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been
+// completed, or for parent appointments whose children have not been completed
 type SIU_S18 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S18,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8606,7 +9049,10 @@ type SIU_S19_PersonnelResource struct {
 
 // Notification of modification of service/resource on appointment
 //
-// The notification of modification of service/resource is triggered on the filler application when the information pertaining to an existing service or resource has been changed for an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
+// The notification of modification of service/resource is triggered on the filler application when the information pertaining
+// to an existing service or resource has been changed for an existing appointment.  Services and resources are represented
+// by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used
+// for appointments that have not been completed, or for parent appointments whose children have not been completed
 type SIU_S19 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S19,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8667,7 +9113,11 @@ type SIU_S20_PersonnelResource struct {
 
 // Notification of cancellation of service/resource on appointment
 //
-// This trigger event notifies other applications that a service or resource has been removed from an existing scheduled appointment that has not yet begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.  For example, if a portable X-ray machine scheduled for an exam is no longer needed, then the resource is canceled on the filler application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
+// This trigger event notifies other applications that a service or resource has been removed from an existing scheduled
+// appointment that has not yet begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.
+// For example, if a portable X-ray machine scheduled for an exam is no longer needed, then the resource is canceled on the filler
+// application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments
+// whose children have not been completed
 type SIU_S20 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S20,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8728,7 +9178,12 @@ type SIU_S21_PersonnelResource struct {
 
 // Notification of discontinuation of service/resource on appointment
 //
-// A notification of discontinuation of service/resource is sent by the filler application to other applications when the remaining children of a parent appointment no longer require a particular service or resource.  In other words, this trigger event is sent to discontinue the performance of a service or resource in a parent appointment that has already begun.  If the first appointment in a set of recurring appointments has not yet taken place, then a cancel trigger event should be sent instead.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed
+// A notification of discontinuation of service/resource is sent by the filler application to other applications when the
+// remaining children of a parent appointment no longer require a particular service or resource.  In other words, this trigger
+// event is sent to discontinue the performance of a service or resource in a parent appointment that has already begun.  If
+// the first appointment in a set of recurring appointments has not yet taken place, then a cancel trigger event should be sent
+// instead.  This trigger event should only be used for appointments that have not been completed, or for parent appointments
+// whose children have not been completed
 type SIU_S21 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S21,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8789,7 +9244,12 @@ type SIU_S22_PersonnelResource struct {
 
 // Notification of deletion of service/resource on appointment
 //
-// A notification of deletion of service/resource is sent by the filler application to other applications when a scheduled appointment requiring a service or resource entered in error has been removed from the system. A delete trigger event should only be used in those circumstances when a service or resource has been erroneously attached to an appointment, and must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from taking place
+// A notification of deletion of service/resource is sent by the filler application to other applications when a scheduled
+// appointment requiring a service or resource entered in error has been removed from the system. A delete trigger event should
+// only be used in those circumstances when a service or resource has been erroneously attached to an appointment, and must
+// be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from
+// a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from taking
+// place
 type SIU_S22 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S22,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8850,7 +9310,12 @@ type SIU_S23_PersonnelResource struct {
 
 // Notification of blocked schedule time slot(s)
 //
-// A notification of blocked schedule time slots is sent by the filler application to other applications when a schedule has had one or more time slots blocked and made unavailable for reasons other than the scheduling of an appointment.  For example, if an exam room is unavailable for several hours because of maintenance needs or contamination, a user may block off those several hours on the exam room’s schedule. Similarly, if a physician is unavailable because he or she has taken vacation time, his or her schedule may be blocked off for the duration of the vacation.  When these types of conditions exist, the filler application may use this transaction to notify other applications that the resources controlled by schedules are unavailable
+// A notification of blocked schedule time slots is sent by the filler application to other applications when a schedule has
+// had one or more time slots blocked and made unavailable for reasons other than the scheduling of an appointment.  For example,
+// if an exam room is unavailable for several hours because of maintenance needs or contamination, a user may block off those
+// several hours on the exam room’s schedule. Similarly, if a physician is unavailable because he or she has taken vacation
+// time, his or her schedule may be blocked off for the duration of the vacation.  When these types of conditions exist, the filler
+// application may use this transaction to notify other applications that the resources controlled by schedules are unavailable
 type SIU_S23 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S23,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8911,7 +9376,17 @@ type SIU_S24_PersonnelResource struct {
 
 // Notification of opened ("un-blocked") schedule time slot(s)
 //
-// A notification of blocked schedule time slots is sent by the filler application to other applications when a schedule has one or more time slots open up (“un-blocked”) and become available for use.  Typically, the blocked period of time on a schedule is simply allowed to expire, because the blocked amount of time is generally used for non-appointment activities. This transaction can be used either to discontinue the blocked status on the schedule, or to reverse a previous block made in error.  For the purposes of this transaction, discontinuing a block currently in progress (the blocked period has started, but not yet completed) and canceling a blocked period in the future are not significantly different.  Therefore, a separate discontinue block transaction is not necessary.  If this transaction is received prior to the inception of a blocked period, then the entire block period is simply canceled according to the data provided in the transaction.  If the transaction is received after the blocked period has begun, but prior to the end of the blocked period, then the blocked period is discontinued according to the data provided in the transactions.  Applications may decide how to handle transactions that attempt to open a blocked period that has both started and ended in the past; however, these transactions can generally be ignored
+// A notification of blocked schedule time slots is sent by the filler application to other applications when a schedule has
+// one or more time slots open up (“un-blocked”) and become available for use.  Typically, the blocked period of time on a schedule
+// is simply allowed to expire, because the blocked amount of time is generally used for non-appointment activities. This
+// transaction can be used either to discontinue the blocked status on the schedule, or to reverse a previous block made in
+// error.  For the purposes of this transaction, discontinuing a block currently in progress (the blocked period has started,
+// but not yet completed) and canceling a blocked period in the future are not significantly different.  Therefore, a separate
+// discontinue block transaction is not necessary.  If this transaction is received prior to the inception of a blocked period,
+// then the entire block period is simply canceled according to the data provided in the transaction.  If the transaction is
+// received after the blocked period has begun, but prior to the end of the blocked period, then the blocked period is discontinued
+// according to the data provided in the transactions.  Applications may decide how to handle transactions that attempt to
+// open a blocked period that has both started and ended in the past; however, these transactions can generally be ignored
 type SIU_S24 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S24,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -8972,7 +9447,10 @@ type SIU_S26_PersonnelResource struct {
 
 // Notification that patient did not show up for scheduled appointment
 //
-// A notification that a patient did not show up for an appointment.  For example, if a patient was scheduled for a clinic visit, and never arrived for that appointment, this trigger event can be used to set a status on the appointment record for statistical purposes, as well as to free resources assigned to the appointment (or any other application level actions that must be taken in the event a patient does not appear for an appointment).
+// A notification that a patient did not show up for an appointment.  For example, if a patient was scheduled for a clinic visit,
+// and never arrived for that appointment, this trigger event can be used to set a status on the appointment record for statistical
+// purposes, as well as to free resources assigned to the appointment (or any other application level actions that must be
+// taken in the event a patient does not appear for an appointment).
 type SIU_S26 struct {
 	HL7       HL7Name             `hl7:",name=SIU_S26,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9040,7 +9518,10 @@ type SQM_S25_LocationResource struct {
 
 // Schedule query message and response
 //
-// Original Mode record-oriented query transactions are initiated from the querying application using the Schedule Query (SQM) to request information about a filler application’s schedule(s).  The filler application responds to these requests, using the Schedule Query Response (SQR) message to either return the requested information, or to signal that an interfacing error of some kind has occurred.
+// Original Mode record-oriented query transactions are initiated from the querying application using the Schedule Query
+// (SQM) to request information about a filler application’s schedule(s).  The filler application responds to these requests,
+// using the Schedule Query Response (SQR) message to either return the requested information, or to signal that an interfacing
+// error of some kind has occurred.
 type SQM_S25 struct {
 	HL7     HL7Name          `hl7:",name=SQM_S25,type=t"`
 	MSH     *MSH             `hl7:"1,required,display=Message header segment"`
@@ -9108,7 +9589,10 @@ type SQR_S25_LocationResource struct {
 
 // Schedule query message and response
 //
-// Original Mode record-oriented query transactions are initiated from the querying application using the Schedule Query (SQM) to request information about a filler application’s schedule(s).  The filler application responds to these requests, using the Schedule Query Response (SQR) message to either return the requested information, or to signal that an interfacing error of some kind has occurred.
+// Original Mode record-oriented query transactions are initiated from the querying application using the Schedule Query
+// (SQM) to request information about a filler application’s schedule(s).  The filler application responds to these requests,
+// using the Schedule Query Response (SQR) message to either return the requested information, or to signal that an interfacing
+// error of some kind has occurred.
 type SQR_S25 struct {
 	HL7      HL7Name            `hl7:",name=SQR_S25,type=t"`
 	MSH      *MSH               `hl7:"1,required,display=Message header segment"`
@@ -9173,7 +9657,10 @@ type SRM_S01_PersonnelResource struct {
 
 // Request new appointment booking
 //
-// A placer application sends a transaction with this trigger event to a filler application to request that a new appointment be booked.  If it is successful, the filler application returns an application acknowledgment (if requested under the enhanced acknowledgment mode, or if the original acknowledgment mode is in use). The acknowledgment may optionally contain an SCH segment and related detail segments describing the actual appointment that was booked.
+// A placer application sends a transaction with this trigger event to a filler application to request that a new appointment
+// be booked.  If it is successful, the filler application returns an application acknowledgment (if requested under the
+// enhanced acknowledgment mode, or if the original acknowledgment mode is in use). The acknowledgment may optionally contain
+// an SCH segment and related detail segments describing the actual appointment that was booked.
 type SRM_S01 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S01,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9238,7 +9725,11 @@ type SRM_S02_PersonnelResource struct {
 
 // Request appointment rescheduling
 //
-// A placer application uses this trigger event to request that an existing appointment be rescheduled.  The new Requested Start Date and Time, Appointment Duration, Repeating Interval, Repeating Interval Duration, and/or Priority are provided in the ARQ segment, along with the existing placer and filler identification numbers.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information for the rescheduled appointment.
+// A placer application uses this trigger event to request that an existing appointment be rescheduled.  The new Requested
+// Start Date and Time, Appointment Duration, Repeating Interval, Repeating Interval Duration, and/or Priority are provided
+// in the ARQ segment, along with the existing placer and filler identification numbers.  If it is successful, an application
+// acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information
+// for the rescheduled appointment.
 type SRM_S02 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S02,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9303,7 +9794,12 @@ type SRM_S03_PersonnelResource struct {
 
 // Request appointment modification
 //
-// This message transmits a request for modification of an existing appointment to a filler application.  This trigger event is used to request the modification of information on an existing appointment, outside of the need to reschedule, cancel, discontinue or delete the appointment, or to add, modify, cancel, discontinue, or delete services and/or resources on the appointment.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information for the modified appointment.
+// This message transmits a request for modification of an existing appointment to a filler application.  This trigger event
+// is used to request the modification of information on an existing appointment, outside of the need to reschedule, cancel,
+// discontinue or delete the appointment, or to add, modify, cancel, discontinue, or delete services and/or resources on
+// the appointment.  This trigger event should only be used for appointments that have not been completed, or for parent appointments
+// whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing
+// an SCH segment and related detail segments describing the new information for the modified appointment.
 type SRM_S03 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S03,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9368,7 +9864,11 @@ type SRM_S04_PersonnelResource struct {
 
 // Request appointment cancellation
 //
-// The request appointment cancellation trigger event is sent by the placer application to the filler application to request that an existing appointment be canceled.  A cancel event is used to stop a valid appointment from occurring.  For example, if a patient scheduled for an exam cancels his/her appointment, then a request to cancel the appointment is sent.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the canceled appointment.
+// The request appointment cancellation trigger event is sent by the placer application to the filler application to request
+// that an existing appointment be canceled.  A cancel event is used to stop a valid appointment from occurring.  For example,
+// if a patient scheduled for an exam cancels his/her appointment, then a request to cancel the appointment is sent.  If it is
+// successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments
+// describing the canceled appointment.
 type SRM_S04 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S04,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9433,7 +9933,11 @@ type SRM_S05_PersonnelResource struct {
 
 // Request appointment discontinuation
 //
-// The request appointment discontinuation is sent by the placer application to the filler application to request that an appointment in progress be stopped, or that the remaining occurrences of a parent appointment not occur as scheduled.  If none of the child appointments of a parent appointment have occurred, then a cancel trigger event should be sent instead.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the discontinued appointment.
+// The request appointment discontinuation is sent by the placer application to the filler application to request that an
+// appointment in progress be stopped, or that the remaining occurrences of a parent appointment not occur as scheduled.
+// If none of the child appointments of a parent appointment have occurred, then a cancel trigger event should be sent instead.
+// If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail
+// segments describing the discontinued appointment.
 type SRM_S05 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S05,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9561,7 +10065,11 @@ type SRM_S07_PersonnelResource struct {
 
 // Request addition of service/resource on appointment
 //
-// The request addition of service/resource is triggered by the placer application to request that a new service or resource be added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
+// The request addition of service/resource is triggered by the placer application to request that a new service or resource
+// be added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an
+// HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed,
+// or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment
+// is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
 type SRM_S07 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S07,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9626,7 +10134,12 @@ type SRM_S08_PersonnelResource struct {
 
 // Request modification of service/resource on appointment
 //
-// The request modification of service/resource is triggered on the placer application to request that information pertaining to an existing service or resource be changed for an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
+// The request modification of service/resource is triggered on the placer application to request that information pertaining
+// to an existing service or resource be changed for an existing appointment.  Services and resources are represented by the
+// AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments
+// that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an
+// application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing
+// the modified appointment.
 type SRM_S08 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S08,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9691,7 +10204,12 @@ type SRM_S09_PersonnelResource struct {
 
 // Request cancellation of service/resource on appointment
 //
-// This trigger event requests that a service or resource be removed from an existing scheduled appointment that has not yet begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.  For example, if a portable X-ray machine scheduled for an exam is no longer needed, then the placer application requests that the resource be canceled on the filler application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
+// This trigger event requests that a service or resource be removed from an existing scheduled appointment that has not yet
+// begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.  For example, if
+// a portable X-ray machine scheduled for an exam is no longer needed, then the placer application requests that the resource
+// be canceled on the filler application.  This trigger event should only be used for appointments that have not been completed,
+// or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment
+// is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
 type SRM_S09 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S09,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9756,7 +10274,13 @@ type SRM_S10_PersonnelResource struct {
 
 // Request discontinuation of service/resource on appointment
 //
-// A request discontinuation of service/resource is sent by the placer application to the filler application when the remaining occurrences of a recurring appointment no longer require a particular service or resource.  In other words, this trigger event is sent to request that the performance of a service or resource in a recurring appointment that has already begun be stopped.  If the first appointment in a set of recurring appointments has not yet occurred, then a cancel trigger event should be sent instead.  This trigger event should only be used on appointments that have not been completed, or on parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
+// A request discontinuation of service/resource is sent by the placer application to the filler application when the remaining
+// occurrences of a recurring appointment no longer require a particular service or resource.  In other words, this trigger
+// event is sent to request that the performance of a service or resource in a recurring appointment that has already begun
+// be stopped.  If the first appointment in a set of recurring appointments has not yet occurred, then a cancel trigger event
+// should be sent instead.  This trigger event should only be used on appointments that have not been completed, or on parent
+// appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned,
+// optionally containing an SCH segment and related detail segments describing the modified appointment
 type SRM_S10 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S10,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9821,7 +10345,14 @@ type SRM_S11_PersonnelResource struct {
 
 // Request deletion of service/resource on appointment
 //
-// A request deletion of service/resource is sent by the placer application to the filler application to request that a scheduled appointment requiring a service or resource entered in error be removed from the system. A delete trigger event should only be used when a service or resource has been erroneously attached to an appointment, and must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring.  This trigger event should only be used on appointments that have not been completed, or on parent appointments whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
+// A request deletion of service/resource is sent by the placer application to the filler application to request that a scheduled
+// appointment requiring a service or resource entered in error be removed from the system. A delete trigger event should
+// only be used when a service or resource has been erroneously attached to an appointment, and must be removed from the schedule
+// so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that
+// a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring.  This trigger event should
+// only be used on appointments that have not been completed, or on parent appointments whose children have not been completed.
+// If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail
+// segments describing the modified appointment.
 type SRM_S11 struct {
 	HL7       HL7Name             `hl7:",name=SRM_S11,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -9890,7 +10421,10 @@ type SRR_S01_PersonnelResource struct {
 
 // Result new appointment booking
 //
-// A placer application sends a transaction with this trigger event to a filler application to request that a new appointment be booked.  If it is successful, the filler application returns an application acknowledgment (if requested under the enhanced acknowledgment mode, or if the original acknowledgment mode is in use). The acknowledgment may optionally contain an SCH segment and related detail segments describing the actual appointment that was booked.
+// A placer application sends a transaction with this trigger event to a filler application to request that a new appointment
+// be booked.  If it is successful, the filler application returns an application acknowledgment (if requested under the
+// enhanced acknowledgment mode, or if the original acknowledgment mode is in use). The acknowledgment may optionally contain
+// an SCH segment and related detail segments describing the actual appointment that was booked.
 type SRR_S01 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S01,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -9957,7 +10491,11 @@ type SRR_S02_PersonnelResource struct {
 
 // Result appointment rescheduling
 //
-// A placer application uses this trigger event to request that an existing appointment be rescheduled.  The new Requested Start Date and Time, Appointment Duration, Repeating Interval, Repeating Interval Duration, and/or Priority are provided in the ARQ segment, along with the existing placer and filler identification numbers.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information for the rescheduled appointment.
+// A placer application uses this trigger event to request that an existing appointment be rescheduled.  The new Requested
+// Start Date and Time, Appointment Duration, Repeating Interval, Repeating Interval Duration, and/or Priority are provided
+// in the ARQ segment, along with the existing placer and filler identification numbers.  If it is successful, an application
+// acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information
+// for the rescheduled appointment.
 type SRR_S02 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S02,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10024,7 +10562,12 @@ type SRR_S03_PersonnelResource struct {
 
 // Result appointment modification
 //
-// This message transmits a request for modification of an existing appointment to a filler application.  This trigger event is used to request the modification of information on an existing appointment, outside of the need to reschedule, cancel, discontinue or delete the appointment, or to add, modify, cancel, discontinue, or delete services and/or resources on the appointment.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the new information for the modified appointment.
+// This message transmits a request for modification of an existing appointment to a filler application.  This trigger event
+// is used to request the modification of information on an existing appointment, outside of the need to reschedule, cancel,
+// discontinue or delete the appointment, or to add, modify, cancel, discontinue, or delete services and/or resources on
+// the appointment.  This trigger event should only be used for appointments that have not been completed, or for parent appointments
+// whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing
+// an SCH segment and related detail segments describing the new information for the modified appointment.
 type SRR_S03 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S03,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10091,7 +10634,11 @@ type SRR_S04_PersonnelResource struct {
 
 // Result appointment cancellation
 //
-// The request appointment cancellation trigger event is sent by the placer application to the filler application to request that an existing appointment be canceled.  A cancel event is used to stop a valid appointment from occurring.  For example, if a patient scheduled for an exam cancels his/her appointment, then a request to cancel the appointment is sent.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the canceled appointment.
+// The request appointment cancellation trigger event is sent by the placer application to the filler application to request
+// that an existing appointment be canceled.  A cancel event is used to stop a valid appointment from occurring.  For example,
+// if a patient scheduled for an exam cancels his/her appointment, then a request to cancel the appointment is sent.  If it is
+// successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments
+// describing the canceled appointment.
 type SRR_S04 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S04,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10158,7 +10705,11 @@ type SRR_S05_PersonnelResource struct {
 
 // Result appointment discontinuation
 //
-// The request appointment discontinuation is sent by the placer application to the filler application to request that an appointment in progress be stopped, or that the remaining occurrences of a parent appointment not occur as scheduled.  If none of the child appointments of a parent appointment have occurred, then a cancel trigger event should be sent instead.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the discontinued appointment.
+// The request appointment discontinuation is sent by the placer application to the filler application to request that an
+// appointment in progress be stopped, or that the remaining occurrences of a parent appointment not occur as scheduled.
+// If none of the child appointments of a parent appointment have occurred, then a cancel trigger event should be sent instead.
+// If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail
+// segments describing the discontinued appointment.
 type SRR_S05 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S05,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10225,7 +10776,14 @@ type SRR_S06_PersonnelResource struct {
 
 // Result appointment deletion
 //
-// A request appointment deletion is sent by the placer application to the filler application to request that an appointment that had been entered in error be removed from the system.  A delete trigger event should only be used when an appointment has been erroneously requested, and must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring.  This trigger event should not be used for any appointment that has already begun, or has already been completed.  Likewise, it should not be used on any parent appointment if any child appointments have either begun or been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the deleted appointment.
+// A request appointment deletion is sent by the placer application to the filler application to request that an appointment
+// that had been entered in error be removed from the system.  A delete trigger event should only be used when an appointment
+// has been erroneously requested, and must be removed from the schedule so that it does not affect any statistical processing.
+// A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts
+// to prevent a valid request from occurring.  This trigger event should not be used for any appointment that has already begun,
+// or has already been completed.  Likewise, it should not be used on any parent appointment if any child appointments have
+// either begun or been completed.  If it is successful, an application acknowledgment is returned, optionally containing
+// an SCH segment and related detail segments describing the deleted appointment.
 type SRR_S06 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S06,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10292,7 +10850,11 @@ type SRR_S07_PersonnelResource struct {
 
 // Result addition of service/resource on appointment
 //
-// The request addition of service/resource is triggered by the placer application to request that a new service or resource be added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
+// The request addition of service/resource is triggered by the placer application to request that a new service or resource
+// be added to an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an
+// HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed,
+// or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment
+// is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
 type SRR_S07 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S07,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10359,7 +10921,12 @@ type SRR_S08_PersonnelResource struct {
 
 // Result modification of service/resource on appointment
 //
-// The request modification of service/resource is triggered on the placer application to request that information pertaining to an existing service or resource be changed for an existing appointment.  Services and resources are represented by the AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
+// The request modification of service/resource is triggered on the placer application to request that information pertaining
+// to an existing service or resource be changed for an existing appointment.  Services and resources are represented by the
+// AIS, AIG, AIL, and AIP segments on an HL7 scheduling interface transaction.  This trigger event should only be used for appointments
+// that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an
+// application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing
+// the modified appointment.
 type SRR_S08 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S08,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10426,7 +10993,12 @@ type SRR_S09_PersonnelResource struct {
 
 // Result cancellation of service/resource on appointment
 //
-// This trigger event requests that a service or resource be removed from an existing scheduled appointment that has not yet begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.  For example, if a portable X-ray machine scheduled for an exam is no longer needed, then the placer application requests that the resource be canceled on the filler application.  This trigger event should only be used for appointments that have not been completed, or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
+// This trigger event requests that a service or resource be removed from an existing scheduled appointment that has not yet
+// begun.  A cancel event is used to stop a valid service or resource from participating in the appointment.  For example, if
+// a portable X-ray machine scheduled for an exam is no longer needed, then the placer application requests that the resource
+// be canceled on the filler application.  This trigger event should only be used for appointments that have not been completed,
+// or for parent appointments whose children have not been completed.  If it is successful, an application acknowledgment
+// is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
 type SRR_S09 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S09,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10493,7 +11065,13 @@ type SRR_S10_PersonnelResource struct {
 
 // Result discontinuation of service/resource on appointment
 //
-// A request discontinuation of service/resource is sent by the placer application to the filler application when the remaining occurrences of a recurring appointment no longer require a particular service or resource.  In other words, this trigger event is sent to request that the performance of a service or resource in a recurring appointment that has already begun be stopped.  If the first appointment in a set of recurring appointments has not yet occurred, then a cancel trigger event should be sent instead.  This trigger event should only be used on appointments that have not been completed, or on parent appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment
+// A request discontinuation of service/resource is sent by the placer application to the filler application when the remaining
+// occurrences of a recurring appointment no longer require a particular service or resource.  In other words, this trigger
+// event is sent to request that the performance of a service or resource in a recurring appointment that has already begun
+// be stopped.  If the first appointment in a set of recurring appointments has not yet occurred, then a cancel trigger event
+// should be sent instead.  This trigger event should only be used on appointments that have not been completed, or on parent
+// appointments whose children have not been completed.  If it is successful, an application acknowledgment is returned,
+// optionally containing an SCH segment and related detail segments describing the modified appointment
 type SRR_S10 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S10,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10560,7 +11138,14 @@ type SRR_S11_PersonnelResource struct {
 
 // Result deletion of service/resource on appointment
 //
-// A request deletion of service/resource is sent by the placer application to the filler application to request that a scheduled appointment requiring a service or resource entered in error be removed from the system. A delete trigger event should only be used when a service or resource has been erroneously attached to an appointment, and must be removed from the schedule so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring.  This trigger event should only be used on appointments that have not been completed, or on parent appointments whose children have not been completed. If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail segments describing the modified appointment.
+// A request deletion of service/resource is sent by the placer application to the filler application to request that a scheduled
+// appointment requiring a service or resource entered in error be removed from the system. A delete trigger event should
+// only be used when a service or resource has been erroneously attached to an appointment, and must be removed from the schedule
+// so that it does not affect any statistical processing.  A delete trigger event differs from a cancel trigger event in that
+// a delete acts to remove an error, whereas a cancel acts to prevent a valid request from occurring.  This trigger event should
+// only be used on appointments that have not been completed, or on parent appointments whose children have not been completed.
+// If it is successful, an application acknowledgment is returned, optionally containing an SCH segment and related detail
+// segments describing the modified appointment.
 type SRR_S11 struct {
 	HL7      HL7Name           `hl7:",name=SRR_S11,type=t"`
 	MSH      *MSH              `hl7:"1,required,display=Message header segment"`
@@ -10616,9 +11201,12 @@ type TBR_R08 struct {
 
 // Unsolicited display update message
 //
-// There is a simple HL7 message that allows for unsolicited display update messages to be sent in HL7 format from one system to another.
+// There is a simple HL7 message that allows for unsolicited display update messages to be sent in HL7 format from one system
+// to another.
 //
-// Trigger events for the unsolicited update are generally the completion of a particular action (concerning a given patient).  For example, a lab test might be completed, generating a STAT unsolicited display message to be sent to the appropriate location
+// Trigger events for the unsolicited update are generally the completion of a particular action (concerning a given patient).
+// For example, a lab test might be completed, generating a STAT unsolicited display message to be sent to the appropriate
+// location
 type UDM_Q05 struct {
 	HL7 HL7Name `hl7:",name=UDM_Q05,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -10651,7 +11239,11 @@ type VQQ_Q07 struct {
 
 // Query for vaccination record
 //
-// When an immunization registry does not already have the complete patient vaccination record, it will send a query (with a V01 event) for the definitive (last updated) record.  Within the definitions for QRD and QRF, certain components are defined according to position in the field, as detailed in Section 4.11, “QUERIES FOR IMMUNIZATION RECORDS (QRF SEGMENTS).”  The three-letter code in the leftmost column indicates the segment that is included; the column on the right specifies the chapter in which that segment is fully defined
+// When an immunization registry does not already have the complete patient vaccination record, it will send a query (with
+// a V01 event) for the definitive (last updated) record.  Within the definitions for QRD and QRF, certain components are defined
+// according to position in the field, as detailed in Section 4.11, “QUERIES FOR IMMUNIZATION RECORDS (QRF SEGMENTS).”  The
+// three-letter code in the leftmost column indicates the segment that is included; the column on the right specifies the
+// chapter in which that segment is fully defined
 type VXQ_V01 struct {
 	HL7 HL7Name `hl7:",name=VXQ_V01,type=t"`
 	MSH *MSH    `hl7:"1,required,display=Message header segment"`
@@ -10692,7 +11284,11 @@ type VXR_V03_Observation struct {
 
 // Vaccination record response
 //
-// When the patient has been uniquely identified (there is only one “match” to the query), the response to the query (with a V03 event) will follow this format.  Within the definitions for QRD and QRF, certain components are defined according to position in the field, as detailed in Section 4.11, “QUERIES FOR IMMUNIZATION RECORDS (QRF SEGMENTS).”  The three-letter code in the leftmost column indicates the segment that is included; the column on the right specifies the chapter in which that segment is fully defined.
+// When the patient has been uniquely identified (there is only one “match” to the query), the response to the query (with a
+// V03 event) will follow this format.  Within the definitions for QRD and QRF, certain components are defined according to
+// position in the field, as detailed in Section 4.11, “QUERIES FOR IMMUNIZATION RECORDS (QRF SEGMENTS).”  The three-letter
+// code in the leftmost column indicates the segment that is included; the column on the right specifies the chapter in which
+// that segment is fully defined.
 type VXR_V03 struct {
 	HL7          HL7Name               `hl7:",name=VXR_V03,type=t"`
 	MSH          *MSH                  `hl7:"1,required,display=Message header segment"`
@@ -10740,7 +11336,8 @@ type VXU_V04_Observation struct {
 
 // Unsolicited vaccination record update
 //
-// When a provider wishes to update the patient’s vaccination record being held in  a registry, he will transmit an unsolicited update of the record ( a V04 trigger event).
+// When a provider wishes to update the patient’s vaccination record being held in  a registry, he will transmit an unsolicited
+// update of the record ( a V04 trigger event).
 type VXU_V04 struct {
 	HL7       HL7Name             `hl7:",name=VXU_V04,type=t"`
 	MSH       *MSH                `hl7:"1,required,display=Message header segment"`
@@ -10761,7 +11358,8 @@ type VXX_V02_Patient struct {
 
 // Response to vaccination query
 //
-// In response to a query for the definitive patient vaccination record, the registry holding the record will return it to the registry originating the query.
+// In response to a query for the definitive patient vaccination record, the registry holding the record will return it to
+// the registry originating the query.
 type VXX_V02 struct {
 	HL7     HL7Name           `hl7:",name=VXX_V02,type=t"`
 	MSH     *MSH              `hl7:"1,required,display=Message header segment"`

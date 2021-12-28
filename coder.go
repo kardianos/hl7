@@ -14,6 +14,7 @@ type Registry interface {
 	ControlSegment() RegistryLookup
 	Segment() RegistryLookup
 	Trigger() RegistryLookup
+	DataType() RegistryLookup
 }
 
 const tagName = "hl7"

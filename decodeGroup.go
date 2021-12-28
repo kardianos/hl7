@@ -74,8 +74,8 @@ func (w *walker) process(list []any) (any, error) {
 	return rootI, nil
 }
 
-// Group a list of segments into hierarchical groups with a single root element.
-func Group(list []any, registry Registry) (any, error) {
+// group a list of segments into hierarchical groups with a single root element.
+func group(list []any, registry Registry) (any, error) {
 	w, err := newWalker(list, registry)
 	if err != nil {
 		return nil, err

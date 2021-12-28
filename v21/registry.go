@@ -20,9 +20,14 @@ func (registry) Segment() map[string]any {
 func (registry) Trigger() map[string]any {
 	return TriggerRegistry
 }
+func (registry) DataType() map[string]any {
+	return DataTypeRegistry
+}
 
+// Version of this HL7 package.
 var Version = `2.1`
 
+// Segments specific to file and batch control.
 var ControlSegmentRegistry = map[string]any{
 	"BHS": BHS{},
 	"BTS": BTS{},
@@ -32,6 +37,7 @@ var ControlSegmentRegistry = map[string]any{
 	"ADD": ADD{},
 }
 
+// Segment lookup by ID.
 var SegmentRegistry = map[string]any{
 	"ACC": ACC{},
 	"ADD": ADD{},
@@ -67,6 +73,7 @@ var SegmentRegistry = map[string]any{
 	"URS": URS{},
 }
 
+// Trigger lookup by ID.
 var TriggerRegistry = map[string]any{
 	"ADT_A01": ADT_A01{},
 	"ADT_A02": ADT_A02{},
@@ -103,4 +110,23 @@ var TriggerRegistry = map[string]any{
 	"QRY_Q01": QRY_Q01{},
 	"QRY_Q02": QRY_Q02{},
 	"UDM_Q05": UDM_Q05{},
+}
+
+// Data Type lookup by ID.
+var DataTypeRegistry = map[string]any{
+	"AD": *(new(AD)),
+	"CE": *(new(CE)),
+	"CK": *(new(CK)),
+	"CM": *(new(CM)),
+	"CN": *(new(CN)),
+	"CQ": *(new(CQ)),
+	"DT": *(new(DT)),
+	"ID": *(new(ID)),
+	"NM": *(new(NM)),
+	"PN": *(new(PN)),
+	"SI": *(new(SI)),
+	"ST": *(new(ST)),
+	"TN": *(new(TN)),
+	"TS": *(new(TS)),
+	"TX": *(new(TX)),
 }

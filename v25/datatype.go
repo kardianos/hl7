@@ -53,7 +53,9 @@ type CE struct {
 
 // Coded with No Exceptions
 //
-// Specifies a coded element and its associated detail. The CNE data type is used when a required or mandatory coded field is needed. The specified HL7 or externally defined table must be used and may not be extended with local values. Text may not replace the code. A CNE field must have an HL7 defined or external table associated with it. It must be specified in the standard.
+// Specifies a coded element and its associated detail. The CNE data type is used when a required or mandatory coded field is
+// needed. The specified HL7 or externally defined table must be used and may not be extended with local values. Text may not
+// replace the code. A CNE field must have an HL7 defined or external table associated with it. It must be specified in the standard.
 type CNE struct {
 	HL7                            HL7Name `hl7:",name=CNE,len=705,type=d"`
 	Identifier                     ST      `hl7:"1,required,len=20,display=Sequence of characters (the code) that uniquely identifies the item being referenced by the CNE.2. Different coding schemes will have different elements here."`
@@ -99,6 +101,7 @@ type CP struct {
 // Composite Quantity with Units
 //
 // Note: CQ cannot be legally expressed when embedded within another data type. Its use is constrained to a segment field.
+//
 type CQ struct {
 	HL7      HL7Name `hl7:",name=CQ,len=500,type=d"`
 	Quantity NM      `hl7:"1,len=16,display=This component specifies the numeric quantity or amount of an entity."`
@@ -107,7 +110,9 @@ type CQ struct {
 
 // Coded with Exceptions
 //
-// Specifies a coded element and its associated detail. The CWE data type is used when 1) more than one table may be applicable or 2) the specified HL7 or externally defined table may be extended with local values or 3) when text is in place, the code may be omitted.
+// Specifies a coded element and its associated detail. The CWE data type is used when 1) more than one table may be applicable
+// or 2) the specified HL7 or externally defined table may be extended with local values or 3) when text is in place, the code
+// may be omitted.
 type CWE struct {
 	HL7                            HL7Name `hl7:",name=CWE,len=705,type=d"`
 	Identifier                     ST      `hl7:"1,len=20,display=Sequence of characters (the code) that uniquely identifies the item being referenced. Different coding schemes will have different elements here."`
@@ -168,7 +173,8 @@ type DLD struct {
 
 // Driver License Number
 //
-// This field contains the drivers license information. For state or province refer to official postal codes for that country; for country refer to ISO 3166 for codes.
+// This field contains the drivers license information. For state or province refer to official postal codes for that country;
+// for country refer to ISO 3166 for codes.
 type DLN struct {
 	HL7                         HL7Name `hl7:",name=DLN,len=66,type=d"`
 	LicenseNumber               ST      `hl7:"1,required,len=20,display=This field contains the drivers license number."`
@@ -200,7 +206,8 @@ type DR struct {
 //
 // As of v 2.3, the number of digits populated specifies the precision using the format specification YYYY[MM[DD]].
 //
-// Prior to v 2.3, this data type was specified in the format YYYYMMDD. As of v 2.3 month and days are no longer required. By site-specific agreement, YYYYMMDD may be used where backward compatibility must be maintained.
+// Prior to v 2.3, this data type was specified in the format YYYYMMDD. As of v 2.3 month and days are no longer required. By site-specific
+// agreement, YYYYMMDD may be used where backward compatibility must be maintained.
 type DT = time.Time
 
 // Date/Time
@@ -221,7 +228,10 @@ type DTN struct {
 
 // Encapsulated Data
 //
-// This data type transmits encapsulated data from a source system to a destination system. It contains the identity of the source system, the type of data, the encoding method of the data, and the data itself. This data type is similar to the RP (reference pointer) data type of Section 2.A.65, "RP - reference pointer," except that instead of pointing to the data on another system, it contains the data which is to be sent to that system.
+// This data type transmits encapsulated data from a source system to a destination system. It contains the identity of the
+// source system, the type of data, the encoding method of the data, and the data itself. This data type is similar to the RP (reference
+// pointer) data type of Section 2.A.65, "RP - reference pointer," except that instead of pointing to the data on another system,
+// it contains the data which is to be sent to that system.
 type ED struct {
 	HL7               HL7Name `hl7:",name=ED,len=65536,type=d"`
 	SourceApplication *HD     `hl7:"1,len=227,display=A unique name that identifies the system which was the source of the data. Identical format and restrictions as in reference pointer (see Section 2.A.65.2- 'Application ID (HD)')."`
@@ -244,7 +254,8 @@ type EI struct {
 
 // Entity Identifier Pair
 //
-// Specifies an identifier assigned to an entity by either the placer or the filler system. If both components are populated the identifiers must refer to the same entity.
+// Specifies an identifier assigned to an entity by either the placer or the filler system. If both components are populated
+// the identifiers must refer to the same entity.
 type EIP struct {
 	HL7                      HL7Name `hl7:",name=EIP,len=855,type=d"`
 	PlacerAssignedIdentifier *EI     `hl7:"1,len=427,display=Specifies an identifier assigned to an entity by the placer system."`
@@ -284,22 +295,34 @@ type FC struct {
 
 // Family Name
 //
-// This data type allows full specification of the surname of a person. Where appropriate, it differentiates the person's own surname from that of the person's partner or spouse, in cases where the person's name may contain elements from either name. It also permits messages to distinguish the surname prefix (such as "van" or "de") from the surname root.
+// This data type allows full specification of the surname of a person. Where appropriate, it differentiates the person's
+// own surname from that of the person's partner or spouse, in cases where the person's name may contain elements from either
+// name. It also permits messages to distinguish the surname prefix (such as "van" or "de") from the surname root.
 type FN = string
 
 // Formatted Text Data
 //
-// This data type is derived from the string data type by allowing the addition of embedded formatting instructions. These instructions are limited to those that are intrinsic and independent of the circumstances under which the field is being used. The actual instructions and their representation are described elsewhere in this chapter. The FT field is of arbitrary length (up to 64k) and may contain formatting commands enclosed in escape characters.
+// This data type is derived from the string data type by allowing the addition of embedded formatting instructions. These
+// instructions are limited to those that are intrinsic and independent of the circumstances under which the field is being
+// used. The actual instructions and their representation are described elsewhere in this chapter. The FT field is of arbitrary
+// length (up to 64k) and may contain formatting commands enclosed in escape characters.
 type FT = string
 
 // General Timing Specification
 //
-// The General Timing Specification data type is used to communicate complex inter-related information Timing information. The value of such a field follows the formatting rules for a ST field. The string data will be structured according to the rules set forth in the "Version 3 Data Types Part II Unabridged Specification" for the General Timing Specification (GTS) data type.
+// The General Timing Specification data type is used to communicate complex inter-related information Timing information.
+// The value of such a field follows the formatting rules for a ST field. The string data will be structured according to the
+// rules set forth in the "Version 3 Data Types Part II Unabridged Specification" for the General Timing Specification (GTS)
+// data type.
 type GTS = string
 
 // Hierarchic Designator
 //
-// The basic definition of the HD is that it identifies an (administrative or system or application or other) entity that has responsibility for managing or assigning a defined set of instance identifiers (such as placer or filler number, patient identifiers, provider identifiers, etc.). This entity could be a particular health care application such as a registration system that assigns patient identifiers, a governmental entity such as a licensing authority that assigns professional identifiers or drivers license numbers, or a facility where such identifiers are assigned.
+// The basic definition of the HD is that it identifies an (administrative or system or application or other) entity that has
+// responsibility for managing or assigning a defined set of instance identifiers (such as placer or filler number, patient
+// identifiers, provider identifiers, etc.). This entity could be a particular health care application such as a registration
+// system that assigns patient identifiers, a governmental entity such as a licensing authority that assigns professional
+// identifiers or drivers license numbers, or a facility where such identifiers are assigned.
 type HD struct {
 	HL7             HL7Name `hl7:",name=HD,len=227,type=d"`
 	NamespaceID     IS      `hl7:"1,len=20,table=0300,display=Namespace ID is used as the HL7 identifier for the user-defined table of values for this component."`
@@ -309,7 +332,8 @@ type HD struct {
 
 // Insurance Certification Definition
 //
-// This data type specifies whether insurance certification is required for particular patient types, and the time window for obtaining the certification.
+// This data type specifies whether insurance certification is required for particular patient types, and the time window
+// for obtaining the certification.
 type ICD struct {
 	HL7                           HL7Name `hl7:",name=ICD,len=40,type=d"`
 	CertificationPatientType      IS      `hl7:"1,len=11,table=0150,display=Specifies the category or type of patient for which this certification is requested. Refer to User-defined Table 0150 - Certification patient type for suggested values."`
@@ -319,12 +343,19 @@ type ICD struct {
 
 // Coded values for HL7 tables
 //
-// The value of such a field follows the formatting rules for an ST field except that it is drawn from a table of legal values. There shall be an HL7 table number associated with ID data types. An example of an ID field is OBR-25-result status. This data type should be used only for HL7 tables (see Section 2.5.3.6 -Table). The reverse is not true, since in some circumstances it is more appropriate to use the CNE or CWE data type for HL7 tables.
+// The value of such a field follows the formatting rules for an ST field except that it is drawn from a table of legal values.
+// There shall be an HL7 table number associated with ID data types. An example of an ID field is OBR-25-result status. This
+// data type should be used only for HL7 tables (see Section 2.5.3.6 -Table). The reverse is not true, since in some circumstances
+// it is more appropriate to use the CNE or CWE data type for HL7 tables.
 type ID = string
 
 // Coded value for user-defined tables
 //
-// The value of such a field follows the formatting rules for a ST field except that it is drawn from a site-defined (or user-defined) table of legal values. There shall be an HL7 table number associated with IS data types. An example of an IS field is the Event reason code defined in Section 3.3.1.4, "Event reason code". This data type should be used only for user-defined tables (see Section 2.5.3.6 - Table). The reverse is not true, since in some circumstances, it is more appropriate to use the CWE data type for user-defined tables.
+// The value of such a field follows the formatting rules for a ST field except that it is drawn from a site-defined (or user-defined)
+// table of legal values. There shall be an HL7 table number associated with IS data types. An example of an IS field is the Event
+// reason code defined in Section 3.3.1.4, "Event reason code". This data type should be used only for user-defined tables
+// (see Section 2.5.3.6 - Table). The reverse is not true, since in some circumstances, it is more appropriate to use the CWE
+// data type for user-defined tables.
 type IS = string
 
 // Job Code/Class
@@ -394,7 +425,8 @@ type MOC struct {
 
 // Money or Percentage
 //
-// This data type specifies an amount that may be either currency or a percentage. It is a variation on the MO data type that is limited to currency.
+// This data type specifies an amount that may be either currency or a percentage. It is a variation on the MO data type that is
+// limited to currency.
 type MOP struct {
 	HL7                        HL7Name `hl7:",name=MOP,len=23,type=d"`
 	MoneyOrPercentageIndicator ID      `hl7:"1,required,len=2,table=0148,display=Specifies whether the amount is currency or a percentage."`
@@ -424,7 +456,13 @@ func (d MSG) MessageStructureID() string {
 
 // Numeric Array
 //
-// This data type is used to represent a series (array) of numeric values. A field of this type may contain a one-dimensional array (vector or row) of numbers. Also, by allowing the field to repeat, a two-dimensional array (table) of numbers may be transmitted using this format, with each row of the table represented as one repetition of the field. Arrays that have one or more values not present may be transmitted using this data type. "Not present" values are represented as two adjacent component delimiters. If the absent values occur at the end of a row, the trailing component delimiters may be omitted. If an entire row of a table has no values, no component delimiters are necessary (in this case, there will be two adjacent repetition delimiters).
+// This data type is used to represent a series (array) of numeric values. A field of this type may contain a one-dimensional
+// array (vector or row) of numbers. Also, by allowing the field to repeat, a two-dimensional array (table) of numbers may
+// be transmitted using this format, with each row of the table represented as one repetition of the field. Arrays that have
+// one or more values not present may be transmitted using this data type. "Not present" values are represented as two adjacent
+// component delimiters. If the absent values occur at the end of a row, the trailing component delimiters may be omitted.
+// If an entire row of a table has no values, no component delimiters are necessary (in this case, there will be two adjacent
+// repetition delimiters).
 type NA struct {
 	HL7     HL7Name `hl7:",name=NA,len=65536,type=d"`
 	Value1  NM      `hl7:"1,required,len=16,display=Value1"`
@@ -441,7 +479,8 @@ type NA struct {
 
 // Name with Date and Location
 //
-// Specifies the name of the person performing a service, when the person performed the service and where the person performed the service.
+// Specifies the name of the person performing a service, when the person performed the service and where the person performed
+// the service.
 type NDL struct {
 	HL7                 HL7Name `hl7:",name=NDL,len=835,type=d"`
 	Name                *CNN    `hl7:"1,len=406,display=This component specifies the name of the person performing a service."`
@@ -459,12 +498,16 @@ type NDL struct {
 
 // Numeric
 //
-// A number represented as a series of ASCII numeric characters consisting of an optional leading sign (+ or -), the digits and an optional decimal point. In the absence of a sign, the number is assumed to be positive. If there is no decimal point the number is assumed to be an integer.
+// A number represented as a series of ASCII numeric characters consisting of an optional leading sign (+ or -), the digits
+// and an optional decimal point. In the absence of a sign, the number is assumed to be positive. If there is no decimal point
+// the number is assumed to be an integer.
 type NM = string
 
 // Numeric Range
 //
-// Specifies the interval between the lowest and the highest values in a series of data. In the case where a numeric range is unbounded on one side, the component of the unbounded side is null. Whether the end points are included in the range is defined in the usage note for the field.
+// Specifies the interval between the lowest and the highest values in a series of data. In the case where a numeric range is
+// unbounded on one side, the component of the unbounded side is null. Whether the end points are included in the range is defined
+// in the usage note for the field.
 type NR struct {
 	HL7       HL7Name `hl7:",name=NR,len=33,type=d"`
 	LowValue  NM      `hl7:"1,len=16,display=The number specifying the lower limit or boundary of the range."`
@@ -482,7 +525,8 @@ type OCD struct {
 
 // Order Sequence Definition
 //
-// This data type specifies a fully coded version for forming a relationship between an order and one or more other orders. The relationship may be sequential or a cyclical pattern.
+// This data type specifies a fully coded version for forming a relationship between an order and one or more other orders.
+// The relationship may be sequential or a cyclical pattern.
 type OSD struct {
 	HL7                               HL7Name `hl7:",name=OSD,len=110,type=d"`
 	SequenceResultsFlag               ID      `hl7:"1,required,len=1,table=0524,display=Identifies whether sequence conditions or a repeating cycle of orders is defined. Refer to HL7-defined Table 0524 - Sequence condition for valid values."`
@@ -500,7 +544,9 @@ type OSD struct {
 
 // Occurrence Span Code and Date
 //
-// A code and the related dates that identify an event that relates to the payment of the claim. For example, Prior Stay Dates which is the from/through dates given by the patient of any hospital stay that ended within 60 days of this hospital or SNF admission.
+// A code and the related dates that identify an event that relates to the payment of the claim. For example, Prior Stay Dates
+// which is the from/through dates given by the patient of any hospital stay that ended within 60 days of this hospital or SNF
+// admission.
 type OSP struct {
 	HL7                     HL7Name `hl7:",name=OSP,len=723,type=d"`
 	OccurrenceSpanCode      CNE     `hl7:"1,required,len=705,table=0351,display=The date an event started that relates to the payment of a claim."`
@@ -522,7 +568,9 @@ type PIP struct {
 
 // Person Location
 //
-// This data type is used to specify a patient location within a healthcare institution. Which components are valued depends on the needs of the site. For example for a patient treated at home, only the person location type is valued. It is most commonly used for specifying patient locations, but may refer to other types of persons within a healthcare setting.
+// This data type is used to specify a patient location within a healthcare institution. Which components are valued depends
+// on the needs of the site. For example for a patient treated at home, only the person location type is valued. It is most commonly
+// used for specifying patient locations, but may refer to other types of persons within a healthcare setting.
 type PL struct {
 	HL7                             HL7Name `hl7:",name=PL,len=1230,type=d"`
 	PointOfCare                     IS      `hl7:"1,len=20,table=0302,display=This component specifies the code for the point where patient care is administered. It is conditional on PL.6 Person Location Type (e.g.- nursing unit or department or clinic). After floor- it is the most general patient location designation. Refer to User-defined Table 0302 - Point of care for suggested values."`
@@ -540,7 +588,8 @@ type PL struct {
 
 // Practitioner License or Other ID Number
 //
-// This data type specifies a practitioners license number, or other ID number such as UPIN, Medicare and Medicaid number, and associated detail.
+// This data type specifies a practitioners license number, or other ID number such as UPIN, Medicare and Medicaid number,
+// and associated detail.
 type PLN struct {
 	HL7                             HL7Name `hl7:",name=PLN,len=101,type=d"`
 	IDNumber                        ST      `hl7:"1,required,len=20,display=Specifies the license number or other ID number such as UPIN- Medicare and Medicaid number."`
@@ -551,7 +600,8 @@ type PLN struct {
 
 // Performing Person Time Stamp
 //
-// This data type is the equivalent of an XCN data type joined with a TS data type. However, the XCN data type has been flattened to allow legal expression of its embedded complex data types HD, TS, CE and CWE.
+// This data type is the equivalent of an XCN data type joined with a TS data type. However, the XCN data type has been flattened
+// to allow legal expression of its embedded complex data types HD, TS, CE and CWE.
 type PPN struct {
 	HL7                                         HL7Name `hl7:",name=PPN,len=2993,type=d"`
 	IDNumber                                    ST      `hl7:"1,len=15,display=Coded ID according to a user-defined table- defined by the 8th component. If the first component is present- either the source table or the assigning authority must be valued."`
@@ -621,7 +671,8 @@ type QIP struct {
 
 // Query Selection Criteria
 //
-// This field indicates the conditions that qualify the rows to be returned in the query response. Note that this field conveys the same information as the "WHERE" clause in the corresponding SQL expression of the query, but is formatted differently.
+// This field indicates the conditions that qualify the rows to be returned in the query response. Note that this field conveys
+// the same information as the "WHERE" clause in the corresponding SQL expression of the query, but is formatted differently.
 type QSC struct {
 	HL7                   HL7Name `hl7:",name=QSC,len=219,type=d"`
 	SegmentFieldName      ST      `hl7:"1,required,len=12,display=The name of the field that is participating as a qualifier (usually the 'key'). Refer to Section 2.A.59.1-  Segment Field Name (ST) - for segment field name conventions."`
@@ -676,7 +727,15 @@ type RMC struct {
 
 // Repeat Pattern
 //
-// The repeat pattern data type should be used where it is necessary to define the frequency at which an event is to take place. This data type provides a way to define repeat pattern codes "on the fly". The repeat pattern code is equivalent to the TQ data type, component 2, sub-component 1 (repeat pattern). The additional components define the meaning of the repeat pattern code. Components 2 - 10 are used to define relatively simple repeat patterns. Component 11 is provided to define complex repeat patterns. This data type forms a bridge between the 2.x Repeat Pattern concept from Quantity/Timing, and the Version 3.0 GTS General Timing Specification. Component 1 is the 2.x concept of repeat pattern. Components 2-7 are derived from the version 3.0 data type PIVL. Components 8-10 are derived from the version 3.0 EIVL data type. If a repeat pattern cannot be defined using components 2-10, then component 11, General Timing Specification is provided. This allows the full literal form of the version 3.0 GTS to be specified.
+// The repeat pattern data type should be used where it is necessary to define the frequency at which an event is to take place.
+// This data type provides a way to define repeat pattern codes "on the fly". The repeat pattern code is equivalent to the TQ
+// data type, component 2, sub-component 1 (repeat pattern). The additional components define the meaning of the repeat
+// pattern code. Components 2 - 10 are used to define relatively simple repeat patterns. Component 11 is provided to define
+// complex repeat patterns. This data type forms a bridge between the 2.x Repeat Pattern concept from Quantity/Timing, and
+// the Version 3.0 GTS General Timing Specification. Component 1 is the 2.x concept of repeat pattern. Components 2-7 are
+// derived from the version 3.0 data type PIVL. Components 8-10 are derived from the version 3.0 EIVL data type. If a repeat
+// pattern cannot be defined using components 2-10, then component 11, General Timing Specification is provided. This allows
+// the full literal form of the version 3.0 GTS to be specified.
 type RPT struct {
 	HL7                        HL7Name `hl7:",name=RPT,len=984,type=d"`
 	RepeatPatternCode          CWE     `hl7:"1,required,len=705,table=0335,display=A code representing the repeat pattern defined by the other components of this data type. Refer to User-defined Table 335 - Repeat Pattern for suggested values."`
@@ -704,7 +763,8 @@ type SAD struct {
 
 // Scheduling Class Value Pair
 //
-// This data type is used to communicate parameters and preferences to the filler application regarding the selection of an appropriate time slot, resource, location, or filler override criterion for an appointment.
+// This data type is used to communicate parameters and preferences to the filler application regarding the selection of
+// an appropriate time slot, resource, location, or filler override criterion for an appointment.
 type SCV struct {
 	HL7            HL7Name `hl7:",name=SCV,len=41,type=d"`
 	ParameterClass *CWE    `hl7:"1,len=20,display=The first component of this field is a code identifying the parameter or preference being passed to the filler application. Refer to User-defined Table 0294 - Time selection criteria parameter class codes - Time selection criteria parameter class codes for suggested values."`
@@ -713,12 +773,17 @@ type SCV struct {
 
 // Sequence ID
 //
-// A non-negative integer in the form of a NM field. The uses of this data type are defined in the chapters defining the segments and messages in which it appears.
+// A non-negative integer in the form of a NM field. The uses of this data type are defined in the chapters defining the segments
+// and messages in which it appears.
 type SI = string
 
 // Structured Numeric
 //
-// The structured numeric data type is used to unambiguously express numeric clinical results along with qualifications. This enables receiving systems to store the components separately, and facilitates the use of numeric database queries. The corresponding sets of values indicated with the <comparator> and <separator/suffix> components are intended to be the authoritative and complete set of values. If additional values are needed for the <comparator> and <separator/suffix> components, they should be submitted to HL7 for inclusion in the Standard.
+// The structured numeric data type is used to unambiguously express numeric clinical results along with qualifications.
+// This enables receiving systems to store the components separately, and facilitates the use of numeric database queries.
+// The corresponding sets of values indicated with the <comparator> and <separator/suffix> components are intended to
+// be the authoritative and complete set of values. If additional values are needed for the <comparator> and <separator/suffix>
+// components, they should be submitted to HL7 for inclusion in the Standard.
 type SN struct {
 	HL7             HL7Name `hl7:",name=SN,len=36,type=d"`
 	Comparator      ST      `hl7:"1,len=2,display=Defined as greater than- less than- greater than or equal- less than or equal- equal- and not equal- respectively (: '>' or '<' or '>:' or '<:' or ':' or '<>'"`
@@ -763,19 +828,23 @@ type SRT struct {
 
 // String Data
 //
-// String data is left justified with trailing blanks optional. Any displayable (printable) ACSII characters (hexadecimal values between 20 and 7E, inclusive, or ASCII decimal values between 32 and 126), except the defined escape characters and defined delimiter characters.
+// String data is left justified with trailing blanks optional. Any displayable (printable) ACSII characters (hexadecimal
+// values between 20 and 7E, inclusive, or ASCII decimal values between 32 and 126), except the defined escape characters
+// and defined delimiter characters.
 type ST = string
 
 // Time
 //
-// Specifies the hour of the day with optional minutes, seconds, fraction of second using a 24-hour clock notation and time zone.
+// Specifies the hour of the day with optional minutes, seconds, fraction of second using a 24-hour clock notation and time
+// zone.
 type TM = time.Time
 
 // Timing Quantity
 //
 // Describes when a service should be performed and how frequently.
 //
-// Note: The TQ data type is retained for backward compatibility only as of v 2.5. Refer to the TQ1 and TQ2 segments defined in chapter 4.
+// Note: The TQ data type is retained for backward compatibility only as of v 2.5. Refer to the TQ1 and TQ2 segments defined in
+// chapter 4.
 type TQ struct {
 	HL7                HL7Name `hl7:",name=TQ,len=1545,type=d"`
 	Quantity           *CQ     `hl7:"1,len=267,display=This component specifies the quantity of the service that should be provided at each service interval. For example- if two blood cultures are to be obtained every 4 hours- the quantity would be 2. If three units of blood are to be typed and cross-matched- the quantity would be 3. The default value is 1. When units are required- they can be added- specified by a subcomponent delimiter."`
@@ -802,12 +871,16 @@ type TS = time.Time
 
 // Text Data
 //
-// String data meant for user display (on a terminal or printer). Such data would not necessarily be left justified since leading spaces may contribute greatly to the clarity of the presentation to the user. Because this type of data is intended for display, it may contain certain escape character sequences designed to control the display. Escape sequence formatting is defined in Section 2.7 "Use of escape sequences in text fields ". Leading spaces should be included. Trailing spaces should be removed.
+// String data meant for user display (on a terminal or printer). Such data would not necessarily be left justified since leading
+// spaces may contribute greatly to the clarity of the presentation to the user. Because this type of data is intended for display,
+// it may contain certain escape character sequences designed to control the display. Escape sequence formatting is defined
+// in Section 2.7 "Use of escape sequences in text fields ". Leading spaces should be included. Trailing spaces should be removed.
 type TX = string
 
 // UB Value Code and Amount
 //
-// A code structure to relate amounts or values to identified data elements necessary to process this claim as qualified by the payer organization.
+// A code structure to relate amounts or values to identified data elements necessary to process this claim as qualified by
+// the payer organization.
 type UVC struct {
 	HL7         HL7Name `hl7:",name=UVC,len=41,type=d"`
 	ValueCode   CNE     `hl7:"1,required,len=20,table=0153,display=Specifies the National Uniform Billing Committee (NUBC) code itself."`
@@ -819,7 +892,8 @@ type VARIES = CE
 
 // Visiting Hours
 //
-// This data type contains the hours when a patient location is open for visiting. Refer to HL7 Table 0267 - Days of the week for valid values for the first two components.
+// This data type contains the hours when a patient location is open for visiting. Refer to HL7 Table 0267 - Days of the week for
+// valid values for the first two components.
 type VH struct {
 	HL7            HL7Name `hl7:",name=VH,len=41,type=d"`
 	StartDayRange  ID      `hl7:"1,len=3,table=0267,display=Starting day of visiting hours range. See HL7 Table 0267 - Days of the week for valid values."`
@@ -838,7 +912,8 @@ type VID struct {
 
 // Value Range
 //
-// This data type contains the lower bound value and upper bound values that constitute a range. Either or both components may be populated.
+// This data type contains the lower bound value and upper bound values that constitute a range. Either or both components
+// may be populated.
 type VR struct {
 	HL7                HL7Name `hl7:",name=VR,len=0,type=d"`
 	FirstDataCodeValue ST      `hl7:"1,len=6,display=Specifies the lower bound value."`

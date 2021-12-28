@@ -8,10 +8,42 @@ import (
 	"time"
 )
 
-// Marshal writes a message into a hl7 byte array.
-func Marshal(message any) ([]byte, error) {
-	e := &encoder{}
-	e.initSep(defaultSep, defaultChars)
+const nextLine = '\r'
+const defaultSep = "|"
+const defaultChars = `^~\&`
+
+// Create a new Encoder. Options may be nil.
+func NewEncoder(opt *EncodeOption) *Encoder {
+	e := &Encoder{}
+	if opt != nil {
+		e.opt = *opt
+	}
+	return e
+}
+
+// Encoding options.
+type EncodeOption struct {
+	TrimTrailingSeparator bool
+}
+
+type Encoder struct {
+	// Set only from init.
+	initSep   string
+	initChars string
+
+	sep      byte // usually a |
+	repeat   byte // usually a ~
+	dividers []byte
+	esc      map[byte][]byte
+
+	deferred [3]*bytes.Buffer
+	buf      *bytes.Buffer
+
+	opt EncodeOption
+}
+
+func (e *Encoder) Encode(message any) ([]byte, error) {
+	e.init("", "")
 
 	err := e.walk(1, reflect.ValueOf(message))
 	if err != nil {
@@ -20,34 +52,32 @@ func Marshal(message any) ([]byte, error) {
 	return e.buf.Bytes(), nil
 }
 
-const nextLine = '\r'
-const defaultSep = "|"
-const defaultChars = `^~\&`
-
-type encoder struct {
-	sep      byte // usually a |
-	repeat   byte // usually a ~
-	dividers []byte
-	esc      map[byte][]byte
-
-	deferred [3]*bytes.Buffer
-	buf      *bytes.Buffer
-}
-
-// newEncoder requires that the given message has the FieldSeparator
-// and EncodingCharacters set in the Header.
-//
-// This also sets up the encoder and escaper.
-func (e *encoder) initSep(sep string, chars string) {
+// Init separators and reset buffers.
+// If sep or chars are empty, then the previous value or the default will be used.
+func (e *Encoder) init(sep, chars string) {
+	if len(sep) > 0 {
+		e.initSep = sep
+	}
+	if len(chars) > 0 {
+		e.initChars = chars
+	}
+	if len(sep) == 0 {
+		sep = e.initSep
+	}
 	if len(sep) == 0 {
 		sep = defaultSep
+	}
+
+	if len(chars) == 0 {
+		chars = e.initSep
 	}
 	if len(chars) == 0 {
 		chars = defaultChars
 	}
+
 	e.sep = byte(sep[0])
-	e.dividers = []byte{sep[0], chars[0], chars[3]}
 	e.repeat = chars[1]
+	e.dividers = []byte{sep[0], chars[0], chars[3]}
 	if e.deferred[0] == nil {
 		e.deferred[0] = &bytes.Buffer{}
 	}
@@ -60,6 +90,11 @@ func (e *encoder) initSep(sep string, chars string) {
 	if e.buf == nil {
 		e.buf = &bytes.Buffer{}
 	}
+	e.buf.Reset()
+	for _, d := range e.deferred {
+		d.Reset()
+	}
+
 	esc := chars[2]
 	e.esc = map[byte][]byte{
 		e.sep:    {esc, 'F', esc},
@@ -70,12 +105,7 @@ func (e *encoder) initSep(sep string, chars string) {
 	}
 }
 
-type seqValue struct {
-	Seq   int // 1-9999
-	Value reflect.Value
-}
-
-func (e *encoder) walk(seq int, wv reflect.Value) error {
+func (e *Encoder) walk(seq int, wv reflect.Value) error {
 	if !wv.IsValid() {
 		return nil
 	}
@@ -126,18 +156,18 @@ func (e *encoder) walk(seq int, wv reflect.Value) error {
 			l := wv.Len()
 			for i := 0; i < l; i++ {
 				v := wv.Index(i)
-				err := e.encode(i+1, v)
+				err := e.encodeSegment(i+1, v)
 				if err != nil {
 					return err
 				}
 			}
 			return nil
 		case reflect.Struct:
-			return e.encode(seq, wv)
+			return e.encodeSegment(seq, wv)
 		}
 	}
 }
-func (e *encoder) meta(wt reflect.Type) (tag, error) {
+func (e *Encoder) meta(wt reflect.Type) (tag, error) {
 	switch wt.Kind() {
 	default:
 		return tag{}, nil
@@ -154,8 +184,8 @@ func (e *encoder) meta(wt reflect.Type) (tag, error) {
 	}
 }
 
-// encode the given message into buffer.
-func (e *encoder) encode(seq int, st reflect.Value) error {
+// encodeSegment the given message into buffer.
+func (e *Encoder) encodeSegment(seq int, st reflect.Value) error {
 	stt := st.Type()
 
 	var SegmentName string
@@ -183,7 +213,7 @@ func (e *encoder) encode(seq int, st reflect.Value) error {
 			msgSep = f.String()
 		case tag.FieldChars:
 			chars := f.String()
-			e.initSep(msgSep, chars)
+			e.init(msgSep, chars)
 		}
 
 		if tag.Meta {
@@ -231,6 +261,7 @@ func (e *encoder) encode(seq int, st reflect.Value) error {
 		}
 		v := f.value
 		switch {
+		// Auto populate SetID sequences.
 		case f.tag.Sequence:
 			if seq == 0 {
 				return fmt.Errorf("incorrect zero sequence number")
@@ -239,8 +270,9 @@ func (e *encoder) encode(seq int, st reflect.Value) error {
 				v = strconv.FormatInt(int64(seq), 10)
 			}
 		}
-		e.writeSep(0, 0, true)
-		err := e.encodeHL7Segment(f.tag, v, 0)
+		direct := !e.opt.TrimTrailingSeparator
+		e.writeSep(0, 0, direct)
+		err := e.encodeDataType(f.tag, v, 0)
 		if err != nil {
 			return err
 		}
@@ -249,7 +281,7 @@ func (e *encoder) encode(seq int, st reflect.Value) error {
 	return nil
 }
 
-func (e *encoder) flushDeferred(level int) {
+func (e *Encoder) flushDeferred(level int) {
 	// If level 0"|", then write level 0, remove 1, 2.
 	// If level 1"^", then write level 0 and 1, remove 2.
 	// If level 2"&", then write level 0, 1, and 2.
@@ -263,7 +295,7 @@ func (e *encoder) flushDeferred(level int) {
 }
 
 // write escapes individual values.
-func (e *encoder) write(val string, level int, noEscape bool) {
+func (e *Encoder) write(val string, level int, noEscape bool) {
 	if len(val) > 0 {
 		e.flushDeferred(level)
 	}
@@ -281,7 +313,7 @@ func (e *encoder) write(val string, level int, noEscape bool) {
 		buf.WriteByte(c)
 	}
 }
-func (e *encoder) writeSep(level int, sep byte, direct bool) {
+func (e *Encoder) writeSep(level int, sep byte, direct bool) {
 	if sep == 0 {
 		sep = e.dividers[level]
 	}
@@ -300,7 +332,7 @@ func (e *encoder) writeSep(level int, sep byte, direct bool) {
 	e.deferred[level].WriteByte(sep)
 }
 
-func (e *encoder) encodeHL7Segment(t tag, o interface{}, level int) error {
+func (e *Encoder) encodeDataType(t tag, o interface{}, level int) error {
 	if o == nil || !t.Present {
 		return nil
 	}
@@ -380,7 +412,7 @@ func (e *encoder) encodeHL7Segment(t tag, o interface{}, level int) error {
 				if i != 0 {
 					e.writeSep(level+1, 0, false)
 				}
-				err := e.encodeHL7Segment(f.tag, f.value, level+1)
+				err := e.encodeDataType(f.tag, f.value, level+1)
 				if err != nil {
 					return fmt.Errorf("%s (%+v): %w", SegmentName, f.value, err)
 				}
@@ -394,7 +426,7 @@ func (e *encoder) encodeHL7Segment(t tag, o interface{}, level int) error {
 				x := rv.Index(i)
 				value := x.Interface()
 
-				err := e.encodeHL7Segment(t, value, level)
+				err := e.encodeDataType(t, value, level)
 				if err != nil {
 					return fmt.Errorf("repeat (%+v): %w", value, err)
 				}

@@ -9,7 +9,7 @@ import (
 	"unicode"
 )
 
-type decoder struct {
+type lineDecoder struct {
 	sep      byte    // usually a |
 	repeat   byte    // usually a ~
 	dividers [3]byte // usually |, ^, &
@@ -18,26 +18,53 @@ type decoder struct {
 	readSep  bool
 
 	unescaper *strings.Replacer
+
+	opt DecodeOption
 }
 
-func (d *decoder) setupUnescaper() {
-	d.unescaper = strings.NewReplacer(
-		string([]byte{d.escape, 'F', d.escape}), string(d.sep),
-		string([]byte{d.escape, 'S', d.escape}), string(d.chars[0]),
-		string([]byte{d.escape, 'R', d.escape}), string(d.chars[1]),
-		string([]byte{d.escape, 'E', d.escape}), string(d.chars[2]),
-		string([]byte{d.escape, 'T', d.escape}), string(d.chars[3]),
-	)
+// Decode bytes into HL7 structures.
+type Decoder struct {
+	registry Registry
+	opt      DecodeOption
 }
 
-var timeType reflect.Type = reflect.TypeOf(time.Time{})
-
-type UnmarshalOption struct {
-	Registry      Registry
-	ErrorZSegment bool // Error on an unknown Zxx segment.
+// Decode options for the HL7 decoder.
+type DecodeOption struct {
+	ErrorZSegment bool // Error on an unknown Zxx segment when true.
 }
 
-func Unmarshal(data []byte, opt UnmarshalOption) ([]any, error) {
+// Create a new Decoder. A registry must be provided. Option is optional.
+func NewDecoder(registry Registry, opt *DecodeOption) *Decoder {
+	d := &Decoder{
+		registry: registry,
+	}
+	if opt != nil {
+		d.opt = *opt
+	}
+
+	return d
+}
+
+// Decode takes an hl7 message and returns a final trigger with all segments grouped.
+func (d *Decoder) Decode(data []byte) (any, error) {
+	list, err := d.DecodeList(data)
+	if err != nil {
+		return nil, fmt.Errorf("segment list: %w", err)
+	}
+	g, err := d.DecodeGroup(list)
+	if err != nil {
+		return nil, fmt.Errorf("trigger group: %w", err)
+	}
+	return g, nil
+}
+
+// Group a list of elements into trigger groupings.
+func (d *Decoder) DecodeGroup(list []any) (any, error) {
+	return group(list, d.registry)
+}
+
+// Decode returns a list of segments without any grouping applied.
+func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 	// Explicitly accept both CR and LF as new lines. Some systems do use \n, despite the spec.
 	lines := bytes.FieldsFunc(data, func(r rune) bool {
 		switch r {
@@ -57,15 +84,15 @@ func Unmarshal(data []byte, opt UnmarshalOption) ([]any, error) {
 
 	ret := []any{}
 
-	d := &decoder{}
-	segmentRegistry := opt.Registry.Segment()
+	ld := &lineDecoder{}
+	segmentRegistry := d.registry.Segment()
 	for index, line := range lines {
 		lineNumber := index + 1
 		if len(line) == 0 {
 			continue
 		}
 
-		segTypeName, n := d.getID(line)
+		segTypeName, n := ld.getID(line)
 		remain := line[n:]
 		if len(segTypeName) == 0 {
 			return nil, fmt.Errorf("line %d: missing segment type", lineNumber)
@@ -74,7 +101,7 @@ func Unmarshal(data []byte, opt UnmarshalOption) ([]any, error) {
 		seg, ok := segmentRegistry[segTypeName]
 		if !ok {
 			isZ := len(segTypeName) > 0 && segTypeName[0] == 'Z'
-			if isZ && !opt.ErrorZSegment {
+			if isZ && !d.opt.ErrorZSegment {
 				continue
 			}
 			return nil, fmt.Errorf("line %d: unknown segment type %q", lineNumber, segTypeName)
@@ -139,33 +166,33 @@ func Unmarshal(data []byte, opt UnmarshalOption) ([]any, error) {
 			if len(remain) < 5 {
 				return nil, fmt.Errorf("missing format delims")
 			}
-			d.sep = remain[0]
-			copy(d.chars[:], remain[1:5])
+			ld.sep = remain[0]
+			copy(ld.chars[:], remain[1:5])
 
-			d.dividers = [3]byte{d.sep, d.chars[0], d.chars[3]}
-			d.repeat = d.chars[1]
-			d.escape = d.chars[2]
-			d.setupUnescaper()
-			d.readSep = true
+			ld.dividers = [3]byte{ld.sep, ld.chars[0], ld.chars[3]}
+			ld.repeat = ld.chars[1]
+			ld.escape = ld.chars[2]
+			ld.setupUnescaper()
+			ld.readSep = true
 
 			remain = remain[5:]
 			offset = 2
 		}
 
-		if d.sep == 0 {
+		if ld.sep == 0 {
 			return nil, fmt.Errorf("missing sep prior to field")
 		}
 
-		parts := bytes.Split(remain, []byte{d.sep})
+		parts := bytes.Split(remain, []byte{ld.sep})
 
 		ff := make([]field, SegmentSize)
 		for _, f := range fieldList {
 			if f.tag.FieldSep {
-				f.field.SetString(string(d.sep))
+				f.field.SetString(string(ld.sep))
 				continue
 			}
 			if f.tag.FieldChars {
-				f.field.SetString(string(d.chars[:]))
+				f.field.SetString(string(ld.chars[:]))
 				continue
 			}
 			index := int(f.tag.Order) - offset
@@ -189,7 +216,7 @@ func Unmarshal(data []byte, opt UnmarshalOption) ([]any, error) {
 			if f.tag.Child {
 				continue
 			}
-			err := d.decodeSegmentList(p, f.tag, f.field)
+			err := ld.decodeSegmentList(p, f.tag, f.field)
 			if err != nil {
 				return ret, fmt.Errorf("line %d, %s.%s: %w", lineNumber, SegmentName, f.name, err)
 			}
@@ -197,11 +224,22 @@ func Unmarshal(data []byte, opt UnmarshalOption) ([]any, error) {
 
 		ret = append(ret, rv.Interface())
 	}
-
 	return ret, nil
 }
 
-func (d *decoder) decodeSegmentList(data []byte, t tag, rv reflect.Value) error {
+func (d *lineDecoder) setupUnescaper() {
+	d.unescaper = strings.NewReplacer(
+		string([]byte{d.escape, 'F', d.escape}), string(d.sep),
+		string([]byte{d.escape, 'S', d.escape}), string(d.chars[0]),
+		string([]byte{d.escape, 'R', d.escape}), string(d.chars[1]),
+		string([]byte{d.escape, 'E', d.escape}), string(d.chars[2]),
+		string([]byte{d.escape, 'T', d.escape}), string(d.chars[3]),
+	)
+}
+
+var timeType reflect.Type = reflect.TypeOf(time.Time{})
+
+func (d *lineDecoder) decodeSegmentList(data []byte, t tag, rv reflect.Value) error {
 	if len(data) == 0 {
 		return nil
 	}
@@ -217,7 +255,7 @@ func (d *decoder) decodeSegmentList(data []byte, t tag, rv reflect.Value) error 
 	}
 	return nil
 }
-func (d *decoder) decodeSegment(data []byte, t tag, rv reflect.Value, level int, mustBeSlice bool) error {
+func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level int, mustBeSlice bool) error {
 	type field struct {
 		tag   tag
 		field reflect.Value
@@ -331,7 +369,7 @@ func (d *decoder) decodeSegment(data []byte, t tag, rv reflect.Value, level int,
 			return nil
 		case timeType:
 			v := d.decodeByte(data, t)
-			t, err := parseDateTime(v)
+			t, err := d.parseDateTime(v)
 			if err != nil {
 				return err
 			}
@@ -351,20 +389,20 @@ func (d *decoder) decodeSegment(data []byte, t tag, rv reflect.Value, level int,
 	}
 }
 
-func (d *decoder) decodeByte(v []byte, t tag) string {
+func (d *lineDecoder) decodeByte(v []byte, t tag) string {
 	if t.NoEscape {
 		return string(v)
 	}
 	return d.unescaper.Replace(string(v))
 }
-func (d *decoder) decodeString(v string, t tag) string {
+func (d *lineDecoder) decodeString(v string, t tag) string {
 	if t.NoEscape {
 		return v
 	}
 	return d.unescaper.Replace(v)
 }
 
-func (d *decoder) getID(data []byte) (string, int) {
+func (d *lineDecoder) getID(data []byte) (string, int) {
 	if d.readSep {
 		v, _, _ := bytes.Cut(data, []byte{d.sep})
 		return string(v), len(v)
@@ -378,7 +416,7 @@ func (d *decoder) getID(data []byte) (string, int) {
 	return string(data), len(data)
 }
 
-func parseDateTime(dt string) (time.Time, error) {
+func (d *lineDecoder) parseDateTime(dt string) (time.Time, error) {
 	var zoneIndex int
 	for i, r := range dt {
 		switch {
