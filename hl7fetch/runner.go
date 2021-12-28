@@ -38,7 +38,14 @@ func (r *runner) urlPath(res resource, name string) string {
 	}
 }
 
-func (r *runner) filePath(res resource, name string) string {
+func (r *runner) filePath(res resource, name string, old bool) string {
+	// Do not use reserved names on Windows.
+	if !old {
+		switch name {
+		case "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9":
+			name = name + "_X"
+		}
+	}
 	switch {
 	default:
 		return filepath.Join(r.rootDir, r.version, string(res), name+".json")
@@ -48,8 +55,15 @@ func (r *runner) filePath(res resource, name string) string {
 }
 
 func (r *runner) getJSON(res resource, name string) ([]byte, error) {
-	fn := r.filePath(res, name)
+	fn := r.filePath(res, name, false)
 	bb, err := os.ReadFile(fn)
+	if os.IsNotExist(err) {
+		fnOld := r.filePath(res, name, true)
+		bb, err = os.ReadFile(fnOld)
+		if err == nil {
+			os.Rename(fnOld, fn)
+		}
+	}
 	if os.IsNotExist(err) {
 		const ignoreSuffix = ".ignore"
 		if _, err := os.Stat(fn + ignoreSuffix); err == nil {
