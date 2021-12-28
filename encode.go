@@ -56,12 +56,6 @@ func (e *Encoder) Encode(message any) ([]byte, error) {
 // If sep or chars are empty, then the previous value or the default will be used.
 func (e *Encoder) init(sep, chars string) {
 	if len(sep) > 0 {
-		e.initSep = sep
-	}
-	if len(chars) > 0 {
-		e.initChars = chars
-	}
-	if len(sep) == 0 {
 		sep = e.initSep
 	}
 	if len(sep) == 0 {
