@@ -106,7 +106,9 @@ func TestRoundTrip(t *testing.T) {
 	_ = c
 
 	d := NewDecoder(v251.Registry, nil)
-	e := NewEncoder(nil)
+	e := NewEncoder(&EncodeOption{
+		TrimTrailingSeparator: false,
+	})
 
 	for _, f := range dirList {
 		if f.IsDir() {

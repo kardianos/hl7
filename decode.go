@@ -123,7 +123,8 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 
 		for i := 0; i < ct; i++ {
 			ft := rt.Field(i)
-			tag, err := parseTag(ft.Name, ft.Tag.Get(tagName))
+			tagText := ft.Tag.Get(tagName)
+			tag, err := parseTag(ft.Name, tagText)
 			if err != nil {
 				return nil, err
 			}
@@ -160,6 +161,7 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 		if SegmentSize == 0 {
 			SegmentSize = maxOrd
 		}
+		SegmentFieldLength := int(SegmentSize + 1)
 
 		offset := 0
 		if hasInit {
@@ -185,7 +187,7 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 
 		parts := bytes.Split(remain, []byte{ld.sep})
 
-		ff := make([]field, SegmentSize)
+		ff := make([]field, SegmentFieldLength)
 		for _, f := range fieldList {
 			if f.tag.FieldSep {
 				f.field.SetString(string(ld.sep))
@@ -196,7 +198,7 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 				continue
 			}
 			index := int(f.tag.Order) - offset
-			if index < 0 || index >= int(SegmentSize) {
+			if index < 0 || index >= SegmentFieldLength {
 				continue
 			}
 			ff[index] = f

@@ -271,6 +271,7 @@ func (e *Encoder) encodeSegment(seq int, st reflect.Value) error {
 			return err
 		}
 	}
+	e.resetAllDeferred()
 	e.writeSep(0, nextLine, false)
 	return nil
 }
@@ -305,6 +306,11 @@ func (e *Encoder) write(val string, level int, noEscape bool) {
 			continue
 		}
 		buf.WriteByte(c)
+	}
+}
+func (e *Encoder) resetAllDeferred() {
+	for _, d := range e.deferred {
+		d.Reset()
 	}
 }
 func (e *Encoder) writeSep(level int, sep byte, direct bool) {
