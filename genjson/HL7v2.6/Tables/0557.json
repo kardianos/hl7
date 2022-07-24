@@ -1,0 +1,1 @@
+{"id":"0557","tableId":"0557","tableType":"User","name":"Payee Type","chapters":["CH_16"],"entries":[{"value":"EMPL","description":"Employer","comment":null},{"value":"ORG","description":"Payee Organization","comment":null},{"value":"PERS","description":"Person","comment":null},{"value":"PPER","description":"Pay Person","comment":null}]}

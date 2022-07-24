@@ -1,0 +1,1 @@
+{"id":"0554","tableId":"0554","tableType":"User","name":"Invoice Reason Codes","chapters":["CH_16"],"entries":[{"value":"LATE","description":"Late Invoice","comment":"Over the Payer's published time limit for this invoice"},{"value":"NORM","description":"Normal submission","comment":null},{"value":"SUB","description":"Subscriber coverage problem","comment":null}]}

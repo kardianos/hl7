@@ -1,0 +1,1 @@
+{"id":"0275","tableId":"0275","tableType":"HL7","name":"Document Storage Status","chapters":["CH_02"],"entries":[{"value":"AA","description":"Active and archived","comment":null},{"value":"AC","description":"Active","comment":null},{"value":"AR","description":"Archived (not active)","comment":null},{"value":"PU","description":"Purged","comment":null}]}

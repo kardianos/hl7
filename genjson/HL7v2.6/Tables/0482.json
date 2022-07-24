@@ -1,0 +1,1 @@
+{"id":"0482","tableId":"0482","tableType":"HL7","name":"Order Type","chapters":["CH_04"],"entries":[{"value":"I","description":"Inpatient Order","comment":null},{"value":"O","description":"Outpatient Order","comment":null}]}

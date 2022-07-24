@@ -1,0 +1,1 @@
+{"id":"0450","tableId":"0450","tableType":"HL7","name":"Event Type","chapters":["CH_02"],"entries":[{"value":"LOG","description":"Log Event","comment":null},{"value":"SER","description":"Service Event","comment":null}]}

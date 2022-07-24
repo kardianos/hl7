@@ -1,0 +1,1 @@
+{"id":"SI","type":"DataType","name":"Sequence ID","description":"A non-negative integer in the form of an NM field.  The uses of this data type are defined in the chapters defining the segments and messages in which it appears","dataType":null,"dataTypeName":null,"length":0,"usage":null,"rpt":null,"tableId":null,"tableName":null,"sample":"","fields":[]}

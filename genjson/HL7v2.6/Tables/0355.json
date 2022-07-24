@@ -1,0 +1,1 @@
+{"id":"0355","tableId":"0355","tableType":"HL7","name":"Primary key value type","chapters":["CH_08"],"entries":[{"value":"CE","description":"Coded element","comment":"Withdrawn as of v2.6 - CE has been replaced by CNE and CWE"},{"value":"CWE","description":"Coded with Exceptions","comment":null},{"value":"PL","description":"Person location","comment":null}]}

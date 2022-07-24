@@ -1,0 +1,1 @@
+{"id":"0273","tableId":"0273","tableType":"HL7","name":"Document Availability Status","chapters":["CH_09"],"entries":[{"value":"AV","description":"Available for patient care","comment":null},{"value":"CA","description":"Deleted","comment":null},{"value":"OB","description":"Obsolete","comment":null},{"value":"UN","description":"Unavailable for patient care","comment":null}]}

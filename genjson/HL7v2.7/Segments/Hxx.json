@@ -1,0 +1,1 @@
+{"id":"Hxx","segmentId":"Hxx","longName":"Any Hl7 Segment","description":"","sample":"","chapters":[],"fields":[{"id":"Hxx.1","type":"Field","position":"Hxx.1","length":0,"dataType":"ST","dataTypeName":"String Data","usage":"O","rpt":"1","tableId":null,"tableName":null,"name":"Hxx.1","description":null}]}

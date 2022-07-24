@@ -1,0 +1,1 @@
+{"id":"4000","tableId":"4000","tableType":"HL7","name":"Name/address representation","chapters":["CH_02"],"entries":[{"value":"A","description":"Alphabetic (i.e., Default or some single-byte)","comment":null},{"value":"I","description":"Ideographic (i.e., Kanji)","comment":null},{"value":"P","description":"Phonetic (i.e., ASCII, Katakana, Hiragana, etc.)","comment":null}]}

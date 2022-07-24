@@ -1,0 +1,1 @@
+{"id":"0291","tableId":"0291","tableType":"HL7","name":"Subtype of referenced data","chapters":["CH_02"],"entries":[{"value":"x-hl7-cda-level-one","description":"HL7 Clinical Document Architecture Level One document","comment":"Retained for backwards compatibility only as of v2.6 and CDA R 2. Preferred value is text/xml."}]}

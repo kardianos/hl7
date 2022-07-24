@@ -1,0 +1,1 @@
+{"id":"0187","tableId":"0187","tableType":"HL7","name":"Provider billing","chapters":["CH_15"],"entries":[{"value":"I","description":"Institution bills for provider","comment":null},{"value":"P","description":"Provider does own billing","comment":null}]}

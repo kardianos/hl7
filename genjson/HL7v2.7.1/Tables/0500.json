@@ -1,0 +1,1 @@
+{"id":"0500","tableId":"0500","tableType":"HL7","name":"Consent Disclosure Level","chapters":["CH_02"],"entries":[{"value":"F","description":"Full Disclosure","comment":null},{"value":"N","description":"No Disclosure","comment":null},{"value":"P","description":"Partial Disclosure","comment":null}]}

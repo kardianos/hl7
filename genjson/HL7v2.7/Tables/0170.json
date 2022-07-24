@@ -1,0 +1,1 @@
+{"id":"0170","tableId":"0170","tableType":"HL7","name":"Derived Specimen","chapters":["CH_02"],"entries":[{"value":"C","description":"Child Observation","comment":null},{"value":"N","description":"Not Applicable","comment":null},{"value":"P","description":"Parent Observation","comment":null}]}

@@ -1,0 +1,1 @@
+{"id":"0617","tableId":"0617","tableType":"HL7","name":"Address Usage","chapters":["CH_02"],"entries":[{"value":"C","description":"Classification","comment":null},{"value":"M","description":"Mailing","comment":null},{"value":"V","description":"Visit","comment":null}]}

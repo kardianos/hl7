@@ -1,0 +1,1 @@
+{"id":"0216","tableId":"0216","tableType":"User","name":"Patient Status Code","chapters":["CH_03"],"entries":[{"value":"AI","description":"Active Inpatient","comment":null},{"value":"DI","description":"Discharged Inpatient","comment":null}]}

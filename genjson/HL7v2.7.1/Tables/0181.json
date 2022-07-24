@@ -1,0 +1,1 @@
+{"id":"0181","tableId":"0181","tableType":"User","name":"MFN Record-level Error Return","chapters":["CH_02"],"entries":[{"value":"S","description":"Successful posting of the record defined by the MFE segment","comment":null},{"value":"U","description":"Unsuccessful posting of the record defined by the MFE segment","comment":null}]}

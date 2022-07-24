@@ -1,0 +1,1 @@
+{"id":"0367","tableId":"0367","tableType":"HL7","name":"Alert Level","chapters":["CH_02"],"entries":[{"value":"C","description":"Critical","comment":null},{"value":"N","description":"Normal","comment":null},{"value":"S","description":"Serious","comment":null},{"value":"W","description":"Warning","comment":null}]}

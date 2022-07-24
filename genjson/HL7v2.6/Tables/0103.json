@@ -1,0 +1,1 @@
+{"id":"0103","tableId":"0103","tableType":"HL7","name":"Processing ID","chapters":["CH_02"],"entries":[{"value":"D","description":"Debugging","comment":null},{"value":"P","description":"Production","comment":null},{"value":"T","description":"Training","comment":null}]}

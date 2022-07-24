@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	v25 "github.com/kardianos/hl7/h25"
+	v25 "github.com/kardianos/hl7/h250"
 	v251 "github.com/kardianos/hl7/h251"
 	"github.com/sanity-io/litter"
 )

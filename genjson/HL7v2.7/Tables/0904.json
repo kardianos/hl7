@@ -1,0 +1,1 @@
+{"id":"0904","tableId":"0904","tableType":"HL7","name":"Security Check Scheme","chapters":["CH_02"],"entries":[{"value":"BCV","description":"Bank Card Validation Number","comment":null},{"value":"CCS","description":"Credit Card Security code","comment":null},{"value":"VID","description":"Version ID","comment":null}]}

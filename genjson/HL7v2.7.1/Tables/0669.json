@@ -1,0 +1,1 @@
+{"id":"0669","tableId":"0669","tableType":"User","name":"Load Status","chapters":["CH_17"],"entries":[{"value":"LCC","description":"Load is Complete","comment":null},{"value":"LCN","description":"Load Canceled","comment":null},{"value":"LCP","description":"Load In Process","comment":null},{"value":"LLD","description":"Building a Load","comment":null}]}

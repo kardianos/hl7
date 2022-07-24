@@ -1,0 +1,1 @@
+{"id":"0394","tableId":"0394","tableType":"HL7","name":"Response Modality","chapters":["CH_02"],"entries":[{"value":"B","description":"Batch","comment":null},{"value":"R","description":"Real Time","comment":null},{"value":"T","description":"Bolus (a series of responses sent at the same time without use of batch formatting)","comment":null}]}

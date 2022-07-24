@@ -1,0 +1,1 @@
+{"id":"0105","tableId":"0105","tableType":"HL7","name":"Source of comment","chapters":["CH_02"],"entries":[{"value":"L","description":"Ancillary (filler) department is source of comment","comment":null},{"value":"O","description":"Other system is source of comment","comment":null},{"value":"P","description":"Orderer (placer) is source of comment","comment":null}]}

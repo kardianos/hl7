@@ -1,0 +1,1 @@
+{"id":"0389","tableId":"0389","tableType":"HL7","name":"Analyte repeat status","chapters":["CH_13"],"entries":[{"value":"D","description":"Repeated with dilution","comment":null},{"value":"F","description":"Reflex test","comment":null},{"value":"O","description":"Original, first run","comment":null},{"value":"R","description":"Repeated without dilution","comment":null}]}

@@ -1,0 +1,1 @@
+{"id":"0329","tableId":"0329","tableType":"HL7","name":"Quantity method","chapters":["CH_07"],"entries":[{"value":"A","description":"Actual count","comment":null},{"value":"E","description":"Estimated (see comment)","comment":null}]}

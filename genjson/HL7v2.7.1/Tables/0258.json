@@ -1,0 +1,1 @@
+{"id":"0258","tableId":"0258","tableType":"HL7","name":"Relationship Modifier","chapters":["CH_02"],"entries":[{"value":"BPU","description":"Blood product unit","comment":null},{"value":"CONTROL","description":"Control","comment":null},{"value":"DONOR","description":"Donor","comment":null},{"value":"PATIENT","description":"Patient","comment":null}]}

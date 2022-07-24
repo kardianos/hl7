@@ -1,0 +1,1 @@
+{"id":"0150","tableId":"0150","tableType":"User","name":"Certification Patient Type","chapters":["CH_02"],"entries":[{"value":"ER","description":"Emergency","comment":null},{"value":"IPE","description":"Inpatient elective","comment":null},{"value":"OPE","description":"Outpatient elective","comment":null},{"value":"UR","description":"Urgent","comment":null}]}

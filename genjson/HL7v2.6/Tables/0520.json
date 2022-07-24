@@ -1,0 +1,1 @@
+{"id":"0520","tableId":"0520","tableType":"HL7","name":"Message waiting priority","chapters":["CH_02"],"entries":[{"value":"H","description":"High","comment":null},{"value":"L","description":"Low","comment":null},{"value":"M","description":"Medium","comment":null}]}

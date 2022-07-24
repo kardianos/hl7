@@ -1,0 +1,1 @@
+{"id":"0517","tableId":"0517","tableType":"User","name":"Inform Person Code","chapters":["CH_02"],"entries":[{"value":"HD","description":"Inform help desk","comment":null},{"value":"NPAT","description":"Do NOT inform patient","comment":null},{"value":"PAT","description":"Inform patient","comment":null},{"value":"USR","description":"Inform User","comment":null}]}

@@ -1,0 +1,1 @@
+{"id":"0161","tableId":"0161","tableType":"HL7","name":"Allow substitution","chapters":["CH_04"],"entries":[{"value":"G","description":"Allow generic substitutions.","comment":null},{"value":"N","description":"Substitutions are NOT authorized. (This is the default - null.)","comment":null},{"value":"T","description":"Allow therapeutic substitutions","comment":null}]}

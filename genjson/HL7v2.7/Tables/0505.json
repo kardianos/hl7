@@ -1,0 +1,1 @@
+{"id":"0505","tableId":"0505","tableType":"HL7","name":"Cyclic Entry/Exit Indicator","chapters":["CH_02"],"entries":[{"value":"#","description":"The last service request in a cyclic group.","comment":null},{"value":"*","description":"The first service request in a cyclic group","comment":null}]}

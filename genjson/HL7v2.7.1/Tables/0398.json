@@ -1,0 +1,1 @@
+{"id":"0398","tableId":"0398","tableType":"HL7","name":"Continuation Style Code","chapters":["CH_02"],"entries":[{"value":"F","description":"Fragmentation","comment":null},{"value":"I","description":"Interactive Continuation","comment":null}]}
