@@ -1,0 +1,1 @@
+{"id":"0418","tableId":"0418","tableType":"HL7","name":"Procedure priority","chapters":["CH_06"],"entries":[{"value":"0","description":"the admitting procedure","comment":null},{"value":"1","description":"the primary procedure","comment":null},{"value":"2 …","description":"for ranked secondary procedures","comment":null}]}

@@ -1,0 +1,1 @@
+{"id":"0167","tableId":"0167","tableType":"HL7","name":"SUBSTITUTION STATUS","chapters":["CH_04"],"entries":[{"value":"G","description":"A generic substitution was dispensed","comment":null},{"value":"N","description":"No substitute was dispensed","comment":null},{"value":"T","description":"A therapeutic substitution was dispensed","comment":null}]}

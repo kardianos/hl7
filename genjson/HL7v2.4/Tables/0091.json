@@ -1,0 +1,1 @@
+{"id":"0091","tableId":"0091","tableType":"HL7","name":"Query priority","chapters":["CH_05"],"entries":[{"value":"D","description":"Deferred","comment":null},{"value":"I","description":"Immediate","comment":null}]}

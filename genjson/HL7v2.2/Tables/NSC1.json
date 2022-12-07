@@ -1,0 +1,1 @@
+{"id":"NSC1","tableId":"NSC1","tableType":"Local","name":"Network Change Type","chapters":[],"entries":[{"value":"M","description":"Migrates to different CPU","comment":null},{"value":"SD","description":"Shut down","comment":null},{"value":"SU","description":"Start up","comment":null}]}

@@ -1,0 +1,1 @@
+{"id":"0107","tableId":"0107","tableType":"HL7","name":"DEFERRED RESPONSE TYPE","chapters":["CH_02"],"entries":[{"value":"B","description":"Before the date / time specified","comment":null},{"value":"L","description":"Later than the date / time specified","comment":null}]}

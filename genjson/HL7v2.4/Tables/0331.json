@@ -1,0 +1,1 @@
+{"id":"0331","tableId":"0331","tableType":"HL7","name":"Facility type","chapters":["CH_07"],"entries":[{"value":"A","description":"Agent for a foreign manufacturer","comment":null},{"value":"D","description":"Distributor","comment":null},{"value":"M","description":"Manufacturer","comment":null},{"value":"U","description":"User","comment":null}]}

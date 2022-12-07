@@ -1,0 +1,1 @@
+{"id":"0179","tableId":"0179","tableType":"HL7","name":"RESPONSE LEVEL","chapters":["CH_08"],"entries":[{"value":"AL","description":"Always","comment":null},{"value":"ER","description":"Error / reject conditions only","comment":null},{"value":"NE","description":"Never - no application level response needed","comment":null},{"value":"SU","description":"Success","comment":null}]}

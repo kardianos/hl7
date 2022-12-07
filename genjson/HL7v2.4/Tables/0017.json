@@ -1,0 +1,1 @@
+{"id":"0017","tableId":"0017","tableType":"User","name":"Transaction type","chapters":["CH_06"],"entries":[{"value":"AJ","description":"Adjustment","comment":null},{"value":"CD","description":"Credit","comment":null},{"value":"CG","description":"Charge","comment":null},{"value":"CO","description":"Co-payment","comment":null},{"value":"PY","description":"Payment","comment":null}]}

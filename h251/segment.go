@@ -283,7 +283,6 @@ type BLG struct {
 // Blood product order messages require additional information that is not available in other standard HL7 order messages.
 // Blood product order messages need to contain accompanying details regarding the blood product component, such as special
 // processing requirements (e.g. irradiation and leukoreduction) and the amount of the blood product to be administered.
-//
 type BPO struct {
 	HL7                            HL7Name `hl7:",name=BPO,type=s"`
 	SetID                          SI      `hl7:"1,seq,required,len=4,display=Set ID - BPO"`

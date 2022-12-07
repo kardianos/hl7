@@ -1,0 +1,1 @@
+{"id":"0159","tableId":"0159","tableType":"HL7","name":"DIET TYPE","chapters":["CH_04"],"entries":[{"value":"D","description":"Diet","comment":null},{"value":"P","description":"Preference","comment":null},{"value":"S","description":"Supplement","comment":null}]}

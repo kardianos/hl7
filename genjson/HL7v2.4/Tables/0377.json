@@ -1,0 +1,1 @@
+{"id":"0377","tableId":"0377","tableType":"HL7","name":"Other environmental factors","chapters":["CH_13"],"entries":[{"value":"A60","description":"Opened container, indoor atmosphere, 60 minutes duration","comment":null},{"value":"ATM","description":"Opened container,  atmosphere/duration unspecified","comment":null}]}

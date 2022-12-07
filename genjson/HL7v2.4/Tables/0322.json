@@ -1,0 +1,1 @@
+{"id":"0322","tableId":"0322","tableType":"HL7","name":"Completion status","chapters":["CH_04"],"entries":[{"value":"CP","description":"Complete","comment":null},{"value":"NA","description":"Not Administered","comment":null},{"value":"PA","description":"Partially Administered","comment":null},{"value":"RE","description":"Refused","comment":null}]}

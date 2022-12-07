@@ -111,7 +111,6 @@ type CP struct {
 //
 // Note: CQ cannot be legally expressed when embedded within another data type. Its use is constrained to a segment field.
 //
-//
 // Examples:
 // |123.7^kg|  kilograms is an ISO unit
 // |150^lb&&ANSI+| weight in pounds is a customary US unit defined within ANSI+.
@@ -630,7 +629,6 @@ type PIP struct {
 // Example: Nursing Unit
 // A nursing unit at Community Hospital: 4 East, room 136, bed B  4E^136^B^CommunityHospital^^N^^^
 // A clinic at University Hospitals: Internal Medicine Clinic located in the Briones building, 3rd floor. InternalMedicine^^^UniversityHospitals^^C^Briones^3^
-//
 type PL struct {
 	HL7                             HL7Name `hl7:",name=PL,len=1230,type=d"`
 	PointOfCare                     IS      `hl7:"1,len=20,table=0302,display=This component specifies the code for the point where patient care is administered. It is conditional on PL.6 Person Location Type (e.g.- nursing unit or department or clinic). After floor- it is the most general patient location designation. Refer to User-defined Table 0302 - Point of care for suggested values."`

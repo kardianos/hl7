@@ -1,0 +1,1 @@
+{"id":"0102","tableId":"0102","tableType":"HL7","name":"Delayed acknowledgment type","chapters":["CH_02"],"entries":[{"value":"D","description":"Message received, stored for later processing","comment":null},{"value":"F","description":"acknowledgment after processing","comment":null}]}
