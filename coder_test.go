@@ -6,6 +6,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	v25 "github.com/kardianos/hl7/h250"
@@ -114,8 +115,9 @@ func TestRoundTrip(t *testing.T) {
 		if f.IsDir() {
 			continue
 		}
-		t.Run(f.Name(), func(t *testing.T) {
-			fn := filepath.Join(fsDir, f.Name())
+		name := f.Name()
+		t.Run(name, func(t *testing.T) {
+			fn := filepath.Join(fsDir, name)
 			bb, err := os.ReadFile(fn)
 			if err != nil {
 				t.Fatal(err)
@@ -145,6 +147,75 @@ func TestRoundTrip(t *testing.T) {
 				os.WriteFile(fn, rt, 0600)
 			}
 			d := lineDiff(bb, rt)
+			if len(d) > 0 {
+				t.Fatalf("mismatch\n%s", d)
+			}
+		})
+	}
+}
+
+func TestError(t *testing.T) {
+	fsDir := filepath.Join("testdata", "error")
+	dirList, err := os.ReadDir(fsDir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	c := &litter.Options{
+		HideZeroValues:    true,
+		HidePrivateFields: true,
+		Separator:         " ",
+	}
+	_ = c
+
+	d := NewDecoder(v251.Registry, nil)
+
+	for _, f := range dirList {
+		if f.IsDir() {
+			continue
+		}
+		const hl7Ext = ".hl7"
+		name := f.Name()
+		if !strings.HasSuffix(name, hl7Ext) {
+			continue
+		}
+		errorName := name[:len(name)-len(hl7Ext)] + ".error"
+
+		t.Run(name, func(t *testing.T) {
+			fn := filepath.Join(fsDir, name)
+			errorFn := filepath.Join(fsDir, errorName)
+
+			bb, err := os.ReadFile(fn)
+			if err != nil {
+				t.Fatal(err)
+			}
+			errorBB, err := os.ReadFile(errorFn)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			var root any
+			v, err := d.DecodeList(bb)
+			if err == nil {
+				if *dumpSegmentList {
+					c.Dump(v)
+				}
+
+				root, err = d.DecodeGroup(v)
+			}
+
+			if err == nil && *dumpSegmentGroup {
+				c.Dump(root)
+			}
+
+			if err == nil {
+				t.Fatal("expected error, but got no error")
+			}
+			gotError := []byte(err.Error())
+
+			if *overwrite {
+				os.WriteFile(errorFn, gotError, 0600)
+			}
+			d := lineDiff(errorBB, gotError)
 			if len(d) > 0 {
 				t.Fatalf("mismatch\n%s", d)
 			}

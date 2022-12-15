@@ -238,7 +238,9 @@ func (w *walker) found(line, index int, si *structItem, v any, rv reflect.Value,
 		if c.Parent == nil {
 			// The root value just needs to be created when found.
 			if c.present() {
-				return fmt.Errorf("attempting to set a root value when already present, this is an error")
+				parent := c.ActiveValue.Type().String()
+				child := rv.Type().String()
+				return fmt.Errorf("cannot overwrite %[2]s in %[1]s when %[2]s is already present", parent, child)
 			}
 			c.ActiveValue = reflect.New(c.Type).Elem()
 			continue
@@ -292,6 +294,9 @@ func (w *walker) fullInArray(si *structItem) bool {
 	}
 	// If not valid, if pointer is nil, or if zero value, then not full.
 	if !si.ActiveValue.IsValid() {
+		return false
+	}
+	if kind := si.ActiveValue.Kind(); kind == reflect.Struct {
 		return false
 	}
 	if si.ActiveValue.IsNil() {
