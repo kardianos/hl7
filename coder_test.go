@@ -81,6 +81,24 @@ MSA|AA|161||||
 	}
 }
 
+func TestDecodeCompoundDateTime(t *testing.T) {
+	flag.Parse()
+	var raw = []byte(`MSH|^~\&|PATIENTPING_ADT|123456^Medical|1|uid-123456^^^PP^PP|20190306^^^default^default||JOE^DOE^||19541129|F|||31 MOZFA|272605|Medical|HOS|300 W 27th St^^Hometown^NC^28358|1790152668210992`)
+
+	d := NewDecoder(v25.Registry, nil)
+	v, err := d.DecodeList(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	printTypes(t, v)
+	if len(v) != 1 {
+		t.Fatal("expected one segment")
+	}
+	v0 := v[0]
+	msg := v0.(*v25.MSH)
+	t.Logf("MSH Date: %v", msg.DateTimeOfMessage)
+}
+
 func printTypes(t *testing.T, list []any) {
 	for _, item := range list {
 		t.Logf("type %T", item)

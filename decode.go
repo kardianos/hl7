@@ -420,6 +420,8 @@ func (d *lineDecoder) getID(data []byte) (string, int) {
 
 func (d *lineDecoder) parseDateTime(dt string) (time.Time, error) {
 	var zoneIndex int
+	dtLen := len(dt)
+loop:
 	for i, r := range dt {
 		switch {
 		default:
@@ -430,8 +432,13 @@ func (d *lineDecoder) parseDateTime(dt string) (time.Time, error) {
 			zoneIndex = i
 		case r == '+':
 			zoneIndex = i
+		case r == '^':
+			dtLen = i
+			break loop
 		}
 	}
+	dt = dt[:dtLen]
+
 	// Format: YYYY[MM[DD[HH[MM[SS[.S[S[S[S]]]]]]]]][+/-ZZZZ]^<degree of precision>
 	// 20200522143859198-0700
 	// 20060102150405
