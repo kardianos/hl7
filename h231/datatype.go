@@ -713,7 +713,7 @@ type UVC struct {
 }
 
 // Variable Datatype
-type VARIES = CE
+type VARIES any
 
 // Visiting Hours
 //

@@ -557,4 +557,4 @@ type TS = time.Time
 type TX = string
 
 // Variable Datatype
-type VARIES = CE
+type VARIES any

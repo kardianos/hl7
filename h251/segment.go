@@ -2,6 +2,11 @@
 
 package h251
 
+import (
+	"fmt"
+	"reflect"
+)
+
 // Abstract
 //
 // This segment was created to communicate patient abstract information used for billing and reimbursement purposes. Abstract
@@ -1739,6 +1744,17 @@ type OBX struct {
 	PerformingOrganizationName            *XON     `hl7:"23,len=567,display=Performing Organization Name"`
 	PerformingOrganizationAddress         *XAD     `hl7:"24,len=631,display=Performing Organization Address"`
 	PerformingOrganizationMedicalDirector *XCN     `hl7:"25,len=3002,display=Performing Organization Medical Director"`
+}
+
+func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
+	vt, ok := dtReg[v.ValueType]
+	if !ok {
+		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
+	}
+
+	rt := reflect.TypeOf(vt)
+	rv := reflect.New(rt)
+	return rv.Elem(), nil
 }
 
 // Dietary Orders, Supplements, and Preferences

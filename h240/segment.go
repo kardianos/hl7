@@ -2,6 +2,11 @@
 
 package h240
 
+import (
+	"fmt"
+	"reflect"
+)
+
 // Abstract
 //
 // This segment was created to communicate patient abstract information used for billing and reimbursement purposes. Abstract
@@ -1541,6 +1546,17 @@ type OBX struct {
 	ObservationMethod              []CE     `hl7:"17,len=250,display=Observation Method"`
 	EquipmentInstanceIdentifier    []EI     `hl7:"18,len=22,display=Equipment Instance Identifier"`
 	DateTimeOfTheAnalysis          TS       `hl7:"19,len=26,format=YMDHMS,display=Date/Time of the Analysis"`
+}
+
+func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
+	vt, ok := dtReg[v.ValueType]
+	if !ok {
+		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
+	}
+
+	rt := reflect.TypeOf(vt)
+	rv := reflect.New(rt)
+	return rv.Elem(), nil
 }
 
 // Dietary Orders, Supplements, and Preferences

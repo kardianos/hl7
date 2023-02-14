@@ -2,6 +2,11 @@
 
 package h210
 
+import (
+	"fmt"
+	"reflect"
+)
+
 // Accident
 type ACC struct {
 	HL7              HL7Name `hl7:",name=ACC,type=s"`
@@ -336,6 +341,17 @@ type OBX struct {
 	NatureOfAbnormalTest    ID      `hl7:"10,len=5,table=0080,display=Nature Of Abnormal Test"`
 	ObservResultStatus      ID      `hl7:"11,len=2,table=0085,display=Observ Result Status"`
 	DateLastObsNormalValues TS      `hl7:"12,len=19,format=YMDHMS,display=Date Last Obs Normal Values"`
+}
+
+func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
+	vt, ok := dtReg[v.ValueType]
+	if !ok {
+		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
+	}
+
+	rt := reflect.TypeOf(vt)
+	rv := reflect.New(rt)
+	return rv.Elem(), nil
 }
 
 // Common Order

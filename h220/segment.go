@@ -2,6 +2,11 @@
 
 package h220
 
+import (
+	"fmt"
+	"reflect"
+)
+
 // Accident
 //
 // The ACC segment contains patient information relative to an accidentin which the patient has been involved.
@@ -605,6 +610,17 @@ type OBX struct {
 	DateTimeOfTheObservation                 TS            `hl7:"14,len=26,format=YMDHMS,display=Date / Time Of The Observation"`
 	ProducersID                              *CE           `hl7:"15,len=60,display=Producer's Id"`
 	ResponsibleObserver                      *CN_PHYSICIAN `hl7:"16,len=60,display=Responsible Observer"`
+}
+
+func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
+	vt, ok := dtReg[v.ValueType]
+	if !ok {
+		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
+	}
+
+	rt := reflect.TypeOf(vt)
+	rv := reflect.New(rt)
+	return rv.Elem(), nil
 }
 
 // Dietary Orders, Supplements, And Preferences

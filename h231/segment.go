@@ -2,6 +2,11 @@
 
 package h231
 
+import (
+	"fmt"
+	"reflect"
+)
+
 // Accident segment
 //
 // The ACC segment contains patient information relative to an accident in which the patient has been involved.
@@ -1242,6 +1247,17 @@ type OBX struct {
 	ProducersID              *CE      `hl7:"15,len=60,display=Producer's ID"`
 	ResponsibleObserver      []XCN    `hl7:"16,len=80,display=Responsible Observer"`
 	ObservationMethod        []CE     `hl7:"17,len=60,display=Observation Method"`
+}
+
+func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
+	vt, ok := dtReg[v.ValueType]
+	if !ok {
+		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
+	}
+
+	rt := reflect.TypeOf(vt)
+	rv := reflect.New(rt)
+	return rv.Elem(), nil
 }
 
 // Dietary orders, supplements, and preferences segment

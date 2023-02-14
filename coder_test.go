@@ -99,6 +99,30 @@ func TestDecodeCompoundDateTime(t *testing.T) {
 	t.Logf("MSH Date: %v", msg.DateTimeOfMessage)
 }
 
+func TestVaries(t *testing.T) {
+	raw, err := os.ReadFile(filepath.Join("testdata", "roundtrip", "vaers_long.hl7"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	d := NewDecoder(v25.Registry, nil)
+	v, err := d.Decode(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	vg := v.(v25.ORU_R01)
+	for _, pr := range vg.PatientResult {
+		for _, oo := range pr.OrderObservation {
+			for _, o := range oo.Observation {
+				for _, v := range o.OBX.ObservationValue {
+					t.Logf("Type: %s, Value: %#v", o.OBX.ValueType, v)
+				}
+			}
+		}
+	}
+}
+
 func printTypes(t *testing.T, list []any) {
 	for _, item := range list {
 		t.Logf("type %T", item)

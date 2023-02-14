@@ -2,7 +2,6 @@ package hl7
 
 import (
 	"fmt"
-	"reflect"
 	"strconv"
 	"strings"
 )
@@ -18,9 +17,6 @@ type Registry interface {
 }
 
 const tagName = "hl7"
-
-var empty []any
-var anyType = reflect.TypeOf(empty).Elem()
 
 type structType byte
 

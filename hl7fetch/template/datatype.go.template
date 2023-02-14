@@ -13,7 +13,7 @@ import "time"
 {{if eq .ID "TM"}}type TM = time.Time{{continue}}{{end -}}
 {{if eq .ID "TS"}}type TS = time.Time{{continue}}{{end -}}
 {{if eq .ID "DTM"}}type DTM = time.Time{{continue}}{{end -}}
-{{if eq .ID "VARIES"}}type VARIES = CE{{continue}}{{end -}}
+{{if eq .ID "VARIES"}}type VARIES any{{continue}}{{end -}}
 {{if eq .ID "FN"}}type FN = string{{continue}}{{end -}}
 {{if not .Fields}}type {{.ID}} = string{{continue}}{{end -}}
 type {{.ID}} struct {

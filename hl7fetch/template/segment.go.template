@@ -2,6 +2,11 @@
 
 package {{.PackageName}}
 
+import (
+	"reflect"
+	"fmt"
+)
+
 {{range .Segment}}
 
 // {{.LongName|comment}}{{if .Description}}
@@ -20,4 +25,16 @@ type {{.ID}} struct {
 		return s.{{$mt}}.MessageStructureID()
 	}
 	{{end}}
+
+{{- if eq .ID "OBX"}}
+func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
+	vt, ok := dtReg[v.ValueType]
+	if !ok {
+		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
+	}
+
+	rt := reflect.TypeOf(vt)
+	rv := reflect.New(rt)
+	return rv.Elem(), nil
+}{{end -}}
 {{end}}

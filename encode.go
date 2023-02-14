@@ -308,6 +308,24 @@ func (e *Encoder) write(val string, level int, noEscape bool) {
 		buf.WriteByte(c)
 	}
 }
+func (e *Encoder) writeByte(val []byte, level int, noEscape bool) {
+	if len(val) > 0 {
+		e.flushDeferred(level)
+	}
+	buf := e.buf
+	if noEscape {
+		buf.Write(val)
+		return
+	}
+	for i := 0; i < len(val); i++ {
+		c := val[i]
+		if esc, is := e.esc[c]; is {
+			buf.Write(esc)
+			continue
+		}
+		buf.WriteByte(c)
+	}
+}
 func (e *Encoder) resetAllDeferred() {
 	for _, d := range e.deferred {
 		d.Reset()
@@ -415,6 +433,10 @@ func (e *Encoder) encodeDataType(t tag, o interface{}, level int) error {
 				}
 			}
 		case reflect.Slice:
+			if rv.Type().Elem().Kind() == reflect.Uint8 {
+				e.writeByte(rv.Bytes(), level, true)
+				return nil
+			}
 			ct := rv.Len()
 			for i := 0; i < ct; i++ {
 				if i != 0 {
@@ -430,6 +452,8 @@ func (e *Encoder) encodeDataType(t tag, o interface{}, level int) error {
 			}
 			return nil
 		}
+	case []byte:
+		e.writeByte(v, level, true)
 	case string:
 		e.write(v, level, t.NoEscape)
 	case time.Time:

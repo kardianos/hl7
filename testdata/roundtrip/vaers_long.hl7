@@ -5,14 +5,14 @@ NK1|2|Jones^Jane^Lee^^RN|FVP^Form completed by (Name)-Vaccine provider^HL70063|1
 ORC|CN|||||||||||1234567^Welby^Marcus^J^Jr^Dr.^MD^L|||||||||Peachtree Clinic|101 Main Street^^Atlanta^GA^38765^^O^^GA121|(404) 554-9097^^WPN|101 Main Street^^Atlanta^GA^38765^^O^^GA121|||||||
 OBR|1|||^CDC VAERS-1 (FDA) Report|||20010316000000|||||||||||||||||||||||||||||||||||||||||||
 OBX|1|NM|21612-7^Reported Patient Age^LN||05|mo^month^ANSI|||||||||||||||||||
-OBX|2|TS|30947-6^Date form completed^LN||20010316||||||||||||||||||||
+OBX|2|TS|30947-6^Date form completed^LN||20010316000000||||||||||||||||||||
 OBX|3|FT|30948-4^Vaccination adverse events and treatment, if any^LN|1|fever of 106F, with vomiting, seizures, persistent crying lasting over 3 hours, loss of appetite||||||||||||||||||||
 OBX|4|CE|30949-2^Vaccination adverse event outcome^LN|1|E^required emergency room/doctor visit^NIP005||||||||||||||||||||
 OBX|5|CE|30949-2^Vaccination adverse event outcome^LN|1|H^required hospitalization^NIP005||||||||||||||||||||
 OBX|6|NM|30950-0^Number of days hospitalized due to vaccination adverse event^LN|1|02|d^day^ANSI|||||||||||||||||||
 OBX|7|CE|30951-8^Patient recovered^LN||Y^Yes^ HL70239||||||||||||||||||||
-OBX|8|TS|30952-6^Date of vaccination^LN||20010216||||||||||||||||||||
-OBX|9|TS|30953-4^Adverse event onset date and time^LN||200102180900||||||||||||||||||||
+OBX|8|TS|30952-6^Date of vaccination^LN||20010216000000||||||||||||||||||||
+OBX|9|TS|30953-4^Adverse event onset date and time^LN||20010218090000||||||||||||||||||||
 OBX|10|FT|30954-2^Relevant diagnostic tests/lab data^LN||Electrolytes, CBC, Blood culture||||||||||||||||||||
 OBR|2|||30955-9^All vaccines given on date listed in #10^LN||||||||||||||||||||||||||||||||||||||||||||||
 OBX|1|CE|CE30955-9_30956-7^Vaccine type^LN|1|08^HepB-Adolescent/pediatric^CVX||||||||||||||||||||
@@ -34,7 +34,7 @@ OBX|3|ST|30961-7_30959-1^Lot number^LN|1|PMC123456||||||||||||||||||||
 OBX|4|CE|30961-7_30958-3^Route^LN|1|SC^Subcutaneaous^HL70162||||||||||||||||||||
 OBX|5|CE|30961-7_31034-2^Site^LN|1|LA^Left arm^HL70163||||||||||||||||||||
 OBX|6|NM|30961-7_30960-9^Number of previous doses^LN|1|01||||||||||||||||||||
-OBX|7|TS|30961-7_31035-9^date given^LN|1|20001216||||||||||||||||||||
+OBX|7|TS|30961-7_31035-9^date given^LN|1|20001216000000||||||||||||||||||||
 OBX|8|CE|30962-^Vaccinated at^LN||PVT^Private doctors office/hospital^NIP009||||||||||||||||||||
 OBX|9|CE|30963-3^Vaccine purchased with^LN||PBF^Public funds^NIP008||||||||||||||||||||
 OBX|10|FT|30964-1^Other medications^LN||None||||||||||||||||||||
@@ -55,6 +55,6 @@ OBX|1|NM|8339-4^Body weight at birth^LN||82|oz^ounces^ANSI|||||||||||||||||||
 OBX|2|NM|30974-0^Number of brothers and sisters^LN||2||||||||||||||||||||
 OBR|8|||^Only for reports submitted by manufacturer/immunization project||||||||||||||||||||||||||||||||||||||||||||||
 OBX|1|ST|30975-7^Mfr./Imm. Proj. report no.^LN||12345678||||||||||||||||||||
-OBX|2|TS|30976-5^Date received by manufacturer/immunization project^LN||12345678||||||||||||||||||||
+OBX|2|TS|30976-5^Date received by manufacturer/immunization project^LN||20001007000000||||||||||||||||||||
 OBX|3|CE|30977-3^15 day report^LN||N^No^HL70136||||||||||||||||||||
 OBX|4|CE|30978-1^Report type^LN||IN^Initial^NIP010||||||||||||||||||||

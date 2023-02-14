@@ -18,8 +18,6 @@ type lineDecoder struct {
 	readSep  bool
 
 	unescaper *strings.Replacer
-
-	opt DecodeOption
 }
 
 // Decode bytes into HL7 structures.
@@ -62,6 +60,16 @@ func (d *Decoder) Decode(data []byte) (any, error) {
 func (d *Decoder) DecodeGroup(list []any) (any, error) {
 	return group(list, d.registry)
 }
+
+// Varies should be implemented on a segment that knows how to
+// decode a child VARIES data type.
+type Varies interface {
+	ChildVaries(dtReg map[string]any) (reflect.Value, error)
+}
+
+type variesFunc func() (reflect.Value, error)
+
+var variesType = reflect.TypeOf((*Varies)(nil)).Elem()
 
 // Decode returns a list of segments without any grouping applied.
 func (d *Decoder) DecodeList(data []byte) ([]any, error) {
@@ -204,6 +212,14 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 			ff[index] = f
 		}
 
+		var vfc variesFunc
+		if rvv.Type().Implements(variesType) {
+			dtReg := d.registry.DataType()
+			vfc = func() (reflect.Value, error) {
+				return rvv.Interface().(Varies).ChildVaries(dtReg)
+			}
+		}
+
 		for i, f := range ff {
 			if i >= len(parts) {
 				break
@@ -215,7 +231,7 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 			if f.tag.Omit {
 				continue
 			}
-			err := ld.decodeSegmentList(p, f.tag, f.field)
+			err := ld.decodeSegmentList(p, f.tag, f.field, vfc)
 			if err != nil {
 				return ret, fmt.Errorf("line %d, %s.%s: %w", lineNumber, SegmentName, f.name, err)
 			}
@@ -238,7 +254,7 @@ func (d *lineDecoder) setupUnescaper() {
 
 var timeType reflect.Type = reflect.TypeOf(time.Time{})
 
-func (d *lineDecoder) decodeSegmentList(data []byte, t tag, rv reflect.Value) error {
+func (d *lineDecoder) decodeSegmentList(data []byte, t tag, rv reflect.Value, vfc variesFunc) error {
 	if len(data) == 0 {
 		return nil
 	}
@@ -247,14 +263,14 @@ func (d *lineDecoder) decodeSegmentList(data []byte, t tag, rv reflect.Value) er
 		if len(p) == 0 {
 			continue
 		}
-		err := d.decodeSegment(p, t, rv, 1, len(parts) > 1)
+		err := d.decodeSegment(p, t, rv, 1, len(parts) > 1, vfc)
 		if err != nil {
 			return fmt.Errorf("%s.%d: %w", rv.Type().String(), t.Order, err)
 		}
 	}
 	return nil
 }
-func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level int, mustBeSlice bool) error {
+func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level int, mustBeSlice bool, vfc variesFunc) error {
 	type field struct {
 		tag   tag
 		field reflect.Value
@@ -269,20 +285,32 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 	default:
 		return fmt.Errorf("unknown field kind %v value=%v(%v) tag=%v data=%q", rv.Kind(), rv, rv.Type(), t, data)
 	case reflect.Interface:
-		// TODO: Support a true VARIES.
-		return fmt.Errorf("unsupported interface field kind, data=%q", data)
+		if vfc == nil {
+			return fmt.Errorf("unsupported interface field kind %#v data=%q", t, data)
+		}
+		nextRV, err := vfc()
+		if err != nil {
+			return err
+		}
+		err = d.decodeSegment(data, t, nextRV, level, mustBeSlice, vfc)
+		rv.Set(nextRV)
+		return err
 	case reflect.Pointer:
 		next := reflect.New(rv.Type().Elem())
 		rv.Set(next)
-		return d.decodeSegment(data, t, next.Elem(), level, false)
+		return d.decodeSegment(data, t, next.Elem(), level, false, vfc)
 	case reflect.Slice:
 		if len(data) == 0 {
 			return nil
 		}
 		itemType := rv.Type().Elem()
+		if itemType.Kind() == reflect.Uint8 {
+			rv.SetBytes(data)
+			return nil
+		}
 		itemValue := reflect.New(itemType)
 		ivv := itemValue.Elem()
-		err := d.decodeSegment(data, t, ivv, level, false)
+		err := d.decodeSegment(data, t, ivv, level, false, vfc)
 		if err != nil {
 			return fmt.Errorf("slice: %w", err)
 		}
@@ -357,7 +385,7 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 					continue
 				}
 				f := ff[i]
-				err := d.decodeSegment(p, f.tag, f.field, level+1, false)
+				err := d.decodeSegment(p, f.tag, f.field, level+1, false, vfc)
 				if err != nil {
 					return fmt.Errorf("%s-%s.%d: %w", SegmentName, f.field.Type().String(), f.tag.Order, err)
 				}
@@ -390,12 +418,6 @@ func (d *lineDecoder) decodeByte(v []byte, t tag) string {
 		return string(v)
 	}
 	return d.unescaper.Replace(string(v))
-}
-func (d *lineDecoder) decodeString(v string, t tag) string {
-	if t.NoEscape {
-		return v
-	}
-	return d.unescaper.Replace(v)
 }
 
 func (d *lineDecoder) getID(data []byte) (string, int) {
