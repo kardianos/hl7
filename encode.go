@@ -372,9 +372,6 @@ func (e *Encoder) encodeDataType(t tag, o interface{}, level int) error {
 					return err
 				}
 
-				if tag.Child {
-					return fmt.Errorf("Children cannot be on this segment.")
-				}
 				if !tag.Present {
 					continue
 				}

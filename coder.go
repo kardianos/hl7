@@ -38,7 +38,6 @@ type tag struct {
 	Format     string
 	Type       structType
 	Meta       bool
-	Child      bool
 	Omit       bool
 	NoEscape   bool
 	Sequence   bool
@@ -92,8 +91,6 @@ func parseTag(fieldName, v string) (tag, error) {
 			}
 		case "format":
 			t.Format = v
-		case "child":
-			t.Child = true
 		case "noescape":
 			t.NoEscape = true
 		case "omit":

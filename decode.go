@@ -215,9 +215,6 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 			if f.tag.Omit {
 				continue
 			}
-			if f.tag.Child {
-				continue
-			}
 			err := ld.decodeSegmentList(p, f.tag, f.field)
 			if err != nil {
 				return ret, fmt.Errorf("line %d, %s.%s: %w", lineNumber, SegmentName, f.name, err)
@@ -325,9 +322,6 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 					continue
 				}
 				if fTag.Omit {
-					continue
-				}
-				if fTag.Child {
 					continue
 				}
 				if fTag.Order > maxOrd {
