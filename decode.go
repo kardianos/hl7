@@ -20,18 +20,18 @@ type lineDecoder struct {
 	unescaper *strings.Replacer
 }
 
-// Decode bytes into HL7 structures.
+// Decoder decodes bytes into HL7 structures.
 type Decoder struct {
 	registry Registry
 	opt      DecodeOption
 }
 
-// Decode options for the HL7 decoder.
+// DecodeOption represents options for the HL7 decoder.
 type DecodeOption struct {
 	ErrorZSegment bool // Error on an unknown Zxx segment when true.
 }
 
-// Create a new Decoder. A registry must be provided. Option is optional.
+// NewDecoder creates a new Decoder. A registry must be provided. Option is optional.
 func NewDecoder(registry Registry, opt *DecodeOption) *Decoder {
 	d := &Decoder{
 		registry: registry,
@@ -56,7 +56,7 @@ func (d *Decoder) Decode(data []byte) (any, error) {
 	return g, nil
 }
 
-// Group a list of elements into trigger groupings.
+// DecodeGroup decodes a list of elements into trigger groupings.
 func (d *Decoder) DecodeGroup(list []any) (any, error) {
 	return group(list, d.registry)
 }
@@ -71,7 +71,7 @@ type variesFunc func() (reflect.Value, error)
 
 var variesType = reflect.TypeOf((*Varies)(nil)).Elem()
 
-// Decode returns a list of segments without any grouping applied.
+// DecodeList returns a list of segments without any grouping applied.
 func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 	// Explicitly accept both CR and LF as new lines. Some systems do use \n, despite the spec.
 	lines := bytes.FieldsFunc(data, func(r rune) bool {
@@ -393,7 +393,7 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 			return nil
 		case timeType:
 			v := d.decodeByte(data, t)
-			t, err := d.parseDateTime(v)
+			t, err := parseDateTime(v)
 			if err != nil {
 				return err
 			}
@@ -434,26 +434,39 @@ func (d *lineDecoder) getID(data []byte) (string, int) {
 	return string(data), len(data)
 }
 
-func (d *lineDecoder) parseDateTime(dt string) (time.Time, error) {
+func parseDateTime(dt string) (time.Time, error) {
 	var zoneIndex int
-	dtLen := len(dt)
-loop:
+
+	// Fix problems caused by bad formats
+	if len(dt) >= 8 {
+		// Fix dates with dashes in them
+		parts := strings.Split(dt[:8], "-")
+		dt = strings.Join(parts, "") + dt[8:]
+	}
+
+	// Remove spaces and colons
+	dt = strings.Replace(dt, " ", "", -1)
+	dt = strings.Replace(dt, ":", "", -1)
+
+	precisionOffset := -1
 	for i, r := range dt {
 		switch {
 		default:
 			return time.Time{}, fmt.Errorf("invalid characters in date: %q", dt)
 		case unicode.IsNumber(r):
-		case r == '.':
+		case r == '.': //ignore
 		case r == '-':
-			zoneIndex = i
+			fallthrough
 		case r == '+':
 			zoneIndex = i
-		case r == '^':
-			dtLen = i
-			break loop
+		case r == '^': // This is problematic, as its also a field separator. We are going to ignore whatever is after.
+			precisionOffset = i
 		}
 	}
-	dt = dt[:dtLen]
+
+	if precisionOffset >= 0 {
+		dt = dt[:precisionOffset]
+	}
 
 	// Format: YYYY[MM[DD[HH[MM[SS[.S[S[S[S]]]]]]]]][+/-ZZZZ]^<degree of precision>
 	// 20200522143859198-0700
