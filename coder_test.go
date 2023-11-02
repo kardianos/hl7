@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	v25 "github.com/kardianos/hl7/h250"
 	v251 "github.com/kardianos/hl7/h251"
@@ -260,6 +261,83 @@ func TestError(t *testing.T) {
 			d := lineDiff(errorBB, gotError)
 			if len(d) > 0 {
 				t.Fatalf("mismatch\n%s", d)
+			}
+		})
+	}
+}
+
+func TestParseDate(t *testing.T) {
+	list := []struct {
+		Name  string
+		Input string
+		Want  string
+	}{
+		{
+			Name:  "normal1",
+			Input: "20010330060500",
+			Want:  "2001-03-30T06:05:00Z",
+		},
+		{
+			Name:  "normal2",
+			Input: "19991227140800",
+			Want:  "1999-12-27T14:08:00Z",
+		},
+		{
+			Name:  "ymd",
+			Input: "19991227",
+			Want:  "1999-12-27T00:00:00Z",
+		},
+		{
+			Name:  "ymdhm",
+			Input: "199912271408",
+			Want:  "1999-12-27T14:08:00Z",
+		},
+		{
+			Name:  "year",
+			Input: "2001",
+			Want:  "2001-01-01T00:00:00Z",
+		},
+		{
+			Name:  "year-month",
+			Input: "200110",
+			Want:  "2001-10-01T00:00:00Z",
+		},
+		{
+			Name:  "year-month-day",
+			Input: "20011003",
+			Want:  "2001-10-03T00:00:00Z",
+		},
+		// These are not properly formatted, but accept them anyway, the meaning is sufficently clear.
+		{
+			Name:  "bad-accept1",
+			Input: "2019-07-02 12:23:24+0300",
+			Want:  "2019-07-02T12:23:24+03:00",
+		},
+		{
+			Name:  "bad-accept2",
+			Input: "2019-07-02 12:23:24-0300",
+			Want:  "2019-07-02T12:23:24-03:00",
+		},
+		// The meaning is not sufficently clear, reject.
+		{
+			Name:  "bad-length",
+			Input: "2019-1",
+			Want:  `unknown date time string size "20191"`,
+		},
+	}
+
+	d := &lineDecoder{}
+	for _, item := range list {
+		t.Run(item.Name, func(t *testing.T) {
+			var got string
+			dt, err := d.parseDateTime(item.Input)
+			if err != nil {
+				got = err.Error()
+			} else {
+				got = dt.Format(time.RFC3339Nano)
+			}
+			if g, w := got, item.Want; g != w {
+				t.Fatalf("got=%s want=%s", g, w)
 			}
 		})
 	}

@@ -434,8 +434,27 @@ func (d *lineDecoder) getID(data []byte) (string, int) {
 	return string(data), len(data)
 }
 
+func dtClean(s string) string {
+	var i int
+	return strings.Map(func(r rune) rune {
+		i++
+		switch r {
+		default:
+			return r
+		case ' ', ':':
+			return -1
+		case '-':
+			if i <= 8 {
+				return -1
+			}
+			return r
+		}
+	}, s)
+}
+
 func (d *lineDecoder) parseDateTime(dt string) (time.Time, error) {
 	var zoneIndex int
+	dt = dtClean(dt)
 	dtLen := len(dt)
 loop:
 	for i, r := range dt {
@@ -467,8 +486,15 @@ loop:
 
 		switch len(dt) {
 		default:
+			if len(tp) < 12 {
+				return t, fmt.Errorf("unknown date time string size %q", tp)
+			}
 			in = tp[:12] + zp
 			t, err = time.Parse("200601021504-0700", in)
+		case 4 + 5: // Year.
+			t, err = time.Parse("2006-0700", in)
+		case 6 + 5: // Month.
+			t, err = time.Parse("2006-0700", in)
 		case 8 + 5: // To the day.
 			t, err = time.Parse("20060102-0700", in)
 		case 12 + 5: // To the minute.
@@ -484,10 +510,17 @@ loop:
 	}
 	switch len(dt) {
 	default:
+		if len(dt) < 12 {
+			return t, fmt.Errorf("unknown date time string size %q", dt)
+		}
 		in = dt[:12]
 		t, err = time.Parse("200601021504", in)
 	case 0:
 		t, err = time.Time{}, nil // No date supplied, use zero value
+	case 4: // Year.
+		t, err = time.Parse("2006", in)
+	case 6: // Month
+		t, err = time.Parse("200601", in)
 	case 8: // To the day.
 		t, err = time.Parse("20060102", in)
 	case 12: // To the minute.
