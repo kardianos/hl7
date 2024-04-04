@@ -3,6 +3,7 @@ package hl7
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"flag"
 	"os"
 	"path/filepath"
@@ -56,6 +57,114 @@ OBR|2|XYZ||||||||||||||903^Blacky|||||||||||||||||||||||||||||||||||||||||||`)
 	}
 	_ = data
 }
+
+// DecodeInlineError test that a single field error will not prevent
+// decoding the remainder of the message.
+func TestDecodeInlineError(t *testing.T) {
+	// The date of birth is incorrect in this PID. The day of month is "92" rather then "02".
+	// 92 is an invalid day of month, so it will error. However, only this segment will error, and the other valid segment fields
+	// will still be accessable.
+	var raw = []byte(`MSH|^~\&|DX_LAB|Hematology|WPX||20070305170957||ORL^O34^ORL_O34|2|P|2.5||||||8859/1|||
+PID|1||PID1992299||Smith^John||19561192000000|M||Caucasian||||||||||||Caucasian|||||||||||||||||
+NTE|1||testing the system comments here|||
+NTE|2||more comments here|||
+OBR|1|ABC||||||||||||||1234^Acron^Smith~5678^Beta^Zeta|||||||||||||||||||||||||||||||||||||||||||
+OBR|2|XYZ||||||||||||||903^Blacky|||||||||||||||||||||||||||||||||||||||||||`)
+
+	d := NewDecoder(v25.Registry, nil)
+	v, err := d.DecodeList(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	const (
+		wantFirst = "John"
+		wantLast  = "Smith"
+		wantError = `line 2, PID.DateTimeOfBirth: time.Time.7: field "19561192000000" : parsing time "19561192000000": day out of range`
+	)
+	var gotError, gotFirst, gotLast string
+	for _, item := range v {
+		if se, ok := item.(SegmentError); ok {
+			gotError = errors.Join(se.ErrorList...).Error()
+			if pid, ok := se.Segment.(*v25.PID); ok {
+				if len(pid.PatientName) > 0 {
+					p := pid.PatientName[0]
+					gotFirst = p.GivenName
+					gotLast = p.FamilyName
+				}
+			}
+		}
+	}
+	ck := func(name, g, w string) {
+		if g != w {
+			t.Errorf("for %s, got=<<%s>> want=<<%s>>", name, g, w)
+		}
+	}
+	ck("error", gotError, wantError)
+	ck("first", gotFirst, wantFirst)
+	ck("last", gotLast, wantLast)
+
+	gr, err := d.DecodeGroup(v)
+	var grErrText string
+	if err != nil {
+		grErrText = err.Error()
+	}
+	ck("group-error", grErrText, wantError)
+	m, ok := gr.(v25.ORL_O34)
+	if !ok {
+		t.Fatal("incorrect message type")
+	}
+
+	p := m.Response.Patient.PID.PatientName[0]
+	gotFirst = p.GivenName
+	gotLast = p.FamilyName
+	ck("first", gotFirst, wantFirst)
+	ck("last", gotLast, wantLast)
+}
+
+// Test decoding only the header.
+func TestDecodeHeader(t *testing.T) {
+	var raw = []byte(`MSH|^~\&|DX_LAB|Hematology|WPX||20070305170957|XYZ|ORL^O34^ORL_O34|2|P|2.5||||||8859/1|||
+PID|1||PID1992299||Smith^John||19561192000000|M||Caucasian||||||||||||Caucasian|||||||||||||||||
+NTE|1||testing the system comments here|||
+NTE|2||more comments here|||
+OBR|1|ABC||||||||||||||1234^Acron^Smith~5678^Beta^Zeta|||||||||||||||||||||||||||||||||||||||||||
+OBR|2|XYZ||||||||||||||903^Blacky|||||||||||||||||||||||||||||||||||||||||||`)
+
+	d := NewDecoder(v25.Registry, &DecodeOption{
+		HeaderOnly: true,
+	})
+	v, err := d.DecodeList(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(v) != 1 {
+		t.Fatalf("expected 1 segment, got %d segments", len(v))
+	}
+	el := v[0]
+	m, ok := el.(*v25.MSH)
+	if !ok {
+		t.Fatalf("expected MSG, got %T", el)
+	}
+	ck := func(name, g, w string) {
+		if g != w {
+			t.Errorf("for %s, got=<<%s>> want=<<%s>>", name, g, w)
+		}
+	}
+	ck("security", m.Security, "XYZ")
+	gr, err := d.DecodeGroup(v)
+	mgr, ok := gr.(v25.ORL_O34)
+	if !ok {
+		t.Fatal("incorrect message type")
+	}
+	if err != nil {
+		t.Error(err)
+	}
+	ck("group-security", mgr.MSH.Security, "XYZ")
+	if mgr.Response != nil {
+		t.Error("expected nil Response")
+	}
+}
+
 func TestGroup(t *testing.T) {
 	flag.Parse()
 	var raw = []byte(`MSH|^~\&|DX_LAB|Hematology|WPX||20070305170957||ORL^O34^ORL_O34|2|P|2.5||||||8859/1|||

@@ -11,17 +11,21 @@ type registry struct{}
 func (registry) Version() string {
 	return Version
 }
-func (registry) ControlSegment() map[string]any {
-	return ControlSegmentRegistry
+func (registry) ControlSegment(name string) (any, bool) {
+	v, ok := ControlSegmentRegistry[name]
+	return v, ok
 }
-func (registry) Segment() map[string]any {
-	return SegmentRegistry
+func (registry) Segment(name string) (any, bool) {
+	v, ok := SegmentRegistry[name]
+	return v, ok
 }
-func (registry) Trigger() map[string]any {
-	return TriggerRegistry
+func (registry) Trigger(name string) (any, bool) {
+	v, ok := TriggerRegistry[name]
+	return v, ok
 }
-func (registry) DataType() map[string]any {
-	return DataTypeRegistry
+func (registry) DataType(name string) (any, bool) {
+	v, ok := DataTypeRegistry[name]
+	return v, ok
 }
 
 // Version of this HL7 package.

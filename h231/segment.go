@@ -1249,8 +1249,8 @@ type OBX struct {
 	ObservationMethod        []CE     `hl7:"17,len=60,display=Observation Method"`
 }
 
-func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
-	vt, ok := dtReg[v.ValueType]
+func (v OBX) ChildVaries(reg func(string) (any, bool)) (reflect.Value, error) {
+	vt, ok := reg(v.ValueType)
 	if !ok {
 		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
 	}

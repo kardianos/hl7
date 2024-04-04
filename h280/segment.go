@@ -2342,8 +2342,8 @@ type OBX struct {
 	LocalProcessControl                   []CWE    `hl7:"28,table=0915,display=Local Process Control"`
 }
 
-func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
-	vt, ok := dtReg[v.ValueType]
+func (v OBX) ChildVaries(reg func(string) (any, bool)) (reflect.Value, error) {
+	vt, ok := reg(v.ValueType)
 	if !ok {
 		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
 	}

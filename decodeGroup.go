@@ -1,6 +1,7 @@
 package hl7
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 )
@@ -11,22 +12,21 @@ type messageStructure interface {
 
 func newWalker(list []any, registry Registry) (*walker, error) {
 	if len(list) == 0 {
-		return nil, fmt.Errorf("List is empty")
+		return nil, fmt.Errorf("list is empty")
 	}
 
 	root := list[0]
 	ms, ok := root.(messageStructure)
 	if !ok {
-		return nil, fmt.Errorf("First message must implment MessageStructure, %T does not", root)
+		return nil, fmt.Errorf("first message must implment MessageStructure, %T does not", root)
 	}
 	code := ms.MessageStructureID()
 	if len(code) == 0 {
-		return nil, fmt.Errorf("Message structure code empty, malformed message: %#v", root)
+		return nil, fmt.Errorf("message structure code empty, malformed message: %#v", root)
 	}
-	tr := registry.Trigger()
-	vex, ok := tr[code]
+	vex, ok := registry.Trigger(code)
 	if !ok {
-		return nil, fmt.Errorf("Message structure code not found %q", code)
+		return nil, fmt.Errorf("message structure code not found %q", code)
 	}
 	tp := reflect.TypeOf(vex)
 
@@ -63,7 +63,7 @@ func (w *walker) process(list []any) (any, error) {
 	}
 
 	if len(w.list) == 0 {
-		return nil, fmt.Errorf("Missing list item. This should not happen.")
+		return nil, fmt.Errorf("missing list item,his should not happen")
 	}
 	rootSI := w.list[0]
 	if !rootSI.ActiveValue.IsValid() {
@@ -76,11 +76,22 @@ func (w *walker) process(list []any) (any, error) {
 
 // group a list of segments into hierarchical groups with a single root element.
 func group(list []any, registry Registry) (any, error) {
+	var segErrs []error
+	for i, item := range list {
+		if se, ok := item.(SegmentError); ok {
+			segErrs = append(segErrs, se.ErrorList...)
+			list[i] = se.Segment
+		}
+	}
 	w, err := newWalker(list, registry)
 	if err != nil {
 		return nil, err
 	}
-	return w.process(list)
+	gr, err := w.process(list)
+	if err != nil {
+		segErrs = append(segErrs, err)
+	}
+	return gr, errors.Join(segErrs...)
 }
 
 type linkType int
@@ -107,6 +118,17 @@ func (lt linkType) String() string {
 	}
 }
 
+func present(rv reflect.Value) bool {
+	if !rv.IsValid() {
+		return false
+	}
+	if rv.IsZero() {
+		return false
+	}
+
+	return true
+}
+
 type structItem struct {
 	Index       int
 	Parent      *structItem
@@ -118,28 +140,9 @@ type structItem struct {
 }
 
 func (si *structItem) present() bool {
-	rv := si.ActiveValue
-	if !rv.IsValid() {
-		return false
-	}
-	if rv.IsZero() {
-		return false
-	}
-
-	return true
-	// return present(si.ActiveValue)
-	// return si.ActiveSet
+	return present(si.ActiveValue)
 }
-func present(rv reflect.Value) bool {
-	if !rv.IsValid() {
-		return false
-	}
-	if rv.IsZero() {
-		return false
-	}
 
-	return true
-}
 func (si *structItem) set(rv reflect.Value) {
 	si.ActiveValue = rv
 }
@@ -181,8 +184,7 @@ func (w *walker) digest(line int, v any) error {
 		return w.found(line, i, si, v, rv, rt)
 	}
 
-	gr := w.registry.ControlSegment()
-	_, isControl := gr[rt.Name()]
+	_, isControl := w.registry.ControlSegment(rt.Name())
 	if isControl {
 		// TODO: handle batch and control segments.
 		return nil

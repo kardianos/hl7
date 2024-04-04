@@ -1548,8 +1548,8 @@ type OBX struct {
 	DateTimeOfTheAnalysis          TS       `hl7:"19,len=26,format=YMDHMS,display=Date/Time of the Analysis"`
 }
 
-func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
-	vt, ok := dtReg[v.ValueType]
+func (v OBX) ChildVaries(reg func(string) (any, bool)) (reflect.Value, error) {
+	vt, ok := reg(v.ValueType)
 	if !ok {
 		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
 	}

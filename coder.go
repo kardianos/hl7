@@ -10,10 +10,10 @@ type RegistryLookup = map[string]any
 
 type Registry interface {
 	Version() string
-	ControlSegment() RegistryLookup
-	Segment() RegistryLookup
-	Trigger() RegistryLookup
-	DataType() RegistryLookup
+	ControlSegment(string) (any, bool)
+	Segment(string) (any, bool)
+	Trigger(string) (any, bool)
+	DataType(string) (any, bool)
 }
 
 const tagName = "hl7"

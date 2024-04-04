@@ -29,6 +29,7 @@ type Decoder struct {
 // Decode options for the HL7 decoder.
 type DecodeOption struct {
 	ErrorZSegment bool // Error on an unknown Zxx segment when true.
+	HeaderOnly    bool // Only decode first segment, usually the header.
 }
 
 // Create a new Decoder. A registry must be provided. Option is optional.
@@ -57,6 +58,7 @@ func (d *Decoder) Decode(data []byte) (any, error) {
 }
 
 // Group a list of elements into trigger groupings.
+// A value and error may be present at the same time.
 func (d *Decoder) DecodeGroup(list []any) (any, error) {
 	return group(list, d.registry)
 }
@@ -64,12 +66,21 @@ func (d *Decoder) DecodeGroup(list []any) (any, error) {
 // Varies should be implemented on a segment that knows how to
 // decode a child VARIES data type.
 type Varies interface {
-	ChildVaries(dtReg map[string]any) (reflect.Value, error)
+	ChildVaries(reg func(string) (any, bool)) (reflect.Value, error)
 }
 
 type variesFunc func() (reflect.Value, error)
 
-var variesType = reflect.TypeOf((*Varies)(nil)).Elem()
+var variesType = reflect.TypeFor[Varies]()
+
+// SgmentError may be returned as part of the DecodeList result.
+// This allows a single segment to be decoded poorly with error, while
+// still decoding the rest of the message.
+// This will not be returned as an error.
+type SegmentError struct {
+	ErrorList []error
+	Segment   any
+}
 
 // Decode returns a list of segments without any grouping applied.
 func (d *Decoder) DecodeList(data []byte) ([]any, error) {
@@ -93,7 +104,6 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 	ret := []any{}
 
 	ld := &lineDecoder{}
-	segmentRegistry := d.registry.Segment()
 	for index, line := range lines {
 		lineNumber := index + 1
 		if len(line) == 0 {
@@ -106,7 +116,7 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 			return nil, fmt.Errorf("line %d: missing segment type", lineNumber)
 		}
 
-		seg, ok := segmentRegistry[segTypeName]
+		seg, ok := d.registry.Segment(segTypeName)
 		if !ok {
 			isZ := len(segTypeName) > 0 && segTypeName[0] == 'Z'
 			if isZ && !d.opt.ErrorZSegment {
@@ -214,12 +224,12 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 
 		var vfc variesFunc
 		if rvv.Type().Implements(variesType) {
-			dtReg := d.registry.DataType()
 			vfc = func() (reflect.Value, error) {
-				return rvv.Interface().(Varies).ChildVaries(dtReg)
+				return rvv.Interface().(Varies).ChildVaries(d.registry.DataType)
 			}
 		}
 
+		var segmentErrorList []error
 		for i, f := range ff {
 			if i >= len(parts) {
 				break
@@ -233,11 +243,21 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 			}
 			err := ld.decodeSegmentList(p, f.tag, f.field, vfc)
 			if err != nil {
-				return ret, fmt.Errorf("line %d, %s.%s: %w", lineNumber, SegmentName, f.name, err)
+				err = fmt.Errorf("line %d, %s.%s: %w", lineNumber, SegmentName, f.name, err)
+				segmentErrorList = append(segmentErrorList, err)
 			}
 		}
-
-		ret = append(ret, rv.Interface())
+		if segmentErrorList != nil {
+			ret = append(ret, SegmentError{
+				ErrorList: segmentErrorList,
+				Segment:   rv.Interface(),
+			})
+		} else {
+			ret = append(ret, rv.Interface())
+		}
+		if d.opt.HeaderOnly {
+			return ret, nil
+		}
 	}
 	return ret, nil
 }

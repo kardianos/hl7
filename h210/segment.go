@@ -343,8 +343,8 @@ type OBX struct {
 	DateLastObsNormalValues TS      `hl7:"12,len=19,format=YMDHMS,display=Date Last Obs Normal Values"`
 }
 
-func (v OBX) ChildVaries(dtReg map[string]any) (reflect.Value, error) {
-	vt, ok := dtReg[v.ValueType]
+func (v OBX) ChildVaries(reg func(string) (any, bool)) (reflect.Value, error) {
+	vt, ok := reg(v.ValueType)
 	if !ok {
 		return reflect.Value{}, fmt.Errorf("unknown OBX data type %q", v.ValueType)
 	}
