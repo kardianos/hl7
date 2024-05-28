@@ -21,7 +21,7 @@ type {{.ID}} struct {
 	{{if $mt}}
 	// MessageStructureID returns the code for the message structure.
 	// Implements the interface for decoders.
-	func (s {{.ID}}) MessageStructureID () string {
+	func (s {{.ID}}) MessageStructureID () []string {
 		return s.{{$mt}}.MessageStructureID()
 	}
 	{{end}}

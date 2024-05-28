@@ -613,14 +613,14 @@ type MSG struct {
 	MessageStructure ID      `hl7:"3,required,len=7,table=0354,display=Specifies the abstract message structure code. Refer to HL7 Table 0354 – Message Structure for valid values."`
 }
 
-func (d MSG) MessageStructureID() string {
+func (d MSG) MessageStructureID() []string {
 	if len(d.MessageStructure) > 0 {
-		return d.MessageStructure
+		return []string{d.MessageStructure}
 	}
 	if len(d.TriggerEvent) == 0 {
-		return d.MessageCode
+		return []string{d.MessageCode}
 	}
-	return d.MessageCode + "_" + d.TriggerEvent
+	return []string{d.MessageCode + "_" + d.TriggerEvent, d.MessageCode}
 }
 
 // Numeric Array

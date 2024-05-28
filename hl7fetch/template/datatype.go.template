@@ -21,30 +21,30 @@ type {{.ID}} struct {
 		{{.ID}} {{.|typeprefix}}{{.DataType}} `hl7:"{{.|tag}}"` {{end}}
 }
 {{if eq .ID "MSG"}}
-	func (d MSG) MessageStructureID() string {
+	func (d MSG) MessageStructureID() []string {
 		if len(d.MessageStructure) > 0 {
-			return d.MessageStructure
+			return []string{d.MessageStructure}
 		}
 		{{- if hasField "MessageCode" .Fields}}
 			if len(d.TriggerEvent) == 0 {
-				return d.MessageCode
+				return []string{d.MessageCode}
 			}
-			return d.MessageCode + "_" + d.TriggerEvent;
+			return []string{d.MessageCode + "_" + d.TriggerEvent, d.MessageCode};
 		{{end -}}
 		{{- if hasField "MessageType" .Fields}}
 			if len(d.TriggerEvent) == 0 {
-				return d.MessageType
+				return []string{d.MessageType}
 			}
-			return d.MessageType + "_" + d.TriggerEvent;
+			return []string{d.MessageType + "_" + d.TriggerEvent, d.MessageType};
 		{{end -}}
 	}
 {{end}}
 {{if eq .ID "CM_MSG"}}
-	func (d CM_MSG) MessageStructureID() string {
+	func (d CM_MSG) MessageStructureID() []string {
 		if len(d.TriggerEvent) == 0 {
-			return d.MessageType
+			return []string{d.MessageType}
 		}
-		return d.MessageType + "_" + d.TriggerEvent
+		return []string{d.MessageType + "_" + d.TriggerEvent, d.MessageType}
 	}
 {{end}}
 

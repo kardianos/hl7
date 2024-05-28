@@ -7,7 +7,7 @@ import (
 )
 
 type messageStructure interface {
-	MessageStructureID() string
+	MessageStructureID() []string
 }
 
 func newWalker(list []any, registry Registry) (*walker, error) {
@@ -20,13 +20,24 @@ func newWalker(list []any, registry Registry) (*walker, error) {
 	if !ok {
 		return nil, fmt.Errorf("first message must implment MessageStructure, %T does not", root)
 	}
-	code := ms.MessageStructureID()
-	if len(code) == 0 {
-		return nil, fmt.Errorf("message structure code empty, malformed message: %#v", root)
+	codeList := ms.MessageStructureID()
+	if len(codeList) == 0 {
+		return nil, fmt.Errorf("message structure code missing, malformed message: %#v", root)
 	}
-	vex, ok := registry.Trigger(code)
-	if !ok {
-		return nil, fmt.Errorf("message structure code not found %q", code)
+	var vex any
+	var code string
+	for _, c := range codeList {
+		if len(c) == 0 {
+			return nil, fmt.Errorf("message structure code empty, malformed message: %#v", root)
+		}
+		vex, ok = registry.Trigger(c)
+		if ok {
+			code = c
+			break
+		}
+	}
+	if vex == nil {
+		return nil, fmt.Errorf("message structure code not found %q", codeList)
 	}
 	tp := reflect.TypeOf(vex)
 

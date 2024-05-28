@@ -385,14 +385,14 @@ type MSG struct {
 	MessageStructure ID      `hl7:"3,table=0354,display=Message Structure"`
 }
 
-func (d MSG) MessageStructureID() string {
+func (d MSG) MessageStructureID() []string {
 	if len(d.MessageStructure) > 0 {
-		return d.MessageStructure
+		return []string{d.MessageStructure}
 	}
 	if len(d.TriggerEvent) == 0 {
-		return d.MessageType
+		return []string{d.MessageType}
 	}
-	return d.MessageType + "_" + d.TriggerEvent
+	return []string{d.MessageType + "_" + d.TriggerEvent, d.MessageType}
 }
 
 // Numeric Array

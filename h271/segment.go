@@ -1909,7 +1909,7 @@ type MSH struct {
 
 // MessageStructureID returns the code for the message structure.
 // Implements the interface for decoders.
-func (s MSH) MessageStructureID() string {
+func (s MSH) MessageStructureID() []string {
 	return s.MessageType.MessageStructureID()
 }
 

@@ -390,14 +390,14 @@ type MSG struct {
 	MessageStructure ID      `hl7:"3,table=0354,display=The third component is the abstract message structure code defined by HL7 Table 0354 - Message structure.  This table has two columns.  The first column contains the value of this code- which describes a particular HL7 “abstract message structure definition” in terms of segments- as defined in sections 2.11 and 2.11.1.  The second column of table 0354 lists the various HL7 trigger events that use the particular abstract message definition.  For example- the message structure code ADT_A01 describes the single abstract message structure used by the trigger events A01- A04- A05- A08- A13- A14- A28 and A31"`
 }
 
-func (d MSG) MessageStructureID() string {
+func (d MSG) MessageStructureID() []string {
 	if len(d.MessageStructure) > 0 {
-		return d.MessageStructure
+		return []string{d.MessageStructure}
 	}
 	if len(d.TriggerEvent) == 0 {
-		return d.MessageType
+		return []string{d.MessageType}
 	}
-	return d.MessageType + "_" + d.TriggerEvent
+	return []string{d.MessageType + "_" + d.TriggerEvent, d.MessageType}
 }
 
 // Observing Practitioner

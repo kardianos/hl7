@@ -180,11 +180,11 @@ type CM_MSG struct {
 	TriggerEvent ID      `hl7:"2,table=0003,display=Trigger Event"`
 }
 
-func (d CM_MSG) MessageStructureID() string {
+func (d CM_MSG) MessageStructureID() []string {
 	if len(d.TriggerEvent) == 0 {
-		return d.MessageType
+		return []string{d.MessageType}
 	}
-	return d.MessageType + "_" + d.TriggerEvent
+	return []string{d.MessageType + "_" + d.TriggerEvent, d.MessageType}
 }
 
 // Observing Practitioner
