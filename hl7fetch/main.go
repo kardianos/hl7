@@ -26,13 +26,13 @@ import (
 var pkgTemplate embed.FS
 
 /*
-	https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/Chapters
-	https://hl7-definition.caristix.com/v2-api/1/HL7v2.8/Chapters/CH_02
-	https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/TriggerEvents
-	https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/TriggerEvents/ORU_R30
-	https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/Segments/NK1
-	https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/DataTypes/CE
-	https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/Tables/0052
+https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/Chapters
+https://hl7-definition.caristix.com/v2-api/1/HL7v2.8/Chapters/CH_02
+https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/TriggerEvents
+https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/TriggerEvents/ORU_R30
+https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/Segments/NK1
+https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/DataTypes/CE
+https://hl7-definition.caristix.com/v2-api/1/HL7v2.5/Tables/0052
 */
 const rootURL = `https://hl7-definition.caristix.com/v2-api/1/`
 
@@ -267,8 +267,13 @@ func run(ctx context.Context) error {
 		case TriggerType:
 			to.Trigger = append(to.Trigger, v)
 		case SegmentType:
+			for i := range v.Fields {
+				f := &v.Fields[i]
+				f.DataType = strings.ToUpper(f.DataType)
+			}
 			to.Segment = append(to.Segment, v)
 		case DataType:
+			v.ID = strings.ToUpper(v.ID)
 			to.DataType = append(to.DataType, v)
 		case TableType:
 			to.Table = append(to.Table, v)
@@ -352,6 +357,8 @@ func run(ctx context.Context) error {
 			case strings.EqualFold(v, "id"):
 				v = strings.ToUpper(v)
 			case strings.EqualFold(v, "cpu"):
+				v = strings.ToUpper(v)
+			case strings.EqualFold(v, "ssn"):
 				v = strings.ToUpper(v)
 			case strings.EqualFold(v, containerID):
 				omit = true

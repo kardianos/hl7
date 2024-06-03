@@ -163,7 +163,7 @@ type GT1 struct {
 	GuarantorSex              ID      `hl7:"9,len=1,table=0001,display=Guarantor Sex"`
 	GuarantorType             ID      `hl7:"10,len=2,table=0068,display=Guarantor Type"`
 	GuarantorRelationship     ID      `hl7:"11,len=2,table=0063,display=Guarantor Relationship"`
-	GuarantorSsn              ST      `hl7:"12,len=11,display=Guarantor Ssn"`
+	GuarantorSSN              ST      `hl7:"12,len=11,display=Guarantor Ssn"`
 	GuarantorDateBegin        DT      `hl7:"13,len=8,format=YMD,display=Guarantor Date - Begin"`
 	GuarantorDateEnd          DT      `hl7:"14,len=8,format=YMD,display=Guarantor Date - End"`
 	GuarantorPriority         NM      `hl7:"15,len=2,display=Guarantor Priority"`
@@ -400,7 +400,7 @@ type PID struct {
 	MaritalStatus               ID      `hl7:"16,len=1,table=0002,display=Marital Status"`
 	Religion                    ID      `hl7:"17,len=3,table=0006,display=Religion"`
 	PatientAccountNumber        CK      `hl7:"18,len=20,display=Patient Account Number"`
-	SsnNumberPatient            ST      `hl7:"19,len=16,display=Ssn Number - Patient"`
+	SSNNumberPatient            ST      `hl7:"19,len=16,display=Ssn Number - Patient"`
 	DriversLicNumPatient        CM      `hl7:"20,len=25,display=Driver's Lic Num - Patient"`
 }
 

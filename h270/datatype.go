@@ -1260,6 +1260,9 @@ type UVC struct {
 	NonMonetaryValueAmountUnits    *CWE    `hl7:"4,display=This component species the units in which the  non-monetary quantity is expressed. Refer to the Unified Code for Units of Measure (UCUM) for valid values [http://aurora.rg.iupui.edu/UCUM]."`
 }
 
+// Varies
+type VARIES any
+
 // Visiting Hours
 //
 // This data type contains the hours when a patient location is open for visiting. Refer to HL7 Table 0267 - Days of the Week for
@@ -1463,6 +1466,3 @@ type XTN struct {
 	SharedTelecommunicationIdentifier *EI     `hl7:"17,display=A unique identifier for the phone number or e-mail address.  This component allows a phone number to be uniquely identified- and enables the linking of a single phone number to multiple people and contexts. For example- each member of a family living at the same location would share the same phone number- having the same identifier. A correction to the phone number of one family member could be automatically propagated to other members of the family.  HL7 does not assume responsibility for the processing rules for this component."`
 	PreferenceOrder                   NM      `hl7:"18,display=For an entity having multiple telecommunication addresses- indicates which is the 'most preferred' (lowest number) to 'least preferred' (highest number).  If the preference order is unique across all usages for a given type- then it indicates the preference across all usages- (e.g. first try my home number- then my business number). If the preference order is unique across all usages and types- then it indicates the preference across all types of telecommunication addresses.  (E.g.- first try my phone; if that doesn't work- use my pager.) Otherwise- the preference order is assumed to only apply within a specific type and usage.  Preference order numbers need not be sequential (i.e.- three numbers with the priority orders of 0- 5 and 15 are legitimate).  The preference order numbers must be non-negative."`
 }
-
-// Varies
-type varies = string

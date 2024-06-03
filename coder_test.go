@@ -79,7 +79,7 @@ OBR|2|XYZ||||||||||||||903^Blacky|||||||||||||||||||||||||||||||||||||||||||`)
 	const (
 		wantFirst = "John"
 		wantLast  = "Smith"
-		wantError = `line 2, PID.DateTimeOfBirth: time.Time.7: field "19561192000000" : parsing time "19561192000000": day out of range`
+		wantError = `line 2, PID.DateTimeOfBirth(time.Time)[7]: parsing time "19561192000000": day out of range`
 	)
 	var gotError, gotFirst, gotLast string
 	for _, item := range v {
@@ -416,7 +416,7 @@ func TestParseDate(t *testing.T) {
 			Input: "20011003",
 			Want:  "2001-10-03T00:00:00Z",
 		},
-		// These are not properly formatted, but accept them anyway, the meaning is sufficently clear.
+		// These are not properly formatted, but accept them anyway, the meaning is sufficiently clear.
 		{
 			Name:  "bad-accept1",
 			Input: "2019-07-02 12:23:24+0300",
@@ -427,7 +427,7 @@ func TestParseDate(t *testing.T) {
 			Input: "2019-07-02 12:23:24-0300",
 			Want:  "2019-07-02T12:23:24-03:00",
 		},
-		// The meaning is not sufficently clear, reject.
+		// The meaning is not sufficiently clear, reject.
 		{
 			Name:  "bad-length",
 			Input: "2019-1",

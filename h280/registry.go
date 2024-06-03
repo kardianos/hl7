@@ -656,6 +656,7 @@ var DataTypeRegistry = map[string]any{
 	"TM":     *(new(TM)),
 	"TX":     *(new(TX)),
 	"UVC":    *(new(UVC)),
+	"VARIES": *(new(VARIES)),
 	"VH":     *(new(VH)),
 	"VID":    *(new(VID)),
 	"XAD":    *(new(XAD)),
@@ -663,5 +664,4 @@ var DataTypeRegistry = map[string]any{
 	"XON":    *(new(XON)),
 	"XPN":    *(new(XPN)),
 	"XTN":    *(new(XTN)),
-	"varies": *(new(varies)),
 }

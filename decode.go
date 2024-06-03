@@ -4,18 +4,20 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 	"unicode"
 )
 
 type lineDecoder struct {
-	sep      byte    // usually a |
-	repeat   byte    // usually a ~
-	dividers [3]byte // usually |, ^, &
-	chars    [4]byte // usually ^!\&
-	escape   byte    // usually a \
-	readSep  bool
+	sep       byte    // usually a |
+	repeat    byte    // usually a ~
+	dividers  [3]byte // usually |, ^, &
+	chars     [4]byte // usually ^!\&
+	escape    byte    // usually a \
+	readSep   bool
+	ignoreSep bool
 
 	unescaper *strings.Replacer
 }
@@ -28,8 +30,9 @@ type Decoder struct {
 
 // Decode options for the HL7 decoder.
 type DecodeOption struct {
-	ErrorZSegment bool // Error on an unknown Zxx segment when true.
-	HeaderOnly    bool // Only decode first segment, usually the header.
+	ErrorZSegment  bool // Error on an unknown Zxx segment when true.
+	HeaderOnly     bool // Only decode first segment, usually the header.
+	IgnoreFieldSep bool // Ignore field separator values in text fields.
 }
 
 // Create a new Decoder. A registry must be provided. Option is optional.
@@ -73,13 +76,28 @@ type variesFunc func() (reflect.Value, error)
 
 var variesType = reflect.TypeFor[Varies]()
 
-// SgmentError may be returned as part of the DecodeList result.
+// SegmentError may be returned as part of the DecodeList result.
 // This allows a single segment to be decoded poorly with error, while
 // still decoding the rest of the message.
 // This will not be returned as an error.
 type SegmentError struct {
 	ErrorList []error
 	Segment   any
+}
+
+func (e SegmentError) Error() string {
+	sb := &strings.Builder{}
+	fmt.Fprintf(sb, "errors in segment %[1]T=%[1]v:", e.Segment)
+	for _, err := range e.ErrorList {
+		sb.WriteRune('\n')
+		sb.WriteRune('\t')
+		sb.WriteString(err.Error())
+	}
+	return sb.String()
+}
+
+func (e SegmentError) Unwrap() []error {
+	return e.ErrorList
 }
 
 // Decode returns a list of segments without any grouping applied.
@@ -103,7 +121,9 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 
 	ret := []any{}
 
-	ld := &lineDecoder{}
+	ld := &lineDecoder{
+		ignoreSep: d.opt.IgnoreFieldSep,
+	}
 	for index, line := range lines {
 		lineNumber := index + 1
 		if len(line) == 0 {
@@ -243,7 +263,18 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 			}
 			err := ld.decodeSegmentList(p, f.tag, f.field, vfc)
 			if err != nil {
-				err = fmt.Errorf("line %d, %s.%s: %w", lineNumber, SegmentName, f.name, err)
+				if v, ok := err.(*DecodeSegmentError); ok && v.Line == 0 && len(v.SegmentName) == 0 && len(v.FieldName) == 0 {
+					v.Line = lineNumber
+					v.SegmentName = SegmentName
+					v.FieldName = f.name
+				} else {
+					err = &DecodeSegmentError{
+						Line:        lineNumber,
+						SegmentName: SegmentName,
+						FieldName:   f.name,
+						Inner:       err,
+					}
+				}
 				segmentErrorList = append(segmentErrorList, err)
 			}
 		}
@@ -285,11 +316,68 @@ func (d *lineDecoder) decodeSegmentList(data []byte, t tag, rv reflect.Value, vf
 		}
 		err := d.decodeSegment(p, t, rv, 1, len(parts) > 1, vfc)
 		if err != nil {
-			return fmt.Errorf("%s.%d: %w", rv.Type().String(), t.Order, err)
+			return &DecodeSegmentError{
+				FieldType: rv.Type().String(),
+				Ordinal:   t.Order,
+				Inner:     err,
+			}
 		}
 	}
 	return nil
 }
+
+type DecodeSegmentError struct {
+	Line        int
+	SegmentName string
+	FieldName   string
+	FieldType   string
+	Ordinal     int32
+	Inner       error
+}
+
+func (e *DecodeSegmentError) Error() string {
+	sb := &strings.Builder{}
+	if e.Line > 0 {
+		sb.WriteString("line ")
+		sb.WriteString(strconv.FormatInt(int64(e.Line), 10))
+		sb.WriteString(", ")
+	}
+	if len(e.SegmentName) > 0 {
+		sb.WriteString(e.SegmentName)
+		sb.WriteString(".")
+	}
+	if len(e.FieldName) > 0 {
+		sb.WriteString(e.FieldName)
+	}
+	if len(e.FieldType) > 0 {
+		sb.WriteRune('(')
+		sb.WriteString(e.FieldType)
+		sb.WriteRune(')')
+	}
+	if e.Ordinal > 0 {
+		sb.WriteRune('[')
+		sb.WriteString(strconv.FormatInt(int64(e.Ordinal), 10))
+		sb.WriteRune(']')
+	}
+	if e.Inner != nil {
+		sb.WriteString(": ")
+		sb.WriteString(e.Inner.Error())
+	}
+	return sb.String()
+}
+func (e *DecodeSegmentError) Unwrap() error {
+	return e.Inner
+}
+
+type DecodeDataError struct {
+	Tag   string
+	Value string
+}
+
+func (e *DecodeDataError) Error() string {
+	return fmt.Sprintf("%s contains an escape character %s; data may be malformed, invalid type, or contain a bug", e.Tag, e.Value)
+}
+
 func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level int, mustBeSlice bool, vfc variesFunc) error {
 	type field struct {
 		tag   tag
@@ -407,7 +495,13 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 				f := ff[i]
 				err := d.decodeSegment(p, f.tag, f.field, level+1, false, vfc)
 				if err != nil {
-					return fmt.Errorf("%s-%s.%d: %w", SegmentName, f.field.Type().String(), f.tag.Order, err)
+					return &DecodeSegmentError{
+						SegmentName: SegmentName,
+						FieldType:   f.field.Type().String(),
+						FieldName:   f.tag.Name,
+						Ordinal:     f.tag.Order,
+						Inner:       err,
+					}
 				}
 			}
 			return nil
@@ -422,17 +516,21 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 		}
 	case reflect.String:
 		c1, c2, c3 := d.dividers[0], d.dividers[1], d.dividers[2]
-		for _, b := range data {
-			switch b {
-			case c1, c2, c3:
-				return fmt.Errorf("%s contains an escape character %s; data may be malformed, invalid type, or contain a bug", t.Name, data)
+		if !d.ignoreSep {
+			for _, b := range data {
+				switch b {
+				case c1, c2, c3:
+					return &DecodeDataError{
+						Tag:   t.Name,
+						Value: string(data),
+					}
+				}
 			}
 		}
 		rv.SetString(d.decodeByte(data, t))
 		return nil
 	}
 }
-
 func (d *lineDecoder) decodeByte(v []byte, t tag) string {
 	if t.NoEscape {
 		return string(v)
@@ -548,9 +646,6 @@ loop:
 	case 14, 16: // To the second.
 		in = dt[:14]
 		t, err = time.Parse("20060102150405", in)
-	}
-	if err != nil {
-		err = fmt.Errorf("field %q : %w", dt, err)
 	}
 	return t, err
 }

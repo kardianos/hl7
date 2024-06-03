@@ -1185,7 +1185,7 @@ type GT1 struct {
 	GuarantorAdministrativeSex         *CWE    `hl7:"9,table=0001,display=Guarantor Administrative Sex"`
 	GuarantorType                      *CWE    `hl7:"10,table=0068,display=Guarantor Type"`
 	GuarantorRelationship              *CWE    `hl7:"11,table=0063,display=Guarantor Relationship"`
-	GuarantorSsn                       ST      `hl7:"12,display=Guarantor Ssn"`
+	GuarantorSSN                       ST      `hl7:"12,display=Guarantor Ssn"`
 	GuarantorDateBegin                 DT      `hl7:"13,format=YMD,display=Guarantor Date - Begin"`
 	GuarantorDateEnd                   DT      `hl7:"14,format=YMD,display=Guarantor Date - End"`
 	GuarantorPriority                  NM      `hl7:"15,len=2,display=Guarantor Priority"`
@@ -1805,7 +1805,7 @@ type MFA struct {
 	MfnControlID              ST       `hl7:"2,conditional,display=Mfn Control Id"`
 	EventCompletionDateTime   DTM      `hl7:"3,format=YMDHM,display=Event Completion Date/Time"`
 	MfnRecordLevelErrorReturn CWE      `hl7:"4,required,table=0181,display=Mfn Record Level Error Return"`
-	PrimaryKeyValue           []varies `hl7:"5,required,display=Primary Key Value - Mfa"`
+	PrimaryKeyValue           []VARIES `hl7:"5,required,display=Primary Key Value - Mfa"`
 	PrimaryKeyValueType       []ID     `hl7:"6,required,len=3,table=0355,display=Primary Key Value Type - Mfa"`
 }
 
@@ -1815,7 +1815,7 @@ type MFE struct {
 	RecordLevelEventCode ID       `hl7:"1,required,len=3,table=0180,display=Record-level Event Code"`
 	MfnControlID         ST       `hl7:"2,conditional,display=Mfn Control Id"`
 	EffectiveDateTime    DTM      `hl7:"3,format=YMDHM,display=Effective Date/Time"`
-	PrimaryKeyValue      []varies `hl7:"4,required,display=Primary Key Value - Mfe"`
+	PrimaryKeyValue      []VARIES `hl7:"4,required,display=Primary Key Value - Mfe"`
 	PrimaryKeyValueType  []ID     `hl7:"5,required,len=3,table=0355,display=Primary Key Value Type"`
 	EnteredDateTime      DTM      `hl7:"6,format=YMDHM,display=Entered Date/Time"`
 	EnteredBy            *XCN     `hl7:"7,display=Entered By"`
@@ -2220,7 +2220,7 @@ type OBX struct {
 	ValueType                             ID       `hl7:"2,conditional,len=3,table=0125,display=Value Type"`
 	ObservationIdentifier                 CWE      `hl7:"3,required,table=9999,display=Observation Identifier"`
 	ObservationSubID                      ST       `hl7:"4,conditional,display=Observation Sub-id"`
-	ObservationValue                      []varies `hl7:"5,conditional,display=Observation Value"`
+	ObservationValue                      []VARIES `hl7:"5,conditional,display=Observation Value"`
 	Units                                 *CWE     `hl7:"6,table=9999,display=Units"`
 	ReferencesRange                       ST       `hl7:"7,display=References Range"`
 	InterpretationCodes                   []CWE    `hl7:"8,display=Interpretation Codes"`
@@ -2792,7 +2792,7 @@ type PID struct {
 	MaritalStatus                       *CWE    `hl7:"16,table=0002,display=Marital Status"`
 	Religion                            *CWE    `hl7:"17,table=0006,display=Religion"`
 	PatientAccountNumber                *CX     `hl7:"18,display=Patient Account Number"`
-	SsnNumberPatient                    ST      `hl7:"19,display=Ssn Number - Patient"`
+	SSNNumberPatient                    ST      `hl7:"19,display=Ssn Number - Patient"`
 	DriversLicenseNumberPatient         ST      `hl7:"20,display=Driver's License Number - Patient"`
 	MothersIdentifier                   []CX    `hl7:"21,display=Mother's Identifier"`
 	EthnicGroup                         []CWE   `hl7:"22,table=0189,display=Ethnic Group"`
@@ -3308,7 +3308,7 @@ type QPD struct {
 	HL7                              HL7Name `hl7:",name=QPD,type=s"`
 	MessageQueryName                 CWE     `hl7:"1,required,table=0471,display=Message Query Name"`
 	QueryTag                         ST      `hl7:"2,conditional,display=Query Tag"`
-	UserParametersInSuccessiveFields varies  `hl7:"3,display=User Parameters (in Successive Fields)"`
+	UserParametersInSuccessiveFields *VARIES `hl7:"3,display=User Parameters (in Successive Fields)"`
 }
 
 // Withdrawn
@@ -3370,7 +3370,7 @@ type RDF struct {
 // The RDT segment contains the row data of the tabular data response message (TBR).
 type RDT struct {
 	HL7         HL7Name `hl7:",name=RDT,type=s"`
-	ColumnValue varies  `hl7:"1,required,display=Column Value"`
+	ColumnValue VARIES  `hl7:"1,required,display=Column Value"`
 }
 
 // Clinical Relationship Segment
