@@ -200,7 +200,26 @@ func (w *walker) digest(line int, v any) error {
 		// TODO: handle batch and control segments.
 		return nil
 	}
-	return fmt.Errorf("line %d (%T) not found in trigger %q", line, v, w.triggerCode)
+	return ErrUnexpectedSegment{
+		Trigger:    w.triggerCode,
+		LineNumber: line,
+		Segment:    v,
+	}
+}
+
+// The error ErrUnexpectedSegment will be returned if an unexpected segment for a
+// given trigger is read in the message.
+//
+//	var segment hl7.ErrUnexpectedSegment
+//	if errors.As(err, &segment) { /* Use segment. */ }
+type ErrUnexpectedSegment struct {
+	Trigger    string // Name of the trigger.
+	LineNumber int    // Line number of the message this segment is found on.
+	Segment    any    // Segment value, such as *h250.MSA.
+}
+
+func (err ErrUnexpectedSegment) Error() string {
+	return fmt.Sprintf("line %d (%T) not found in trigger %q", err.LineNumber, err.Segment, err.Trigger)
 }
 
 // Found creates the parent tree and sets it up.

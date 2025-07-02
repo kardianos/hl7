@@ -165,6 +165,39 @@ OBR|2|XYZ||||||||||||||903^Blacky|||||||||||||||||||||||||||||||||||||||||||`)
 	}
 }
 
+func TestDecodeUnexpectedSegment(t *testing.T) {
+	var raw = []byte(`MSH|^~\&|LAB|ORG|SYS||20250609071616||ORU^R01|1749478576661393532|P|2.5||||||UTF-8
+MSA|AA|1749478576661393532|HL7
+`)
+	d := NewDecoder(v25.Registry, nil)
+	v, err := d.DecodeList(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = group(v, v25.Registry)
+	if err == nil {
+		t.Fatal("expected err, got nil")
+	}
+
+	const want = `line 2 (*h250.MSA) not found in trigger "ORU_R01"`
+	es := err.Error()
+	if es != want {
+		t.Fatalf("got: %q, want: %q", es, want)
+	}
+	var segmentError ErrUnexpectedSegment
+	if !errors.As(err, &segmentError) {
+		t.Fatalf("expected ErrUnexpectedSegment, got %T", err)
+	}
+	seg, ok := segmentError.Segment.(*v25.MSA)
+	if !ok {
+		t.Fatalf("wanted *h250.MSA got %T", segmentError)
+	}
+	if g, w := seg.AcknowledgmentCode, "AA"; g != w {
+		t.Fatalf("got ack %q, wanted %q", g, w)
+	}
+}
+
 func TestGroup(t *testing.T) {
 	flag.Parse()
 	var raw = []byte(`MSH|^~\&|DX_LAB|Hematology|WPX||20070305170957||ORL^O34^ORL_O34|2|P|2.5||||||8859/1|||
