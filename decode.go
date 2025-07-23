@@ -18,6 +18,7 @@ type lineDecoder struct {
 	escape    byte    // usually a \
 	readSep   bool
 	ignoreSep bool
+	ignoreRep bool
 
 	unescaper *strings.Replacer
 }
@@ -30,9 +31,10 @@ type Decoder struct {
 
 // Decode options for the HL7 decoder.
 type DecodeOption struct {
-	ErrorZSegment  bool // Error on an unknown Zxx segment when true.
-	HeaderOnly     bool // Only decode first segment, usually the header.
-	IgnoreFieldSep bool // Ignore field separator values in text fields.
+	ErrorZSegment    bool // Error on an unknown Zxx segment when true.
+	HeaderOnly       bool // Only decode first segment, usually the header.
+	IgnoreFieldSep   bool // Ignore field separator values in text fields.
+	IgnoreRepetition bool // Ignore repetitions in fields that are not repeatable.
 }
 
 // Create a new Decoder. A registry must be provided. Option is optional.
@@ -123,6 +125,7 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 
 	ld := &lineDecoder{
 		ignoreSep: d.opt.IgnoreFieldSep,
+		ignoreRep: d.opt.IgnoreRepetition,
 	}
 	for index, line := range lines {
 		lineNumber := index + 1
@@ -314,7 +317,17 @@ func (d *lineDecoder) decodeSegmentList(data []byte, t tag, rv reflect.Value, vf
 		if len(p) == 0 {
 			continue
 		}
-		err := d.decodeSegment(p, t, rv, 1, len(parts) > 1, vfc)
+		var err error
+		if d.ignoreRep && len(parts) > 1 && rv.Kind() != reflect.Slice {
+			// Decode only the first repetition and ignore the rest.
+			err = d.decodeSegment(p, t, rv, 1, false, vfc)
+			if err == nil {
+				// If we successfully decoded the first repetition, we can break out.
+				break
+			}
+		} else {
+			err = d.decodeSegment(p, t, rv, 1, len(parts) > 1, vfc)
+		}
 		if err != nil {
 			return &DecodeSegmentError{
 				FieldType: rv.Type().String(),
