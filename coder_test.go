@@ -242,6 +242,52 @@ func TestDecodeCompoundDateTime(t *testing.T) {
 	t.Logf("MSH Date: %v", msg.DateTimeOfMessage)
 }
 
+func TestIgnoreRepetition(t *testing.T) {
+	flag.Parse()
+	var raw = []byte(`MSH|^~\&|MESA_OP|XYZ_HOSPITAL|iFW|ABC_HOSPITAL|20110613061611||SIU^S12|24916560|P|2.5||||||
+SCH|10345^10345|2196178^2196178|||10345|OFFICE^Office visit|reason for the appointment|OFFICE|60|m|^^60^20110617084500^20110617093000|||||9^DENT^ARTHUR^||||9^DENT^COREY^|||||Scheduled
+PID|1||42||SMITH^PAUL||19781012|M|||1 Broadway Ave^^Fort Wayne^IN^46804||(260)555-1234|||S||999999999|||||||||||||||||||||
+PV1|1|O|||||1^Smith^Miranda^A^MD^^^^|2^Withers^Peter^D^MD^^^^||||||||||||||||||||||||||||||||||||||||||99158||
+RGS|1|A
+AIG|1|A|1^White, Charles~2^Black, Charles|D^^
+AIL|1|A|OFFICE^^^OFFICE|^Main Office||20110614084500|||45|m^Minutes||Scheduled
+AIP|1|A|1^White^Charles^A^MD^^^^|D^White, Douglas||20110614084500|||45|m^Minutes||Scheduled
+`)
+
+	d := NewDecoder(v25.Registry, &DecodeOption{
+		IgnoreRepetition: true,
+	})
+
+	v, err := d.DecodeList(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	g, err := d.DecodeGroup(v)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if g == nil {
+		t.Fatal("expected group, got nil")
+	}
+
+	d = NewDecoder(v25.Registry, &DecodeOption{})
+
+	v, err = d.DecodeList(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = d.DecodeGroup(v)
+	if err == nil {
+		t.Fatal("expected error, got nil")
+	}
+	const want = "line 6, AIG.ResourceID(*h250.CE)[3]: data repeats but element *h250.CE does not"
+	errText := err.Error()
+	if errText != want {
+		t.Fatalf("got: %q, want: %q", errText, want)
+	}
+
+}
+
 func TestVaries(t *testing.T) {
 	raw, err := os.ReadFile(filepath.Join("testdata", "roundtrip", "vaers_long.hl7"))
 	if err != nil {
