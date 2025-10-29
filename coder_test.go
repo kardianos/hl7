@@ -333,6 +333,33 @@ func TestMissingSep(t *testing.T) {
 	}
 }
 
+func TestMissingSepDecode(t *testing.T) {
+	var raw = `MSA|AA|undefined|HL7 ACK`
+	d := NewDecoder(v25.Registry, nil)
+	g, err := d.Decode([]byte(raw))
+	if err == nil {
+		t.Fatal("expected error, got nil")
+	}
+	if g != nil {
+		t.Fatalf("expected nil result, got: %v", g)
+	}
+	var seg ErrUnexpectedSegment
+	isErr := errors.As(err, &seg)
+	if !isErr {
+		t.Fatalf("expected ErrUnexpectedSegment, got: %v", err)
+	}
+	v, ok := seg.Segment.(*v25.MSA)
+	if !ok {
+		t.Fatalf("expected *MSA, got: %T", seg.Segment)
+	}
+	got := fmt.Sprintf("AC: %q-%q", v.AcknowledgmentCode, v.TextMessage)
+
+	const want = `AC: "AA"-"HL7 ACK"`
+	if got != want {
+		t.Fatalf("got: %s\nwant: %s", got, want)
+	}
+}
+
 func printTypes(t *testing.T, list []any) {
 	for _, item := range list {
 		t.Logf("type %T", item)

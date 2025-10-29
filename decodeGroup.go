@@ -18,7 +18,11 @@ func newWalker(list []any, registry Registry) (*walker, error) {
 	root := list[0]
 	ms, ok := root.(messageStructure)
 	if !ok {
-		return nil, fmt.Errorf("first message must implment MessageStructure, %T does not", root)
+		return nil, ErrUnexpectedSegment{
+			Trigger:    fmt.Sprintf("first message must implment MessageStructure, %T does not", root),
+			LineNumber: 1,
+			Segment:    root,
+		}
 	}
 	codeList := ms.MessageStructureID()
 	if len(codeList) == 0 {
