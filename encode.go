@@ -11,6 +11,7 @@ import (
 const nextLine = '\r'
 const defaultSep = "|"
 const defaultChars = `^~\&`
+const defaultSetupChars = defaultSep + defaultChars
 
 // Create a new Encoder. Options may be nil.
 func NewEncoder(opt *EncodeOption) *Encoder {

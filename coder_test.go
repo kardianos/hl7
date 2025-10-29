@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -309,6 +310,26 @@ func TestVaries(t *testing.T) {
 				}
 			}
 		}
+	}
+}
+
+func TestMissingSep(t *testing.T) {
+	var raw = `MSA|AA|undefined|HL7 ACK`
+	d := NewDecoder(v25.Registry, nil)
+	vv, err := d.DecodeList([]byte(raw))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var got string
+	for _, v := range vv {
+		switch v := v.(type) {
+		case *v25.MSA:
+			got = fmt.Sprintf("AC: %q-%q", v.AcknowledgmentCode, v.TextMessage)
+		}
+	}
+	const want = `AC: "AA"-"HL7 ACK"`
+	if got != want {
+		t.Fatalf("got: %s\nwant: %s", got, want)
 	}
 }
 

@@ -206,24 +206,19 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 
 		offset := 0
 		if hasInit {
-			if len(remain) < 5 {
-				return nil, fmt.Errorf("missing format delims")
+			var err error
+			remain, err = ld.readSetupChars(remain)
+			if err != nil {
+				return nil, err
 			}
-			ld.sep = remain[0]
-			copy(ld.chars[:], remain[1:5])
-
-			ld.dividers = [3]byte{ld.sep, ld.chars[0], ld.chars[3]}
-			ld.repeat = ld.chars[1]
-			ld.escape = ld.chars[2]
-			ld.setupUnescaper()
-			ld.readSep = true
-
-			remain = remain[5:]
 			offset = 2
 		}
 
 		if ld.sep == 0 {
-			return nil, fmt.Errorf("missing sep prior to field")
+			_, err := ld.readSetupChars([]byte(defaultSetupChars))
+			if err != nil {
+				return nil, err
+			}
 		}
 
 		parts := bytes.Split(remain, []byte{ld.sep})
@@ -294,6 +289,21 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 		}
 	}
 	return ret, nil
+}
+
+func (ld *lineDecoder) readSetupChars(remain []byte) ([]byte, error) {
+	if len(remain) < 5 {
+		return nil, fmt.Errorf("missing format delims")
+	}
+	ld.sep = remain[0]
+	copy(ld.chars[:], remain[1:5])
+
+	ld.dividers = [3]byte{ld.sep, ld.chars[0], ld.chars[3]}
+	ld.repeat = ld.chars[1]
+	ld.escape = ld.chars[2]
+	ld.setupUnescaper()
+	ld.readSep = true
+	return remain[5:], nil
 }
 
 func (d *lineDecoder) setupUnescaper() {
