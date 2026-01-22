@@ -134,14 +134,7 @@ func (lt linkType) String() string {
 }
 
 func present(rv reflect.Value) bool {
-	if !rv.IsValid() {
-		return false
-	}
-	if rv.IsZero() {
-		return false
-	}
-
-	return true
+	return rv.IsValid() && !rv.IsZero()
 }
 
 type structItem struct {
@@ -152,10 +145,64 @@ type structItem struct {
 	ActiveValue reflect.Value
 	Leaf        bool // Is a leaf node, nothing beyond this node.
 	InArray     bool // If this struct node is within an array (and thus can always be added to).
+	Depth       int  // Depth in the tree (0 = root, higher = deeper).
 }
 
 func (si *structItem) present() bool {
 	return present(si.ActiveValue)
+}
+
+// currentValue returns the actual current value for this structItem by traversing
+// the parent chain. This is necessary because ActiveValue can become stale when
+// new list entries are created - the parent's ActiveValue is updated but the
+// children's ActiveValue still points to the old values.
+func (si *structItem) currentValue() reflect.Value {
+	if si.Parent == nil {
+		return si.ActiveValue
+	}
+	// For list items, ActiveValue points to the current list element.
+	// Return it directly because for lists, the "current value" is the
+	// current element we're working on, not the slice from the parent.
+	if si.LinkType == linkList {
+		return si.ActiveValue
+	}
+
+	// Get the parent's current value.
+	// For list items (linkList), the parent's ActiveValue points to the current
+	// list element, so we use that directly. For non-list items, we recursively
+	// traverse up the parent chain.
+	var parentValue reflect.Value
+	switch si.Parent.LinkType {
+	case linkList:
+		parentValue = si.Parent.ActiveValue
+	default:
+		parentValue = si.Parent.currentValue()
+	}
+	if !parentValue.IsValid() {
+		return reflect.Value{}
+	}
+
+	// Dereference pointers.
+	for {
+		switch parentValue.Kind() {
+		case reflect.Pointer:
+			if parentValue.IsNil() {
+				return reflect.Value{}
+			}
+			parentValue = parentValue.Elem()
+			continue
+		case reflect.Struct:
+			return parentValue.Field(si.Index)
+		}
+		return reflect.Value{}
+	}
+}
+
+// presentInContext checks if this structItem has a value set in the current
+// context. Unlike present(), this handles the case where parent list entries
+// have been created and the ActiveValue is stale.
+func (si *structItem) presentInContext() bool {
+	return present(si.currentValue())
 }
 
 func (si *structItem) set(rv reflect.Value) {
@@ -176,6 +223,10 @@ func (w *walker) digest(line int, v any) error {
 	if rt.Kind() == reflect.Pointer {
 		rt = rt.Elem()
 	}
+
+	// Find all valid candidates (both forward and backward).
+	var candidates []*candidateMatch
+
 	// First look forward.
 	for i := w.last; i < len(w.list); i++ {
 		si := w.list[i]
@@ -185,10 +236,10 @@ func (w *walker) digest(line int, v any) error {
 		if w.fullInArray(si) {
 			continue
 		}
-		return w.found(line, i, si, v, rv, rt)
+		candidates = append(candidates, &candidateMatch{index: i, si: si, forward: true})
 	}
-	// If not found going forward, go backwards.
-	for i := w.last; i >= 0; i-- {
+	// Then look backwards.
+	for i := w.last - 1; i >= 0; i-- {
 		si := w.list[i]
 		if si.Type != rt {
 			continue
@@ -196,11 +247,80 @@ func (w *walker) digest(line int, v any) error {
 		if w.fullInArray(si) {
 			continue
 		}
-		return w.found(line, i, si, v, rv, rt)
+		candidates = append(candidates, &candidateMatch{index: i, si: si, forward: false})
 	}
 
-	_, isControl := w.registry.ControlSegment(rt.Name())
-	if isControl {
+	if len(candidates) > 0 {
+		// Select the best candidate based on these priorities:
+		// 1. Find the shallowest forward match and shallowest backward match.
+		// 2. If a backward match exists and is shallower than ALL forward matches,
+		//    use the backward match. This handles starting new repeating groups
+		//    (e.g., new Specimen) when a segment type appears at multiple depths.
+		// 3. Otherwise, use the shallowest forward match to maintain tree order.
+		var forwardCandidates, backwardCandidates []*candidateMatch
+		for _, c := range candidates {
+			if c.forward {
+				forwardCandidates = append(forwardCandidates, c)
+			} else {
+				backwardCandidates = append(backwardCandidates, c)
+			}
+		}
+
+		var best *candidateMatch
+
+		// Find shallowest forward match
+		var shallowestForward *candidateMatch
+		if len(forwardCandidates) > 0 {
+			shallowestForward = forwardCandidates[0]
+			for _, c := range forwardCandidates[1:] {
+				if c.si.Depth < shallowestForward.si.Depth {
+					shallowestForward = c
+				}
+			}
+		}
+
+		// Find shallowest backward match
+		var shallowestBackward *candidateMatch
+		if len(backwardCandidates) > 0 {
+			shallowestBackward = backwardCandidates[0]
+			for _, c := range backwardCandidates[1:] {
+				if c.si.Depth < shallowestBackward.si.Depth {
+					shallowestBackward = c
+				}
+			}
+		}
+
+		// Get the depth of the current position to inform the decision.
+		var currentDepth int
+		if w.last >= 0 && w.last < len(w.list) {
+			currentDepth = w.list[w.last].Depth
+		}
+
+		// Decision logic:
+		// - Default: prefer forward to maintain natural segment order.
+		// - Only prefer backward when we need to "break out" to start a new repeating group.
+		//   This requires: (1) backward is in an array context (InArray=true), meaning it can
+		//   start a new group, and (2) there's a significant depth difference (>= 2) indicating
+		//   we're deep in a structure and need to go back to a shallower level.
+		// - Otherwise, use forward (or backward if no forward exists).
+		backwardStartsNewGroup := shallowestBackward != nil &&
+			shallowestBackward.si.InArray &&
+			currentDepth-shallowestBackward.si.Depth >= 2
+
+		switch {
+		case backwardStartsNewGroup && (shallowestForward == nil || shallowestBackward.si.Depth < shallowestForward.si.Depth):
+			best = shallowestBackward
+		case shallowestForward != nil:
+			best = shallowestForward
+		default:
+			best = shallowestBackward
+		}
+
+		return w.found(best.index, best.si, rv)
+	}
+
+	// Control segments are handled separately.
+	if _, isControl := w.registry.ControlSegment(rt.Name()); isControl {
 		// TODO: handle batch and control segments.
 		return nil
 	}
@@ -209,6 +329,12 @@ func (w *walker) digest(line int, v any) error {
 		LineNumber: line,
 		Segment:    v,
 	}
+}
+
+type candidateMatch struct {
+	index   int
+	si      *structItem
+	forward bool
 }
 
 // The error ErrUnexpectedSegment will be returned if an unexpected segment for a
@@ -226,14 +352,13 @@ func (err ErrUnexpectedSegment) Error() string {
 	return fmt.Sprintf("line %d (%T) not found in trigger %q", err.LineNumber, err.Segment, err.Trigger)
 }
 
-// Found creates the parent tree and sets it up.
-func (w *walker) found(line, index int, si *structItem, v any, rv reflect.Value, rt reflect.Type) error {
+// found creates the parent tree and sets it up.
+func (w *walker) found(index int, si *structItem, rv reflect.Value) error {
 	w.last = index
 
-	// fmt.Printf("found, %s\n", rv.Type())
 	currentList := []*structItem{}
 	current := si
-	findList := si.present() // Current value is full, find the next list.
+	findList := si.presentInContext() // Current value is full, find the next list.
 	hasList := false
 	for {
 		// Stop at the root item or at the first parent which is valid.
@@ -244,8 +369,7 @@ func (w *walker) found(line, index int, si *structItem, v any, rv reflect.Value,
 		// If the current item is not valid, always add.
 		// If the current item is valid, but full, continue.
 		// A LinkList LinkType is never full.
-		// valid := present(current.ActiveValue)
-		valid := current.present()
+		valid := current.presentInContext()
 		if !valid {
 			if current.LinkType == linkList {
 				hasList = true
@@ -281,17 +405,20 @@ func (w *walker) found(line, index int, si *structItem, v any, rv reflect.Value,
 			c.ActiveValue = reflect.New(c.Type).Elem()
 			continue
 		}
+
 		var set reflect.Value
-		switch {
-		case c.Leaf:
+		if c.Leaf {
 			set = rv
-		default:
+		} else {
 			set = reflect.New(c.Type)
 		}
+
 		pv := c.Parent.ActiveValue.Field(c.Index)
+		setKind := set.Kind()
+
 		switch c.LinkType {
 		case linkValue:
-			if set.Kind() == reflect.Pointer {
+			if setKind == reflect.Pointer {
 				set = set.Elem()
 			}
 			if present(pv) {
@@ -301,7 +428,7 @@ func (w *walker) found(line, index int, si *structItem, v any, rv reflect.Value,
 			c.set(pv)
 
 		case linkOpt:
-			if set.Kind() != reflect.Pointer {
+			if setKind != reflect.Pointer {
 				set = set.Addr()
 			}
 			if present(pv) {
@@ -311,7 +438,7 @@ func (w *walker) found(line, index int, si *structItem, v any, rv reflect.Value,
 			c.set(pv.Elem())
 
 		case linkList:
-			if set.Kind() == reflect.Pointer {
+			if setKind == reflect.Pointer {
 				set = set.Elem()
 			}
 			pv.Set(reflect.Append(pv, set))
@@ -322,26 +449,23 @@ func (w *walker) found(line, index int, si *structItem, v any, rv reflect.Value,
 	return nil
 }
 
-// Returns true if there is no place to put another value by setting an existing value
-// or by adding an item (either selv or parent).
+// fullInArray returns true if there is no place to put another value by setting
+// an existing value or by adding an item (either self or parent).
 func (w *walker) fullInArray(si *structItem) bool {
 	if si.InArray {
 		return false
 	}
-	// If not valid, if pointer is nil, or if zero value, then not full.
-	if !si.ActiveValue.IsValid() {
+	av := si.ActiveValue
+	if !av.IsValid() {
 		return false
 	}
-	if kind := si.ActiveValue.Kind(); kind == reflect.Struct {
+	// Structs are never "full" in this context; nil/zero values are not full.
+	switch av.Kind() {
+	case reflect.Struct:
 		return false
+	default:
+		return !av.IsNil() && !av.IsZero()
 	}
-	if si.ActiveValue.IsNil() {
-		return false
-	}
-	if si.ActiveValue.IsZero() {
-		return false
-	}
-	return true
 }
 
 func (w *walker) eat(parent *structItem, fieldIndex int, rt reflect.Type, inArray bool) error {
@@ -375,6 +499,10 @@ func (w *walker) eat(parent *structItem, fieldIndex int, rt reflect.Type, inArra
 		leaf = false
 	}
 
+	depth := 0
+	if parent != nil {
+		depth = parent.Depth + 1
+	}
 	item := &structItem{
 		Index:    fieldIndex,
 		Parent:   parent,
@@ -382,6 +510,7 @@ func (w *walker) eat(parent *structItem, fieldIndex int, rt reflect.Type, inArra
 		Type:     baseType,
 		Leaf:     leaf,
 		InArray:  inArray,
+		Depth:    depth,
 	}
 	w.list = append(w.list, item)
 

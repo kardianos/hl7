@@ -423,7 +423,9 @@ func TestRoundTrip(t *testing.T) {
 			}
 			rt = bytes.ReplaceAll(rt, []byte{'\r'}, []byte{'\n'})
 			if *overwrite {
-				os.WriteFile(fn, rt, 0600)
+				if err := os.WriteFile(fn, rt, 0600); err != nil {
+					t.Fatal("overwrite", err)
+				}
 			}
 			d := lineDiff(bb, rt)
 			if len(d) > 0 {
@@ -492,7 +494,9 @@ func TestError(t *testing.T) {
 			gotError := []byte(err.Error())
 
 			if *overwrite {
-				os.WriteFile(errorFn, gotError, 0600)
+				if err := os.WriteFile(errorFn, gotError, 0600); err != nil {
+					t.Fatal("overwrite", err)
+				}
 			}
 			d := lineDiff(errorBB, gotError)
 			if len(d) > 0 {
