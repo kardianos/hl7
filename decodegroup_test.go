@@ -17,6 +17,89 @@ func TestComplexTriggerRoundTrip(t *testing.T) {
 	t.Run("ORU_R01_DeepNesting", testORU_R01_DeepNesting)
 	t.Run("ORL_O34_NestedSpecimens", testORL_O34_NestedSpecimens)
 	t.Run("ORU_R01_MultipleOrderObservations", testORU_R01_MultipleOrderObservations)
+	t.Run("ORM_O01_NotesAtEachLevel", testORM_O01_NotesAtEachLevel)
+}
+
+// testORM_O01_NotesAtEachLevel puts an NTE in each place ORM_O01 allows one:
+// the message (after MSH), the patient (after PID), the order detail (after
+// OBR), and the observation (after OBX). An NTE after OBR belongs to that
+// order, never to the message notes that come before the patient.
+func testORM_O01_NotesAtEachLevel(t *testing.T) {
+	note := func(set, text string) v25.NTE {
+		return v25.NTE{SetID: v25.SI(set), Comment: []v25.FT{v25.FT(text)}}
+	}
+	order := func(id, code string, notes ...v25.NTE) v25.ORM_O01_Order {
+		return v25.ORM_O01_Order{
+			ORC: &v25.ORC{
+				OrderControl:      "NW",
+				PlacerOrderNumber: &v25.EI{EntityIdentifier: id},
+			},
+			OrderDetail: &v25.ORM_O01_OrderDetail{
+				OrderDetailSegment: &v25.ORM_O01_OrderDetailSegment{
+					OBR: &v25.OBR{
+						SetID:                      "1",
+						PlacerOrderNumber:          &v25.EI{EntityIdentifier: id},
+						UniversalServiceIdentifier: v25.CE{Identifier: code},
+					},
+				},
+				NTE: notes,
+				DG1: []v25.DG1{
+					{SetID: "1", DiagnosisCode: &v25.CE{Identifier: "R00.0"}},
+				},
+				Observation: []v25.ORM_O01_Observation{
+					{
+						OBX: &v25.OBX{
+							SetID:                 "1",
+							ValueType:             "ST",
+							ObservationIdentifier: v25.CE{Identifier: "ASK1"},
+						},
+						NTE: []v25.NTE{note("1", "Observation note for "+id)},
+					},
+				},
+			},
+		}
+	}
+	msg := v25.ORM_O01{
+		MSH: &v25.MSH{
+			FieldSeparator:     "|",
+			EncodingCharacters: `^~\&`,
+			SendingApplication: &v25.HD{NamespaceID: "CLINIC"},
+			DateTimeOfMessage:  time.Date(2025, 2, 3, 8, 0, 0, 0, time.UTC),
+			MessageType: v25.MSG{
+				MessageCode:      "ORM",
+				TriggerEvent:     "O01",
+				MessageStructure: "ORM_O01",
+			},
+			MessageControlID: "MSG009",
+			ProcessingID:     v25.PT{ProcessingID: "P"},
+			VersionID:        v25.VID{VersionID: "2.5"},
+		},
+		NTE: []v25.NTE{note("1", "Message note")},
+		Patient: &v25.ORM_O01_Patient{
+			PID: &v25.PID{
+				SetID:       "1",
+				PatientName: []v25.XPN{{FamilyName: "Example", GivenName: "Pat"}},
+			},
+			NTE: []v25.NTE{
+				note("1", "Patient note one"),
+				note("2", "Patient note two"),
+			},
+			PatientVisit: &v25.ORM_O01_PatientVisit{
+				PV1: &v25.PV1{SetID: "1", PatientClass: "O"},
+			},
+			Insurance: []v25.ORM_O01_Insurance{
+				{IN1: &v25.IN1{SetID: "1", InsurancePlanID: v25.CE{Identifier: "PLAN-A"}}},
+				{IN1: &v25.IN1{SetID: "2", InsurancePlanID: v25.CE{Identifier: "PLAN-B"}}},
+			},
+			GT1: &v25.GT1{SetID: "1"},
+		},
+		Order: []v25.ORM_O01_Order{
+			order("ORD-A", "PANEL-A", note("1", "Order note for ORD-A"), note("2", "Second order note for ORD-A")),
+			order("ORD-B", "PANEL-B", note("1", "Order note for ORD-B")),
+		},
+	}
+
+	verifyRoundTrip(t, msg, v25.Registry)
 }
 
 func testORU_R01_SinglePatientMultipleObservations(t *testing.T) {

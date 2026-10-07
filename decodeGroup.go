@@ -279,37 +279,49 @@ func (w *walker) digest(line int, v any) error {
 			}
 		}
 
-		// Find shallowest backward match
-		var shallowestBackward *candidateMatch
-		if len(backwardCandidates) > 0 {
-			shallowestBackward = backwardCandidates[0]
-			for _, c := range backwardCandidates[1:] {
-				if c.si.Depth < shallowestBackward.si.Depth {
-					shallowestBackward = c
-				}
-			}
+		// Get the current position to inform the decision.
+		var current *structItem
+		if w.last >= 0 && w.last < len(w.list) {
+			current = w.list[w.last]
+		}
+		var currentDepth int
+		if current != nil {
+			currentDepth = current.Depth
 		}
 
-		// Get the depth of the current position to inform the decision.
-		var currentDepth int
-		if w.last >= 0 && w.last < len(w.list) {
-			currentDepth = w.list[w.last].Depth
+		// Find shallowest backward match, and the shallowest that can start a
+		// new instance of a repeating group the current position is in. Only
+		// that one may be taken over a forward match: a backward slot outside
+		// every such group, like the message NTE after MSH, is behind the
+		// current position for good.
+		var shallowestBackward, shallowestRestart *candidateMatch
+		for _, c := range backwardCandidates {
+			if shallowestBackward == nil || c.si.Depth < shallowestBackward.si.Depth {
+				shallowestBackward = c
+			}
+			if !sharesRepeatingGroup(c.si, current) {
+				continue
+			}
+			if shallowestRestart == nil || c.si.Depth < shallowestRestart.si.Depth {
+				shallowestRestart = c
+			}
 		}
 
 		// Decision logic:
 		// - Default: prefer forward to maintain natural segment order.
 		// - Only prefer backward when we need to "break out" to start a new repeating group.
-		//   This requires: (1) backward is in an array context (InArray=true), meaning it can
-		//   start a new group, and (2) there's a significant depth difference (>= 2) indicating
-		//   we're deep in a structure and need to go back to a shallower level.
-		// - Otherwise, use forward (or backward if no forward exists).
-		backwardStartsNewGroup := shallowestBackward != nil &&
-			shallowestBackward.si.InArray &&
-			currentDepth-shallowestBackward.si.Depth >= 2
+		//   This requires: (1) backward shares a repeating group with the current position
+		//   (shallowestRestart), so it can start a new instance of it, (2) backward is in an
+		//   array context (InArray=true), and (3) there's a significant depth difference (>= 2)
+		//   indicating we're deep in a structure and need to go back to a shallower level.
+		// - Otherwise, use forward (or any backward if no forward exists).
+		backwardStartsNewGroup := shallowestRestart != nil &&
+			shallowestRestart.si.InArray &&
+			currentDepth-shallowestRestart.si.Depth >= 2
 
 		switch {
-		case backwardStartsNewGroup && (shallowestForward == nil || shallowestBackward.si.Depth < shallowestForward.si.Depth):
-			best = shallowestBackward
+		case backwardStartsNewGroup && (shallowestForward == nil || shallowestRestart.si.Depth < shallowestForward.si.Depth):
+			best = shallowestRestart
 		case shallowestForward != nil:
 			best = shallowestForward
 		default:
@@ -329,6 +341,23 @@ func (w *walker) digest(line int, v any) error {
 		LineNumber: line,
 		Segment:    v,
 	}
+}
+
+// sharesRepeatingGroup reports whether a repeating item (a list) holds both
+// candidate and current, so going back to candidate can start a new instance
+// of it: a new Order at ORC, a new Insurance at IN1.
+func sharesRepeatingGroup(candidate, current *structItem) bool {
+	for g := candidate; g != nil; g = g.Parent {
+		if g.LinkType != linkList {
+			continue
+		}
+		for c := current; c != nil; c = c.Parent {
+			if c == g {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 type candidateMatch struct {
